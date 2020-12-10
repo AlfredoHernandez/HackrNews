@@ -18,4 +18,10 @@ final class StoryItemMapperTests: XCTestCase {
             XCTAssertThrowsError(try StoryItemMapper.map(data: anyData(), response: HTTPURLResponse(statusCode: code)))
         }
     }
+    
+    func test_map_throwsErrorOn200HTTPResponseWithInvalidJSONData() {
+        let invalidJSON = Data("invalid json".utf8)
+
+        XCTAssertThrowsError(try StoryItemMapper.map(data: invalidJSON, response: HTTPURLResponse(statusCode: 200)))
+    }
 }

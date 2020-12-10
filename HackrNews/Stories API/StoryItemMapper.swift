@@ -16,5 +16,9 @@ public class StoryItemMapper {
         if response.statusCode != 200 {
             throw Error.invalidData
         }
+        guard let _ = try? JSONSerialization.jsonObject(with: data) else {
+            throw Error.invalidData
+        }
     }
 }
+
