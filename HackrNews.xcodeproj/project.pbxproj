@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		38D392712582C55300FCAF70 /* HackrNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D392672582C55300FCAF70 /* HackrNews.framework */; };
 		38D392762582C55300FCAF70 /* HackrNewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392752582C55300FCAF70 /* HackrNewsTests.swift */; };
-		38D392862582C64600FCAF70 /* HackrNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392852582C64600FCAF70 /* HackrNews.swift */; };
+		38D392862582C64600FCAF70 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392852582C64600FCAF70 /* Story.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +28,7 @@
 		38D392702582C55300FCAF70 /* HackrNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		38D392752582C55300FCAF70 /* HackrNewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsTests.swift; sourceTree = "<group>"; };
 		38D392772582C55300FCAF70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		38D392852582C64600FCAF70 /* HackrNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNews.swift; sourceTree = "<group>"; };
+		38D392852582C64600FCAF70 /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 		38D392692582C55300FCAF70 /* HackrNews */ = {
 			isa = PBXGroup;
 			children = (
-				38D392852582C64600FCAF70 /* HackrNews.swift */,
+				38D3928D2582D7BB00FCAF70 /* Hacker News Feature */,
 				38D3926B2582C55300FCAF70 /* Info.plist */,
 			);
 			path = HackrNews;
@@ -84,6 +84,14 @@
 				38D392772582C55300FCAF70 /* Info.plist */,
 			);
 			path = HackrNewsTests;
+			sourceTree = "<group>";
+		};
+		38D3928D2582D7BB00FCAF70 /* Hacker News Feature */ = {
+			isa = PBXGroup;
+			children = (
+				38D392852582C64600FCAF70 /* Story.swift */,
+			);
+			path = "Hacker News Feature";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,7 +202,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38D392862582C64600FCAF70 /* HackrNews.swift in Sources */,
+				38D392862582C64600FCAF70 /* Story.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
