@@ -1,0 +1,10 @@
+# Swift Format configuration file
+
+# Format options
+
+--allman false
+--maxwidth 140 
+--wraparguments before-first 
+--wrapparameters before-first
+--ifdef no-indent
+--header "//\n//  Copyright © {year} Jesús Alfredo Hernández Alarcón. All rights reserved.\n//"
