@@ -20,6 +20,7 @@
 		38D392C62582DD1D00FCAF70 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392C52582DD1D00FCAF70 /* URLSessionHTTPClient.swift */; };
 		38D392CC2582DFB600FCAF70 /* StoryItemMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392CB2582DFB600FCAF70 /* StoryItemMapperTests.swift */; };
 		38D392D42582DFFB00FCAF70 /* StoryItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392D32582DFFB00FCAF70 /* StoryItemMapper.swift */; };
+		38D392E02582F51B00FCAF70 /* LiveDataMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392DF2582F51B00FCAF70 /* LiveDataMapperTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		38D392C52582DD1D00FCAF70 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		38D392CB2582DFB600FCAF70 /* StoryItemMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryItemMapperTests.swift; sourceTree = "<group>"; };
 		38D392D32582DFFB00FCAF70 /* StoryItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryItemMapper.swift; sourceTree = "<group>"; };
+		38D392DF2582F51B00FCAF70 /* LiveDataMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataMapperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				38D392CB2582DFB600FCAF70 /* StoryItemMapperTests.swift */,
+				38D392DF2582F51B00FCAF70 /* LiveDataMapperTests.swift */,
 			);
 			path = "Stories API";
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				38D392B82582DCD600FCAF70 /* URLSessionHTTPClientTests.swift in Sources */,
 				38D392CC2582DFB600FCAF70 /* StoryItemMapperTests.swift in Sources */,
 				38D392952582D9BF00FCAF70 /* RemoteLoaderTests.swift in Sources */,
+				38D392E02582F51B00FCAF70 /* LiveDataMapperTests.swift in Sources */,
 				38D3929B2582D9EA00FCAF70 /* HTTPClientSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
