@@ -10,6 +10,13 @@ final class NewStoriesPresentationTests: XCTestCase {
         XCTAssertEqual(NewStoriesPresenter.title, localized("new_stories_title"))
     }
 
+    func test_init_doesNotSendMessagesToView() {
+        let view = NewStoriesViewSpy()
+        _ = NewStoriesPresenter(view: view)
+
+        XCTAssertTrue(view.messages.isEmpty, "Expected no view messages upon creation")
+    }
+
     // MARK: - Helpers
 
     private func localized(_ key: String, file _: StaticString = #filePath, line _: UInt = #line) -> String {
@@ -20,5 +27,9 @@ final class NewStoriesPresentationTests: XCTestCase {
             XCTFail("Missing localized string for key \(key) in table \(table)")
         }
         return value
+    }
+
+    private class NewStoriesViewSpy: NewStoriesView {
+        var messages = [Any]()
     }
 }

@@ -4,7 +4,11 @@
 
 import Foundation
 
+public protocol NewStoriesView {}
+
 public class NewStoriesPresenter {
+    private let view: NewStoriesView
+
     public static var title: String {
         NSLocalizedString(
             "new_stories_title",
@@ -13,5 +17,9 @@ public class NewStoriesPresenter {
             value: "",
             comment: "New Stories title view"
         )
+    }
+
+    public init(view: NewStoriesView) {
+        self.view = view
     }
 }
