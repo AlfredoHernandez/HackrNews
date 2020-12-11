@@ -32,6 +32,14 @@ final class NewStoriesPresentationTests: XCTestCase {
         XCTAssertEqual(view.messages, [.display(isLoading: false), .display(stories: [1, 2, 3])])
     }
 
+    func test_didFinishLoadingStoriesWithError_displaysErrorAndStopsLoading() {
+        let (sut, view) = makeSUT()
+
+        sut.didFinishLoadingStories(with: anyNSError())
+
+        XCTAssertEqual(view.messages, [.display(isLoading: false), .display(errorMessage: localized("new_stories_error_message"))])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (NewStoriesPresenter, NewStoriesViewSpy) {

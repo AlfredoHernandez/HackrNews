@@ -47,6 +47,16 @@ public class NewStoriesPresenter {
         )
     }
 
+    private var errorMessage: String {
+        NSLocalizedString(
+            "new_stories_error_message",
+            tableName: "NewStories",
+            bundle: Bundle(for: NewStoriesPresenter.self),
+            value: "",
+            comment: "New Stories loading error message"
+        )
+    }
+
     public init(view: NewStoriesView, loadingView: NewStoriesLoadingView, errorView: NewStoriesErrorView) {
         self.view = view
         self.loadingView = loadingView
@@ -61,5 +71,10 @@ public class NewStoriesPresenter {
     public func didFinishLoadingStories(stories: [LiveHackerNew]) {
         loadingView.display(NewStoriesLoadingViewModel(isLoading: false))
         view.display(NewStoriesViewModel(stories: stories))
+    }
+
+    public func didFinishLoadingStories(with _: Error) {
+        loadingView.display(NewStoriesLoadingViewModel(isLoading: false))
+        errorView.display(NewStoriesErrorViewModel(message: errorMessage))
     }
 }
