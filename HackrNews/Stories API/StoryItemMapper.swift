@@ -38,7 +38,7 @@ public enum StoryItemMapper {
     public static func map(data: Data, response: HTTPURLResponse) throws -> Story {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
-        guard response.statusCode == 200, let item = try? decoder.decode(Item.self, from: data) else {
+        guard response.isOK, let item = try? decoder.decode(Item.self, from: data) else {
             throw Error.invalidData
         }
         return item.story
