@@ -11,15 +11,13 @@ final class NewStoriesPresentationTests: XCTestCase {
     }
 
     func test_init_doesNotSendMessagesToView() {
-        let view = NewStoriesViewSpy()
-        _ = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
+        let (_, view) = makeSUT()
 
         XCTAssertTrue(view.messages.isEmpty, "Expected no view messages upon creation")
     }
 
     func test_didStartLoadingStories_displaysLoaderWithNoErrorMessage() {
-        let view = NewStoriesViewSpy()
-        let sut = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
+        let (sut, view) = makeSUT()
 
         sut.didStartLoadingStories()
 
@@ -27,8 +25,7 @@ final class NewStoriesPresentationTests: XCTestCase {
     }
 
     func test_didFinishLoadingStories_displayStoriesAndStopsLoading() {
-        let view = NewStoriesViewSpy()
-        let sut = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
+        let (sut, view) = makeSUT()
 
         sut.didFinishLoadingStories(stories: [1, 2, 3])
 
@@ -36,6 +33,12 @@ final class NewStoriesPresentationTests: XCTestCase {
     }
 
     // MARK: - Helpers
+
+    private func makeSUT() -> (NewStoriesPresenter, NewStoriesViewSpy) {
+        let view = NewStoriesViewSpy()
+        let sut = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
+        return (sut, view)
+    }
 
     private func localized(_ key: String, file _: StaticString = #filePath, line _: UInt = #line) -> String {
         let table = "NewStories"
