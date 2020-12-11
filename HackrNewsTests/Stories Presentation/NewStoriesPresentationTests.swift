@@ -12,9 +12,18 @@ final class NewStoriesPresentationTests: XCTestCase {
 
     func test_init_doesNotSendMessagesToView() {
         let view = NewStoriesViewSpy()
-        _ = NewStoriesPresenter(view: view)
+        _ = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
 
         XCTAssertTrue(view.messages.isEmpty, "Expected no view messages upon creation")
+    }
+
+    func test_didStartLoadingStories_displaysLoaderWithNoErrorMessage() {
+        let view = NewStoriesViewSpy()
+        let sut = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
+
+        sut.didStartLoadingStories()
+
+        XCTAssertEqual(view.messages, [.display(isLoading: true), .display(errorMessage: .none)])
     }
 
     // MARK: - Helpers
@@ -29,7 +38,20 @@ final class NewStoriesPresentationTests: XCTestCase {
         return value
     }
 
-    private class NewStoriesViewSpy: NewStoriesView {
-        var messages = [Any]()
+    private class NewStoriesViewSpy: NewStoriesView, NewStoriesLoadingView, NewStoriesErrorView {
+        var messages = [Message]()
+
+        enum Message: Equatable {
+            case display(isLoading: Bool)
+            case display(errorMessage: String?)
+        }
+
+        func display(_ viewModel: NewStoriesErrorViewModel) {
+            messages.append(.display(errorMessage: viewModel.message))
+        }
+
+        func display(_ viewModel: NewStoriesLoadingViewModel) {
+            messages.append(.display(isLoading: viewModel.isLoading))
+        }
     }
 }

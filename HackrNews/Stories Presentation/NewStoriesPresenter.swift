@@ -4,10 +4,32 @@
 
 import Foundation
 
+public struct NewStoriesErrorViewModel {
+    public let message: String?
+
+    public static var noErrorMessage: NewStoriesErrorViewModel {
+        NewStoriesErrorViewModel(message: nil)
+    }
+}
+
+public protocol NewStoriesErrorView {
+    func display(_ viewModel: NewStoriesErrorViewModel)
+}
+
+public struct NewStoriesLoadingViewModel {
+    public let isLoading: Bool
+}
+
+public protocol NewStoriesLoadingView {
+    func display(_ viewModel: NewStoriesLoadingViewModel)
+}
+
 public protocol NewStoriesView {}
 
 public class NewStoriesPresenter {
     private let view: NewStoriesView
+    private let loadingView: NewStoriesLoadingView
+    private let errorView: NewStoriesErrorView
 
     public static var title: String {
         NSLocalizedString(
@@ -19,7 +41,14 @@ public class NewStoriesPresenter {
         )
     }
 
-    public init(view: NewStoriesView) {
+    public init(view: NewStoriesView, loadingView: NewStoriesLoadingView, errorView: NewStoriesErrorView) {
         self.view = view
+        self.loadingView = loadingView
+        self.errorView = errorView
+    }
+
+    public func didStartLoadingStories() {
+        loadingView.display(NewStoriesLoadingViewModel(isLoading: true))
+        errorView.display(.noErrorMessage)
     }
 }
