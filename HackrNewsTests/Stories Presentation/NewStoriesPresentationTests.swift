@@ -42,12 +42,12 @@ final class NewStoriesPresentationTests: XCTestCase {
         return (sut, view)
     }
 
-    private func localized(_ key: String, file _: StaticString = #filePath, line _: UInt = #line) -> String {
+    private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
         let table = "NewStories"
         let bundle = Bundle(for: NewStoriesPresenter.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if key == value {
-            XCTFail("Missing localized string for key \(key) in table \(table)")
+            XCTFail("Missing localized string for key \(key) in table \(table)", file: file, line: line)
         }
         return value
     }
