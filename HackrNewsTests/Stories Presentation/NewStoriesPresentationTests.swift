@@ -26,6 +26,15 @@ final class NewStoriesPresentationTests: XCTestCase {
         XCTAssertEqual(view.messages, [.display(isLoading: true), .display(errorMessage: .none)])
     }
 
+    func test_didFinishLoadingStories_displayStoriesAndStopsLoading() {
+        let view = NewStoriesViewSpy()
+        let sut = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
+
+        sut.didFinishLoadingStories(stories: [1, 2, 3])
+
+        XCTAssertEqual(view.messages, [.display(isLoading: false), .display(stories: [1, 2, 3])])
+    }
+
     // MARK: - Helpers
 
     private func localized(_ key: String, file _: StaticString = #filePath, line _: UInt = #line) -> String {
@@ -44,6 +53,7 @@ final class NewStoriesPresentationTests: XCTestCase {
         enum Message: Equatable {
             case display(isLoading: Bool)
             case display(errorMessage: String?)
+            case display(stories: [LiveHackerNew])
         }
 
         func display(_ viewModel: NewStoriesErrorViewModel) {
@@ -52,6 +62,10 @@ final class NewStoriesPresentationTests: XCTestCase {
 
         func display(_ viewModel: NewStoriesLoadingViewModel) {
             messages.append(.display(isLoading: viewModel.isLoading))
+        }
+
+        func display(_ viewModel: NewStoriesViewModel) {
+            messages.append(.display(stories: viewModel.stories))
         }
     }
 }

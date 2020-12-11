@@ -24,7 +24,13 @@ public protocol NewStoriesLoadingView {
     func display(_ viewModel: NewStoriesLoadingViewModel)
 }
 
-public protocol NewStoriesView {}
+public struct NewStoriesViewModel {
+    public let stories: [LiveHackerNew]
+}
+
+public protocol NewStoriesView {
+    func display(_ viewModel: NewStoriesViewModel)
+}
 
 public class NewStoriesPresenter {
     private let view: NewStoriesView
@@ -50,5 +56,10 @@ public class NewStoriesPresenter {
     public func didStartLoadingStories() {
         loadingView.display(NewStoriesLoadingViewModel(isLoading: true))
         errorView.display(.noErrorMessage)
+    }
+
+    public func didFinishLoadingStories(stories: [LiveHackerNew]) {
+        loadingView.display(NewStoriesLoadingViewModel(isLoading: false))
+        view.display(NewStoriesViewModel(stories: stories))
     }
 }
