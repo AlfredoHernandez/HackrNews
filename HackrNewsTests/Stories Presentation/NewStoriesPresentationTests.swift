@@ -34,9 +34,11 @@ final class NewStoriesPresentationTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func makeSUT() -> (NewStoriesPresenter, NewStoriesViewSpy) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (NewStoriesPresenter, NewStoriesViewSpy) {
         let view = NewStoriesViewSpy()
         let sut = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(view, file: file, line: line)
         return (sut, view)
     }
 
