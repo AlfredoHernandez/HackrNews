@@ -5,21 +5,6 @@
 import HackrNews
 import XCTest
 
-final class LiveDataMapper {
-    typealias LiveItem = Int
-
-    enum Error: Swift.Error {
-        case invalidData
-    }
-
-    static func map(data: Data, response: HTTPURLResponse) throws -> [LiveItem] {
-        guard response.statusCode == 200, let data = try? JSONDecoder().decode([Int].self, from: data) else {
-            throw Error.invalidData
-        }
-        return data
-    }
-}
-
 final class LiveDataMapperTests: XCTestCase {
     func test_map_throwsInvalidDataErrorOnNon200HTTPResponses() throws {
         let samples = [199, 201, 300, 400, 500]

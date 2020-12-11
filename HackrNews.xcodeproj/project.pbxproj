@@ -21,6 +21,7 @@
 		38D392CC2582DFB600FCAF70 /* StoryItemMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392CB2582DFB600FCAF70 /* StoryItemMapperTests.swift */; };
 		38D392D42582DFFB00FCAF70 /* StoryItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392D32582DFFB00FCAF70 /* StoryItemMapper.swift */; };
 		38D392E02582F51B00FCAF70 /* LiveDataMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392DF2582F51B00FCAF70 /* LiveDataMapperTests.swift */; };
+		38D392E42582F76B00FCAF70 /* LiveDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392E32582F76B00FCAF70 /* LiveDataMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		38D392CB2582DFB600FCAF70 /* StoryItemMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryItemMapperTests.swift; sourceTree = "<group>"; };
 		38D392D32582DFFB00FCAF70 /* StoryItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryItemMapper.swift; sourceTree = "<group>"; };
 		38D392DF2582F51B00FCAF70 /* LiveDataMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataMapperTests.swift; sourceTree = "<group>"; };
+		38D392E32582F76B00FCAF70 /* LiveDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				38D392D32582DFFB00FCAF70 /* StoryItemMapper.swift */,
+				38D392E32582F76B00FCAF70 /* LiveDataMapper.swift */,
 			);
 			path = "Stories API";
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 			files = (
 				38D392A02582DA2900FCAF70 /* HTTPClient.swift in Sources */,
 				38D392A42582DA6500FCAF70 /* RemoteLoader.swift in Sources */,
+				38D392E42582F76B00FCAF70 /* LiveDataMapper.swift in Sources */,
 				38D392D42582DFFB00FCAF70 /* StoryItemMapper.swift in Sources */,
 				38D392862582C64600FCAF70 /* Story.swift in Sources */,
 				38D392C62582DD1D00FCAF70 /* URLSessionHTTPClient.swift in Sources */,
