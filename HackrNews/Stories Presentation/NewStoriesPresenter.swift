@@ -4,34 +4,6 @@
 
 import Foundation
 
-public struct NewStoriesErrorViewModel {
-    public let message: String?
-
-    public static var noErrorMessage: NewStoriesErrorViewModel {
-        NewStoriesErrorViewModel(message: nil)
-    }
-}
-
-public protocol NewStoriesErrorView {
-    func display(_ viewModel: NewStoriesErrorViewModel)
-}
-
-public struct NewStoriesLoadingViewModel {
-    public let isLoading: Bool
-}
-
-public protocol NewStoriesLoadingView {
-    func display(_ viewModel: NewStoriesLoadingViewModel)
-}
-
-public struct NewStoriesViewModel {
-    public let stories: [LiveHackerNew]
-}
-
-public protocol NewStoriesView {
-    func display(_ viewModel: NewStoriesViewModel)
-}
-
 public class NewStoriesPresenter {
     private let view: NewStoriesView
     private let loadingView: NewStoriesLoadingView
