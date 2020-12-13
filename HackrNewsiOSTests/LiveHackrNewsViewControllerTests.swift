@@ -7,7 +7,7 @@ import HackrNewsiOS
 import XCTest
 
 final class LiveHackrNewsViewControllerTests: XCTestCase {
-    func test_loadStoriesActions_requestStoriesLoader() {
+    func test_loadLiveHackrNewsActions_requestLiveHackrNewsLoader() {
         let (sut, loader) = makeSUT()
 
         XCTAssertEqual(loader.loadCallCount, 0)
@@ -15,26 +15,26 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertEqual(loader.loadCallCount, 1)
 
-        sut.simulateUserInitiatedStoriesReload()
+        sut.simulateUserInitiatedLiveHackrNewsReload()
         XCTAssertEqual(loader.loadCallCount, 2)
 
-        sut.simulateUserInitiatedStoriesReload()
+        sut.simulateUserInitiatedLiveHackrNewsReload()
         XCTAssertEqual(loader.loadCallCount, 3)
     }
 
-    func test_loadingStoriesIndicator_isVisibleWhileLoadingStories() {
+    func test_loadingLiveHackrNewsIndicator_isVisibleWhileLoadingLiveHackrNews() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
 
         XCTAssertTrue(sut.isShowingLoadingIndicator)
 
-        loader.completeStoriesLoading(at: 0)
+        loader.completeLiveHackrNewsLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator)
 
-        sut.simulateUserInitiatedStoriesReload()
+        sut.simulateUserInitiatedLiveHackrNewsReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator)
 
-        loader.completeStoriesLoading(at: 1)
+        loader.completeLiveHackrNewsLoading(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator)
     }
 
@@ -56,7 +56,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
             completions.append(completion)
         }
 
-        func completeStoriesLoading(at index: Int = 0) {
+        func completeLiveHackrNewsLoading(at index: Int = 0) {
             completions[index](.success([]))
         }
     }
@@ -67,7 +67,7 @@ extension LiveHackrNewsViewController {
         refreshControl?.isRefreshing == true
     }
 
-    func simulateUserInitiatedStoriesReload() {
+    func simulateUserInitiatedLiveHackrNewsReload() {
         refreshControl?.simulatePullToRefresh()
     }
 }

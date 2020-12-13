@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
-		386551C925869FD2002054AA /* StoriesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551C825869FD2002054AA /* StoriesViewControllerTests.swift */; };
+		386551C925869FD2002054AA /* LiveHackrNewsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551C825869FD2002054AA /* LiveHackrNewsViewControllerTests.swift */; };
 		386551CE2586A5DB002054AA /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392AE2582DADC00FCAF70 /* XCTestCase+MemoryLeaksTracking.swift */; };
+		386551D42586B179002054AA /* LiveHackrNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551D32586B179002054AA /* LiveHackrNewsViewController.swift */; };
 		38D392712582C55300FCAF70 /* HackrNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D392672582C55300FCAF70 /* HackrNews.framework */; };
 		38D392862582C64600FCAF70 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392852582C64600FCAF70 /* Story.swift */; };
 		38D392952582D9BF00FCAF70 /* RemoteLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392942582D9BF00FCAF70 /* RemoteLoaderTests.swift */; };
@@ -62,7 +63,8 @@
 		386551A625868EF1002054AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		386551AB25868EF2002054AA /* HackrNewsiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		386551B225868EF2002054AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		386551C825869FD2002054AA /* StoriesViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesViewControllerTests.swift; sourceTree = "<group>"; };
+		386551C825869FD2002054AA /* LiveHackrNewsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsViewControllerTests.swift; sourceTree = "<group>"; };
+		386551D32586B179002054AA /* LiveHackrNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsViewController.swift; sourceTree = "<group>"; };
 		38D392672582C55300FCAF70 /* HackrNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38D3926B2582C55300FCAF70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38D392702582C55300FCAF70 /* HackrNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				386551A625868EF1002054AA /* Info.plist */,
+				386551D32586B179002054AA /* LiveHackrNewsViewController.swift */,
 			);
 			path = HackrNewsiOS;
 			sourceTree = "<group>";
@@ -143,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				386551B225868EF2002054AA /* Info.plist */,
-				386551C825869FD2002054AA /* StoriesViewControllerTests.swift */,
+				386551C825869FD2002054AA /* LiveHackrNewsViewControllerTests.swift */,
 			);
 			path = HackrNewsiOSTests;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				TargetAttributes = {
 					386551A225868EF1002054AA = {
 						CreatedOnToolsVersion = 12.2;
+						LastSwiftMigration = 1220;
 					};
 					386551AA25868EF2002054AA = {
 						CreatedOnToolsVersion = 12.2;
@@ -493,6 +497,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				386551D42586B179002054AA /* LiveHackrNewsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,7 +505,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				386551C925869FD2002054AA /* StoriesViewControllerTests.swift in Sources */,
+				386551C925869FD2002054AA /* LiveHackrNewsViewControllerTests.swift in Sources */,
 				386551CE2586A5DB002054AA /* XCTestCase+MemoryLeaksTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,6 +580,7 @@
 		386551B525868EF2002054AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = HS399QXLRD;
@@ -593,6 +599,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -601,6 +608,7 @@
 		386551B625868EF2002054AA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = HS399QXLRD;
@@ -628,6 +636,7 @@
 		386551B825868EF2002054AA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HS399QXLRD;
@@ -650,6 +659,7 @@
 		386551B925868EF2002054AA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HS399QXLRD;
