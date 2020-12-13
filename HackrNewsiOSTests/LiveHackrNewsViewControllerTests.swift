@@ -188,12 +188,17 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
         // MARK: - HackrStoryLoader
 
-        func load(from url: URL, completion _: @escaping (HackrStoryLoader.Result) -> Void) {
-            loadedStoryUrls.append(url)
+        private struct TaskSpy: HackrStoryLoaderTask {
+            let cancellCallback: () -> Void
+
+            func cancel() {
+                cancellCallback()
+            }
         }
 
-        func cancel(from url: URL) {
-            cancelledStoryUrls.append(url)
+        func load(from url: URL, completion _: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
+            loadedStoryUrls.append(url)
+            return TaskSpy { [weak self] in self?.cancelledStoryUrls.append(url) }
         }
     }
 }

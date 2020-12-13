@@ -13,6 +13,7 @@ public class LiveHackrNewsViewController: UITableViewController {
     private var liveHackrNewsloader: LiveHackrNewsLoader?
     private var hackrStoryLoader: HackrStoryLoader?
     var tableModel = [LiveHackrNew]()
+    var tasks = [IndexPath: HackrStoryLoaderTask]()
 
     public convenience init(loader: LiveHackrNewsLoader, hackrStoryLoader: HackrStoryLoader) {
         self.init()
@@ -45,12 +46,12 @@ public class LiveHackrNewsViewController: UITableViewController {
         let cell = LiveHackrNewCell()
         let model = tableModel[indexPath.row]
         cell.id = model.id
-        hackrStoryLoader?.load(from: model.url) { _ in }
+        tasks[indexPath] = hackrStoryLoader?.load(from: model.url) { _ in }
         return cell
     }
 
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cellModel = tableModel[indexPath.row]
-        hackrStoryLoader?.cancel(from: cellModel.url)
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
     }
 }

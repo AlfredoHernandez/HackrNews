@@ -19,8 +19,11 @@ public protocol LiveHackrNewsLoader {
     func load(completion: @escaping (Result) -> Void)
 }
 
+public protocol HackrStoryLoaderTask {
+    func cancel()
+}
+
 public protocol HackrStoryLoader {
     typealias Result = Swift.Result<Story, Swift.Error>
-    func load(from url: URL, completion: @escaping (Result) -> Void)
-    func cancel(from url: URL)
+    func load(from url: URL, completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask
 }
