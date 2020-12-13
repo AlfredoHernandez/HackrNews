@@ -15,7 +15,7 @@ A simple iOS client for Y Combinator's Hacker News.
 
 - [X] Load stories automatically when view is presented
 - [X] Allow customer to manually reload stories (pull to refresh)
-- [ ] Show a loading indicator while loading stories
+- [X] Show a loading indicator while loading stories
 
 ### Stories loading experience
 
