@@ -11,7 +11,7 @@ public class LiveHackrNewCell: UITableViewCell {
 
 public class LiveHackrNewsViewController: UITableViewController {
     private var loader: LiveHackrNewsLoader?
-    var tableModel = [LiveHackerNew]()
+    var tableModel = [LiveHackrNew]()
 
     public convenience init(loader: LiveHackrNewsLoader) {
         self.init()

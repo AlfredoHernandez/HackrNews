@@ -4,9 +4,9 @@
 
 import Foundation
 
-public typealias LiveHackerNew = Int
+public typealias LiveHackrNew = Int
 
 public protocol LiveHackrNewsLoader {
-    typealias Result = Swift.Result<[LiveHackerNew], Swift.Error>
+    typealias Result = Swift.Result<[LiveHackrNew], Swift.Error>
     func load(completion: @escaping (Result) -> Void)
 }

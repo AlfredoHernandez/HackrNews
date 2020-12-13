@@ -66,7 +66,7 @@ final class NewStoriesPresentationTests: XCTestCase {
         enum Message: Equatable {
             case display(isLoading: Bool)
             case display(errorMessage: String?)
-            case display(stories: [LiveHackerNew])
+            case display(stories: [LiveHackrNew])
         }
 
         func display(_ viewModel: NewStoriesErrorViewModel) {

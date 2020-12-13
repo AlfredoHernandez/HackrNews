@@ -11,7 +11,7 @@ public enum LiveDataMapper {
         case invalidData
     }
 
-    public static func map(data: Data, response: HTTPURLResponse) throws -> [LiveHackerNew] {
+    public static func map(data: Data, response: HTTPURLResponse) throws -> [LiveHackrNew] {
         guard response.isOK, let data = try? JSONDecoder().decode([LiveItem].self, from: data) else {
             throw Error.invalidData
         }

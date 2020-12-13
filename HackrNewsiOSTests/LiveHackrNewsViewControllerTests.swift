@@ -81,7 +81,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     private func assertThat(
         _ sut: LiveHackrNewsViewController,
-        hasViewConfiguredFor model: LiveHackerNew,
+        hasViewConfiguredFor model: LiveHackrNew,
         at index: Int,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -95,7 +95,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     private func assertThat(
         _ sut: LiveHackrNewsViewController,
-        isRendering liveHackerNews: [LiveHackerNew],
+        isRendering liveHackerNews: [LiveHackrNew],
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
@@ -119,7 +119,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
             completions.append(completion)
         }
 
-        func completeLiveHackrNewsLoading(with news: [LiveHackerNew] = [], at index: Int = 0) {
+        func completeLiveHackrNewsLoading(with news: [LiveHackrNew] = [], at index: Int = 0) {
             completions[index](.success(news))
         }
 
