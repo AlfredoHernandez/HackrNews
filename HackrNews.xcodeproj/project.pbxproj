@@ -11,6 +11,8 @@
 		386551C925869FD2002054AA /* LiveHackrNewsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551C825869FD2002054AA /* LiveHackrNewsViewControllerTests.swift */; };
 		386551CE2586A5DB002054AA /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392AE2582DADC00FCAF70 /* XCTestCase+MemoryLeaksTracking.swift */; };
 		386551D42586B179002054AA /* LiveHackrNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551D32586B179002054AA /* LiveHackrNewsViewController.swift */; };
+		386551EA2586D198002054AA /* HackrNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D392672582C55300FCAF70 /* HackrNews.framework */; platformFilter = ios; };
+		386551EB2586D198002054AA /* HackrNews.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38D392672582C55300FCAF70 /* HackrNews.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38D392712582C55300FCAF70 /* HackrNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D392672582C55300FCAF70 /* HackrNews.framework */; };
 		38D392862582C64600FCAF70 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392852582C64600FCAF70 /* Story.swift */; };
 		38D392952582D9BF00FCAF70 /* RemoteLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392942582D9BF00FCAF70 /* RemoteLoaderTests.swift */; };
@@ -49,6 +51,13 @@
 			remoteGlobalIDString = 386551A225868EF1002054AA;
 			remoteInfo = HackrNewsiOS;
 		};
+		386551EC2586D198002054AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38D3925E2582C55300FCAF70 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38D392662582C55300FCAF70;
+			remoteInfo = HackrNews;
+		};
 		38D392722582C55300FCAF70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 38D3925E2582C55300FCAF70 /* Project object */;
@@ -57,6 +66,20 @@
 			remoteInfo = HackrNews;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		386551EE2586D198002054AA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				386551EB2586D198002054AA /* HackrNews.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				386551EA2586D198002054AA /* HackrNews.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +175,13 @@
 			path = HackrNewsiOSTests;
 			sourceTree = "<group>";
 		};
+		386551E92586D198002054AA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		38D3925D2582C55300FCAF70 = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +191,7 @@
 				386551A425868EF1002054AA /* HackrNewsiOS */,
 				386551AF25868EF2002054AA /* HackrNewsiOSTests */,
 				38D392682582C55300FCAF70 /* Products */,
+				386551E92586D198002054AA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -349,10 +381,12 @@
 				3865519F25868EF1002054AA /* Sources */,
 				386551A025868EF1002054AA /* Frameworks */,
 				386551A125868EF1002054AA /* Resources */,
+				386551EE2586D198002054AA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				386551ED2586D198002054AA /* PBXTargetDependency */,
 			);
 			name = HackrNewsiOS;
 			productName = HackrNewsiOS;
@@ -557,6 +591,12 @@
 			isa = PBXTargetDependency;
 			target = 386551A225868EF1002054AA /* HackrNewsiOS */;
 			targetProxy = 386551AD25868EF2002054AA /* PBXContainerItemProxy */;
+		};
+		386551ED2586D198002054AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = 38D392662582C55300FCAF70 /* HackrNews */;
+			targetProxy = 386551EC2586D198002054AA /* PBXContainerItemProxy */;
 		};
 		38D392732582C55300FCAF70 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
