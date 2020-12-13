@@ -15,7 +15,9 @@ class StoriesViewController: UITableViewController {
     }
 
     @objc func load() {
-        loader?.load { _ in }
+        loader?.load { [weak self] _ in
+            self?.refreshControl?.endRefreshing()
+        }
     }
 
     override func viewDidLoad() {
@@ -59,6 +61,15 @@ final class StoriesViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
     }
 
+    func test_viewDidLoad_hidesLoadingIndicatorOnLoaderCompletion() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        loader.completeStoriesLoading()
+
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (StoriesViewController, LiveHackerNewLoaderSpy) {
@@ -75,6 +86,10 @@ final class StoriesViewControllerTests: XCTestCase {
 
         func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
             completions.append(completion)
+        }
+
+        func completeStoriesLoading(at index: Int = 0) {
+            completions[index](.success([]))
         }
     }
 }
