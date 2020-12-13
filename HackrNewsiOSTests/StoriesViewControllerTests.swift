@@ -15,22 +15,19 @@ class StoriesViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        loader?.load { _ in
-        }
+        loader?.load { _ in }
     }
 }
 
 final class StoriesViewControllerTests: XCTestCase {
     func test_init_doesNotLoadStories() {
-        let loader = LiveHackerNewLoaderSpy()
-        _ = StoriesViewController(loader: loader)
+        let (_, loader) = makeSUT()
 
         XCTAssertEqual(loader.loadCallCount, 0)
     }
 
     func test_viewDidLoad_loadsStories() {
-        let loader = LiveHackerNewLoaderSpy()
-        let sut = StoriesViewController(loader: loader)
+        let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
 
@@ -38,6 +35,14 @@ final class StoriesViewControllerTests: XCTestCase {
     }
 
     // MARK: - Helpers
+
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (StoriesViewController, LiveHackerNewLoaderSpy) {
+        let loader = LiveHackerNewLoaderSpy()
+        let sut = StoriesViewController(loader: loader)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(loader, file: file, line: line)
+        return (sut, loader)
+    }
 
     private class LiveHackerNewLoaderSpy: LiveHackrNewsLoader {
         var completions = [(LiveHackrNewsLoader.Result) -> Void]()

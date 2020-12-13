@@ -13,7 +13,7 @@ A simple iOS client for Y Combinator's Hacker News.
 
 ## UX goals for the `New Stories` UI experience
 
-- [ ] Load stories automatically when view is presented
+- [X] Load stories automatically when view is presented
 - [ ] Allow customer to manually reload stories (pull to refresh)
 - [ ] Show a loading indicator while loading stories
 
