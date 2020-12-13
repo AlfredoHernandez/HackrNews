@@ -6,7 +6,7 @@ import HackrNews
 import UIKit
 import XCTest
 
-class StoriesViewController: UIViewController {
+class StoriesViewController: UITableViewController {
     private var loader: LiveHackrNewsLoader?
 
     convenience init(loader: LiveHackrNewsLoader) {
@@ -14,8 +14,14 @@ class StoriesViewController: UIViewController {
         self.loader = loader
     }
 
-    override func viewDidLoad() {
+    @objc func load() {
         loader?.load { _ in }
+    }
+
+    override func viewDidLoad() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+        load()
     }
 }
 
@@ -34,6 +40,17 @@ final class StoriesViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 1)
     }
 
+    func test_pullToRefresh_loadsStories() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        sut.refreshControl?.simulatePullToRefresh()
+        XCTAssertEqual(loader.loadCallCount, 2)
+
+        sut.refreshControl?.simulatePullToRefresh()
+        XCTAssertEqual(loader.loadCallCount, 3)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (StoriesViewController, LiveHackerNewLoaderSpy) {
@@ -50,6 +67,16 @@ final class StoriesViewControllerTests: XCTestCase {
 
         func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
             completions.append(completion)
+        }
+    }
+}
+
+extension UIControl {
+    func simulatePullToRefresh() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { selector in
+                (target as NSObject).perform(Selector(selector))
+            }
         }
     }
 }
