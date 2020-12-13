@@ -56,6 +56,19 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [new1, new2, new3, new4])
     }
 
+    func test_loadLiveHackrNewsCompletion_doesNotAlterCurrentRenderingStateOnError() {
+        let (sut, loader) = makeSUT()
+        let new1 = 1
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [new1], at: 0)
+        assertThat(sut, isRendering: [new1])
+
+        sut.simulateUserInitiatedLiveHackrNewsReload()
+        loader.completeLiveHackrNewsLoadingWithError(at: 1)
+        assertThat(sut, isRendering: [new1])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
@@ -86,13 +99,13 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        XCTAssertEqual(
-            sut.numberOfRenderedLiveHackrNewsViews(),
-            liveHackerNews.count,
-            "Expected \(liveHackerNews.count) news, got \(sut.numberOfRenderedLiveHackrNewsViews()) instead.",
-            file: file,
-            line: line
-        )
+        guard sut.numberOfRenderedLiveHackrNewsViews() == liveHackerNews.count else {
+            return XCTFail(
+                "Expected \(liveHackerNews.count) news, got \(sut.numberOfRenderedLiveHackrNewsViews()) instead.",
+                file: file,
+                line: line
+            )
+        }
         liveHackerNews.enumerated().forEach { index, new in
             assertThat(sut, hasViewConfiguredFor: new, at: index, file: file, line: line)
         }
@@ -108,6 +121,11 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
         func completeLiveHackrNewsLoading(with news: [LiveHackerNew] = [], at index: Int = 0) {
             completions[index](.success(news))
+        }
+
+        func completeLiveHackrNewsLoadingWithError(at index: Int = 0) {
+            let error = NSError(domain: "an error", code: 0)
+            completions[index](.failure(error))
         }
     }
 }

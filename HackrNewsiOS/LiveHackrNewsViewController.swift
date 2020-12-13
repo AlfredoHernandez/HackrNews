@@ -21,7 +21,12 @@ public class LiveHackrNewsViewController: UITableViewController {
     @objc func load() {
         refreshControl?.beginRefreshing()
         loader?.load { [weak self] result in
-            self?.tableModel = (try? result.get()) ?? []
+            switch result {
+            case let .success(news):
+                self?.tableModel = news
+            case .failure:
+                break
+            }
             self?.tableView.reloadData()
             self?.refreshControl?.endRefreshing()
         }
