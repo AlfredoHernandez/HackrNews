@@ -48,4 +48,9 @@ public class LiveHackrNewsViewController: UITableViewController {
         hackrStoryLoader?.load(from: model.url) { _ in }
         return cell
     }
+
+    override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cellModel = tableModel[indexPath.row]
+        hackrStoryLoader?.cancel(from: cellModel.url)
+    }
 }

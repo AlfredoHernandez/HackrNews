@@ -90,6 +90,31 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         )
     }
 
+    func test_liveHackrNewView_cancelsStoryLoadingWhenNotVisibleAnymore() {
+        let (sut, loader) = makeSUT()
+        let new1 = makeLiveHackrNew(id: 1, url: URL(string: "https://any-url.com/1.json")!)
+        let new2 = makeLiveHackrNew(id: 2, url: URL(string: "https://any-url.com/2.json")!)
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [new1, new2], at: 0)
+
+        XCTAssertEqual(loader.cancelledStoryUrls, [], "Expected no cancelled story URL requests until views become visible")
+
+        sut.simulateStoryViewNotVisible(at: 0)
+        XCTAssertEqual(
+            loader.cancelledStoryUrls,
+            [new1.url],
+            "Expected first story URL request cancelled once first view becomes not visible"
+        )
+
+        sut.simulateStoryViewNotVisible(at: 1)
+        XCTAssertEqual(
+            loader.cancelledStoryUrls,
+            [new1.url, new2.url],
+            "Expected second story URL request cancelled once second view also becomes not visible"
+        )
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
@@ -146,6 +171,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         var completions = [(LiveHackrNewsLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }
         var loadedStoryUrls = [URL]()
+        var cancelledStoryUrls = [URL]()
 
         func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
             completions.append(completion)
@@ -164,6 +190,10 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
         func load(from url: URL, completion _: @escaping (HackrStoryLoader.Result) -> Void) {
             loadedStoryUrls.append(url)
+        }
+
+        func cancel(from url: URL) {
+            cancelledStoryUrls.append(url)
         }
     }
 }
@@ -187,8 +217,16 @@ extension LiveHackrNewsViewController {
         return ds?.tableView(tableView, cellForRowAt: indexPath)
     }
 
-    func simulateStoryViewVisible(at index: Int) {
-        _ = liveHackrNewView(for: index)
+    @discardableResult
+    func simulateStoryViewVisible(at index: Int) -> UITableViewCell? {
+        liveHackrNewView(for: index)
+    }
+
+    func simulateStoryViewNotVisible(at index: Int) {
+        let view = simulateStoryViewVisible(at: index)
+        let delegate = tableView.delegate
+        let indexPath = IndexPath(row: index, section: hackrNewsSection)
+        delegate?.tableView?(tableView, didEndDisplaying: view!, forRowAt: indexPath)
     }
 
     var hackrNewsSection: Int { 0 }

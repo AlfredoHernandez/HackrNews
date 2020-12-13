@@ -22,4 +22,5 @@ public protocol LiveHackrNewsLoader {
 public protocol HackrStoryLoader {
     typealias Result = Swift.Result<Story, Swift.Error>
     func load(from url: URL, completion: @escaping (Result) -> Void)
+    func cancel(from url: URL)
 }
