@@ -15,6 +15,7 @@ class StoriesViewController: UITableViewController {
     }
 
     @objc func load() {
+        refreshControl?.beginRefreshing()
         loader?.load { [weak self] _ in
             self?.refreshControl?.endRefreshing()
         }
@@ -23,29 +24,18 @@ class StoriesViewController: UITableViewController {
     override func viewDidLoad() {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        refreshControl?.beginRefreshing()
         load()
     }
 }
 
 final class StoriesViewControllerTests: XCTestCase {
-    func test_init_doesNotLoadStories() {
-        let (_, loader) = makeSUT()
+    func test_loadStoriesActions_requestStoriesLoader() {
+        let (sut, loader) = makeSUT()
 
         XCTAssertEqual(loader.loadCallCount, 0)
-    }
-
-    func test_viewDidLoad_loadsStories() {
-        let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
-
         XCTAssertEqual(loader.loadCallCount, 1)
-    }
-
-    func test_userInitiatedStoriesReload_loadsStories() {
-        let (sut, loader) = makeSUT()
-        sut.loadViewIfNeeded()
 
         sut.simulateUserInitiatedStoriesReload()
         XCTAssertEqual(loader.loadCallCount, 2)
@@ -54,36 +44,19 @@ final class StoriesViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3)
     }
 
-    func test_viewDidLoad_showsLoadingIndicator() {
-        let (sut, _) = makeSUT()
-        sut.loadViewIfNeeded()
-
-        XCTAssertTrue(sut.isShowingLoadingIndicator)
-    }
-
-    func test_viewDidLoad_hidesLoadingIndicatorOnLoaderCompletion() {
+    func test_loadingStoriesIndicator_isVisibleWhileLoadingStories() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
 
-        loader.completeStoriesLoading()
+        XCTAssertTrue(sut.isShowingLoadingIndicator)
 
+        loader.completeStoriesLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator)
-    }
-
-    func test_userInitiatedStoriesReload_showLoadingIndicator() {
-        let (sut, _) = makeSUT()
 
         sut.simulateUserInitiatedStoriesReload()
-
         XCTAssertTrue(sut.isShowingLoadingIndicator)
-    }
 
-    func test_userInitiatedStoriesReload_hidesLoadingIndicatorOnLoaderCompletion() {
-        let (sut, loader) = makeSUT()
-
-        sut.simulateUserInitiatedStoriesReload()
-        loader.completeStoriesLoading()
-
+        loader.completeStoriesLoading(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator)
     }
 
