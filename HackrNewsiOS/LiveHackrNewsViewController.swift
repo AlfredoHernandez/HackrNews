@@ -10,17 +10,19 @@ public class LiveHackrNewCell: UITableViewCell {
 }
 
 public class LiveHackrNewsViewController: UITableViewController {
-    private var loader: LiveHackrNewsLoader?
+    private var liveHackrNewsloader: LiveHackrNewsLoader?
+    private var hackrStoryLoader: HackrStoryLoader?
     var tableModel = [LiveHackrNew]()
 
-    public convenience init(loader: LiveHackrNewsLoader) {
+    public convenience init(loader: LiveHackrNewsLoader, hackrStoryLoader: HackrStoryLoader) {
         self.init()
-        self.loader = loader
+        liveHackrNewsloader = loader
+        self.hackrStoryLoader = hackrStoryLoader
     }
 
     @objc func load() {
         refreshControl?.beginRefreshing()
-        loader?.load { [weak self] result in
+        liveHackrNewsloader?.load { [weak self] result in
             if let news = try? result.get() {
                 self?.tableModel = news
                 self?.tableView.reloadData()
@@ -41,7 +43,9 @@ public class LiveHackrNewsViewController: UITableViewController {
 
     override public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = LiveHackrNewCell()
-        cell.id = tableModel[indexPath.row].id
+        let model = tableModel[indexPath.row]
+        cell.id = model.id
+        hackrStoryLoader?.load(from: model.url) { _ in }
         return cell
     }
 }

@@ -69,11 +69,32 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [new1])
     }
 
+    func test_liveHackrNewView_loadsStoryURLWhenVisible() {
+        let (sut, loader) = makeSUT()
+        let new1 = makeLiveHackrNew(id: 1, url: URL(string: "https://any-url.com/1.json")!)
+        let new2 = makeLiveHackrNew(id: 2, url: URL(string: "https://any-url.com/2.json")!)
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [new1, new2], at: 0)
+
+        XCTAssertEqual(loader.loadedStoryUrls, [], "Expected no story URL requests until views become visible")
+
+        sut.simulateStoryViewVisible(at: 0)
+        XCTAssertEqual(loader.loadedStoryUrls, [new1.url], "Expected first story URL request once first view becomes visible")
+
+        sut.simulateStoryViewVisible(at: 1)
+        XCTAssertEqual(
+            loader.loadedStoryUrls,
+            [new1.url, new2.url],
+            "Expected second story URL request once second view also becomes visible"
+        )
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
         let loader = LiveHackerNewLoaderSpy()
-        let sut = LiveHackrNewsViewController(loader: loader)
+        let sut = LiveHackrNewsViewController(loader: loader, hackrStoryLoader: loader)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)
@@ -121,9 +142,10 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         LiveHackrNew(id: id, url: url)
     }
 
-    private class LiveHackerNewLoaderSpy: LiveHackrNewsLoader {
+    private class LiveHackerNewLoaderSpy: LiveHackrNewsLoader, HackrStoryLoader {
         var completions = [(LiveHackrNewsLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }
+        var loadedStoryUrls = [URL]()
 
         func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
             completions.append(completion)
@@ -136,6 +158,12 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         func completeLiveHackrNewsLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
             completions[index](.failure(error))
+        }
+
+        // MARK: - HackrStoryLoader
+
+        func load(from url: URL, completion _: @escaping (HackrStoryLoader.Result) -> Void) {
+            loadedStoryUrls.append(url)
         }
     }
 }
@@ -157,6 +185,10 @@ extension LiveHackrNewsViewController {
         let ds = tableView.dataSource
         let indexPath = IndexPath(row: row, section: hackrNewsSection)
         return ds?.tableView(tableView, cellForRowAt: indexPath)
+    }
+
+    func simulateStoryViewVisible(at index: Int) {
+        _ = liveHackrNewView(for: index)
     }
 
     var hackrNewsSection: Int { 0 }
