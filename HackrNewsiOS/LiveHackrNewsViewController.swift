@@ -11,7 +11,7 @@ public class LiveHackrNewCell: UITableViewCell {
 
 public class LiveHackrNewsViewController: UITableViewController {
     private var loader: LiveHackrNewsLoader?
-    var tableModel = [LiveHackerNew]()
+    var tableModel = [LiveHackrNew]()
 
     public convenience init(loader: LiveHackrNewsLoader) {
         self.init()
@@ -41,7 +41,7 @@ public class LiveHackrNewsViewController: UITableViewController {
 
     override public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = LiveHackrNewCell()
-        cell.id = tableModel[indexPath.row]
+        cell.id = tableModel[indexPath.row].id
         return cell
     }
 }

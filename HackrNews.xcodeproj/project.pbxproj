@@ -34,7 +34,7 @@
 		38D393082583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D393072583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift */; };
 		38D3930C258304C600FCAF70 /* NewStoriesLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D3930B258304C600FCAF70 /* NewStoriesLocalizationTests.swift */; };
 		38D3930F2583050900FCAF70 /* NewStories.strings in Resources */ = {isa = PBXBuildFile; fileRef = 38D393112583050900FCAF70 /* NewStories.strings */; };
-		38D3931525830CFD00FCAF70 /* LiveHackerNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D3931425830CFD00FCAF70 /* LiveHackerNew.swift */; };
+		38D3931525830CFD00FCAF70 /* LiveHackrNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D3931425830CFD00FCAF70 /* LiveHackrNew.swift */; };
 		38D3931C2583185E00FCAF70 /* NewStoriesErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D3931B2583185E00FCAF70 /* NewStoriesErrorViewModel.swift */; };
 		38D393222583186D00FCAF70 /* NewStoriesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D393212583186D00FCAF70 /* NewStoriesErrorView.swift */; };
 		38D393262583187D00FCAF70 /* NewStoriesLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D393252583187D00FCAF70 /* NewStoriesLoadingViewModel.swift */; };
@@ -112,7 +112,7 @@
 		38D393072583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedLocalizationTestsHelpers.swift; sourceTree = "<group>"; };
 		38D3930B258304C600FCAF70 /* NewStoriesLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoriesLocalizationTests.swift; sourceTree = "<group>"; };
 		38D393102583050900FCAF70 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NewStories.strings; sourceTree = "<group>"; };
-		38D3931425830CFD00FCAF70 /* LiveHackerNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackerNew.swift; sourceTree = "<group>"; };
+		38D3931425830CFD00FCAF70 /* LiveHackrNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNew.swift; sourceTree = "<group>"; };
 		38D3931A258310C000FCAF70 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		38D3931B2583185E00FCAF70 /* NewStoriesErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoriesErrorViewModel.swift; sourceTree = "<group>"; };
 		38D393212583186D00FCAF70 /* NewStoriesErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoriesErrorView.swift; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				38D392852582C64600FCAF70 /* Story.swift */,
-				38D3931425830CFD00FCAF70 /* LiveHackerNew.swift */,
+				38D3931425830CFD00FCAF70 /* LiveHackrNew.swift */,
 			);
 			path = "Hacker News Feature";
 			sourceTree = "<group>";
@@ -549,7 +549,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38D393262583187D00FCAF70 /* NewStoriesLoadingViewModel.swift in Sources */,
-				38D3931525830CFD00FCAF70 /* LiveHackerNew.swift in Sources */,
+				38D3931525830CFD00FCAF70 /* LiveHackrNew.swift in Sources */,
 				38D393222583186D00FCAF70 /* NewStoriesErrorView.swift in Sources */,
 				38D392A02582DA2900FCAF70 /* HTTPClient.swift in Sources */,
 				38D392A42582DA6500FCAF70 /* RemoteLoader.swift in Sources */,
