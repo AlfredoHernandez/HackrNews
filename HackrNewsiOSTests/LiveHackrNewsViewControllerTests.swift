@@ -26,16 +26,16 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
 
-        XCTAssertTrue(sut.isShowingLoadingIndicator)
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected show loading indicator once view is loaded")
 
         loader.completeLiveHackrNewsLoading(at: 0)
-        XCTAssertFalse(sut.isShowingLoadingIndicator)
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes successfully")
 
         sut.simulateUserInitiatedLiveHackrNewsReload()
-        XCTAssertTrue(sut.isShowingLoadingIndicator)
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected show loading indicator once user initiated loading")
 
-        loader.completeLiveHackrNewsLoading(at: 1)
-        XCTAssertFalse(sut.isShowingLoadingIndicator)
+        loader.completeLiveHackrNewsLoadingWithError(at: 1)
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes with error")
     }
 
     func test_loadLiveHackrNewsCompletion_rendersSuccessfullyLoadedLiveHackrNews() {
