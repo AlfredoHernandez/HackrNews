@@ -58,7 +58,7 @@ final class StoriesViewControllerTests: XCTestCase {
         let (sut, _) = makeSUT()
         sut.loadViewIfNeeded()
 
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+        XCTAssertTrue(sut.isShowingLoadingIndicator)
     }
 
     func test_viewDidLoad_hidesLoadingIndicatorOnLoaderCompletion() {
@@ -67,7 +67,7 @@ final class StoriesViewControllerTests: XCTestCase {
 
         loader.completeStoriesLoading()
 
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        XCTAssertFalse(sut.isShowingLoadingIndicator)
     }
 
     func test_userInitiatedStoriesReload_showLoadingIndicator() {
@@ -75,7 +75,7 @@ final class StoriesViewControllerTests: XCTestCase {
 
         sut.simulateUserInitiatedStoriesReload()
 
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+        XCTAssertTrue(sut.isShowingLoadingIndicator)
     }
 
     func test_userInitiatedStoriesReload_hidesLoadingIndicatorOnLoaderCompletion() {
@@ -84,7 +84,7 @@ final class StoriesViewControllerTests: XCTestCase {
         sut.simulateUserInitiatedStoriesReload()
         loader.completeStoriesLoading()
 
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        XCTAssertFalse(sut.isShowingLoadingIndicator)
     }
 
     // MARK: - Helpers
@@ -112,6 +112,10 @@ final class StoriesViewControllerTests: XCTestCase {
 }
 
 extension StoriesViewController {
+    var isShowingLoadingIndicator: Bool {
+        refreshControl?.isRefreshing == true
+    }
+
     func simulateUserInitiatedStoriesReload() {
         refreshControl?.simulatePullToRefresh()
     }
