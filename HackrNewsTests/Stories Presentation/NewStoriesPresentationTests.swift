@@ -26,10 +26,12 @@ final class NewStoriesPresentationTests: XCTestCase {
 
     func test_didFinishLoadingStories_displayStoriesAndStopsLoading() {
         let (sut, view) = makeSUT()
+        let new1 = LiveHackrNew(id: 1, url: URL(string: "https://any-url.com/1.json")!)
+        let new2 = LiveHackrNew(id: 2, url: URL(string: "https://any-url.com/2.json")!)
 
-        sut.didFinishLoadingStories(stories: [1, 2, 3])
+        sut.didFinishLoadingStories(stories: [new1, new2])
 
-        XCTAssertEqual(view.messages, [.display(isLoading: false), .display(stories: [1, 2, 3])])
+        XCTAssertEqual(view.messages, [.display(isLoading: false), .display(stories: [new1, new2])])
     }
 
     func test_didFinishLoadingStoriesWithError_displaysErrorAndStopsLoading() {

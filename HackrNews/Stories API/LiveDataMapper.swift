@@ -15,6 +15,11 @@ public enum LiveDataMapper {
         guard response.isOK, let data = try? JSONDecoder().decode([LiveItem].self, from: data) else {
             throw Error.invalidData
         }
-        return data
+        return data.map {
+            LiveHackrNew(
+                id: $0,
+                url: URL(string: "https://hacker-news.firebaseio.com/v0/item/\($0).json")!
+            )
+        }
     }
 }

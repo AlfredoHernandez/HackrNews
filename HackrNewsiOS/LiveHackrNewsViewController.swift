@@ -41,7 +41,7 @@ public class LiveHackrNewsViewController: UITableViewController {
 
     override public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = LiveHackrNewCell()
-        cell.id = tableModel[indexPath.row]
+        cell.id = tableModel[indexPath.row].id
         return cell
     }
 }

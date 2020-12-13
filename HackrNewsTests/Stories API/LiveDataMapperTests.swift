@@ -26,7 +26,7 @@ final class LiveDataMapperTests: XCTestCase {
 
         let liveItems = try LiveDataMapper.map(data: validJSON, response: HTTPURLResponse(statusCode: 200))
 
-        XCTAssertEqual(liveItems, items)
+        XCTAssertEqual(liveItems.map(\.id), items)
     }
 
     // MARK: - Helpers

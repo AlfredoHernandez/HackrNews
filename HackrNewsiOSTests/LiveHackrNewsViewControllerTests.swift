@@ -40,10 +40,10 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_loadLiveHackrNewsCompletion_rendersSuccessfullyLoadedLiveHackrNews() {
         let (sut, loader) = makeSUT()
-        let new1 = 1
-        let new2 = 2
-        let new3 = 3
-        let new4 = 4
+        let new1 = makeLiveHackrNew(id: 1)
+        let new2 = makeLiveHackrNew(id: 2)
+        let new3 = makeLiveHackrNew(id: 3)
+        let new4 = makeLiveHackrNew(id: 4)
 
         sut.loadViewIfNeeded()
         assertThat(sut, isRendering: [])
@@ -58,7 +58,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_loadLiveHackrNewsCompletion_doesNotAlterCurrentRenderingStateOnError() {
         let (sut, loader) = makeSUT()
-        let new1 = 1
+        let new1 = makeLiveHackrNew(id: 1)
 
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [new1], at: 0)
@@ -90,7 +90,13 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         guard let cell = view as? LiveHackrNewCell else {
             return XCTFail("Expected \(LiveHackrNewCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
         }
-        XCTAssertEqual(cell.cellId, model, "Expected to be \(model) id for cell, but got \(cell.cellId) instead.", file: file, line: line)
+        XCTAssertEqual(
+            cell.cellId,
+            model.id,
+            "Expected to be \(model.id) id for cell, but got \(cell.cellId) instead.",
+            file: file,
+            line: line
+        )
     }
 
     private func assertThat(
@@ -109,6 +115,10 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         liveHackerNews.enumerated().forEach { index, new in
             assertThat(sut, hasViewConfiguredFor: new, at: index, file: file, line: line)
         }
+    }
+
+    private func makeLiveHackrNew(id: Int, url: URL = URL(string: "https://any-url.com")!) -> LiveHackrNew {
+        LiveHackrNew(id: id, url: url)
     }
 
     private class LiveHackerNewLoaderSpy: LiveHackrNewsLoader {

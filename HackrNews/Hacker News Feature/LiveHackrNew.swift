@@ -4,7 +4,15 @@
 
 import Foundation
 
-public typealias LiveHackrNew = Int
+public struct LiveHackrNew: Equatable {
+    public let id: Int
+    public let url: URL
+
+    public init(id: Int, url: URL) {
+        self.id = id
+        self.url = url
+    }
+}
 
 public protocol LiveHackrNewsLoader {
     typealias Result = Swift.Result<[LiveHackrNew], Swift.Error>
