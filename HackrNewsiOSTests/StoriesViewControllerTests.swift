@@ -3,10 +3,21 @@
 //
 
 import HackrNews
+import UIKit
 import XCTest
 
-class StoriesViewController {
-    init(loader _: LiveHackrNewsLoader) {}
+class StoriesViewController: UIViewController {
+    private var loader: LiveHackrNewsLoader?
+
+    convenience init(loader: LiveHackrNewsLoader) {
+        self.init()
+        self.loader = loader
+    }
+
+    override func viewDidLoad() {
+        loader?.load { _ in
+        }
+    }
 }
 
 final class StoriesViewControllerTests: XCTestCase {
@@ -15,6 +26,15 @@ final class StoriesViewControllerTests: XCTestCase {
         _ = StoriesViewController(loader: loader)
 
         XCTAssertEqual(loader.loadCallCount, 0)
+    }
+
+    func test_viewDidLoad_loadsStories() {
+        let loader = LiveHackerNewLoaderSpy()
+        let sut = StoriesViewController(loader: loader)
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(loader.loadCallCount, 1)
     }
 
     // MARK: - Helpers
