@@ -10,3 +10,18 @@
 ## About Hackr/News
 
 A simple iOS client for Y Combinator's Hacker News.
+
+## UX goals for the `New Stories` UI experience
+
+- [ ] Load stories automatically when view is presented
+- [ ] Allow customer to manually reload stories (pull to refresh)
+- [ ] Show a loading indicator while loading stories
+
+### Stories loading experience
+
+- [ ] Render all loaded stories items (Title, Author, score, created at, total comments, url)
+- [ ] Load story when is near to be visible (on screen)
+- [ ] Cancel load stpry when is out of screen
+- [ ] Show a loading indicator while loading story (shimmer)
+- [ ] Option to retry load story in download error
+- [ ] Preload when story view is near visible
