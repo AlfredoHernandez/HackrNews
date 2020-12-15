@@ -8,31 +8,27 @@ import UIKit
 public class LiveHackrNewsViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var liveHackrNewsloader: LiveHackrNewsLoader?
     private var hackrStoryLoader: HackrStoryLoader?
-    var tableModel = [LiveHackrNew]()
+    private var refreshController: LiveHackrNewsRefreshController?
+    var tableModel = [LiveHackrNew]() {
+        didSet { tableView.reloadData() }
+    }
+
     var tasks = [IndexPath: HackrStoryLoaderTask]()
 
     public convenience init(loader: LiveHackrNewsLoader, hackrStoryLoader: HackrStoryLoader) {
         self.init()
         liveHackrNewsloader = loader
         self.hackrStoryLoader = hackrStoryLoader
-    }
-
-    @objc func load() {
-        refreshControl?.beginRefreshing()
-        tableView.prefetchDataSource = self
-        liveHackrNewsloader?.load { [weak self] result in
-            if let news = try? result.get() {
-                self?.tableModel = news
-                self?.tableView.reloadData()
-            }
-            self?.refreshControl?.endRefreshing()
-        }
+        refreshController = LiveHackrNewsRefreshController(loader: loader)
     }
 
     override public func viewDidLoad() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        load()
+        tableView.prefetchDataSource = self
+        tableView.refreshControl = refreshController?.view
+        refreshController?.refresh()
+        refreshController?.onLoad = { [weak self] stories in
+            self?.tableModel = stories
+        }
     }
 
     override public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
