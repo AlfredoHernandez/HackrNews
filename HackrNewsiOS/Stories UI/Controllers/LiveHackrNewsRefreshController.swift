@@ -19,11 +19,11 @@ final class LiveHackrNewsRefreshController: NSObject {
     }
 
     private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
-        viewModel.onChange = { viewModel in
-            if viewModel.isLoading {
-                view.beginRefreshing()
+        viewModel.onLoadingStateChange = { [weak view] isLoading in
+            if isLoading {
+                view?.beginRefreshing()
             } else {
-                view.endRefreshing()
+                view?.endRefreshing()
             }
         }
         view.addTarget(self, action: #selector(refresh), for: .valueChanged)

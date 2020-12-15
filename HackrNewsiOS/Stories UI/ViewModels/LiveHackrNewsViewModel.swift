@@ -11,20 +11,16 @@ final class LiveHackrNewsViewModel {
         self.loader = loader
     }
 
-    var onChange: ((LiveHackrNewsViewModel) -> Void)?
+    var onLoadingStateChange: ((Bool) -> Void)?
     var onLoad: (([LiveHackrNew]) -> Void)?
 
-    private(set) var isLoading: Bool = false {
-        didSet { onChange?(self) }
-    }
-
     func loadNews() {
-        isLoading = true
+        onLoadingStateChange?(true)
         loader.load { [weak self] result in
             if let news = try? result.get() {
                 self?.onLoad?(news)
             }
-            self?.isLoading = false
+            self?.onLoadingStateChange?(false)
         }
     }
 }
