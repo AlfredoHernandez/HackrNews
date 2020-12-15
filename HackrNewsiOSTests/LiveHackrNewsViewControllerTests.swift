@@ -136,6 +136,30 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertEqual(view1?.isShowingLoadingIndicator, false)
     }
 
+    func test_storyView_displaysStoryInfo() {
+        let (sut, loader) = makeSUT()
+        let story0 = Story.any
+        let story1 = Story.any
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+
+        let view0 = sut.simulateStoryViewVisible(at: 0)
+        let view1 = sut.simulateStoryViewVisible(at: 1)
+
+        loader.completeStoryLoading(at: 0)
+        XCTAssertEqual(view0?.titleText, story0.title)
+        XCTAssertEqual(view0?.authorText, story0.author)
+        XCTAssertEqual(view0?.scoreText, story0.score.description)
+        XCTAssertEqual(view0?.commentsText, story0.comments.description)
+
+        loader.completeStoryLoading(at: 1)
+        XCTAssertEqual(view1?.titleText, story1.title)
+        XCTAssertEqual(view1?.authorText, story1.author)
+        XCTAssertEqual(view1?.scoreText, story1.score.description)
+        XCTAssertEqual(view1?.commentsText, story1.comments.description)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
@@ -277,6 +301,26 @@ extension LiveHackrNewCell {
 
     var isShowingLoadingIndicator: Bool {
         container.isShimmering
+    }
+
+    var titleText: String? {
+        titleLabel.text
+    }
+
+    var authorText: String? {
+        authorLabel.text
+    }
+
+    var scoreText: String? {
+        scoreLabel.text
+    }
+
+    var commentsText: String? {
+        commentsLabel.text
+    }
+
+    var createdAtText: String? {
+        createdAtLabel.text
     }
 }
 

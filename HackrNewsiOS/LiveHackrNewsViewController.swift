@@ -8,6 +8,11 @@ import UIKit
 public class LiveHackrNewCell: UITableViewCell {
     public var id: Int = 0
     public let container = UIView()
+    public let titleLabel = UILabel()
+    public let authorLabel = UILabel()
+    public let scoreLabel = UILabel()
+    public let commentsLabel = UILabel()
+    public let createdAtLabel = UILabel()
 }
 
 public class LiveHackrNewsViewController: UITableViewController {
@@ -48,7 +53,12 @@ public class LiveHackrNewsViewController: UITableViewController {
         let model = tableModel[indexPath.row]
         cell.id = model.id
         cell.container.isShimmering = true
-        tasks[indexPath] = hackrStoryLoader?.load(from: model.url) { [weak cell] _ in
+        tasks[indexPath] = hackrStoryLoader?.load(from: model.url) { [weak cell] result in
+            let data = try? result.get()
+            cell?.titleLabel.text = data?.title
+            cell?.authorLabel.text = data?.author
+            cell?.scoreLabel.text = data?.score.description
+            cell?.commentsLabel.text = data?.comments.description
             cell?.container.isShimmering = false
         }
         return cell
