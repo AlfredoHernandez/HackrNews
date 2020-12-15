@@ -15,11 +15,11 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
 
     var cellControllers = [IndexPath: LiveHackrNewCellController]()
 
-    public convenience init(loader: LiveHackrNewsLoader, hackrStoryLoader: HackrStoryLoader) {
+    public convenience init(liveHackrNewsloader: LiveHackrNewsLoader, hackrStoryLoader: HackrStoryLoader) {
         self.init()
-        liveHackrNewsloader = loader
+        self.liveHackrNewsloader = liveHackrNewsloader
         self.hackrStoryLoader = hackrStoryLoader
-        refreshController = LiveHackrNewsRefreshController(loader: loader)
+        refreshController = LiveHackrNewsRefreshController(loader: liveHackrNewsloader)
     }
 
     override public func viewDidLoad() {

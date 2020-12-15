@@ -252,7 +252,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
         let loader = LiveHackerNewLoaderSpy()
-        let sut = LiveHackrNewsViewController(loader: loader, hackrStoryLoader: loader)
+        let sut = LiveHackrNewsViewController(liveHackrNewsloader: loader, hackrStoryLoader: loader)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)
