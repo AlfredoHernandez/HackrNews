@@ -21,7 +21,7 @@ A simple iOS client for Y Combinator's Hacker News.
 
 - [ ] Render all loaded stories items (Title, Author, score, created at, total comments, url)
 - [X] Load story when is near to be visible (on screen)
-- [ ] Cancel load story when is out of screen
-- [ ] Show a loading indicator while loading story (shimmer)
+- [X] Cancel load story when is out of screen
+- [X] Show a loading indicator while loading story (shimmer)
 - [ ] Option to retry load story in download error
 - [ ] Preload when story view is near visible

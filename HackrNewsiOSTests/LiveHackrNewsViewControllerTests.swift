@@ -115,6 +115,27 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         )
     }
 
+    func test_liveHackrNewViewLoadingIndicator_isVisibleWhileLoading() {
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+
+        let view0 = sut.simulateStoryViewVisible(at: 0)
+        let view1 = sut.simulateStoryViewVisible(at: 1)
+
+        XCTAssertEqual(view0?.isShowingLoadingIndicator, true, "Expected loading indicator for view0 while loading content")
+        XCTAssertEqual(view1?.isShowingLoadingIndicator, true, "Expected loading indicator for view1 while loading content")
+
+        loader.completeStoryLoading(at: 0)
+        XCTAssertEqual(view0?.isShowingLoadingIndicator, false)
+        XCTAssertEqual(view1?.isShowingLoadingIndicator, true)
+
+        loader.completeStoryLoadingWithError(at: 1)
+        XCTAssertEqual(view0?.isShowingLoadingIndicator, false)
+        XCTAssertEqual(view1?.isShowingLoadingIndicator, false)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
@@ -163,15 +184,13 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         }
     }
 
-    private func makeLiveHackrNew(id: Int, url: URL = URL(string: "https://any-url.com")!) -> LiveHackrNew {
+    private func makeLiveHackrNew(id: Int = Int.random(in: 0 ... 100), url: URL = URL(string: "https://any-url.com")!) -> LiveHackrNew {
         LiveHackrNew(id: id, url: url)
     }
 
     private class LiveHackerNewLoaderSpy: LiveHackrNewsLoader, HackrStoryLoader {
         var completions = [(LiveHackrNewsLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }
-        var loadedStoryUrls = [URL]()
-        var cancelledStoryUrls = [URL]()
 
         func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
             completions.append(completion)
@@ -188,6 +207,13 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
         // MARK: - HackrStoryLoader
 
+        var loadedStoryUrls: [URL] {
+            storiesRequests.map(\.url)
+        }
+
+        var cancelledStoryUrls = [URL]()
+        var storiesRequests = [(url: URL, completion: (HackrStoryLoader.Result) -> Void)]()
+
         private struct TaskSpy: HackrStoryLoaderTask {
             let cancellCallback: () -> Void
 
@@ -196,9 +222,18 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
             }
         }
 
-        func load(from url: URL, completion _: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
-            loadedStoryUrls.append(url)
+        func load(from url: URL, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
+            storiesRequests.append((url, completion))
             return TaskSpy { [weak self] in self?.cancelledStoryUrls.append(url) }
+        }
+
+        func completeStoryLoading(with story: Story = Story.any, at index: Int = 0) {
+            storiesRequests[index].completion(.success(story))
+        }
+
+        func completeStoryLoadingWithError(at index: Int = 0) {
+            let error = NSError(domain: "an error", code: 0)
+            storiesRequests[index].completion(.failure(error))
         }
     }
 }
@@ -223,8 +258,8 @@ extension LiveHackrNewsViewController {
     }
 
     @discardableResult
-    func simulateStoryViewVisible(at index: Int) -> UITableViewCell? {
-        liveHackrNewView(for: index)
+    func simulateStoryViewVisible(at index: Int) -> LiveHackrNewCell? {
+        liveHackrNewView(for: index) as? LiveHackrNewCell
     }
 
     func simulateStoryViewNotVisible(at index: Int) {
@@ -239,6 +274,24 @@ extension LiveHackrNewsViewController {
 
 extension LiveHackrNewCell {
     var cellId: Int { id }
+
+    var isShowingLoadingIndicator: Bool {
+        container.isShimmering
+    }
+}
+
+extension Story {
+    static var any = Story(
+        id: Int.random(in: 0 ... 100),
+        title: "a title",
+        author: "a username",
+        score: 0,
+        createdAt: Date(),
+        totalComments: 0,
+        comments: [],
+        type: "story",
+        url: URL(string: "https://any-url.com")!
+    )
 }
 
 extension UIControl {

@@ -7,6 +7,7 @@ import UIKit
 
 public class LiveHackrNewCell: UITableViewCell {
     public var id: Int = 0
+    public let container = UIView()
 }
 
 public class LiveHackrNewsViewController: UITableViewController {
@@ -46,7 +47,10 @@ public class LiveHackrNewsViewController: UITableViewController {
         let cell = LiveHackrNewCell()
         let model = tableModel[indexPath.row]
         cell.id = model.id
-        tasks[indexPath] = hackrStoryLoader?.load(from: model.url) { _ in }
+        cell.container.isShimmering = true
+        tasks[indexPath] = hackrStoryLoader?.load(from: model.url) { [weak cell] _ in
+            cell?.container.isShimmering = false
+        }
         return cell
     }
 
