@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2020-12-15
+
+### Added
+
+- A new scheme to create specific iOS components.
+- A `LiveHackrNewsUIComposer` to create the `LiveHackrNewsViewController` which displays the new stories into a table view
+
 ## [0.2.0] - 2020-12-10
 
 ### Added
