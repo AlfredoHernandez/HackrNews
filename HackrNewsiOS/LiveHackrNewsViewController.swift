@@ -27,7 +27,7 @@ public class LiveHackrNewCell: UITableViewCell {
     }
 }
 
-public class LiveHackrNewsViewController: UITableViewController {
+public class LiveHackrNewsViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var liveHackrNewsloader: LiveHackrNewsLoader?
     private var hackrStoryLoader: HackrStoryLoader?
     var tableModel = [LiveHackrNew]()
@@ -41,6 +41,7 @@ public class LiveHackrNewsViewController: UITableViewController {
 
     @objc func load() {
         refreshControl?.beginRefreshing()
+        tableView.prefetchDataSource = self
         liveHackrNewsloader?.load { [weak self] result in
             if let news = try? result.get() {
                 self?.tableModel = news
@@ -86,5 +87,12 @@ public class LiveHackrNewsViewController: UITableViewController {
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
         tasks[indexPath]?.cancel()
         tasks[indexPath] = nil
+    }
+
+    public func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            let cellModel = tableModel[indexPath.row]
+            _ = hackrStoryLoader?.load(from: cellModel.url, completion: { _ in })
+        }
     }
 }
