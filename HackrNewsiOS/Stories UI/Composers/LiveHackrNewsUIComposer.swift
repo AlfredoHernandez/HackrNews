@@ -13,7 +13,7 @@ public final class LiveHackrNewsUIComposer {
     ) -> LiveHackrNewsViewController {
         let refreshController = LiveHackrNewsRefreshController(loader: liveHackrNewsloader)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
-        refreshController.onLoad = { [weak viewController] stories in
+        refreshController.onRefresh = { [weak viewController] stories in
             viewController?.tableModel = stories.map { model in
                 LiveHackrNewCellController(model: model, loader: hackrStoryLoader)
             }

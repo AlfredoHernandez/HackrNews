@@ -18,13 +18,13 @@ final class LiveHackrNewsRefreshController: NSObject {
         self.loader = loader
     }
 
-    var onLoad: (([LiveHackrNew]) -> Void)?
+    var onRefresh: (([LiveHackrNew]) -> Void)?
 
     @objc func refresh() {
         view.beginRefreshing()
         loader.load { [weak self] result in
             if let news = try? result.get() {
-                self?.onLoad?(news)
+                self?.onRefresh?(news)
             }
             self?.view.endRefreshing()
         }
