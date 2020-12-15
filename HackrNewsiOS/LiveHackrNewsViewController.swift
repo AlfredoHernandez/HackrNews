@@ -85,14 +85,22 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
     }
 
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
-        tasks[indexPath]?.cancel()
-        tasks[indexPath] = nil
+        cancelTask(at: indexPath)
     }
 
     public func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             let cellModel = tableModel[indexPath.row]
-            _ = hackrStoryLoader?.load(from: cellModel.url, completion: { _ in })
+            tasks[indexPath] = hackrStoryLoader?.load(from: cellModel.url, completion: { _ in })
         }
+    }
+
+    public func tableView(_: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach(cancelTask)
+    }
+
+    private func cancelTask(at indexPath: IndexPath) {
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
     }
 }

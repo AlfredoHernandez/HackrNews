@@ -228,6 +228,26 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         )
     }
 
+    func test_storyView_cancelsStoryPreloadingWhenNotNearVisibleAnymore() {
+        let (sut, loader) = makeSUT()
+        let lhn0 = makeLiveHackrNew(id: 0, url: URL(string: "http://any-url.com/0.json")!)
+        let lhn1 = makeLiveHackrNew(id: 1, url: URL(string: "http://any-url.com/1.json")!)
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [lhn0, lhn1], at: 0)
+        XCTAssertEqual(loader.cancelledStoryUrls, [], "Expected no stories urls before views are near to be visible")
+
+        sut.simulateStoryNotNearViewVisible(at: 0)
+        XCTAssertEqual(loader.cancelledStoryUrls, [lhn0.url], "Expected first canceld url after first view is near to be visible")
+
+        sut.simulateStoryNotNearViewVisible(at: 1)
+        XCTAssertEqual(
+            loader.cancelledStoryUrls,
+            [lhn0.url, lhn1.url],
+            "Expected first and second urls canceled after second view is near to be visible"
+        )
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
@@ -377,6 +397,14 @@ extension LiveHackrNewsViewController {
         let ds = tableView.prefetchDataSource
         let indexPath = IndexPath(row: index, section: hackrNewsSection)
         ds?.tableView(tableView, prefetchRowsAt: [indexPath])
+    }
+
+    func simulateStoryNotNearViewVisible(at index: Int) {
+        simulateStoryNearViewVisible(at: index)
+
+        let ds = tableView.prefetchDataSource
+        let indexPath = IndexPath(row: index, section: hackrNewsSection)
+        ds?.tableView?(tableView, cancelPrefetchingForRowsAt: [indexPath])
     }
 
     @discardableResult
