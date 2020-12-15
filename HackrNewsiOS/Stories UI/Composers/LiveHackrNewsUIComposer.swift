@@ -13,11 +13,18 @@ public final class LiveHackrNewsUIComposer {
     ) -> LiveHackrNewsViewController {
         let refreshController = LiveHackrNewsRefreshController(loader: liveHackrNewsloader)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
-        refreshController.onRefresh = { [weak viewController] stories in
-            viewController?.tableModel = stories.map { model in
-                LiveHackrNewCellController(model: model, loader: hackrStoryLoader)
+        refreshController.onRefresh = adaptLiveHackrNewsToCellControllers(forwardingTo: viewController, loader: hackrStoryLoader)
+        return viewController
+    }
+
+    private static func adaptLiveHackrNewsToCellControllers(
+        forwardingTo controller: LiveHackrNewsViewController,
+        loader: HackrStoryLoader
+    ) -> (([LiveHackrNew]) -> Void) {
+        return { [weak controller] stories in
+            controller?.tableModel = stories.map { model in
+                LiveHackrNewCellController(model: model, loader: loader)
             }
         }
-        return viewController
     }
 }
