@@ -5,5 +5,5 @@
 import Foundation
 
 public struct NewStoriesViewModel {
-    public let stories: [LiveHackerNew]
+    public let stories: [LiveHackrNew]
 }

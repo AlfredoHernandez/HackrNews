@@ -40,7 +40,7 @@ public class NewStoriesPresenter {
         errorView.display(.noErrorMessage)
     }
 
-    public func didFinishLoadingStories(stories: [LiveHackerNew]) {
+    public func didFinishLoadingStories(stories: [LiveHackrNew]) {
         loadingView.display(NewStoriesLoadingViewModel(isLoading: false))
         view.display(NewStoriesViewModel(stories: stories))
     }
