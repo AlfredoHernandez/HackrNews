@@ -2,7 +2,9 @@
 
 ![macOS](https://github.com/AlfredoHernandez/HackrNews/workflows/macOS/badge.svg)
 ![iOS](https://github.com/AlfredoHernandez/HackrNews/workflows/iOS/badge.svg)
+
 ---
+
 ![GitHub last commit](https://img.shields.io/github/last-commit/AlfredoHernandez/HackrNews?style=for-the-badge)
 ![issues](https://img.shields.io/github/issues/AlfredoHernandez/HackrNews?color=blue&style=for-the-badge)
 [![GitHub license](https://img.shields.io/github/license/AlfredoHernandez/HackrNews?color=brigthgreen&style=for-the-badge)](https://github.com/AlfredoHernandez/HackrNews)
@@ -11,6 +13,10 @@
 ## About Hackr/News
 
 A simple iOS client for Y Combinator's Hacker News.
+
+## App Architecture
+
+![App Architecture Diagram](./assets/hackr-news-diagram.png)
 
 ## UX goals for the `New Stories` UI experience
 
