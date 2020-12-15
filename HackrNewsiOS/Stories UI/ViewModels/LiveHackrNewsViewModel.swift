@@ -11,42 +11,20 @@ final class LiveHackrNewsViewModel {
         self.loader = loader
     }
 
-    private enum State {
-        case pending
-        case loading
-        case loaded([LiveHackrNew])
-        case failed
-    }
-
-    private var state: State = .pending {
-        didSet {
-            onChange?(self)
-        }
-    }
-
     var onChange: ((LiveHackrNewsViewModel) -> Void)?
+    var onLoad: (([LiveHackrNew]) -> Void)?
 
-    var isLoading: Bool {
-        switch state {
-        case .loading: return true
-        case .pending, .loaded, .failed: return false
-        }
-    }
-
-    var news: [LiveHackrNew]? {
-        switch state {
-        case let .loaded(news): return news
-        case .pending, .loading, .failed: return nil
-        }
+    private(set) var isLoading: Bool = false {
+        didSet { onChange?(self) }
     }
 
     func loadNews() {
+        isLoading = true
         loader.load { [weak self] result in
             if let news = try? result.get() {
-                self?.state = .loaded(news)
-            } else {
-                self?.state = .failed
+                self?.onLoad?(news)
             }
+            self?.isLoading = false
         }
     }
 }

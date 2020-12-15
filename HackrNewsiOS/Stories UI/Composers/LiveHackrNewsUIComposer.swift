@@ -11,9 +11,10 @@ public final class LiveHackrNewsUIComposer {
         liveHackrNewsloader: LiveHackrNewsLoader,
         hackrStoryLoader: HackrStoryLoader
     ) -> LiveHackrNewsViewController {
-        let refreshController = LiveHackrNewsRefreshController(loader: liveHackrNewsloader)
+        let viewModel = LiveHackrNewsViewModel(loader: liveHackrNewsloader)
+        let refreshController = LiveHackrNewsRefreshController(viewModel: viewModel)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
-        refreshController.onRefresh = adaptLiveHackrNewsToCellControllers(forwardingTo: viewController, loader: hackrStoryLoader)
+        viewModel.onLoad = adaptLiveHackrNewsToCellControllers(forwardingTo: viewController, loader: hackrStoryLoader)
         return viewController
     }
 

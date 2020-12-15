@@ -10,11 +10,9 @@ final class LiveHackrNewsRefreshController: NSObject {
 
     private let viewModel: LiveHackrNewsViewModel
 
-    init(loader: LiveHackrNewsLoader) {
-        viewModel = LiveHackrNewsViewModel(loader: loader)
+    init(viewModel: LiveHackrNewsViewModel) {
+        self.viewModel = viewModel
     }
-
-    var onRefresh: (([LiveHackrNew]) -> Void)?
 
     @objc func refresh() {
         view.beginRefreshing()
@@ -22,15 +20,11 @@ final class LiveHackrNewsRefreshController: NSObject {
     }
 
     private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
-        viewModel.onChange = { [weak self] viewModel in
+        viewModel.onChange = { viewModel in
             if viewModel.isLoading {
-                self?.view.beginRefreshing()
+                view.beginRefreshing()
             } else {
-                self?.view.endRefreshing()
-            }
-
-            if let news = viewModel.news {
-                self?.onRefresh?(news)
+                view.endRefreshing()
             }
         }
         view.addTarget(self, action: #selector(refresh), for: .valueChanged)
