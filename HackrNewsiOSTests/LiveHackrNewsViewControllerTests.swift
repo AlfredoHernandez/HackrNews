@@ -160,6 +160,23 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertEqual(view1?.commentsText, story1.comments.description)
     }
 
+    func test_storyViewRetryButton_isVisibleOnStoryLoadedWithError() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+
+        let view0 = sut.simulateStoryViewVisible(at: 0)
+        let view1 = sut.simulateStoryViewVisible(at: 1)
+
+        loader.completeStoryLoading(at: 0)
+        XCTAssertEqual(view0?.isShowingRetryAction, false)
+        XCTAssertEqual(view1?.isShowingRetryAction, false)
+
+        loader.completeStoryLoadingWithError(at: 1)
+        XCTAssertEqual(view0?.isShowingRetryAction, false)
+        XCTAssertEqual(view1?.isShowingRetryAction, true)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
@@ -210,6 +227,30 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     private func makeLiveHackrNew(id: Int = Int.random(in: 0 ... 100), url: URL = URL(string: "https://any-url.com")!) -> LiveHackrNew {
         LiveHackrNew(id: id, url: url)
+    }
+
+    private func makeStory(
+        id: Int = 0,
+        title: String = "",
+        author: String = "",
+        score: Int = 0,
+        createdAt: Date = Date(),
+        totalComments: Int = 0,
+        comments: [Int] = [],
+        type: String = "",
+        url: URL = URL(string: "https://any-url.com")!
+    ) -> Story {
+        Story(
+            id: id,
+            title: title,
+            author: author,
+            score: score,
+            createdAt: createdAt,
+            totalComments: totalComments,
+            comments: comments,
+            type: type,
+            url: url
+        )
     }
 
     private class LiveHackerNewLoaderSpy: LiveHackrNewsLoader, HackrStoryLoader {
@@ -321,6 +362,10 @@ extension LiveHackrNewCell {
 
     var createdAtText: String? {
         createdAtLabel.text
+    }
+
+    var isShowingRetryAction: Bool {
+        !retryLoadStoryButton.isHidden
     }
 }
 
