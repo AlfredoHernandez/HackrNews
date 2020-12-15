@@ -53,27 +53,34 @@ final class LiveHackrNewsModel {
 }
 
 final class LiveHackrNewsRefreshController: NSObject {
-    private(set) lazy var view: UIRefreshControl = {
-        let view = UIRefreshControl()
-        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        return view
-    }()
+    private(set) lazy var view = binded(UIRefreshControl())
 
-    private let loader: LiveHackrNewsLoader
+    private let viewModel: LiveHackrNewsModel
 
     init(loader: LiveHackrNewsLoader) {
-        self.loader = loader
+        viewModel = LiveHackrNewsModel(loader: loader)
     }
 
     var onRefresh: (([LiveHackrNew]) -> Void)?
 
     @objc func refresh() {
         view.beginRefreshing()
-        loader.load { [weak self] result in
-            if let news = try? result.get() {
+        viewModel.loadNews()
+    }
+
+    private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
+        viewModel.onChange = { [weak self] viewModel in
+            if viewModel.isLoading {
+                self?.view.beginRefreshing()
+            } else {
+                self?.view.endRefreshing()
+            }
+
+            if let news = viewModel.news {
                 self?.onRefresh?(news)
             }
-            self?.view.endRefreshing()
         }
+        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return view
     }
 }
