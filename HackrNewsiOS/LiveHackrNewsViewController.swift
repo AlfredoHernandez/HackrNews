@@ -13,7 +13,18 @@ public class LiveHackrNewCell: UITableViewCell {
     public let scoreLabel = UILabel()
     public let commentsLabel = UILabel()
     public let createdAtLabel = UILabel()
-    public let retryLoadStoryButton = UIButton()
+
+    public private(set) lazy var retryLoadStoryButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(retryButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    var onRetry: (() -> Void)?
+
+    @objc private func retryButtonTapped() {
+        onRetry?()
+    }
 }
 
 public class LiveHackrNewsViewController: UITableViewController {
@@ -55,15 +66,20 @@ public class LiveHackrNewsViewController: UITableViewController {
         cell.id = model.id
         cell.container.isShimmering = true
         cell.retryLoadStoryButton.isHidden = true
-        tasks[indexPath] = hackrStoryLoader?.load(from: model.url) { [weak cell] result in
-            let data = try? result.get()
-            cell?.retryLoadStoryButton.isHidden = (data != nil)
-            cell?.titleLabel.text = data?.title
-            cell?.authorLabel.text = data?.author
-            cell?.scoreLabel.text = data?.score.description
-            cell?.commentsLabel.text = data?.comments.description
-            cell?.container.isShimmering = false
+        let loadStory = { [weak self, weak cell] in
+            guard let self = self else { return }
+            self.tasks[indexPath] = self.hackrStoryLoader?.load(from: model.url) { [weak cell] result in
+                let data = try? result.get()
+                cell?.retryLoadStoryButton.isHidden = (data != nil)
+                cell?.titleLabel.text = data?.title
+                cell?.authorLabel.text = data?.author
+                cell?.scoreLabel.text = data?.score.description
+                cell?.commentsLabel.text = data?.comments.description
+                cell?.container.isShimmering = false
+            }
         }
+        loadStory()
+        cell.onRetry = loadStory
         return cell
     }
 

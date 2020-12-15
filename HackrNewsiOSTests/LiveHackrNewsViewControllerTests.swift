@@ -182,6 +182,32 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertEqual(view1?.isShowingRetryAction, true)
     }
 
+    func test_storyRetryAction_retriesStoryLoad() {
+        let (sut, loader) = makeSUT()
+        let lhn0 = makeLiveHackrNew(id: 0, url: URL(string: "http://any-url.com/0.json")!)
+        let lhn1 = makeLiveHackrNew(id: 1, url: URL(string: "http://any-url.com/1.json")!)
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [lhn0, lhn1], at: 0)
+
+        let view0 = sut.simulateStoryViewVisible(at: 0)
+        let view1 = sut.simulateStoryViewVisible(at: 1)
+        XCTAssertEqual(loader.loadedStoryUrls, [lhn0.url, lhn1.url], "Expected to load both urls")
+
+        loader.completeStoryLoadingWithError(at: 0)
+        loader.completeStoryLoadingWithError(at: 1)
+        XCTAssertEqual(loader.loadedStoryUrls, [lhn0.url, lhn1.url], "Expected no more loadings when completes with error")
+
+        view0?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedStoryUrls, [lhn0.url, lhn1.url, lhn0.url], "Expected one more url after first tap retry action")
+
+        view1?.simulateRetryAction()
+        XCTAssertEqual(
+            loader.loadedStoryUrls,
+            [lhn0.url, lhn1.url, lhn0.url, lhn1.url],
+            "Expected another url after second tap retry action"
+        )
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
@@ -372,6 +398,10 @@ extension LiveHackrNewCell {
     var isShowingRetryAction: Bool {
         !retryLoadStoryButton.isHidden
     }
+
+    func simulateRetryAction() {
+        retryLoadStoryButton.simulateTap()
+    }
 }
 
 extension Story {
@@ -386,6 +416,16 @@ extension Story {
         type: "story",
         url: URL(string: "https://any-url.com")!
     )
+}
+
+extension UIButton {
+    func simulateTap() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .touchUpInside)?.forEach { selector in
+                (target as NSObject).perform(Selector(selector))
+            }
+        }
+    }
 }
 
 extension UIControl {
