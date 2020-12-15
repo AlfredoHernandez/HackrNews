@@ -6,29 +6,20 @@ import HackrNews
 import UIKit
 
 public class LiveHackrNewsViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var liveHackrNewsloader: LiveHackrNewsLoader?
-    private var hackrStoryLoader: HackrStoryLoader?
     private var refreshController: LiveHackrNewsRefreshController?
-    var tableModel = [LiveHackrNew]() {
+    var tableModel = [LiveHackrNewCellController]() {
         didSet { tableView.reloadData() }
     }
 
-    var cellControllers = [IndexPath: LiveHackrNewCellController]()
-
-    public convenience init(liveHackrNewsloader: LiveHackrNewsLoader, hackrStoryLoader: HackrStoryLoader) {
+    convenience init(refreshController: LiveHackrNewsRefreshController) {
         self.init()
-        self.liveHackrNewsloader = liveHackrNewsloader
-        self.hackrStoryLoader = hackrStoryLoader
-        refreshController = LiveHackrNewsRefreshController(loader: liveHackrNewsloader)
+        self.refreshController = refreshController
     }
 
     override public func viewDidLoad() {
         tableView.prefetchDataSource = self
         tableView.refreshControl = refreshController?.view
         refreshController?.refresh()
-        refreshController?.onLoad = { [weak self] stories in
-            self?.tableModel = stories
-        }
     }
 
     override public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
@@ -40,7 +31,7 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
     }
 
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
-        removeCellController(at: indexPath)
+        cancelCellControllerLoad(at: indexPath)
     }
 
     public func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
@@ -50,17 +41,14 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
     }
 
     public func tableView(_: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach(removeCellController)
+        indexPaths.forEach(cancelCellControllerLoad)
     }
 
     private func cellController(forRowAt indexPath: IndexPath) -> LiveHackrNewCellController {
-        let model = tableModel[indexPath.row]
-        let cellController = LiveHackrNewCellController(model: model, loader: hackrStoryLoader!)
-        cellControllers[indexPath] = cellController
-        return cellController
+        tableModel[indexPath.row]
     }
 
-    private func removeCellController(at indexPath: IndexPath) {
-        cellControllers[indexPath] = nil
+    private func cancelCellControllerLoad(at indexPath: IndexPath) {
+        cellController(forRowAt: indexPath).cancelLoad()
     }
 }
