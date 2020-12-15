@@ -138,8 +138,13 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_storyView_displaysStoryInfo() {
         let (sut, loader) = makeSUT()
-        let story0 = Story.any
-        let story1 = Story.any
+        let story0 = makeStory(title: "a title", author: "an author", score: 10, createdAt: Date(timeIntervalSince1970: 1_607_645_758_000))
+        let story1 = makeStory(
+            title: "another title",
+            author: "another author",
+            score: 10,
+            createdAt: Date(timeIntervalSince1970: 1_607_645_758_000)
+        )
 
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
@@ -147,13 +152,13 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
 
-        loader.completeStoryLoading(at: 0)
+        loader.completeStoryLoading(with: story0, at: 0)
         XCTAssertEqual(view0?.titleText, story0.title)
         XCTAssertEqual(view0?.authorText, story0.author)
         XCTAssertEqual(view0?.scoreText, story0.score.description)
         XCTAssertEqual(view0?.commentsText, story0.comments.description)
 
-        loader.completeStoryLoading(at: 1)
+        loader.completeStoryLoading(with: story1, at: 1)
         XCTAssertEqual(view1?.titleText, story1.title)
         XCTAssertEqual(view1?.authorText, story1.author)
         XCTAssertEqual(view1?.scoreText, story1.score.description)
