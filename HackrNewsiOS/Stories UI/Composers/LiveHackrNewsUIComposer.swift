@@ -24,7 +24,7 @@ public final class LiveHackrNewsUIComposer {
     ) -> (([LiveHackrNew]) -> Void) {
         return { [weak controller] stories in
             controller?.tableModel = stories.map { model in
-                LiveHackrNewCellController(model: model, loader: loader)
+                LiveHackrNewCellController(viewModel: LiveHackrNewViewModel(model: model, loader: loader))
             }
         }
     }

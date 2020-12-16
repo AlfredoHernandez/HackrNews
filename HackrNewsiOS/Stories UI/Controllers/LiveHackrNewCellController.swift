@@ -2,46 +2,48 @@
 //  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
-import HackrNews
 import UIKit
 
 final class LiveHackrNewCellController {
-    private var task: HackrStoryLoaderTask?
-    private let loader: HackrStoryLoader
-    private let model: LiveHackrNew
+    let viewModel: LiveHackrNewViewModel
 
-    init(model: LiveHackrNew, loader: HackrStoryLoader) {
-        self.model = model
-        self.loader = loader
+    init(viewModel: LiveHackrNewViewModel) {
+        self.viewModel = viewModel
     }
 
     func view() -> UITableViewCell {
-        let cell = LiveHackrNewCell()
-        cell.id = model.id
-        cell.container.isShimmering = true
-        cell.retryLoadStoryButton.isHidden = true
-        let loadStory = { [weak self, weak cell] in
-            guard let self = self else { return }
-            self.task = self.loader.load(from: self.model.url) { [weak cell] result in
-                let data = try? result.get()
-                cell?.retryLoadStoryButton.isHidden = (data != nil)
-                cell?.titleLabel.text = data?.title
-                cell?.authorLabel.text = data?.author
-                cell?.scoreLabel.text = data?.score.description
-                cell?.commentsLabel.text = data?.comments.description
-                cell?.container.isShimmering = false
-            }
-        }
-        loadStory()
-        cell.onRetry = loadStory
+        let cell = binded(LiveHackrNewCell())
+        viewModel.load()
         return cell
     }
 
     func preload() {
-        task = loader.load(from: model.url) { _ in }
+        viewModel.preload()
     }
 
     func cancelLoad() {
-        task?.cancel()
+        viewModel.cancelLoad()
+    }
+
+    private func binded(_: UITableViewCell) -> UITableViewCell {
+        let cell = LiveHackrNewCell()
+        cell.onRetry = viewModel.load
+        cell.id = viewModel.storyId
+
+        viewModel.onShouldRetryLoadStory = { [weak cell] shouldRetry in
+            cell?.retryLoadStoryButton.isHidden = !shouldRetry
+        }
+
+        viewModel.onLoadingStateChanged = { [weak cell] isLoading in
+            cell?.container.isShimmering = isLoading
+        }
+
+        viewModel.onStoryLoad = { [weak cell] story in
+            cell?.titleLabel.text = story.title
+            cell?.authorLabel.text = story.author
+            cell?.scoreLabel.text = story.score.description
+            cell?.commentsLabel.text = story.comments.description
+        }
+        return cell
     }
 }
