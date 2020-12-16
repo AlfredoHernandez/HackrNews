@@ -16,7 +16,25 @@ A simple iOS client for Y Combinator's Hacker News.
 
 ## App Architecture
 
-![App Architecture Diagram](./assets/hackr-news-diagram.png)
+### Core modules
+
+The core `Hackr News Feature` and API's modules are platform agnostic, so they can be reused.
+
+##### MVC 
+
+We started with a simple MVC approach, delegating responsabilities for refreshing, displaying cell information and managing cell controllers to its own components.
+
+![App Architecture MVC Diagram](./assets/hackr-news-diagram-mvc.png)
+
+You can check the diff [here](https://github.com/AlfredoHernandez/HackrNews/pull/6)
+
+##### MVVM 
+
+In this approach we create a new platform agnostic `Stories Presentation` module, so they now can be reused by any platform. 
+
+![App Architecture MVVM Diagram](./assets/hackr-news-diagram-mvvm.png)
+
+You can check the diff [here](https://github.com/AlfredoHernandez/HackrNews/pull/8)
 
 ## UX goals for the `New Stories` UI experience
 
