@@ -5,9 +5,9 @@
 import UIKit
 
 final class LiveHackrNewCellController {
-    let viewModel: LiveHackrNewViewModel
+    let viewModel: StoryViewModel
 
-    init(viewModel: LiveHackrNewViewModel) {
+    init(viewModel: StoryViewModel) {
         self.viewModel = viewModel
     }
 

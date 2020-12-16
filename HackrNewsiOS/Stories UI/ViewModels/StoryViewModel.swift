@@ -4,7 +4,7 @@
 
 import HackrNews
 
-final class LiveHackrNewViewModel {
+final class StoryViewModel {
     private var task: HackrStoryLoaderTask?
     private let loader: HackrStoryLoader
     private let model: LiveHackrNew
