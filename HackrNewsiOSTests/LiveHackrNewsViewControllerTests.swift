@@ -272,7 +272,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertEqual(
             cell.cellId,
             model.id,
-            "Expected to be \(model.id) id for cell, but got \(cell.cellId) instead.",
+            "Expected to be id #\(model.id) for cell, but got \(cell.cellId) instead.",
             file: file,
             line: line
         )

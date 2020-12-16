@@ -2,31 +2,31 @@
 //  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
-import HackrNews
 import UIKit
 
 final class LiveHackrNewsRefreshController: NSObject {
-    private(set) lazy var view: UIRefreshControl = {
-        let view = UIRefreshControl()
-        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        return view
-    }()
+    private(set) lazy var view = binded(UIRefreshControl())
 
-    private let loader: LiveHackrNewsLoader
+    private let viewModel: LiveHackrNewsViewModel
 
-    init(loader: LiveHackrNewsLoader) {
-        self.loader = loader
+    init(viewModel: LiveHackrNewsViewModel) {
+        self.viewModel = viewModel
     }
-
-    var onRefresh: (([LiveHackrNew]) -> Void)?
 
     @objc func refresh() {
         view.beginRefreshing()
-        loader.load { [weak self] result in
-            if let news = try? result.get() {
-                self?.onRefresh?(news)
+        viewModel.loadNews()
+    }
+
+    private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
+        viewModel.onLoadingStateChange = { [weak view] isLoading in
+            if isLoading {
+                view?.beginRefreshing()
+            } else {
+                view?.endRefreshing()
             }
-            self?.view.endRefreshing()
         }
+        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return view
     }
 }
