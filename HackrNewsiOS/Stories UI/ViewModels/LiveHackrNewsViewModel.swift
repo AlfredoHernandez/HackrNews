@@ -5,14 +5,15 @@
 import HackrNews
 
 final class LiveHackrNewsViewModel {
+    typealias Observer<T> = (T) -> Void
     private let loader: LiveHackrNewsLoader
 
     init(loader: LiveHackrNewsLoader) {
         self.loader = loader
     }
 
-    var onLoadingStateChange: ((Bool) -> Void)?
-    var onLoad: (([LiveHackrNew]) -> Void)?
+    var onLoadingStateChange: Observer<Bool>?
+    var onLoad: Observer<[LiveHackrNew]>?
 
     func loadNews() {
         onLoadingStateChange?(true)
