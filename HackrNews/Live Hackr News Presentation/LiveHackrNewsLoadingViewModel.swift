@@ -4,6 +4,6 @@
 
 import Foundation
 
-public protocol NewStoriesLoadingView {
-    func display(_ viewModel: NewStoriesLoadingViewModel)
+public struct LiveHackrNewsLoadingViewModel {
+    public let isLoading: Bool
 }

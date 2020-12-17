@@ -5,10 +5,10 @@
 import HackrNews
 import XCTest
 
-final class NewStoriesLocalizationTests: XCTestCase {
+final class LiveHackrNewsLocalizationTests: XCTestCase {
     func test_localizedStrings_haveKeysAndValuesForAllSupportedLocalizations() {
         let table = "NewStories"
-        let bundle = Bundle(for: NewStoriesPresenter.self)
+        let bundle = Bundle(for: LiveHackrNewsPresenter.self)
         assertLocalizedKeysAndValuesExists(in: bundle, table)
     }
 }

@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import HackrNews
 
 final class WeakRefVirtualProxy<T: AnyObject> {
     weak var object: T?
@@ -14,6 +15,12 @@ final class WeakRefVirtualProxy<T: AnyObject> {
 
 extension WeakRefVirtualProxy: LiveHackrNewsLoadingView where T: LiveHackrNewsLoadingView {
     func display(_ viewModel: LiveHackrNewsLoadingViewModel) {
+        object?.display(viewModel)
+    }
+}
+
+extension WeakRefVirtualProxy: LiveHackrNewsErrorView where T: LiveHackrNewsErrorView {
+    func display(_ viewModel: LiveHackrNewsErrorViewModel) {
         object?.display(viewModel)
     }
 }

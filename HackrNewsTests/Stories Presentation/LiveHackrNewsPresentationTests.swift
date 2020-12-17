@@ -5,9 +5,9 @@
 import HackrNews
 import XCTest
 
-final class NewStoriesPresentationTests: XCTestCase {
+final class LiveHackrNewsPresentationTests: XCTestCase {
     func test_title_isLocalized() {
-        XCTAssertEqual(NewStoriesPresenter.title, localized("new_stories_title"))
+        XCTAssertEqual(LiveHackrNewsPresenter.title, localized("new_stories_title"))
     }
 
     func test_init_doesNotSendMessagesToView() {
@@ -19,7 +19,7 @@ final class NewStoriesPresentationTests: XCTestCase {
     func test_didStartLoadingStories_displaysLoaderWithNoErrorMessage() {
         let (sut, view) = makeSUT()
 
-        sut.didStartLoadingStories()
+        sut.didStartLoadingNews()
 
         XCTAssertEqual(view.messages, [.display(isLoading: true), .display(errorMessage: .none)])
     }
@@ -29,7 +29,7 @@ final class NewStoriesPresentationTests: XCTestCase {
         let new1 = LiveHackrNew(id: 1, url: URL(string: "https://any-url.com/1.json")!)
         let new2 = LiveHackrNew(id: 2, url: URL(string: "https://any-url.com/2.json")!)
 
-        sut.didFinishLoadingStories(stories: [new1, new2])
+        sut.didFinishLoadingNews(news: [new1, new2])
 
         XCTAssertEqual(view.messages, [.display(isLoading: false), .display(stories: [new1, new2])])
     }
@@ -37,16 +37,16 @@ final class NewStoriesPresentationTests: XCTestCase {
     func test_didFinishLoadingStoriesWithError_displaysErrorAndStopsLoading() {
         let (sut, view) = makeSUT()
 
-        sut.didFinishLoadingStories(with: anyNSError())
+        sut.didFinishLoadingNews(with: anyNSError())
 
         XCTAssertEqual(view.messages, [.display(isLoading: false), .display(errorMessage: localized("new_stories_error_message"))])
     }
 
     // MARK: - Helpers
 
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (NewStoriesPresenter, NewStoriesViewSpy) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsPresenter, NewStoriesViewSpy) {
         let view = NewStoriesViewSpy()
-        let sut = NewStoriesPresenter(view: view, loadingView: view, errorView: view)
+        let sut = LiveHackrNewsPresenter(view: view, loadingView: view, errorView: view)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(view, file: file, line: line)
         return (sut, view)
@@ -54,7 +54,7 @@ final class NewStoriesPresentationTests: XCTestCase {
 
     private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
         let table = "NewStories"
-        let bundle = Bundle(for: NewStoriesPresenter.self)
+        let bundle = Bundle(for: LiveHackrNewsPresenter.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if key == value {
             XCTFail("Missing localized string for key \(key) in table \(table)", file: file, line: line)
@@ -62,7 +62,7 @@ final class NewStoriesPresentationTests: XCTestCase {
         return value
     }
 
-    private class NewStoriesViewSpy: NewStoriesView, NewStoriesLoadingView, NewStoriesErrorView {
+    private class NewStoriesViewSpy: LiveHackrNewsView, LiveHackrNewsLoadingView, LiveHackrNewsErrorView {
         var messages = [Message]()
 
         enum Message: Equatable {
@@ -71,15 +71,15 @@ final class NewStoriesPresentationTests: XCTestCase {
             case display(stories: [LiveHackrNew])
         }
 
-        func display(_ viewModel: NewStoriesErrorViewModel) {
+        func display(_ viewModel: LiveHackrNewsErrorViewModel) {
             messages.append(.display(errorMessage: viewModel.message))
         }
 
-        func display(_ viewModel: NewStoriesLoadingViewModel) {
+        func display(_ viewModel: LiveHackrNewsLoadingViewModel) {
             messages.append(.display(isLoading: viewModel.isLoading))
         }
 
-        func display(_ viewModel: NewStoriesViewModel) {
+        func display(_ viewModel: LiveHackrNewsViewModel) {
             messages.append(.display(stories: viewModel.stories))
         }
     }

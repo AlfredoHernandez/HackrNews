@@ -15,8 +15,9 @@ public final class LiveHackrNewsUIComposer {
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
-            liveHackrNewsView: LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController),
-            loadingView: WeakRefVirtualProxy(refreshController)
+            view: LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController),
+            loadingView: WeakRefVirtualProxy(refreshController),
+            errorView: WeakRefVirtualProxy(viewController)
         )
         return viewController
     }
@@ -43,7 +44,7 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
     }
 
     func display(_ viewModel: LiveHackrNewsViewModel) {
-        controller?.tableModel = viewModel.news.map { new in
+        controller?.tableModel = viewModel.stories.map { new in
             LiveHackrNewCellController(viewModel: StoryViewModel(model: new, loader: loader))
         }
     }
