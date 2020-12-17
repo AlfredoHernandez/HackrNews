@@ -7,15 +7,15 @@ import UIKit
 final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadingView {
     private(set) lazy var view = loadView()
 
-    private let liveHackrNewsPresenter: LiveHackrNewsPresenter
+    private let loadNews: () -> Void
 
-    init(liveHackrNewsPresenter: LiveHackrNewsPresenter) {
-        self.liveHackrNewsPresenter = liveHackrNewsPresenter
+    init(loadNews: @escaping (() -> Void)) {
+        self.loadNews = loadNews
     }
 
     @objc func refresh() {
         view.beginRefreshing()
-        liveHackrNewsPresenter.loadNews()
+        loadNews()
     }
 
     func display(_ viewModel: LiveHackrNewsLoadingViewModel) {

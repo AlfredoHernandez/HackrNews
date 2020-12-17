@@ -12,7 +12,7 @@ public final class LiveHackrNewsUIComposer {
         hackrStoryLoader: HackrStoryLoader
     ) -> LiveHackrNewsViewController {
         let liveHackrNewsPresenter = LiveHackrNewsPresenter(loader: liveHackrNewsloader)
-        let refreshController = LiveHackrNewsRefreshController(liveHackrNewsPresenter: liveHackrNewsPresenter)
+        let refreshController = LiveHackrNewsRefreshController(loadNews: liveHackrNewsPresenter.loadNews)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         liveHackrNewsPresenter.loadingView = WeakRefVirtualProxy(refreshController)
         liveHackrNewsPresenter.liveHackrNewsView = LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController)
