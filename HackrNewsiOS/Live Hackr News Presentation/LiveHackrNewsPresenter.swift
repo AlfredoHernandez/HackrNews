@@ -22,22 +22,20 @@ protocol LiveHackrNewsView {
 
 final class LiveHackrNewsPresenter {
     typealias Observer<T> = (T) -> Void
-    private let loader: LiveHackrNewsLoader
-
-    init(loader: LiveHackrNewsLoader) {
-        self.loader = loader
-    }
 
     var liveHackrNewsView: LiveHackrNewsView?
     var loadingView: LiveHackrNewsLoadingView?
 
-    func loadNews() {
+    func didStartLoadingNews() {
         loadingView?.display(LiveHackrNewsLoadingViewModel(isLoading: true))
-        loader.load { [weak self] result in
-            if let news = try? result.get() {
-                self?.liveHackrNewsView?.display(LiveHackrNewsViewModel(news: news))
-            }
-            self?.loadingView?.display(LiveHackrNewsLoadingViewModel(isLoading: false))
-        }
+    }
+
+    func didFinishLoadingNews(news: [LiveHackrNew]) {
+        liveHackrNewsView?.display(LiveHackrNewsViewModel(news: news))
+        loadingView?.display(LiveHackrNewsLoadingViewModel(isLoading: false))
+    }
+
+    func didFinishLoadingNews(with _: Error) {
+        loadingView?.display(LiveHackrNewsLoadingViewModel(isLoading: false))
     }
 }

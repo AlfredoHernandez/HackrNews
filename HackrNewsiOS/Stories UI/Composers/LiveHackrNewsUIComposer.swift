@@ -11,8 +11,12 @@ public final class LiveHackrNewsUIComposer {
         liveHackrNewsloader: LiveHackrNewsLoader,
         hackrStoryLoader: HackrStoryLoader
     ) -> LiveHackrNewsViewController {
-        let liveHackrNewsPresenter = LiveHackrNewsPresenter(loader: liveHackrNewsloader)
-        let refreshController = LiveHackrNewsRefreshController(loadNews: liveHackrNewsPresenter.loadNews)
+        let liveHackrNewsPresenter = LiveHackrNewsPresenter()
+        let presentationAdapter = LiveHackrNewsPresentationAdapter(
+            liveHackrNewsloader: liveHackrNewsloader,
+            presenter: liveHackrNewsPresenter
+        )
+        let refreshController = LiveHackrNewsRefreshController(loadNews: presentationAdapter.loadNews)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         liveHackrNewsPresenter.loadingView = WeakRefVirtualProxy(refreshController)
         liveHackrNewsPresenter.liveHackrNewsView = LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController)
@@ -43,6 +47,28 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
     func display(_ viewModel: LiveHackrNewsViewModel) {
         controller?.tableModel = viewModel.news.map { new in
             LiveHackrNewCellController(viewModel: StoryViewModel(model: new, loader: loader))
+        }
+    }
+}
+
+private final class LiveHackrNewsPresentationAdapter {
+    private let liveHackrNewsloader: LiveHackrNewsLoader
+    private let presenter: LiveHackrNewsPresenter
+
+    init(liveHackrNewsloader: LiveHackrNewsLoader, presenter: LiveHackrNewsPresenter) {
+        self.liveHackrNewsloader = liveHackrNewsloader
+        self.presenter = presenter
+    }
+
+    func loadNews() {
+        presenter.didStartLoadingNews()
+        liveHackrNewsloader.load { [weak self] result in
+            switch result {
+            case let .success(news):
+                self?.presenter.didFinishLoadingNews(news: news)
+            case let .failure(error):
+                self?.presenter.didFinishLoadingNews(with: error)
+            }
         }
     }
 }
