@@ -21,8 +21,6 @@ protocol LiveHackrNewsView {
 }
 
 final class LiveHackrNewsPresenter {
-    typealias Observer<T> = (T) -> Void
-
     var liveHackrNewsView: LiveHackrNewsView?
     var loadingView: LiveHackrNewsLoadingView?
 
