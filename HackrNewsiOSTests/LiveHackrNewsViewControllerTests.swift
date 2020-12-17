@@ -138,12 +138,12 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_storyView_displaysStoryInfo() {
         let (sut, loader) = makeSUT()
-        let story0 = makeStory(title: "a title", author: "an author", score: 10, createdAt: Date(timeIntervalSince1970: 1_607_645_758_000))
+        let story0 = makeStory(title: "a title", author: "an author", score: 10, createdAt: Date(timeIntervalSince1970: 1607645758000))
         let story1 = makeStory(
             title: "another title",
             author: "another author",
             score: 10,
-            createdAt: Date(timeIntervalSince1970: 1_607_645_758_000)
+            createdAt: Date(timeIntervalSince1970: 1607645758000)
         )
 
         sut.loadViewIfNeeded()
