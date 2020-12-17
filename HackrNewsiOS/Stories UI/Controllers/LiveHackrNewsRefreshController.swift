@@ -4,28 +4,30 @@
 
 import UIKit
 
-final class LiveHackrNewsRefreshController: NSObject {
-    private(set) lazy var view = binded(UIRefreshControl())
+final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadingView {
+    private(set) lazy var view = loadView()
 
-    private let viewModel: LiveHackrNewsViewModel
+    private let liveHackrNewsPresenter: LiveHackrNewsPresenter
 
-    init(viewModel: LiveHackrNewsViewModel) {
-        self.viewModel = viewModel
+    init(liveHackrNewsPresenter: LiveHackrNewsPresenter) {
+        self.liveHackrNewsPresenter = liveHackrNewsPresenter
     }
 
     @objc func refresh() {
         view.beginRefreshing()
-        viewModel.loadNews()
+        liveHackrNewsPresenter.loadNews()
+    }
+    
+    func display(isLoading: Bool) {
+        if isLoading {
+            view.beginRefreshing()
+        } else {
+            view.endRefreshing()
+        }
     }
 
-    private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
-        viewModel.onLoadingStateChange = { [weak view] isLoading in
-            if isLoading {
-                view?.beginRefreshing()
-            } else {
-                view?.endRefreshing()
-            }
-        }
+    private func loadView() -> UIRefreshControl {
+        let view = UIRefreshControl()
         view.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return view
     }

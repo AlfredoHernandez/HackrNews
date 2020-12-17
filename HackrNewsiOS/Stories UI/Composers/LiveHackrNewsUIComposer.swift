@@ -11,10 +11,11 @@ public final class LiveHackrNewsUIComposer {
         liveHackrNewsloader: LiveHackrNewsLoader,
         hackrStoryLoader: HackrStoryLoader
     ) -> LiveHackrNewsViewController {
-        let viewModel = LiveHackrNewsViewModel(loader: liveHackrNewsloader)
-        let refreshController = LiveHackrNewsRefreshController(viewModel: viewModel)
+        let liveHackrNewsPresenter = LiveHackrNewsPresenter(loader: liveHackrNewsloader)
+        let refreshController = LiveHackrNewsRefreshController(liveHackrNewsPresenter: liveHackrNewsPresenter)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
-        viewModel.onLoad = adaptLiveHackrNewsToCellControllers(forwardingTo: viewController, loader: hackrStoryLoader)
+        liveHackrNewsPresenter.loadingView = WeakRefVirtualProxy(refreshController)
+        liveHackrNewsPresenter.liveHackrNewsView = LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController)
         return viewController
     }
 
@@ -26,6 +27,21 @@ public final class LiveHackrNewsUIComposer {
             controller?.tableModel = stories.map { model in
                 LiveHackrNewCellController(viewModel: StoryViewModel(model: model, loader: loader))
             }
+        }
+    }
+}
+
+private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
+    private let loader: HackrStoryLoader
+    private weak var controller: LiveHackrNewsViewController?
+    
+    init(loader: HackrStoryLoader, controller: LiveHackrNewsViewController) {
+        self.loader = loader
+        self.controller = controller
+    }
+    func display(news: [LiveHackrNew]) {
+        controller?.tableModel = news.map { new in
+            LiveHackrNewCellController(viewModel: StoryViewModel(model: new, loader: loader))
         }
     }
 }
