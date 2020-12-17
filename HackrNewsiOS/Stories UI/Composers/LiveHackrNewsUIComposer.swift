@@ -34,11 +34,12 @@ public final class LiveHackrNewsUIComposer {
 private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
     private let loader: HackrStoryLoader
     private weak var controller: LiveHackrNewsViewController?
-    
+
     init(loader: HackrStoryLoader, controller: LiveHackrNewsViewController) {
         self.loader = loader
         self.controller = controller
     }
+
     func display(news: [LiveHackrNew]) {
         controller?.tableModel = news.map { new in
             LiveHackrNewCellController(viewModel: StoryViewModel(model: new, loader: loader))

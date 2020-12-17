@@ -1,8 +1,5 @@
 //
-//  LiveHackrNewsPresenter.swift
-//  HackrNewsiOS
-//
-//  Created by Jesús Alfredo Hernández Alarcón on 17/12/20.
+//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import HackrNews

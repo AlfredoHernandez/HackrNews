@@ -17,7 +17,7 @@ final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadingView {
         view.beginRefreshing()
         liveHackrNewsPresenter.loadNews()
     }
-    
+
     func display(isLoading: Bool) {
         if isLoading {
             view.beginRefreshing()
