@@ -21,19 +21,24 @@ protocol LiveHackrNewsView {
 }
 
 final class LiveHackrNewsPresenter {
-    var liveHackrNewsView: LiveHackrNewsView?
-    var loadingView: LiveHackrNewsLoadingView?
+    private let liveHackrNewsView: LiveHackrNewsView
+    private let loadingView: LiveHackrNewsLoadingView
+
+    init(liveHackrNewsView: LiveHackrNewsView, loadingView: LiveHackrNewsLoadingView) {
+        self.liveHackrNewsView = liveHackrNewsView
+        self.loadingView = loadingView
+    }
 
     func didStartLoadingNews() {
-        loadingView?.display(LiveHackrNewsLoadingViewModel(isLoading: true))
+        loadingView.display(LiveHackrNewsLoadingViewModel(isLoading: true))
     }
 
     func didFinishLoadingNews(news: [LiveHackrNew]) {
-        liveHackrNewsView?.display(LiveHackrNewsViewModel(news: news))
-        loadingView?.display(LiveHackrNewsLoadingViewModel(isLoading: false))
+        liveHackrNewsView.display(LiveHackrNewsViewModel(news: news))
+        loadingView.display(LiveHackrNewsLoadingViewModel(isLoading: false))
     }
 
     func didFinishLoadingNews(with _: Error) {
-        loadingView?.display(LiveHackrNewsLoadingViewModel(isLoading: false))
+        loadingView.display(LiveHackrNewsLoadingViewModel(isLoading: false))
     }
 }

@@ -11,15 +11,13 @@ public final class LiveHackrNewsUIComposer {
         liveHackrNewsloader: LiveHackrNewsLoader,
         hackrStoryLoader: HackrStoryLoader
     ) -> LiveHackrNewsViewController {
-        let liveHackrNewsPresenter = LiveHackrNewsPresenter()
-        let presentationAdapter = LiveHackrNewsPresentationAdapter(
-            liveHackrNewsloader: liveHackrNewsloader,
-            presenter: liveHackrNewsPresenter
-        )
+        let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: liveHackrNewsloader)
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
-        liveHackrNewsPresenter.loadingView = WeakRefVirtualProxy(refreshController)
-        liveHackrNewsPresenter.liveHackrNewsView = LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController)
+        presentationAdapter.presenter = LiveHackrNewsPresenter(
+            liveHackrNewsView: LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController),
+            loadingView: WeakRefVirtualProxy(refreshController)
+        )
         return viewController
     }
 
@@ -53,21 +51,20 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
 
 private final class LiveHackrNewsPresentationAdapter: LiveHackrNewsRefreshControllerDelegate {
     private let liveHackrNewsloader: LiveHackrNewsLoader
-    private let presenter: LiveHackrNewsPresenter
+    var presenter: LiveHackrNewsPresenter?
 
-    init(liveHackrNewsloader: LiveHackrNewsLoader, presenter: LiveHackrNewsPresenter) {
+    init(liveHackrNewsloader: LiveHackrNewsLoader) {
         self.liveHackrNewsloader = liveHackrNewsloader
-        self.presenter = presenter
     }
 
     func didRequestNews() {
-        presenter.didStartLoadingNews()
+        presenter?.didStartLoadingNews()
         liveHackrNewsloader.load { [weak self] result in
             switch result {
             case let .success(news):
-                self?.presenter.didFinishLoadingNews(news: news)
+                self?.presenter?.didFinishLoadingNews(news: news)
             case let .failure(error):
-                self?.presenter.didFinishLoadingNews(with: error)
+                self?.presenter?.didFinishLoadingNews(with: error)
             }
         }
     }
