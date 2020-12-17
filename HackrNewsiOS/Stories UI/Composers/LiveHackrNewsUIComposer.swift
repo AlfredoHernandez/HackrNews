@@ -40,8 +40,8 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
         self.controller = controller
     }
 
-    func display(news: [LiveHackrNew]) {
-        controller?.tableModel = news.map { new in
+    func display(_ viewModel: LiveHackrNewsViewModel) {
+        controller?.tableModel = viewModel.news.map { new in
             LiveHackrNewCellController(viewModel: StoryViewModel(model: new, loader: loader))
         }
     }
