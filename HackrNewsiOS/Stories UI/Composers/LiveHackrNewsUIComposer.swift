@@ -16,7 +16,7 @@ public final class LiveHackrNewsUIComposer {
             liveHackrNewsloader: liveHackrNewsloader,
             presenter: liveHackrNewsPresenter
         )
-        let refreshController = LiveHackrNewsRefreshController(loadNews: presentationAdapter.loadNews)
+        let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         liveHackrNewsPresenter.loadingView = WeakRefVirtualProxy(refreshController)
         liveHackrNewsPresenter.liveHackrNewsView = LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController)
@@ -51,7 +51,7 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
     }
 }
 
-private final class LiveHackrNewsPresentationAdapter {
+private final class LiveHackrNewsPresentationAdapter: LiveHackrNewsRefreshControllerDelegate {
     private let liveHackrNewsloader: LiveHackrNewsLoader
     private let presenter: LiveHackrNewsPresenter
 
@@ -60,7 +60,7 @@ private final class LiveHackrNewsPresentationAdapter {
         self.presenter = presenter
     }
 
-    func loadNews() {
+    func didRequestNews() {
         presenter.didStartLoadingNews()
         liveHackrNewsloader.load { [weak self] result in
             switch result {

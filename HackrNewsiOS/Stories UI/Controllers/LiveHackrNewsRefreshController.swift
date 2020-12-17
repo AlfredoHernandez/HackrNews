@@ -4,18 +4,21 @@
 
 import UIKit
 
+protocol LiveHackrNewsRefreshControllerDelegate {
+    func didRequestNews()
+}
+
 final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadingView {
     private(set) lazy var view = loadView()
 
-    private let loadNews: () -> Void
+    private let delegate: LiveHackrNewsRefreshControllerDelegate
 
-    init(loadNews: @escaping (() -> Void)) {
-        self.loadNews = loadNews
+    init(delegate: LiveHackrNewsRefreshControllerDelegate) {
+        self.delegate = delegate
     }
 
     @objc func refresh() {
-        view.beginRefreshing()
-        loadNews()
+        delegate.didRequestNews()
     }
 
     func display(_ viewModel: LiveHackrNewsLoadingViewModel) {
