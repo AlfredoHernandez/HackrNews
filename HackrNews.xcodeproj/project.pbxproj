@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3811563925896D1F00C00068 /* LiveHackrNewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3811563825896D1F00C00068 /* LiveHackrNewsViewModel.swift */; };
 		3811564425898E6F00C00068 /* StoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3811564325898E6F00C00068 /* StoryViewModel.swift */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
 		386551C925869FD2002054AA /* LiveHackrNewsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551C825869FD2002054AA /* LiveHackrNewsViewControllerTests.swift */; };
@@ -91,7 +90,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3811563825896D1F00C00068 /* LiveHackrNewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsViewModel.swift; sourceTree = "<group>"; };
 		3811564325898E6F00C00068 /* StoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewModel.swift; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		386551A625868EF1002054AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -414,7 +412,6 @@
 			isa = PBXGroup;
 			children = (
 				38E3CFF2258C0D7600469872 /* LiveHackrNewsPresenter.swift */,
-				3811563825896D1F00C00068 /* LiveHackrNewsViewModel.swift */,
 				3811564325898E6F00C00068 /* StoryViewModel.swift */,
 			);
 			path = "Live Hackr News Presentation";
@@ -598,7 +595,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3811563925896D1F00C00068 /* LiveHackrNewsViewModel.swift in Sources */,
 				38699AFB258865B6002B460B /* LiveHackrNewsRefreshController.swift in Sources */,
 				38699B002588774E002B460B /* LiveHackrNewCellController.swift in Sources */,
 				38699B062588836F002B460B /* LiveHackrNewsUIComposer.swift in Sources */,
