@@ -264,9 +264,9 @@
 			children = (
 				38D392C42582DD1300FCAF70 /* Shared API Infra */,
 				38D3929E2582DA1F00FCAF70 /* Shared API */,
+				38D392CA2582DF8400FCAF70 /* Stories API */,
 				38D3928D2582D7BB00FCAF70 /* Hacker News Feature */,
 				38E3D012258C21BA00469872 /* Live Hackr News Presentation */,
-				38D392CA2582DF8400FCAF70 /* Stories API */,
 				38D3926B2582C55300FCAF70 /* Info.plist */,
 			);
 			path = HackrNews;
@@ -279,7 +279,7 @@
 				38D392B22582DB0300FCAF70 /* Shared API */,
 				38D392B62582DCCB00FCAF70 /* Shared API Infra */,
 				38D392C92582DF4800FCAF70 /* Stories API */,
-				38D392F5258300FF00FCAF70 /* Stories Presentation */,
+				38D392F5258300FF00FCAF70 /* Live Hackr News Presentation */,
 				38D392772582C55300FCAF70 /* Info.plist */,
 			);
 			path = HackrNewsTests;
@@ -382,13 +382,13 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		38D392F5258300FF00FCAF70 /* Stories Presentation */ = {
+		38D392F5258300FF00FCAF70 /* Live Hackr News Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				38D392F6258301A300FCAF70 /* LiveHackrNewsPresentationTests.swift */,
 				38D3930B258304C600FCAF70 /* LiveHackrNewsLocalizationTests.swift */,
 			);
-			path = "Stories Presentation";
+			path = "Live Hackr News Presentation";
 			sourceTree = "<group>";
 		};
 		38E3CFEE258C0D1200469872 /* Live Hackr News Presentation */ = {
