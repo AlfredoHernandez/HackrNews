@@ -1,12 +1,11 @@
 //
-//  StoryPresenter.swift
-//  HackrNews
-//
-//  Created by Jesús Alfredo Hernández Alarcón on 17/12/20.
+//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import Foundation
 
-final class StoryPresenter {
-    
+public final class StoryPresenter {
+    public init(view: AnyObject) {
+        
+    }
 }
