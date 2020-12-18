@@ -4,6 +4,6 @@
 
 import Foundation
 
-public struct NewStoriesViewModel {
-    public let stories: [LiveHackrNew]
+public protocol LiveHackrNewsLoadingView {
+    func display(_ viewModel: LiveHackrNewsLoadingViewModel)
 }

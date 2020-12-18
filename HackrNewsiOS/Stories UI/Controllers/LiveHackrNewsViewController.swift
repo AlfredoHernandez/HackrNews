@@ -2,6 +2,7 @@
 //  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import HackrNews
 import UIKit
 
 public class LiveHackrNewsViewController: UITableViewController, UITableViewDataSourcePrefetching {
@@ -49,5 +50,11 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
 
     private func cancelCellControllerLoad(at indexPath: IndexPath) {
         cellController(forRowAt: indexPath).cancelLoad()
+    }
+}
+
+extension LiveHackrNewsViewController: LiveHackrNewsErrorView {
+    public func display(_: LiveHackrNewsErrorViewModel) {
+        // TODO: Display error message
     }
 }
