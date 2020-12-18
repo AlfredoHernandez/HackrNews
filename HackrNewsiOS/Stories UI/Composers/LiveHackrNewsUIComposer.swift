@@ -21,17 +21,6 @@ public final class LiveHackrNewsUIComposer {
         )
         return viewController
     }
-
-    private static func adaptLiveHackrNewsToCellControllers(
-        forwardingTo controller: LiveHackrNewsViewController,
-        loader: HackrStoryLoader
-    ) -> (([LiveHackrNew]) -> Void) {
-        return { [weak controller] stories in
-            controller?.tableModel = stories.map { model in
-                LiveHackrNewCellController(viewModel: StoryViewModel(model: model, loader: loader))
-            }
-        }
-    }
 }
 
 private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
