@@ -38,7 +38,7 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
                 score: "37 points",
                 date: "Dec 2, 2020"
             ),
-            StoryStub(id: 4, title: "Sed ut perspiciatis", author: "user", comments: "1M", score: "5 points", date: "Dec 18, 2020"),
+            StoryStub(id: 4, title: "Sed ut perspiciatis", author: "user", comments: "1M", score: "5 points", date: "Nov 3, 2020"),
         ]))
 
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "stories_light")
@@ -67,7 +67,7 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
         let viewModel: StoryViewModel
         weak var controller: LiveHackrNewCellController?
 
-        init(id: Int, title: String, author: String, comments: String, score: String, date: String) {
+        init(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?) {
             viewModel = StoryViewModel(newId: id, title: title, author: author, comments: comments, score: score, date: date)
         }
 

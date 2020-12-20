@@ -45,6 +45,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
         cell?.onRetry = { [weak self] in
             self?.delegate.didRequestStory()
         }
+        cell?.createdAtLabel.text = viewModel.date
     }
 
     public func display(_ viewModel: StoryErrorViewModel) {
