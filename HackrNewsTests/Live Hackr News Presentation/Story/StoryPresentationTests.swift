@@ -57,12 +57,12 @@ final class StoryPresentationTests: XCTestCase {
             ]
         )
     }
-    
+
     func test_didFinishLoadingWithError_displaysErrorAndStopsLoading() {
         let (sut, view) = makeSUT()
-        
+
         sut.didFinishLoading(with: anyNSError())
-        
+
         XCTAssertEqual(view.messages, [.display(isLoading: false), .display(errorMessage: localized("story_error_message"))])
     }
 
