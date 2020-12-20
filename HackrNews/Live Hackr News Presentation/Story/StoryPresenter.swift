@@ -8,7 +8,7 @@ public struct StoryViewModel: Equatable {
     public let newId: Int
     public let title: String?
     public let author: String?
-    public let comments: Int?
+    public let comments: String?
     public let date: String?
 }
 
@@ -66,7 +66,7 @@ public final class StoryPresenter {
             newId: story.id,
             title: story.title,
             author: story.author,
-            comments: story.comments.count,
+            comments: story.comments.count.description,
             date: format(from: story.createdAt, locale: locale, calendar: calendar)
         ))
         errorView.display(StoryErrorViewModel(message: nil))

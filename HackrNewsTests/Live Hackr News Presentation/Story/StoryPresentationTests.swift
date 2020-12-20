@@ -52,7 +52,7 @@ final class StoryPresentationTests: XCTestCase {
             view.messages,
             [
                 .display(isLoading: false),
-                .display(id: story.id, title: story.title, author: story.author, comments: story.comments.count, date: "Dec 02, 1993"),
+                .display(id: story.id, title: story.title, author: story.author, comments: "1", date: "Dec 02, 1993"),
                 .display(errorMessage: .none),
             ]
         )
@@ -87,7 +87,7 @@ final class StoryPresentationTests: XCTestCase {
     private class StoryViewSpy: StoryView, StoryLoadingView, StoryErrorView {
         enum Message: Equatable {
             case display(isLoading: Bool)
-            case display(id: Int, title: String?, author: String?, comments: Int?, date: String?)
+            case display(id: Int, title: String?, author: String?, comments: String?, date: String?)
             case display(errorMessage: String?)
         }
 
