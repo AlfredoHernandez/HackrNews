@@ -18,6 +18,10 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
 
     override public func viewDidLoad() {
         tableView.prefetchDataSource = self
+        tableView.register(
+            UINib(nibName: "LiveHackrNewCell", bundle: Bundle(for: LiveHackrNewCell.self)),
+            forCellReuseIdentifier: "LiveHackrNewCell"
+        )
         tableView.refreshControl = refreshController?.view
         refreshController?.refresh()
     }
@@ -26,8 +30,8 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
         tableModel.count
     }
 
-    override public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        cellController(forRowAt: indexPath).view()
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        cellController(forRowAt: indexPath).view(in: tableView)
     }
 
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {

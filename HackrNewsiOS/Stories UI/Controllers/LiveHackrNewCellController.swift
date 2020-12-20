@@ -18,8 +18,8 @@ final class LiveHackrNewCellController: StoryView, StoryLoadingView, StoryErrorV
         self.delegate = delegate
     }
 
-    func view() -> UITableViewCell {
-        cell = LiveHackrNewCell()
+    func view(in tableView: UITableView) -> UITableViewCell {
+        cell = tableView.dequeueReusableCell(withIdentifier: "LiveHackrNewCell") as? LiveHackrNewCell
         delegate.didRequestStory()
         return cell!
     }
