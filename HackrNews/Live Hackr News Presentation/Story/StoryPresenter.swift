@@ -4,8 +4,12 @@
 
 import Foundation
 
-public struct StoryViewModel {
+public struct StoryViewModel: Equatable {
     public let newId: Int
+    public let title: String?
+    public let author: String?
+    public let comments: Int?
+    public let date: String?
 }
 
 public protocol StoryView {
@@ -32,6 +36,8 @@ public final class StoryPresenter {
     private let view: StoryView
     private let loadingView: StoryLoadingView
     private let errorView: StoryErrorView
+    public var locale = Locale.current
+    public var calendar = Calendar(identifier: .gregorian)
 
     public init(view: StoryView, loadingView: StoryLoadingView, errorView: StoryErrorView) {
         self.view = view
@@ -41,7 +47,29 @@ public final class StoryPresenter {
 
     public func didStartLoadingStory(from new: LiveHackrNew) {
         loadingView.display(StoryLoadingViewModel(isLoading: true))
-        view.display(StoryViewModel(newId: new.id))
+        view.display(StoryViewModel(newId: new.id, title: nil, author: nil, comments: nil, date: nil))
         errorView.display(StoryErrorViewModel(message: nil))
+    }
+
+    public func didStopLoadingStory(story: Story) {
+        loadingView.display(StoryLoadingViewModel(isLoading: false))
+        view.display(StoryViewModel(
+            newId: story.id,
+            title: story.title,
+            author: story.author,
+            comments: story.comments.count,
+            date: format(from: story.createdAt, locale: locale, calendar: calendar)
+        ))
+        errorView.display(StoryErrorViewModel(message: nil))
+    }
+
+    private func format(
+        from date: Date,
+        locale _: Locale = Locale.current,
+        calendar _: Calendar = Calendar(identifier: .gregorian)
+    ) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        return dateFormatter.string(from: date)
     }
 }
