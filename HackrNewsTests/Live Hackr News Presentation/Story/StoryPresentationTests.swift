@@ -57,6 +57,14 @@ final class StoryPresentationTests: XCTestCase {
             ]
         )
     }
+    
+    func test_didFinishLoadingWithError_displaysErrorAndStopsLoading() {
+        let (sut, view) = makeSUT()
+        
+        sut.didFinishLoading(with: anyNSError())
+        
+        XCTAssertEqual(view.messages, [.display(isLoading: false), .display(errorMessage: localized("story_error_message"))])
+    }
 
     // MARK: - Helpers
 
@@ -64,6 +72,16 @@ final class StoryPresentationTests: XCTestCase {
         let view = StoryViewSpy()
         let sut = StoryPresenter(view: view, loadingView: view, errorView: view)
         return (sut, view)
+    }
+
+    private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
+        let table = "Story"
+        let bundle = Bundle(for: StoryPresenter.self)
+        let value = bundle.localizedString(forKey: key, value: nil, table: table)
+        if key == value {
+            XCTFail("Missing localized string for key \(key) in table \(table)", file: file, line: line)
+        }
+        return value
     }
 
     private class StoryViewSpy: StoryView, StoryLoadingView, StoryErrorView {

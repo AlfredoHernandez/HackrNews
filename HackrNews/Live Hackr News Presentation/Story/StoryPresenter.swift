@@ -38,6 +38,9 @@ public final class StoryPresenter {
     private let errorView: StoryErrorView
     public var locale = Locale.current
     public var calendar = Calendar(identifier: .gregorian)
+    private var errorMessage: String {
+        NSLocalizedString("story_error_message", tableName: "Story", bundle: Bundle(for: StoryPresenter.self), value: "", comment: "Story Error message")
+    }
 
     public init(view: StoryView, loadingView: StoryLoadingView, errorView: StoryErrorView) {
         self.view = view
@@ -63,6 +66,11 @@ public final class StoryPresenter {
         errorView.display(StoryErrorViewModel(message: nil))
     }
 
+    public func didFinishLoading(with error: Error) {
+        loadingView.display(StoryLoadingViewModel(isLoading: false))
+        errorView.display(StoryErrorViewModel(message: errorMessage))
+    }
+    
     private func format(
         from date: Date,
         locale _: Locale = Locale.current,
