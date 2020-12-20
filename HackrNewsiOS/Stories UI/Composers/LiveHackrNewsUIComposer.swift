@@ -33,7 +33,7 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
     }
 
     func display(_ viewModel: LiveHackrNewsViewModel) {
-        controller?.tableModel = viewModel.stories.map { new in
+        controller?.display(viewModel.stories.map { new in
             let adapter = LiveHackrNewPresentationAdapter(model: new, loader: loader)
             let controller = LiveHackrNewCellController(delegate: adapter)
             adapter.presenter = StoryPresenter(
@@ -42,7 +42,7 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
                 errorView: WeakRefVirtualProxy(controller)
             )
             return controller
-        }
+        })
     }
 }
 

@@ -10,7 +10,7 @@ public protocol LiveHackrNewCellControllerDelegate {
     func didCancelRequest()
 }
 
-final class LiveHackrNewCellController: StoryView, StoryLoadingView, StoryErrorView {
+public final class LiveHackrNewCellController: StoryView, StoryLoadingView, StoryErrorView {
     private let delegate: LiveHackrNewCellControllerDelegate
     private var cell: LiveHackrNewCell?
 
@@ -32,11 +32,11 @@ final class LiveHackrNewCellController: StoryView, StoryLoadingView, StoryErrorV
         delegate.didCancelRequest()
     }
 
-    func display(_ viewModel: StoryLoadingViewModel) {
+    public func display(_ viewModel: StoryLoadingViewModel) {
         cell?.container.isShimmering = viewModel.isLoading
     }
 
-    func display(_ viewModel: StoryViewModel) {
+    public func display(_ viewModel: StoryViewModel) {
         cell?.id = viewModel.newId
         cell?.titleLabel.text = viewModel.title
         cell?.authorLabel.text = viewModel.author
@@ -47,7 +47,7 @@ final class LiveHackrNewCellController: StoryView, StoryLoadingView, StoryErrorV
         }
     }
 
-    func display(_ viewModel: StoryErrorViewModel) {
+    public func display(_ viewModel: StoryErrorViewModel) {
         cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
     }
 }

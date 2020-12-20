@@ -58,6 +58,11 @@
 		38F68014258FEFF5002ED53A /* Story+Any.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F68013258FEFF5002ED53A /* Story+Any.swift */; };
 		38F68019258FF019002ED53A /* LiveHackerNewLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F68018258FF019002ED53A /* LiveHackerNewLoaderSpy.swift */; };
 		38F6802A258FFD40002ED53A /* LiveHackrNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F68029258FFD40002ED53A /* LiveHackrNewCell.xib */; };
+		38F6802F25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F6802E25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift */; };
+		38F6803425900B42002ED53A /* UIViewController+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F6803325900B42002ED53A /* UIViewController+Snapshot.swift */; };
+		38F6803C25900B8D002ED53A /* LiveHackrNewsSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F6803A25900B8D002ED53A /* LiveHackrNewsSnapshotTests.swift */; };
+		38F6804D25900F6F002ED53A /* empty_stories_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 38F6804B25900F6F002ED53A /* empty_stories_dark.png */; };
+		38F6804E25900F6F002ED53A /* empty_stories_light.png in Resources */ = {isa = PBXBuildFile; fileRef = 38F6804C25900F6F002ED53A /* empty_stories_light.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +159,11 @@
 		38F68013258FEFF5002ED53A /* Story+Any.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Story+Any.swift"; sourceTree = "<group>"; };
 		38F68018258FF019002ED53A /* LiveHackerNewLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackerNewLoaderSpy.swift; sourceTree = "<group>"; };
 		38F68029258FFD40002ED53A /* LiveHackrNewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LiveHackrNewCell.xib; sourceTree = "<group>"; };
+		38F6802E25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+SnapshotHelpers.swift"; sourceTree = "<group>"; };
+		38F6803325900B42002ED53A /* UIViewController+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Snapshot.swift"; sourceTree = "<group>"; };
+		38F6803A25900B8D002ED53A /* LiveHackrNewsSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsSnapshotTests.swift; sourceTree = "<group>"; };
+		38F6804B25900F6F002ED53A /* empty_stories_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_stories_dark.png; sourceTree = "<group>"; };
+		38F6804C25900F6F002ED53A /* empty_stories_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_stories_light.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +215,7 @@
 			children = (
 				38F6800A258FEF31002ED53A /* Helpers */,
 				38F68009258FEF0B002ED53A /* Live Hackr News */,
+				38F6803825900B6E002ED53A /* Live Hackr News UI */,
 				386551B225868EF2002054AA /* Info.plist */,
 			);
 			path = HackrNewsiOSTests;
@@ -488,8 +499,28 @@
 			isa = PBXGroup;
 			children = (
 				38F6800B258FEF37002ED53A /* UIControl+TestHelpers.swift */,
+				38F6802E25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift */,
+				38F6803325900B42002ED53A /* UIViewController+Snapshot.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		38F6803825900B6E002ED53A /* Live Hackr News UI */ = {
+			isa = PBXGroup;
+			children = (
+				38F6804725900F61002ED53A /* snapshots */,
+				38F6803A25900B8D002ED53A /* LiveHackrNewsSnapshotTests.swift */,
+			);
+			path = "Live Hackr News UI";
+			sourceTree = "<group>";
+		};
+		38F6804725900F61002ED53A /* snapshots */ = {
+			isa = PBXGroup;
+			children = (
+				38F6804B25900F6F002ED53A /* empty_stories_dark.png */,
+				38F6804C25900F6F002ED53A /* empty_stories_light.png */,
+			);
+			path = snapshots;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -646,6 +677,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38F6804E25900F6F002ED53A /* empty_stories_light.png in Resources */,
+				38F6804D25900F6F002ED53A /* empty_stories_dark.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,10 +720,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				386551C925869FD2002054AA /* LiveHackrNewsViewControllerTests.swift in Sources */,
+				38F6803C25900B8D002ED53A /* LiveHackrNewsSnapshotTests.swift in Sources */,
 				38F67FF8258FEE43002ED53A /* LiveHackrNewCell+TestHelpers.swift in Sources */,
 				38F68019258FF019002ED53A /* LiveHackerNewLoaderSpy.swift in Sources */,
+				38F6802F25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift in Sources */,
 				386551CE2586A5DB002054AA /* XCTestCase+MemoryLeaksTracking.swift in Sources */,
 				38F68014258FEFF5002ED53A /* Story+Any.swift in Sources */,
+				38F6803425900B42002ED53A /* UIViewController+Snapshot.swift in Sources */,
 				38F6800C258FEF37002ED53A /* UIControl+TestHelpers.swift in Sources */,
 				38F68005258FEEB1002ED53A /* LiveHackrNewsViewControllerTests+Assertions.swift in Sources */,
 				38F68000258FEE7B002ED53A /* LiveHackrNewsViewController+TestHelpers.swift in Sources */,
