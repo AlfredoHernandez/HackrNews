@@ -46,7 +46,7 @@ final class StoryPresentationTests: XCTestCase {
             url: anyURL()
         )
 
-        sut.didStopLoadingStory(story: story)
+        sut.didFinishLoadingStory(story: story)
 
         XCTAssertEqual(
             view.messages,

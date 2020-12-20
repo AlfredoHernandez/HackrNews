@@ -54,7 +54,7 @@ public final class StoryPresenter {
         errorView.display(StoryErrorViewModel(message: nil))
     }
 
-    public func didStopLoadingStory(story: Story) {
+    public func didFinishLoadingStory(story: Story) {
         loadingView.display(StoryLoadingViewModel(isLoading: false))
         view.display(StoryViewModel(
             newId: story.id,
