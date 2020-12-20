@@ -31,10 +31,8 @@ final class StoryPresentationTests: XCTestCase {
     func test_didFinishLoadingStory_displaysStoryAndStopsLoading() {
         let locale = Locale(identifier: "en_US_POSIX")
         let calendar = Calendar(identifier: .gregorian)
-        let (sut, view) = makeSUT()
-        sut.locale = locale
-        sut.calendar = calendar
-        let date = Date(timeIntervalSince1970: 754877453)
+        let (sut, view) = makeSUT(locale: locale, calendar: calendar)
+        let date = Date(timeIntervalSince1970: 1175714200)
         let story = Story(
             id: 1,
             title: "a title",
@@ -59,7 +57,7 @@ final class StoryPresentationTests: XCTestCase {
                     author: story.author,
                     comments: "1",
                     score: localized("story_points_message", [story.score]),
-                    date: "Dec 02, 1993"
+                    date: "Apr 04, 2007"
                 ),
                 .display(errorMessage: .none),
             ]
@@ -76,9 +74,16 @@ final class StoryPresentationTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func makeSUT() -> (StoryPresenter, StoryViewSpy) {
+    private func makeSUT(
+        locale: Locale = .current,
+        calendar: Calendar = Calendar(identifier: .gregorian),
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (StoryPresenter, StoryViewSpy) {
         let view = StoryViewSpy()
-        let sut = StoryPresenter(view: view, loadingView: view, errorView: view)
+        let sut = StoryPresenter(view: view, loadingView: view, errorView: view, locale: locale, calendar: calendar)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(view, file: file, line: line)
         return (sut, view)
     }
 

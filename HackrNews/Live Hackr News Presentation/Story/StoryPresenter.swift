@@ -46,8 +46,8 @@ public final class StoryPresenter {
     private let view: StoryView
     private let loadingView: StoryLoadingView
     private let errorView: StoryErrorView
-    public var locale = Locale.current
-    public var calendar = Calendar(identifier: .gregorian)
+    private var locale = Locale.current
+    private var calendar = Calendar(identifier: .gregorian)
     private var errorMessage: String {
         NSLocalizedString(
             "story_error_message",
@@ -68,10 +68,18 @@ public final class StoryPresenter {
         )
     }
 
-    public init(view: StoryView, loadingView: StoryLoadingView, errorView: StoryErrorView) {
+    public init(
+        view: StoryView,
+        loadingView: StoryLoadingView,
+        errorView: StoryErrorView,
+        locale: Locale = Locale.current,
+        calendar: Calendar = Calendar(identifier: .gregorian)
+    ) {
         self.view = view
         self.loadingView = loadingView
         self.errorView = errorView
+        self.locale = locale
+        self.calendar = calendar
     }
 
     public func didStartLoadingStory(from new: LiveHackrNew) {
