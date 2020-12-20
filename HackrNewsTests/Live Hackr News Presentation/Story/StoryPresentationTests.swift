@@ -23,6 +23,7 @@ final class StoryPresentationTests: XCTestCase {
             title: nil,
             author: nil,
             comments: nil,
+            score: nil,
             date: nil
         ), .display(errorMessage: .none)])
     }
@@ -38,7 +39,7 @@ final class StoryPresentationTests: XCTestCase {
             id: 1,
             title: "a title",
             author: "an author",
-            score: 1,
+            score: 2,
             createdAt: date,
             totalComments: 1,
             comments: [1],
@@ -52,7 +53,14 @@ final class StoryPresentationTests: XCTestCase {
             view.messages,
             [
                 .display(isLoading: false),
-                .display(id: story.id, title: story.title, author: story.author, comments: "1", date: "Dec 02, 1993"),
+                .display(
+                    id: story.id,
+                    title: story.title,
+                    author: story.author,
+                    comments: "1",
+                    score: localized("story_points_message", [story.score]),
+                    date: "Dec 02, 1993"
+                ),
                 .display(errorMessage: .none),
             ]
         )
@@ -74,20 +82,20 @@ final class StoryPresentationTests: XCTestCase {
         return (sut, view)
     }
 
-    private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
+    private func localized(_ key: String, _ args: [CVarArg] = [], file: StaticString = #filePath, line: UInt = #line) -> String {
         let table = "Story"
         let bundle = Bundle(for: StoryPresenter.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if key == value {
             XCTFail("Missing localized string for key \(key) in table \(table)", file: file, line: line)
         }
-        return value
+        return String(format: value, arguments: args)
     }
 
     private class StoryViewSpy: StoryView, StoryLoadingView, StoryErrorView {
         enum Message: Equatable {
             case display(isLoading: Bool)
-            case display(id: Int, title: String?, author: String?, comments: String?, date: String?)
+            case display(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?)
             case display(errorMessage: String?)
         }
 
@@ -100,6 +108,7 @@ final class StoryPresentationTests: XCTestCase {
                     title: viewModel.title,
                     author: viewModel.author,
                     comments: viewModel.comments,
+                    score: viewModel.score,
                     date: viewModel.date
                 ))
         }

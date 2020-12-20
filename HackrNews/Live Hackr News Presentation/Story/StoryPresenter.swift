@@ -9,6 +9,7 @@ public struct StoryViewModel: Equatable {
     public let title: String?
     public let author: String?
     public let comments: String?
+    public let score: String?
     public let date: String?
 }
 
@@ -48,6 +49,16 @@ public final class StoryPresenter {
         )
     }
 
+    private var score: String {
+        NSLocalizedString(
+            "story_points_message",
+            tableName: "Story",
+            bundle: Bundle(for: StoryPresenter.self),
+            value: "",
+            comment: "Story score text label"
+        )
+    }
+
     public init(view: StoryView, loadingView: StoryLoadingView, errorView: StoryErrorView) {
         self.view = view
         self.loadingView = loadingView
@@ -56,7 +67,7 @@ public final class StoryPresenter {
 
     public func didStartLoadingStory(from new: LiveHackrNew) {
         loadingView.display(StoryLoadingViewModel(isLoading: true))
-        view.display(StoryViewModel(newId: new.id, title: nil, author: nil, comments: nil, date: nil))
+        view.display(StoryViewModel(newId: new.id, title: nil, author: nil, comments: nil, score: nil, date: nil))
         errorView.display(StoryErrorViewModel(message: nil))
     }
 
@@ -67,6 +78,7 @@ public final class StoryPresenter {
             title: story.title,
             author: story.author,
             comments: story.comments.count.description,
+            score: String(format: score, story.score),
             date: format(from: story.createdAt, locale: locale, calendar: calendar)
         ))
         errorView.display(StoryErrorViewModel(message: nil))
