@@ -88,7 +88,7 @@ public final class StoryPresenter {
             author: story.author,
             comments: story.comments.count.description,
             score: String(format: score, story.score),
-            date: format(from: story.createdAt, locale: locale, calendar: calendar)
+            date: format(from: story.createdAt)
         ))
         errorView.display(StoryErrorViewModel(message: nil))
     }
@@ -98,12 +98,10 @@ public final class StoryPresenter {
         errorView.display(StoryErrorViewModel(message: errorMessage))
     }
 
-    private func format(
-        from date: Date,
-        locale _: Locale = Locale.current,
-        calendar _: Calendar = Calendar(identifier: .gregorian)
-    ) -> String? {
+    private func format(from date: Date) -> String? {
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = locale
+        dateFormatter.calendar = calendar
         dateFormatter.dateFormat = "MMM dd, yyyy"
         return dateFormatter.string(from: date)
     }
