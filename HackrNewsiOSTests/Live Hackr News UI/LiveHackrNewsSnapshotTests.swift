@@ -17,6 +17,34 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "empty_stories_dark")
     }
 
+    func test_displaysStories() {
+        let sut = makeSUT()
+
+        sut.display(feedStories(stubs: [
+            StoryStub(
+                id: 1,
+                title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                author: "a-large-username",
+                comments: "6",
+                score: "65 points",
+                date: "Dec 20, 2020"
+            ),
+            StoryStub(id: 2, title: "Sed ut perspiciatis", author: "a-user", comments: "45K", score: "0 points", date: "Dec 18, 2020"),
+            StoryStub(
+                id: 3,
+                title: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+                author: "another-large-username",
+                comments: "20",
+                score: "37 points",
+                date: "Dec 2, 2020"
+            ),
+            StoryStub(id: 4, title: "Sed ut perspiciatis", author: "user", comments: "1M", score: "5 points", date: "Dec 18, 2020"),
+        ]))
+
+        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "stories_light")
+        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "stories_dark")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT() -> LiveHackrNewsViewController {
@@ -26,4 +54,27 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
     }
 
     private func emptyStories() -> [LiveHackrNewCellController] { [] }
+
+    private func feedStories(stubs: [StoryStub]) -> [LiveHackrNewCellController] {
+        stubs.map { stub in
+            let controller = LiveHackrNewCellController(delegate: stub)
+            stub.controller = controller
+            return controller
+        }
+    }
+
+    private class StoryStub: LiveHackrNewCellControllerDelegate {
+        let viewModel: StoryViewModel
+        weak var controller: LiveHackrNewCellController?
+
+        init(id: Int, title: String, author: String, comments: String, score: String, date: String) {
+            viewModel = StoryViewModel(newId: id, title: title, author: author, comments: comments, score: score, date: date)
+        }
+
+        func didRequestStory() {
+            controller?.display(viewModel)
+        }
+
+        func didCancelRequest() {}
+    }
 }

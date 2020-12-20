@@ -14,7 +14,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
     private let delegate: LiveHackrNewCellControllerDelegate
     private var cell: LiveHackrNewCell?
 
-    init(delegate: LiveHackrNewCellControllerDelegate) {
+    public init(delegate: LiveHackrNewCellControllerDelegate) {
         self.delegate = delegate
     }
 
