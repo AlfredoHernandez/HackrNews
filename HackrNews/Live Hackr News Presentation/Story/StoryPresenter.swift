@@ -11,6 +11,15 @@ public struct StoryViewModel: Equatable {
     public let comments: String?
     public let score: String?
     public let date: String?
+
+    public init(newId: Int, title: String?, author: String?, comments: String?, score: String?, date: String?) {
+        self.newId = newId
+        self.title = title
+        self.author = author
+        self.comments = comments
+        self.score = score
+        self.date = date
+    }
 }
 
 public protocol StoryView {

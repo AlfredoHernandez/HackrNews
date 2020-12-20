@@ -34,7 +34,14 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
 
     func display(_ viewModel: LiveHackrNewsViewModel) {
         controller?.tableModel = viewModel.stories.map { new in
-            LiveHackrNewCellController(viewModel: StoryViewModel(model: new, loader: loader))
+            let adapter = LiveHackrNewPresentationAdapter(model: new, loader: loader)
+            let controller = LiveHackrNewCellController(delegate: adapter)
+            adapter.presenter = StoryPresenter(
+                view: WeakRefVirtualProxy(controller),
+                loadingView: WeakRefVirtualProxy(controller),
+                errorView: WeakRefVirtualProxy(controller)
+            )
+            return controller
         }
     }
 }
@@ -57,5 +64,34 @@ private final class LiveHackrNewsPresentationAdapter: LiveHackrNewsRefreshContro
                 self?.presenter?.didFinishLoadingNews(with: error)
             }
         }
+    }
+}
+
+private final class LiveHackrNewPresentationAdapter: LiveHackrNewCellControllerDelegate {
+    private let model: LiveHackrNew
+    private let loader: HackrStoryLoader
+    private var task: HackrStoryLoaderTask?
+
+    var presenter: StoryPresenter?
+
+    init(model: LiveHackrNew, loader: HackrStoryLoader) {
+        self.model = model
+        self.loader = loader
+    }
+
+    func didRequestStory() {
+        presenter?.didStartLoadingStory(from: model)
+        task = loader.load(from: model.url) { [weak self] result in
+            switch result {
+            case let .success(story):
+                self?.presenter?.didFinishLoadingStory(story: story)
+            case let .failure(error):
+                self?.presenter?.didFinishLoading(with: error)
+            }
+        }
+    }
+
+    func didCancelRequest() {
+        task?.cancel()
     }
 }

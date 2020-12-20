@@ -138,12 +138,17 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_storyView_displaysStoryInfo() {
         let (sut, loader) = makeSUT()
-        let story0 = makeStory(title: "a title", author: "an author", score: 10, createdAt: Date(timeIntervalSince1970: 1607645758000))
-        let story1 = makeStory(
+        let (story0, story0VM) = makeStory(
+            title: "a title",
+            author: "an author",
+            score: (2, "2 points"),
+            createdAt: (Date(timeIntervalSince1970: 1607645758000), "Dec 11, 2020")
+        )
+        let (story1, story1VM) = makeStory(
             title: "another title",
             author: "another author",
-            score: 10,
-            createdAt: Date(timeIntervalSince1970: 1607645758000)
+            score: (1, "1 points"),
+            createdAt: (Date(timeIntervalSince1970: 1606940829000), "Dec 11, 2020")
         )
 
         sut.loadViewIfNeeded()
@@ -153,16 +158,16 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         let view1 = sut.simulateStoryViewVisible(at: 1)
 
         loader.completeStoryLoading(with: story0, at: 0)
-        XCTAssertEqual(view0?.titleText, story0.title)
-        XCTAssertEqual(view0?.authorText, story0.author)
-        XCTAssertEqual(view0?.scoreText, story0.score.description)
-        XCTAssertEqual(view0?.commentsText, story0.comments.description)
+        XCTAssertEqual(view0?.titleText, story0VM.title)
+        XCTAssertEqual(view0?.authorText, story0VM.author)
+        XCTAssertEqual(view0?.scoreText, story0VM.score)
+        XCTAssertEqual(view0?.commentsText, story0VM.comments)
 
         loader.completeStoryLoading(with: story1, at: 1)
-        XCTAssertEqual(view1?.titleText, story1.title)
-        XCTAssertEqual(view1?.authorText, story1.author)
-        XCTAssertEqual(view1?.scoreText, story1.score.description)
-        XCTAssertEqual(view1?.commentsText, story1.comments.description)
+        XCTAssertEqual(view1?.titleText, story1VM.title)
+        XCTAssertEqual(view1?.authorText, story1VM.author)
+        XCTAssertEqual(view1?.scoreText, story1VM.score)
+        XCTAssertEqual(view1?.commentsText, story1VM.comments)
     }
 
     func test_storyViewRetryButton_isVisibleOnStoryLoadedWithError() {
@@ -304,24 +309,33 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         id: Int = 0,
         title: String = "",
         author: String = "",
-        score: Int = 0,
-        createdAt: Date = Date(),
+        score: (number: Int, representation: String) = (0, "0 points"),
+        createdAt: (date: Date, representation: String) = (Date(), ""),
         totalComments: Int = 0,
         comments: [Int] = [],
         type: String = "",
         url: URL = URL(string: "https://any-url.com")!
-    ) -> Story {
-        Story(
+    ) -> (Story, StoryViewModel) {
+        let model = Story(
             id: id,
             title: title,
             author: author,
-            score: score,
-            createdAt: createdAt,
+            score: score.number,
+            createdAt: createdAt.date,
             totalComments: totalComments,
             comments: comments,
             type: type,
             url: url
         )
+        let viewModel = StoryViewModel(
+            newId: id,
+            title: title,
+            author: author,
+            comments: "\(comments.count)",
+            score: score.representation,
+            date: createdAt.representation
+        )
+        return (model, viewModel)
     }
 
     private class LiveHackerNewLoaderSpy: LiveHackrNewsLoader, HackrStoryLoader {
