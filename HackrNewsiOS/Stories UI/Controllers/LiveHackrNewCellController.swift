@@ -2,48 +2,52 @@
 //  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import HackrNews
 import UIKit
 
-final class LiveHackrNewCellController {
-    let viewModel: StoryViewModel
+public protocol LiveHackrNewCellControllerDelegate {
+    func didRequestStory()
+    func didCancelRequest()
+}
 
-    init(viewModel: StoryViewModel) {
-        self.viewModel = viewModel
+final class LiveHackrNewCellController: StoryView, StoryLoadingView, StoryErrorView {
+    private let delegate: LiveHackrNewCellControllerDelegate
+    private var cell: LiveHackrNewCell?
+
+    init(delegate: LiveHackrNewCellControllerDelegate) {
+        self.delegate = delegate
     }
 
     func view() -> UITableViewCell {
-        let cell = binded(LiveHackrNewCell())
-        viewModel.load()
-        return cell
+        cell = LiveHackrNewCell()
+        delegate.didRequestStory()
+        return cell!
     }
 
     func preload() {
-        viewModel.preload()
+        delegate.didRequestStory()
     }
 
     func cancelLoad() {
-        viewModel.cancelLoad()
+        delegate.didCancelRequest()
     }
 
-    private func binded(_: UITableViewCell) -> UITableViewCell {
-        let cell = LiveHackrNewCell()
-        cell.onRetry = viewModel.load
-        cell.id = viewModel.storyId
+    func display(_ viewModel: StoryLoadingViewModel) {
+        cell?.container.isShimmering = viewModel.isLoading
+    }
 
-        viewModel.onShouldRetryLoadStory = { [weak cell] shouldRetry in
-            cell?.retryLoadStoryButton.isHidden = !shouldRetry
+    func display(_ viewModel: StoryViewModel) {
+        cell?.id = viewModel.newId
+        cell?.titleLabel.text = viewModel.title
+        cell?.authorLabel.text = viewModel.author
+        cell?.commentsLabel.text = viewModel.comments
+        cell?.scoreLabel.text = viewModel.score
+        cell?.onRetry = { [weak self] in
+            self?.delegate.didRequestStory()
         }
+    }
 
-        viewModel.onLoadingStateChanged = { [weak cell] isLoading in
-            cell?.container.isShimmering = isLoading
-        }
-
-        viewModel.onStoryLoad = { [weak cell] story in
-            cell?.titleLabel.text = story.title
-            cell?.authorLabel.text = story.author
-            cell?.scoreLabel.text = story.score.description
-            cell?.commentsLabel.text = story.comments.description
-        }
-        return cell
+    func display(_ viewModel: StoryErrorViewModel) {
+        cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
     }
 }
