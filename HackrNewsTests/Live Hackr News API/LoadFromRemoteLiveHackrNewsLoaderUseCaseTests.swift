@@ -40,6 +40,18 @@ final class LoadFromRemoteLiveHackrNewsLoaderUseCaseTests: XCTestCase {
         })
     }
 
+    func test_load_deliversErrorOnNon200HTTPResonse() {
+        let (sut, client) = makeSUT()
+
+        let samples = [199, 201, 300, 400, 500]
+        samples.enumerated().forEach { index, code in
+            expect(sut, toCompleteWith: failure(.invalidData), when: {
+                let json = makeItemsJSON([])
+                client.complete(with: code, data: json, at: index)
+            })
+        }
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(
@@ -56,6 +68,10 @@ final class LoadFromRemoteLiveHackrNewsLoaderUseCaseTests: XCTestCase {
 
     private func failure(_ error: RemoteLiveHackrNewsLoader.Error) -> RemoteLiveHackrNewsLoader.Result {
         .failure(error)
+    }
+
+    private func makeItemsJSON(_ items: [LiveHackrNew]) -> Data {
+        try! JSONSerialization.data(withJSONObject: items)
     }
 
     private func expect(

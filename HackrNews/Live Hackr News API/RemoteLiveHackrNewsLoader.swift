@@ -24,10 +24,19 @@ public final class RemoteLiveHackrNewsLoader: LiveHackrNewsLoader {
         client.get(from: url) { result in
             switch result {
             case let .success((data, response)):
-                break
+                completion(RemoteLiveHackrNewsLoader.map(data, from: response))
             case .failure:
                 completion(.failure(Error.connectivity))
             }
+        }
+    }
+
+    private static func map(_ data: Data, from response: HTTPURLResponse) -> LiveHackrNewsLoader.Result {
+        do {
+            let items = try LiveDataMapper.map(data: data, response: response)
+            return .success(items)
+        } catch {
+            return .failure(error)
         }
     }
 }
