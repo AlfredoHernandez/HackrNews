@@ -12,7 +12,7 @@ class RemoteLoaderTests: XCTestCase {
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
 
-    func test_load_requestsLinesDataFromURL() {
+    func test_load_requestsDataFromURL() {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT(url: url)
 
@@ -21,7 +21,7 @@ class RemoteLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url])
     }
 
-    func test_loadTwice_requestsLinesDataFromURLTwice() {
+    func test_loadTwice_requestsDataFromURLTwice() {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT(url: url)
 
