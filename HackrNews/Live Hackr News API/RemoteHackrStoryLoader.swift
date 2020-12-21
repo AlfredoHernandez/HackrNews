@@ -22,12 +22,7 @@ public final class RemoteHackrStoryLoader: HackrStoryLoader {
         let task = HTTPTaskWrapper(completion)
         task.wrapped = client.get(from: url) { [weak self] result in
             guard self != nil else { return }
-            switch result {
-            case let .success((data, response)):
-                task.complete(with: RemoteHackrStoryLoader.map(data, response))
-            case .failure:
-                task.complete(with: .failure(Error.connectivity))
-            }
+            task.complete(with: result.mapError { _ in Error.connectivity }.flatMap(RemoteHackrStoryLoader.map))
         }
         return task
     }
