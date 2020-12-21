@@ -137,18 +137,20 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
     }
 
     func test_storyView_displaysStoryInfo() {
-        let (sut, loader) = makeSUT()
+        let locale = Locale(identifier: "en_US_POSIX")
+        let calendar = Calendar(identifier: .gregorian)
+        let (sut, loader) = makeSUT(locale: locale, calendar: calendar)
         let (story0, story0VM) = makeStory(
             title: "a title",
             author: "an author",
             score: (2, "2 points"),
-            createdAt: (Date(timeIntervalSince1970: 1607645758000), "Dec 11, 2020")
+            createdAt: (Date(timeIntervalSince1970: 1175714200), "Apr 04, 2007")
         )
         let (story1, story1VM) = makeStory(
             title: "another title",
             author: "another author",
             score: (1, "1 points"),
-            createdAt: (Date(timeIntervalSince1970: 1606940829000), "Dec 11, 2020")
+            createdAt: (Date(timeIntervalSince1970: 1175714200), "Apr 04, 2007")
         )
 
         sut.loadViewIfNeeded()
@@ -162,12 +164,14 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertEqual(view0?.authorText, story0VM.author)
         XCTAssertEqual(view0?.scoreText, story0VM.score)
         XCTAssertEqual(view0?.commentsText, story0VM.comments)
+        XCTAssertEqual(view0?.createdAtText, story0VM.date)
 
         loader.completeStoryLoading(with: story1, at: 1)
         XCTAssertEqual(view1?.titleText, story1VM.title)
         XCTAssertEqual(view1?.authorText, story1VM.author)
         XCTAssertEqual(view1?.scoreText, story1VM.score)
         XCTAssertEqual(view1?.commentsText, story1VM.comments)
+        XCTAssertEqual(view0?.createdAtText, story1VM.date)
     }
 
     func test_storyViewRetryButton_isVisibleOnStoryLoadedWithError() {
@@ -255,9 +259,19 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
+    private func makeSUT(
+        locale: Locale = .current,
+        calendar: Calendar = Calendar(identifier: .gregorian),
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
         let loader = LiveHackerNewLoaderSpy()
-        let sut = LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: loader, hackrStoryLoader: loader)
+        let sut = LiveHackrNewsUIComposer.composeWith(
+            liveHackrNewsloader: loader,
+            hackrStoryLoader: loader,
+            locale: locale,
+            calendar: calendar
+        )
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)

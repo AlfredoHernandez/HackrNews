@@ -42,10 +42,10 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
         cell?.authorLabel.text = viewModel.author
         cell?.commentsLabel.text = viewModel.comments
         cell?.scoreLabel.text = viewModel.score
+        cell?.createdAtLabel.text = viewModel.date
         cell?.onRetry = { [weak self] in
             self?.delegate.didRequestStory()
         }
-        cell?.createdAtLabel.text = viewModel.date
     }
 
     public func display(_ viewModel: StoryErrorViewModel) {
