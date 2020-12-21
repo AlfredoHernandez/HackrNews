@@ -16,7 +16,7 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT()
 
-        sut.load(from: url) { _ in }
+        _ = sut.load(from: url) { _ in }
 
         XCTAssertEqual(client.requestedURLs, [url])
     }
@@ -25,8 +25,8 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT()
 
-        sut.load(from: url) { _ in }
-        sut.load(from: url) { _ in }
+        _ = sut.load(from: url) { _ in }
+        _ = sut.load(from: url) { _ in }
 
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
@@ -68,6 +68,18 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         expect(sut, toCompleteWith: .success(item.model), when: {
             client.complete(with: 200, data: item.data)
         })
+    }
+
+    func test_cancelLoadDataTask_cancelsClientURLRequest() {
+        let (sut, client) = makeSUT()
+        let url = URL(string: "https://a-given-url.com")!
+
+        let task = sut.load(from: url) { _ in }
+
+        XCTAssertTrue(client.cancelledURLs.isEmpty, "Expected no cancelled URL request until task is cancelled")
+
+        task.cancel()
+        XCTAssertEqual(client.cancelledURLs, [url], "Expected cancelled URL request after task is cancelled")
     }
 
     // MARK: Tests helpers

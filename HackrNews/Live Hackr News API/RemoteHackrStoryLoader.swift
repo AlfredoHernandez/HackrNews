@@ -18,7 +18,7 @@ public final class RemoteHackrStoryLoader {
 
     public typealias Result = Swift.Result<Story, Swift.Error>
 
-    public func load(from url: URL, completion: @escaping (Result) -> Void) {
+    public func load(from url: URL, completion: @escaping (Result) -> Void) -> HTTPClientTask {
         client.get(from: url) { result in
             switch result {
             case let .success((data, response)):
