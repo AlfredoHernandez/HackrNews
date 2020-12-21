@@ -245,6 +245,25 @@
 			path = Composers;
 			sourceTree = "<group>";
 		};
+		38B00549259107BF00FA0D4A /* Live Hackr News API */ = {
+			isa = PBXGroup;
+			children = (
+				38D392CB2582DFB600FCAF70 /* StoryItemMapperTests.swift */,
+				38D392DF2582F51B00FCAF70 /* LiveDataMapperTests.swift */,
+			);
+			path = "Live Hackr News API";
+			sourceTree = "<group>";
+		};
+		38B0054A259107F900FA0D4A /* Live Hackr News API */ = {
+			isa = PBXGroup;
+			children = (
+				38D392E72582F7C600FCAF70 /* Helpers */,
+				38D392D32582DFFB00FCAF70 /* StoryItemMapper.swift */,
+				38D392E32582F76B00FCAF70 /* LiveDataMapper.swift */,
+			);
+			path = "Live Hackr News API";
+			sourceTree = "<group>";
+		};
 		38C916D12588619B001C5DE2 /* Stories UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,7 +323,7 @@
 			children = (
 				38D392C42582DD1300FCAF70 /* Shared API Infra */,
 				38D3929E2582DA1F00FCAF70 /* Shared API */,
-				38D392CA2582DF8400FCAF70 /* Stories API */,
+				38B0054A259107F900FA0D4A /* Live Hackr News API */,
 				38D3928D2582D7BB00FCAF70 /* Hacker News Feature */,
 				38E3D012258C21BA00469872 /* Live Hackr News Presentation */,
 				38D3926B2582C55300FCAF70 /* Info.plist */,
@@ -318,7 +337,7 @@
 				38D392A72582DAB100FCAF70 /* Helpers */,
 				38D392B22582DB0300FCAF70 /* Shared API */,
 				38D392B62582DCCB00FCAF70 /* Shared API Infra */,
-				38D392C92582DF4800FCAF70 /* Stories API */,
+				38B00549259107BF00FA0D4A /* Live Hackr News API */,
 				38D392F5258300FF00FCAF70 /* Live Hackr News Presentation */,
 				38D392772582C55300FCAF70 /* Info.plist */,
 			);
@@ -393,25 +412,6 @@
 				38D392C52582DD1D00FCAF70 /* URLSessionHTTPClient.swift */,
 			);
 			path = "Shared API Infra";
-			sourceTree = "<group>";
-		};
-		38D392C92582DF4800FCAF70 /* Stories API */ = {
-			isa = PBXGroup;
-			children = (
-				38D392CB2582DFB600FCAF70 /* StoryItemMapperTests.swift */,
-				38D392DF2582F51B00FCAF70 /* LiveDataMapperTests.swift */,
-			);
-			path = "Stories API";
-			sourceTree = "<group>";
-		};
-		38D392CA2582DF8400FCAF70 /* Stories API */ = {
-			isa = PBXGroup;
-			children = (
-				38D392E72582F7C600FCAF70 /* Helpers */,
-				38D392D32582DFFB00FCAF70 /* StoryItemMapper.swift */,
-				38D392E32582F76B00FCAF70 /* LiveDataMapper.swift */,
-			);
-			path = "Stories API";
 			sourceTree = "<group>";
 		};
 		38D392E72582F7C600FCAF70 /* Helpers */ = {
