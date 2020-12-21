@@ -31,6 +31,15 @@ final class LoadFromRemoteLiveHackrNewsLoaderUseCaseTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
 
+    func test_load_deliversErrorOnClientError() {
+        let (sut, client) = makeSUT()
+
+        expect(sut, toCompleteWith: failure(.connectivity), when: {
+            let clientError = NSError(domain: "Test", code: 0)
+            client.complete(with: clientError)
+        })
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(
@@ -43,6 +52,40 @@ final class LoadFromRemoteLiveHackrNewsLoaderUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(client, file: file, line: line)
         return (sut, client)
+    }
+
+    private func failure(_ error: RemoteLiveHackrNewsLoader.Error) -> RemoteLiveHackrNewsLoader.Result {
+        .failure(error)
+    }
+
+    private func expect(
+        _ sut: RemoteLiveHackrNewsLoader,
+        toCompleteWith expectedResult: RemoteLiveHackrNewsLoader.Result,
+        when action: () -> Void,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let exp = expectation(description: "Wait for load completion")
+        sut.load { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedItems), .success(expectedItems)):
+                XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
+            case let (
+                .failure(receivedError as RemoteLiveHackrNewsLoader.Error),
+                .failure(expectedError as RemoteLiveHackrNewsLoader.Error)
+            ):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+            default:
+                XCTFail(
+                    "Expected result \(expectedResult) but got \(receivedResult) instead.",
+                    file: file,
+                    line: line
+                )
+            }
+            exp.fulfill()
+        }
+        action()
+        wait(for: [exp], timeout: 1.0)
     }
 
     private final class HTTPClientSpy: HTTPClient {
