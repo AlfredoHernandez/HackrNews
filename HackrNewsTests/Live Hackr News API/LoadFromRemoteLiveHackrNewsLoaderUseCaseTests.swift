@@ -12,6 +12,15 @@ final class LoadFromRemoteLiveHackrNewsLoaderUseCaseTests: XCTestCase {
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
 
+    func test_init_requestsDataFromURL() {
+        let url = URL(string: "https://a-given-url.com")!
+        let (sut, client) = makeSUT(url: url)
+
+        sut.load { _ in }
+
+        XCTAssertEqual(client.requestedURLs, [url])
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(
