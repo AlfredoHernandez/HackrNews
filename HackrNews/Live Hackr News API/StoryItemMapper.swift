@@ -4,39 +4,25 @@
 
 import Foundation
 
-public enum StoryItemMapper {
-    private struct Item: Decodable {
-        private let id: Int
-        private let title: String
-        private let by: String
-        private let score: Int
-        private let time: Date
-        private let descendants: Int
-        private let kids: [Int]
-        private let type: String
-        private let url: URL
-
-        var story: Story {
-            Story(
-                id: id,
-                title: title,
-                author: by,
-                score: score,
-                createdAt: time,
-                totalComments: descendants,
-                comments: kids,
-                type: type,
-                url: url
-            )
-        }
+struct StoryItemMapper {
+    struct Item: Decodable {
+        let id: Int
+        let title: String
+        let by: String
+        let score: Int
+        let time: Date
+        let descendants: Int
+        let kids: [Int]
+        let type: String
+        let url: URL
     }
 
-    public static func map(data: Data, response: HTTPURLResponse) throws -> Story {
+    static func map(data: Data, response: HTTPURLResponse) throws -> Item {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         guard response.isOK, let item = try? decoder.decode(Item.self, from: data) else {
             throw RemoteHackrStoryLoader.Error.invalidData
         }
-        return item.story
+        return item
     }
 }

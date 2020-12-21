@@ -51,10 +51,26 @@ public final class RemoteHackrStoryLoader: HackrStoryLoader {
 
     private static func map(_ data: Data, _ response: HTTPURLResponse) -> Result {
         do {
-            let story = try StoryItemMapper.map(data: data, response: response)
-            return .success(story)
+            let item = try StoryItemMapper.map(data: data, response: response)
+            return .success(item.toModel())
         } catch {
             return .failure(error)
         }
+    }
+}
+
+extension StoryItemMapper.Item {
+    func toModel() -> Story {
+        Story(
+            id: id,
+            title: title,
+            author: by,
+            score: score,
+            createdAt: time,
+            totalComments: descendants,
+            comments: kids,
+            type: type,
+            url: url
+        )
     }
 }
