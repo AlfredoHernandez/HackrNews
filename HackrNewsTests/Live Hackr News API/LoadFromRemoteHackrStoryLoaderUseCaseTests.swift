@@ -52,6 +52,24 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         }
     }
 
+    func test_loadDataFromURL_deliversInvalidDataErrorOn200HTTPResponseWithEmptyData() {
+        let (sut, client) = makeSUT()
+
+        expect(sut, toCompleteWith: failure(.invalidData), when: {
+            let emptyData = Data()
+            client.complete(with: 200, data: emptyData)
+        })
+    }
+
+    func test_loadDataFromURL_deliversItemOn200HTTPResponse() {
+        let (sut, client) = makeSUT()
+        let item = makeItem(createdAt: (Date(timeIntervalSince1970: 1175714200), 1175714200))
+
+        expect(sut, toCompleteWith: .success(item.model), when: {
+            client.complete(with: 200, data: item.data)
+        })
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteHackrStoryLoader, client: HTTPClientSpy) {
@@ -94,5 +112,46 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
 
     private func failure(_ error: RemoteHackrStoryLoader.Error) -> RemoteHackrStoryLoader.Result {
         .failure(error)
+    }
+
+    private func makeItem(
+        id: Int = 1,
+        title: String = "a title",
+        author: String = "an author",
+        score: Int = 0,
+        createdAt: (date: Date, value: Double) = (Date(timeIntervalSince1970: 1175714200), 1175714200),
+        totalComments: Int = 0,
+        comments: [Int] = [],
+        type: String = "story",
+        url: URL = anyURL()
+    ) -> (model: Story, data: Data) {
+        let model = Story(
+            id: id,
+            title: title,
+            author: author,
+            score: score,
+            createdAt: createdAt.date,
+            totalComments: totalComments,
+            comments: comments,
+            type: type,
+            url: url
+        )
+        let json: [String: Any] = [
+            "by": author,
+            "descendants": totalComments,
+            "id": id,
+            "kids": comments,
+            "score": score,
+            "time": createdAt.value,
+            "title": title,
+            "type": type,
+            "url": url.absoluteString,
+        ]
+        let data = makeItemJSON(json)
+        return (model, data)
+    }
+
+    private func makeItemJSON(_ item: [String: Any]) -> Data {
+        try! JSONSerialization.data(withJSONObject: item)
     }
 }
