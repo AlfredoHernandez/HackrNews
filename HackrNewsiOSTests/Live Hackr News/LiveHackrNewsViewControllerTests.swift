@@ -84,7 +84,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
         sut.simulateStoryViewVisible(at: 1)
         XCTAssertEqual(
-            loader.loadedStoryUrls, [ new1.url, new2.url],
+            loader.loadedStoryUrls, [new1.url, new2.url],
             "Expected second story URL request once second view also becomes visible"
         )
     }

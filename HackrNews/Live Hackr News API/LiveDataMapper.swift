@@ -7,10 +7,10 @@ import Foundation
 public enum LiveDataMapper {
     public typealias LiveItem = Int
 
-    public static func map(data: Data, response: HTTPURLResponse) throws -> [LiveHackrNew] {
+    public static func map(data: Data, response: HTTPURLResponse) throws -> [LiveItem] {
         guard response.isOK, let data = try? JSONDecoder().decode([LiveItem].self, from: data) else {
             throw RemoteLiveHackrNewsLoader.Error.invalidData
         }
-        return data.map { LiveHackrNew(id: $0) }
+        return data
     }
 }
