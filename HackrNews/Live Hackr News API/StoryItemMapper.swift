@@ -5,10 +5,6 @@
 import Foundation
 
 public enum StoryItemMapper {
-    enum Error: Swift.Error {
-        case invalidData
-    }
-
     private struct Item: Decodable {
         private let id: Int
         private let title: String
@@ -39,7 +35,7 @@ public enum StoryItemMapper {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         guard response.isOK, let item = try? decoder.decode(Item.self, from: data) else {
-            throw Error.invalidData
+            throw RemoteHackrStoryLoader.Error.invalidData
         }
         return item.story
     }
