@@ -61,6 +61,15 @@ final class LoadFromRemoteLiveHackrNewsLoaderUseCaseTests: XCTestCase {
         })
     }
 
+    func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() {
+        let (sut, client) = makeSUT()
+
+        expect(sut, toCompleteWith: .success([]), when: {
+            let emptyListJSON = makeItemsJSON([])
+            client.complete(with: 200, data: emptyListJSON)
+        })
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(
