@@ -6,10 +6,8 @@ import Foundation
 
 public struct LiveHackrNew: Equatable {
     public let id: Int
-    public let url: URL
 
-    public init(id: Int, url: URL) {
+    public init(id: Int) {
         self.id = id
-        self.url = url
     }
 }

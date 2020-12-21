@@ -70,6 +70,20 @@ final class LoadFromRemoteLiveHackrNewsLoaderUseCaseTests: XCTestCase {
         })
     }
 
+    func tests_load_deliversItemsOn200HTTPResponseWithJSONItems() {
+        let (sut, client) = makeSUT()
+
+        let item1 = makeItem(id: 1)
+        let item2 = makeItem(id: 2)
+
+        let items = [item1.model, item2.model]
+
+        expect(sut, toCompleteWith: .success(items), when: {
+            let json = makeItemsJSON([item1.json, item2.json])
+            client.complete(with: 200, data: json)
+        })
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(
@@ -88,7 +102,12 @@ final class LoadFromRemoteLiveHackrNewsLoaderUseCaseTests: XCTestCase {
         .failure(error)
     }
 
-    private func makeItemsJSON(_ items: [LiveHackrNew]) -> Data {
+    private func makeItem(id: Int) -> (model: LiveHackrNew, json: Int) {
+        let item = LiveHackrNew(id: id)
+        return (item, item.id)
+    }
+
+    private func makeItemsJSON(_ items: [Int]) -> Data {
         try! JSONSerialization.data(withJSONObject: items)
     }
 
