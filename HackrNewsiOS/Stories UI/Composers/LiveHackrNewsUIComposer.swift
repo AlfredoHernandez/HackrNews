@@ -2,6 +2,7 @@
 //  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Foundation
 import HackrNews
 
 public final class LiveHackrNewsUIComposer {
@@ -9,13 +10,15 @@ public final class LiveHackrNewsUIComposer {
 
     public static func composeWith(
         liveHackrNewsloader: LiveHackrNewsLoader,
-        hackrStoryLoader: HackrStoryLoader
+        hackrStoryLoader: HackrStoryLoader,
+        locale: Locale = .current,
+        calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> LiveHackrNewsViewController {
         let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: liveHackrNewsloader)
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
-            view: LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController),
+            view: LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController, locale: locale, calendar: calendar),
             loadingView: WeakRefVirtualProxy(refreshController),
             errorView: WeakRefVirtualProxy(viewController)
         )
@@ -25,24 +28,30 @@ public final class LiveHackrNewsUIComposer {
 
 private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
     private let loader: HackrStoryLoader
+    private let locale: Locale
+    private let calendar: Calendar
     private weak var controller: LiveHackrNewsViewController?
 
-    init(loader: HackrStoryLoader, controller: LiveHackrNewsViewController) {
+    init(loader: HackrStoryLoader, controller: LiveHackrNewsViewController, locale: Locale, calendar: Calendar) {
         self.loader = loader
         self.controller = controller
+        self.locale = locale
+        self.calendar = calendar
     }
 
     func display(_ viewModel: LiveHackrNewsViewModel) {
-        controller?.tableModel = viewModel.stories.map { new in
+        controller?.display(viewModel.stories.map { new in
             let adapter = LiveHackrNewPresentationAdapter(model: new, loader: loader)
             let controller = LiveHackrNewCellController(delegate: adapter)
             adapter.presenter = StoryPresenter(
                 view: WeakRefVirtualProxy(controller),
                 loadingView: WeakRefVirtualProxy(controller),
-                errorView: WeakRefVirtualProxy(controller)
+                errorView: WeakRefVirtualProxy(controller),
+                locale: locale,
+                calendar: calendar
             )
             return controller
-        }
+        })
     }
 }
 

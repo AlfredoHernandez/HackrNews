@@ -7,7 +7,7 @@ import UIKit
 
 public class LiveHackrNewsViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var refreshController: LiveHackrNewsRefreshController?
-    var tableModel = [LiveHackrNewCellController]() {
+    private(set) var tableModel = [LiveHackrNewCellController]() {
         didSet { tableView.reloadData() }
     }
 
@@ -18,16 +18,24 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
 
     override public func viewDidLoad() {
         tableView.prefetchDataSource = self
+        tableView.register(
+            UINib(nibName: "LiveHackrNewCell", bundle: Bundle(for: LiveHackrNewCell.self)),
+            forCellReuseIdentifier: "LiveHackrNewCell"
+        )
         tableView.refreshControl = refreshController?.view
         refreshController?.refresh()
+    }
+
+    public func display(_ cellControllers: [LiveHackrNewCellController]) {
+        tableModel = cellControllers
     }
 
     override public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         tableModel.count
     }
 
-    override public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        cellController(forRowAt: indexPath).view()
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        cellController(forRowAt: indexPath).view(in: tableView)
     }
 
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {

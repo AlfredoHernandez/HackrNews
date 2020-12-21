@@ -35,6 +35,10 @@ extension LiveHackrNewCell {
         !retryLoadStoryButton.isHidden
     }
 
+    var isShowingStoryContainer: Bool {
+        !container.isHidden
+    }
+
     func simulateRetryAction() {
         retryLoadStoryButton.simulateTap()
     }
