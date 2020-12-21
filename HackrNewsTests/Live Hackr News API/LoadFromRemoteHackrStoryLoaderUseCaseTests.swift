@@ -21,6 +21,16 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url])
     }
 
+    func test_loadDataFromURLTwice_requestsDataFromURLTwice() {
+        let url = URL(string: "https://a-given-url.com")!
+        let (sut, client) = makeSUT()
+
+        sut.load(from: url) { _ in }
+        sut.load(from: url) { _ in }
+
+        XCTAssertEqual(client.requestedURLs, [url, url])
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteHackrStoryLoader, client: HTTPClientSpy) {
