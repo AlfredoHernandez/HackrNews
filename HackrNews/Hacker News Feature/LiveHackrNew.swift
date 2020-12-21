@@ -13,17 +13,3 @@ public struct LiveHackrNew: Equatable {
         self.url = url
     }
 }
-
-public protocol LiveHackrNewsLoader {
-    typealias Result = Swift.Result<[LiveHackrNew], Swift.Error>
-    func load(completion: @escaping (Result) -> Void)
-}
-
-public protocol HackrStoryLoaderTask {
-    func cancel()
-}
-
-public protocol HackrStoryLoader {
-    typealias Result = Swift.Result<Story, Swift.Error>
-    func load(from url: URL, completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask
-}
