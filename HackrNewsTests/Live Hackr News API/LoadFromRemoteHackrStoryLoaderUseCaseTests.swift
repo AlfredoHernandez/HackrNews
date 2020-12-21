@@ -82,6 +82,24 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         XCTAssertEqual(client.cancelledURLs, [url], "Expected cancelled URL request after task is cancelled")
     }
 
+    func test_loadDataFromURL_doesNotDeliverResultAfterCancellingTask() {
+        let (sut, client) = makeSUT()
+        let url = URL(string: "https://a-given-url.com")!
+        let nonEmptyData = Data("non-empty data".utf8)
+
+        var received = [RemoteHackrStoryLoader.Result]()
+        let task = sut.load(from: url) { result in
+            received.append(result)
+        }
+        task.cancel()
+
+        client.complete(with: 404, data: anyData())
+        client.complete(with: 200, data: nonEmptyData)
+        client.complete(with: anyNSError())
+
+        XCTAssertTrue(received.isEmpty, "Expected no received results after cancelling task")
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteHackrStoryLoader, client: HTTPClientSpy) {
@@ -102,7 +120,7 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let exp = expectation(description: "Wait for load completion")
 
-        sut.load(from: url) { receivedResult in
+        _ = sut.load(from: url) { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedData), .success(expectedData)):
                 XCTAssertEqual(receivedData, expectedData, file: file, line: line)

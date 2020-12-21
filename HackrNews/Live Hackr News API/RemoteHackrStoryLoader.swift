@@ -19,13 +19,37 @@ public final class RemoteHackrStoryLoader {
     public typealias Result = Swift.Result<Story, Swift.Error>
 
     public func load(from url: URL, completion: @escaping (Result) -> Void) -> HTTPClientTask {
-        client.get(from: url) { result in
+        let task = HTTPTaskWrapper(completion)
+        task.wrapped = client.get(from: url) { result in
             switch result {
             case let .success((data, response)):
-                completion(RemoteHackrStoryLoader.map(data, response))
+                task.complete(with: RemoteHackrStoryLoader.map(data, response))
             case .failure:
-                completion(.failure(Error.connectivity))
+                task.complete(with: .failure(Error.connectivity))
             }
+        }
+        return task
+    }
+
+    private final class HTTPTaskWrapper: HTTPClientTask {
+        private var completion: ((Result) -> Void)?
+        var wrapped: HTTPClientTask?
+
+        init(_ completion: @escaping (Result) -> Void) {
+            self.completion = completion
+        }
+
+        func complete(with result: Result) {
+            completion?(result)
+        }
+
+        func cancel() {
+            wrapped?.cancel()
+            preventFurtherCompletions()
+        }
+
+        private func preventFurtherCompletions() {
+            completion = nil
         }
     }
 
