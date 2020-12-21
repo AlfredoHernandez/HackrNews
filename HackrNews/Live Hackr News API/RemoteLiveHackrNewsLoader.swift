@@ -4,4 +4,12 @@
 
 import Foundation
 
-public final class RemoteLiveHackrNews {}
+public final class RemoteLiveHackrNewsLoader {
+    private let url: URL
+    private let client: HTTPClient
+
+    public init(url: URL, client: HTTPClient) {
+        self.url = url
+        self.client = client
+    }
+}
