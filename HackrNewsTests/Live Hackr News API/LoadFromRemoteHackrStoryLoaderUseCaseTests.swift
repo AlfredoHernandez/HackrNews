@@ -40,6 +40,18 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         })
     }
 
+    func test_loadDataFromURL_deliversInvalidDataErrorOnNon200HTTPResponse() {
+        let (sut, client) = makeSUT()
+
+        let samples = [199, 201, 300, 400, 500]
+
+        samples.enumerated().forEach { index, code in
+            expect(sut, toCompleteWith: failure(.invalidData), when: {
+                client.complete(with: code, data: anyData(), at: index)
+            })
+        }
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteHackrStoryLoader, client: HTTPClientSpy) {

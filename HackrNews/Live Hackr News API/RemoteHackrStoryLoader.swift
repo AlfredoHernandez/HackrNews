@@ -12,6 +12,7 @@ public final class RemoteHackrStoryLoader {
     }
 
     public enum Error: Swift.Error {
+        case invalidData
         case connectivity
     }
 
@@ -20,11 +21,20 @@ public final class RemoteHackrStoryLoader {
     public func load(from url: URL, completion: @escaping (Result) -> Void) {
         client.get(from: url) { result in
             switch result {
-            case .success:
-                break
+            case let .success((data, response)):
+                completion(RemoteHackrStoryLoader.map(data, response))
             case .failure:
                 completion(.failure(Error.connectivity))
             }
+        }
+    }
+
+    private static func map(_ data: Data, _ response: HTTPURLResponse) -> Result {
+        do {
+            let story = try StoryItemMapper.map(data: data, response: response)
+            return .success(story)
+        } catch {
+            return .failure(error)
         }
     }
 }
