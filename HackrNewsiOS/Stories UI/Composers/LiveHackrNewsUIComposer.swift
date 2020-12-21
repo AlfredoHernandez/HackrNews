@@ -90,7 +90,8 @@ private final class LiveHackrNewPresentationAdapter: LiveHackrNewCellControllerD
 
     func didRequestStory() {
         presenter?.didStartLoadingStory(from: model)
-        task = loader.load(from: model.url) { [weak self] result in
+        let url = URL(string: "https://hacker-news.firebaseio.com/v0/item/\(model.id).json")!
+        task = loader.load(from: url) { [weak self] result in
             switch result {
             case let .success(story):
                 self?.presenter?.didFinishLoadingStory(story: story)
