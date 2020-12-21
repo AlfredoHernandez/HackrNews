@@ -11,10 +11,20 @@ public final class RemoteHackrStoryLoader {
         self.client = client
     }
 
+    public enum Error: Swift.Error {
+        case connectivity
+    }
+
     public typealias Result = Swift.Result<Story, Swift.Error>
 
-    public func load(from url: URL, completion _: @escaping (Result) -> Void) {
-        client.get(from: url) { _ in
+    public func load(from url: URL, completion: @escaping (Result) -> Void) {
+        client.get(from: url) { result in
+            switch result {
+            case .success:
+                break
+            case .failure:
+                completion(.failure(Error.connectivity))
+            }
         }
     }
 }
