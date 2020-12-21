@@ -36,6 +36,10 @@ public protocol StoryLoadingView {
 
 public struct StoryErrorViewModel {
     public let message: String?
+
+    public init(message: String?) {
+        self.message = message
+    }
 }
 
 public protocol StoryErrorView {

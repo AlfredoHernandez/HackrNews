@@ -43,6 +43,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
         cell?.commentsLabel.text = viewModel.comments
         cell?.scoreLabel.text = viewModel.score
         cell?.createdAtLabel.text = viewModel.date
+        cell?.retryLoadStoryButton.isHidden = true
         cell?.onRetry = { [weak self] in
             self?.delegate.didRequestStory()
         }
@@ -50,5 +51,6 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
 
     public func display(_ viewModel: StoryErrorViewModel) {
         cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
+        cell?.container.isHidden = !(viewModel.message == nil)
     }
 }

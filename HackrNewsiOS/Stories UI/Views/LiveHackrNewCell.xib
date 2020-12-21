@@ -19,8 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X90-pR-SPz">
-                        <rect key="frame" x="8" y="8" width="375" height="78"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="12" y="12" width="489" height="69"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                         <state key="normal" title="↻">
                             <color key="titleColor" systemColor="labelColor"/>
@@ -102,16 +101,15 @@
                     </stackView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="X90-pR-SPz" firstAttribute="top" secondItem="muI-YT-zDh" secondAttribute="top" constant="12" id="6mI-WA-Iqb"/>
                     <constraint firstItem="3CZ-f4-L9l" firstAttribute="leading" secondItem="muI-YT-zDh" secondAttribute="leading" constant="12" id="7fB-po-HCJ"/>
                     <constraint firstItem="3CZ-f4-L9l" firstAttribute="top" secondItem="muI-YT-zDh" secondAttribute="top" constant="12" id="YXc-Ip-64v"/>
                     <constraint firstAttribute="bottom" secondItem="3CZ-f4-L9l" secondAttribute="bottom" constant="12" id="Zy2-hO-A9p"/>
+                    <constraint firstItem="X90-pR-SPz" firstAttribute="leading" secondItem="muI-YT-zDh" secondAttribute="leading" constant="12" id="e29-0x-qic"/>
+                    <constraint firstAttribute="trailing" secondItem="X90-pR-SPz" secondAttribute="trailing" constant="12" id="ioK-cG-OzW"/>
+                    <constraint firstAttribute="bottom" secondItem="X90-pR-SPz" secondAttribute="bottom" constant="12" id="ju9-7Y-N2d"/>
                     <constraint firstAttribute="trailing" secondItem="3CZ-f4-L9l" secondAttribute="trailing" constant="12" id="wgl-Jy-3Lg"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="subviews">
-                        <exclude reference="X90-pR-SPz"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="authorLabel" destination="ss8-Zr-R73" id="1FS-UT-0Qh"/>

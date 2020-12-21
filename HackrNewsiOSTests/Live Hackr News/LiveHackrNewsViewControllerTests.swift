@@ -174,7 +174,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertEqual(view0?.createdAtText, story1VM.date)
     }
 
-    func test_storyViewRetryButton_isVisibleOnStoryLoadedWithError() {
+    func test_storyViewRetryButton_isVisibleOnStoryLoadedWithErrorAndHidesContainer() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
@@ -184,11 +184,15 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
         loader.completeStoryLoading(at: 0)
         XCTAssertEqual(view0?.isShowingRetryAction, false)
+        XCTAssertEqual(view0?.isShowingStoryContainer, true)
         XCTAssertEqual(view1?.isShowingRetryAction, false)
+        XCTAssertEqual(view1?.isShowingStoryContainer, true)
 
         loader.completeStoryLoadingWithError(at: 1)
         XCTAssertEqual(view0?.isShowingRetryAction, false)
+        XCTAssertEqual(view0?.isShowingStoryContainer, true)
         XCTAssertEqual(view1?.isShowingRetryAction, true)
+        XCTAssertEqual(view1?.isShowingStoryContainer, false)
     }
 
     func test_storyRetryAction_retriesStoryLoad() {

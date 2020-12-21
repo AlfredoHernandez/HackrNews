@@ -45,6 +45,20 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "stories_dark")
     }
 
+    func test_storiesWithStoryFailed() {
+        let sut = makeSUT()
+
+        sut.display(feedStories(stubs: [
+            StoryStub(id: 1, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
+            StoryStub(id: 2, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
+            StoryStub(id: 3, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
+            StoryStub(id: 4, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
+        ]))
+
+        record(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "storie_failed_light")
+        record(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "stories_failed_dark")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT() -> LiveHackrNewsViewController {
@@ -54,6 +68,10 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
     }
 
     private func emptyStories() -> [LiveHackrNewCellController] { [] }
+
+    private func anyNSError() -> NSError {
+        NSError(domain: "", code: 0, userInfo: nil)
+    }
 
     private func feedStories(stubs: [StoryStub]) -> [LiveHackrNewCellController] {
         stubs.map { stub in
@@ -65,14 +83,22 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
 
     private class StoryStub: LiveHackrNewCellControllerDelegate {
         let viewModel: StoryViewModel
+        var errorViewModel: StoryErrorViewModel?
         weak var controller: LiveHackrNewCellController?
 
-        init(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?) {
+        init(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?, error: Error? = nil) {
             viewModel = StoryViewModel(newId: id, title: title, author: author, comments: comments, score: score, date: date)
+            if error != nil {
+                errorViewModel = StoryErrorViewModel(message: "any error message")
+            }
         }
 
         func didRequestStory() {
-            controller?.display(viewModel)
+            if let errorVM = errorViewModel {
+                controller?.display(errorVM)
+            } else {
+                controller?.display(viewModel)
+            }
         }
 
         func didCancelRequest() {}
