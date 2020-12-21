@@ -4,7 +4,7 @@
 
 import Foundation
 
-public final class RemoteHackrStoryLoader {
+public final class RemoteHackrStoryLoader: HackrStoryLoader {
     private let client: HTTPClient
 
     public init(client: HTTPClient) {
@@ -16,9 +16,9 @@ public final class RemoteHackrStoryLoader {
         case connectivity
     }
 
-    public typealias Result = Swift.Result<Story, Swift.Error>
+    public typealias Result = HackrStoryLoader.Result
 
-    public func load(from url: URL, completion: @escaping (Result) -> Void) -> HTTPClientTask {
+    public func load(from url: URL, completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask {
         let task = HTTPTaskWrapper(completion)
         task.wrapped = client.get(from: url) { [weak self] result in
             guard self != nil else { return }
@@ -32,7 +32,7 @@ public final class RemoteHackrStoryLoader {
         return task
     }
 
-    private final class HTTPTaskWrapper: HTTPClientTask {
+    private final class HTTPTaskWrapper: HackrStoryLoaderTask {
         private var completion: ((Result) -> Void)?
         var wrapped: HTTPClientTask?
 
