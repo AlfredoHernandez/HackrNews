@@ -20,7 +20,8 @@ public final class RemoteHackrStoryLoader {
 
     public func load(from url: URL, completion: @escaping (Result) -> Void) -> HTTPClientTask {
         let task = HTTPTaskWrapper(completion)
-        task.wrapped = client.get(from: url) { result in
+        task.wrapped = client.get(from: url) { [weak self] result in
+            guard self != nil else { return }
             switch result {
             case let .success((data, response)):
                 task.complete(with: RemoteHackrStoryLoader.map(data, response))

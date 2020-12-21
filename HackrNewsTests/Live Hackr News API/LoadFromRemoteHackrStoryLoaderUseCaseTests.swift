@@ -100,6 +100,19 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         XCTAssertTrue(received.isEmpty, "Expected no received results after cancelling task")
     }
 
+    func test_loadDataFromURL_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+        let client = HTTPClientSpy()
+        var sut: RemoteHackrStoryLoader? = RemoteHackrStoryLoader(client: client)
+
+        var capturedResults = [RemoteHackrStoryLoader.Result]()
+        _ = sut?.load(from: anyURL()) { capturedResults.append($0) }
+
+        sut = nil
+        client.complete(with: 200, data: anyData())
+
+        XCTAssertTrue(capturedResults.isEmpty)
+    }
+
     // MARK: Tests helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteHackrStoryLoader, client: HTTPClientSpy) {
