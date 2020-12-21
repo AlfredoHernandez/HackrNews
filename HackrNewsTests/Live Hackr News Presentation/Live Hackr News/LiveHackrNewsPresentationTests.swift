@@ -26,8 +26,8 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
 
     func test_didFinishLoadingStories_displayStoriesAndStopsLoading() {
         let (sut, view) = makeSUT()
-        let new1 = LiveHackrNew(id: 1, url: URL(string: "https://any-url.com/1.json")!)
-        let new2 = LiveHackrNew(id: 2, url: URL(string: "https://any-url.com/2.json")!)
+        let new1 = LiveHackrNew(id: 1)
+        let new2 = LiveHackrNew(id: 2)
 
         sut.didFinishLoadingNews(news: [new1, new2])
 

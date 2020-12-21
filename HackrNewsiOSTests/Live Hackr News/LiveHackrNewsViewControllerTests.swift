@@ -40,10 +40,10 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_loadLiveHackrNewsCompletion_rendersSuccessfullyLoadedLiveHackrNews() {
         let (sut, loader) = makeSUT()
-        let new1 = makeLiveHackrNew(id: 1)
-        let new2 = makeLiveHackrNew(id: 2)
-        let new3 = makeLiveHackrNew(id: 3)
-        let new4 = makeLiveHackrNew(id: 4)
+        let new1 = makeLiveHackrNew(id: 1).model
+        let new2 = makeLiveHackrNew(id: 2).model
+        let new3 = makeLiveHackrNew(id: 3).model
+        let new4 = makeLiveHackrNew(id: 4).model
 
         sut.loadViewIfNeeded()
         assertThat(sut, isRendering: [])
@@ -58,7 +58,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_loadLiveHackrNewsCompletion_doesNotAlterCurrentRenderingStateOnError() {
         let (sut, loader) = makeSUT()
-        let new1 = makeLiveHackrNew(id: 1)
+        let new1 = makeLiveHackrNew(id: 1).model
 
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [new1], at: 0)
@@ -71,11 +71,11 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_liveHackrNewView_loadsStoryURLWhenVisible() {
         let (sut, loader) = makeSUT()
-        let new1 = makeLiveHackrNew(id: 1, url: URL(string: "https://any-url.com/1.json")!)
-        let new2 = makeLiveHackrNew(id: 2, url: URL(string: "https://any-url.com/2.json")!)
+        let new1 = makeLiveHackrNew(id: 1)
+        let new2 = makeLiveHackrNew(id: 2)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [new1, new2], at: 0)
+        loader.completeLiveHackrNewsLoading(with: [new1.model, new2.model], at: 0)
 
         XCTAssertEqual(loader.loadedStoryUrls, [], "Expected no story URL requests until views become visible")
 
@@ -84,19 +84,18 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
         sut.simulateStoryViewVisible(at: 1)
         XCTAssertEqual(
-            loader.loadedStoryUrls,
-            [new1.url, new2.url],
+            loader.loadedStoryUrls, [new1.url, new2.url],
             "Expected second story URL request once second view also becomes visible"
         )
     }
 
     func test_liveHackrNewView_cancelsStoryLoadingWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
-        let new1 = makeLiveHackrNew(id: 1, url: URL(string: "https://any-url.com/1.json")!)
-        let new2 = makeLiveHackrNew(id: 2, url: URL(string: "https://any-url.com/2.json")!)
+        let new1 = makeLiveHackrNew(id: 1)
+        let new2 = makeLiveHackrNew(id: 2)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [new1, new2], at: 0)
+        loader.completeLiveHackrNewsLoading(with: [new1.model, new2.model], at: 0)
 
         XCTAssertEqual(loader.cancelledStoryUrls, [], "Expected no cancelled story URL requests until views become visible")
 
@@ -119,7 +118,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew().model, makeLiveHackrNew().model], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -154,7 +153,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         )
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew().model, makeLiveHackrNew().model], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -177,7 +176,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
     func test_storyViewRetryButton_isVisibleOnStoryLoadedWithErrorAndHidesContainer() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew().model, makeLiveHackrNew().model], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -197,10 +196,10 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_storyRetryAction_retriesStoryLoad() {
         let (sut, loader) = makeSUT()
-        let lhn0 = makeLiveHackrNew(id: 0, url: URL(string: "http://any-url.com/0.json")!)
-        let lhn1 = makeLiveHackrNew(id: 1, url: URL(string: "http://any-url.com/1.json")!)
+        let lhn0 = makeLiveHackrNew(id: 0)
+        let lhn1 = makeLiveHackrNew(id: 1)
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn0, lhn1], at: 0)
+        loader.completeLiveHackrNewsLoading(with: [lhn0.model, lhn1.model], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -223,11 +222,11 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_storyView_preloadsStoryWhenIsNearVisible() {
         let (sut, loader) = makeSUT()
-        let lhn0 = makeLiveHackrNew(id: 0, url: URL(string: "http://any-url.com/0.json")!)
-        let lhn1 = makeLiveHackrNew(id: 1, url: URL(string: "http://any-url.com/1.json")!)
+        let lhn0 = makeLiveHackrNew(id: 0)
+        let lhn1 = makeLiveHackrNew(id: 1)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn0, lhn1], at: 0)
+        loader.completeLiveHackrNewsLoading(with: [lhn0.model, lhn1.model], at: 0)
         XCTAssertEqual(loader.loadedStoryUrls, [], "Expected no stories urls before views are near to be visible")
 
         sut.simulateStoryNearViewVisible(at: 0)
@@ -243,11 +242,11 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     func test_storyView_cancelsStoryPreloadingWhenNotNearVisibleAnymore() {
         let (sut, loader) = makeSUT()
-        let lhn0 = makeLiveHackrNew(id: 0, url: URL(string: "http://any-url.com/0.json")!)
-        let lhn1 = makeLiveHackrNew(id: 1, url: URL(string: "http://any-url.com/1.json")!)
+        let lhn0 = makeLiveHackrNew(id: 0)
+        let lhn1 = makeLiveHackrNew(id: 1)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn0, lhn1], at: 0)
+        loader.completeLiveHackrNewsLoading(with: [lhn0.model, lhn1.model], at: 0)
         XCTAssertEqual(loader.cancelledStoryUrls, [], "Expected no stories urls before views are near to be visible")
 
         sut.simulateStoryNotNearViewVisible(at: 0)
@@ -281,8 +280,8 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         return (sut, loader)
     }
 
-    private func makeLiveHackrNew(id: Int = Int.random(in: 0 ... 100), url: URL = URL(string: "https://any-url.com")!) -> LiveHackrNew {
-        LiveHackrNew(id: id, url: url)
+    private func makeLiveHackrNew(id: Int = Int.random(in: 0 ... 100)) -> (model: LiveHackrNew, url: URL) {
+        (LiveHackrNew(id: id), URL(string: "https://hacker-news.firebaseio.com/v0/item/\(id).json")!)
     }
 
     private func makeStory(
