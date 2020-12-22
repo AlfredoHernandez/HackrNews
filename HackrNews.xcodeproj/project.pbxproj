@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3823131F259285CB0053274E /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3823131E259285CB0053274E /* MainQueueDispatchDecorator.swift */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
 		386551C925869FD2002054AA /* LiveHackrNewsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551C825869FD2002054AA /* LiveHackrNewsViewControllerTests.swift */; };
 		386551CE2586A5DB002054AA /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392AE2582DADC00FCAF70 /* XCTestCase+MemoryLeaksTracking.swift */; };
@@ -110,6 +111,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3823131E259285CB0053274E /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		386551A625868EF1002054AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		386551AB25868EF2002054AA /* HackrNewsiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,6 +247,7 @@
 			children = (
 				38E3CFFB258C155E00469872 /* WeakRefVirtualProxy.swift */,
 				38699B052588836F002B460B /* LiveHackrNewsUIComposer.swift */,
+				3823131E259285CB0053274E /* MainQueueDispatchDecorator.swift */,
 			);
 			path = Composers;
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3823131F259285CB0053274E /* MainQueueDispatchDecorator.swift in Sources */,
 				38699AFB258865B6002B460B /* LiveHackrNewsRefreshController.swift in Sources */,
 				38699B002588774E002B460B /* LiveHackrNewCellController.swift in Sources */,
 				38699B062588836F002B460B /* LiveHackrNewsUIComposer.swift in Sources */,

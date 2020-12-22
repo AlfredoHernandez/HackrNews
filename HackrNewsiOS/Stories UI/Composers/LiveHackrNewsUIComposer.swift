@@ -14,11 +14,16 @@ public final class LiveHackrNewsUIComposer {
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> LiveHackrNewsViewController {
-        let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: liveHackrNewsloader)
+        let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(liveHackrNewsloader))
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
-            view: LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController, locale: locale, calendar: calendar),
+            view: LiveHackrNewsViewAdapter(
+                loader: MainQueueDispatchDecorator(hackrStoryLoader),
+                controller: viewController,
+                locale: locale,
+                calendar: calendar
+            ),
             loadingView: WeakRefVirtualProxy(refreshController),
             errorView: WeakRefVirtualProxy(viewController)
         )

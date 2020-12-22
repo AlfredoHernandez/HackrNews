@@ -43,11 +43,13 @@ extension LiveHackrNewsViewController {
         liveHackrNewView(for: index) as? LiveHackrNewCell
     }
 
-    func simulateStoryViewNotVisible(at index: Int) {
+    @discardableResult
+    func simulateStoryViewNotVisible(at index: Int) -> LiveHackrNewCell? {
         let view = simulateStoryViewVisible(at: index)
         let delegate = tableView.delegate
         let indexPath = IndexPath(row: index, section: hackrNewsSection)
         delegate?.tableView?(tableView, didEndDisplaying: view!, forRowAt: indexPath)
+        return view
     }
 
     var hackrNewsSection: Int { 0 }

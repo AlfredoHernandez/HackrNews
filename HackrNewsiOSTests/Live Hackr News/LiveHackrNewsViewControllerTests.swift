@@ -260,6 +260,53 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         )
     }
 
+    func test_storyView_doesNotRenderStoryContentWhenNotVisibleAnymore() {
+        let (sut, loader) = makeSUT()
+        let lhn0 = makeLiveHackrNew(id: 0)
+        let story0 = makeStory().model
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [lhn0.model], at: 0)
+        let view = sut.simulateStoryViewNotVisible(at: 0)
+
+        loader.completeStoryLoading(with: story0, at: 0)
+
+        XCTAssertNil(view?.titleLabel.text)
+        XCTAssertNil(view?.authorLabel.text)
+        XCTAssertNil(view?.scoreLabel.text)
+        XCTAssertNil(view?.createdAtLabel.text)
+        XCTAssertNil(view?.commentsLabel.text)
+    }
+
+    func test_loadLiveHackrNewsCompletion_dispatchesFromBackgroundToMainThread() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        let exp = expectation(description: "Wait for loader completion")
+        DispatchQueue.global().async {
+            loader.completeLiveHackrNewsLoading()
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+
+    func test_loadLiveHackrNewsCompletion_dispatchesStoryLoaderFromBackgroundToMainThread() {
+        let (sut, loader) = makeSUT()
+        let lhn0 = makeLiveHackrNew(id: 0).model
+        let story0 = makeStory().model
+        sut.loadViewIfNeeded()
+
+        loader.completeLiveHackrNewsLoading(with: [lhn0], at: 0)
+        sut.simulateStoryViewVisible(at: 0)
+
+        let exp = expectation(description: "Wait for loader completion")
+        DispatchQueue.global().async {
+            loader.completeStoryLoading(with: story0, at: 0)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -294,7 +341,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         comments: [Int] = [],
         type: String = "",
         url: URL = URL(string: "https://any-url.com")!
-    ) -> (Story, StoryViewModel) {
+    ) -> (model: Story, viewModel: StoryViewModel) {
         let model = Story(
             id: id,
             title: title,
