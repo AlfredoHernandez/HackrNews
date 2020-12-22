@@ -29,6 +29,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
     }
 
     func cancelLoad() {
+        releaseCellForReuse()
         delegate.didCancelRequest()
     }
 
@@ -52,5 +53,9 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
     public func display(_ viewModel: StoryErrorViewModel) {
         cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
         cell?.container.isHidden = !(viewModel.message == nil)
+    }
+
+    private func releaseCellForReuse() {
+        cell = nil
     }
 }
