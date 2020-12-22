@@ -14,7 +14,7 @@ public final class LiveHackrNewsUIComposer {
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> LiveHackrNewsViewController {
-        let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: liveHackrNewsloader)
+        let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(liveHackrNewsloader))
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
@@ -23,6 +23,26 @@ public final class LiveHackrNewsUIComposer {
             errorView: WeakRefVirtualProxy(viewController)
         )
         return viewController
+    }
+}
+
+final class MainQueueDispatchDecorator: LiveHackrNewsLoader {
+    let decoratee: LiveHackrNewsLoader
+    
+    init(_ decoratee: LiveHackrNewsLoader) {
+        self.decoratee = decoratee
+    }
+    
+    func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
+        decoratee.load { result in
+            if Thread.isMainThread {
+                completion(result)
+            } else {
+                DispatchQueue.main.async {
+                    completion(result)
+                }
+            }
+        }
     }
 }
 

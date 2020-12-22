@@ -277,6 +277,18 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertNil(view?.createdAtLabel.text)
         XCTAssertNil(view?.commentsLabel.text)
     }
+    
+    func test_loadLiveHackrNewsCompletion_dispatchesFromBackgroundToMainThread() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let exp = expectation(description: "Wait for loader completion")
+        DispatchQueue.global().async {
+            loader.completeLiveHackrNewsLoading()
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
 
     // MARK: - Helpers
 
