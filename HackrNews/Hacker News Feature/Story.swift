@@ -6,25 +6,25 @@ import Foundation
 
 public struct Story: Equatable {
     public let id: Int
-    public let title: String
+    public let title: String?
     public let author: String
-    public let score: Int
+    public let score: Int?
     public let createdAt: Date
-    public let totalComments: Int
-    public let comments: [Int]
+    public let totalComments: Int?
+    public let comments: [Int]?
     public let type: String
-    public let url: URL
+    public let url: URL?
 
     public init(
         id: Int,
-        title: String,
+        title: String?,
         author: String,
-        score: Int,
+        score: Int?,
         createdAt: Date,
-        totalComments: Int,
-        comments: [Int],
+        totalComments: Int?,
+        comments: [Int]?,
         type: String,
-        url: URL
+        url: URL?
     ) {
         self.id = id
         self.title = title

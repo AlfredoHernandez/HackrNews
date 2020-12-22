@@ -56,7 +56,7 @@ final class StoryPresentationTests: XCTestCase {
                     title: story.title,
                     author: story.author,
                     comments: "1",
-                    score: localized("story_points_message", [story.score]),
+                    score: localized("story_points_message", [story.score ?? 0]),
                     date: "Apr 04, 2007"
                 ),
                 .display(errorMessage: .none),

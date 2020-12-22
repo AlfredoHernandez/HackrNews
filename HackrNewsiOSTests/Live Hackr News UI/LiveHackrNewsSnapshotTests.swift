@@ -55,8 +55,8 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
             StoryStub(id: 4, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
         ]))
 
-        record(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "storie_failed_light")
-        record(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "stories_failed_dark")
+        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "storie_failed_light")
+        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "stories_failed_dark")
     }
 
     // MARK: - Helpers

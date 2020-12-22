@@ -98,8 +98,8 @@ public final class StoryPresenter {
             newId: story.id,
             title: story.title,
             author: story.author,
-            comments: story.comments.count.description,
-            score: String(format: score, story.score),
+            comments: story.comments?.count.description ?? "0",
+            score: String(format: score, story.score ?? "0"),
             date: format(from: story.createdAt)
         ))
         errorView.display(StoryErrorViewModel(message: nil))
