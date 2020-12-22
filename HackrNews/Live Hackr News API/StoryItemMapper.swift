@@ -7,14 +7,14 @@ import Foundation
 struct StoryItemMapper {
     struct Item: Decodable {
         let id: Int
-        let title: String
+        let title: String?
         let by: String
-        let score: Int
+        let score: Int?
         let time: Date
-        let descendants: Int
-        let kids: [Int]
+        let descendants: Int?
+        let kids: [Int]?
         let type: String
-        let url: URL
+        let url: URL?
     }
 
     static func map(data: Data, response: HTTPURLResponse) throws -> Item {
