@@ -18,7 +18,7 @@ public final class LiveHackrNewsUIComposer {
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
-            view: LiveHackrNewsViewAdapter(loader: hackrStoryLoader, controller: viewController, locale: locale, calendar: calendar),
+            view: LiveHackrNewsViewAdapter(loader: MainQueueDispatchDecorator(hackrStoryLoader), controller: viewController, locale: locale, calendar: calendar),
             loadingView: WeakRefVirtualProxy(refreshController),
             errorView: WeakRefVirtualProxy(viewController)
         )
@@ -26,22 +26,36 @@ public final class LiveHackrNewsUIComposer {
     }
 }
 
-final class MainQueueDispatchDecorator: LiveHackrNewsLoader {
-    let decoratee: LiveHackrNewsLoader
+final class MainQueueDispatchDecorator<T> {
+    private let decoratee: T
     
-    init(_ decoratee: LiveHackrNewsLoader) {
+    init(_ decoratee: T) {
         self.decoratee = decoratee
     }
     
-    func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
-        decoratee.load { result in
-            if Thread.isMainThread {
-                completion(result)
-            } else {
-                DispatchQueue.main.async {
-                    completion(result)
-                }
+    func dispatch(completion: @escaping () -> Void) {
+        if Thread.isMainThread {
+            completion()
+        } else {
+            DispatchQueue.main.async {
+                completion()
             }
+        }
+    }
+}
+
+extension MainQueueDispatchDecorator: LiveHackrNewsLoader where T == LiveHackrNewsLoader {
+    func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
+        decoratee.load { [weak self] result in
+            self?.dispatch { completion(result) }
+        }
+    }
+}
+
+extension MainQueueDispatchDecorator: HackrStoryLoader where T == HackrStoryLoader {
+    func load(from url: URL, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
+        self.decoratee.load(from: url) {[weak self] result in
+            self?.dispatch { completion(result) }
         }
     }
 }

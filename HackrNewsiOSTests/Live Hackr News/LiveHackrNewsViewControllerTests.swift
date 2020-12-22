@@ -289,6 +289,23 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         }
         wait(for: [exp], timeout: 1.0)
     }
+    
+    func test_loadLiveHackrNewsCompletion_dispatchesStoryLoaderFromBackgroundToMainThread() {
+        let (sut, loader) = makeSUT()
+        let lhn0 = makeLiveHackrNew(id: 0).model
+        let story0 = makeStory().model
+        sut.loadViewIfNeeded()
+        
+        loader.completeLiveHackrNewsLoading(with: [lhn0], at: 0)
+        sut.simulateStoryViewVisible(at: 0)
+        
+        let exp = expectation(description: "Wait for loader completion")
+        DispatchQueue.global().async {
+            loader.completeStoryLoading(with: story0, at: 0)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
 
     // MARK: - Helpers
 
