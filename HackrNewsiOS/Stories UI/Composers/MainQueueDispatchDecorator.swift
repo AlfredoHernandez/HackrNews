@@ -13,13 +13,10 @@ final class MainQueueDispatchDecorator<T> {
     }
 
     func dispatch(completion: @escaping () -> Void) {
-        if Thread.isMainThread {
-            completion()
-        } else {
-            DispatchQueue.main.async {
-                completion()
-            }
+        guard Thread.isMainThread else {
+            return DispatchQueue.main.async(execute: completion)
         }
+        completion()
     }
 }
 
