@@ -44,6 +44,13 @@
             BlueprintName = "HackrNewsiOS"
             ReferencedContainer = "container:HackrNews.xcodeproj">
          </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "38F68074259033C8002ED53A"
+            BuildableName = "HackrNewsApp.app"
+            BlueprintName = "HackrNewsApp"
+            ReferencedContainer = "container:HackrNewsApp/HackrNewsApp.xcodeproj">
+         </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
@@ -66,6 +73,28 @@
                BuildableName = "HackrNewsiOSTests.xctest"
                BlueprintName = "HackrNewsiOSTests"
                ReferencedContainer = "container:HackrNews.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "38F6808A259033C9002ED53A"
+               BuildableName = "HackrNewsAppTests.xctest"
+               BlueprintName = "HackrNewsAppTests"
+               ReferencedContainer = "container:HackrNewsApp/HackrNewsApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "385810AB2593F2B300126F50"
+               BuildableName = "HackrNewsAppUIAcceptanceTests.xctest"
+               BlueprintName = "HackrNewsAppUIAcceptanceTests"
+               ReferencedContainer = "container:HackrNewsApp/HackrNewsApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
