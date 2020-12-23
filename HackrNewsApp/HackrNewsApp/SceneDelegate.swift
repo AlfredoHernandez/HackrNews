@@ -21,27 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
 
-    private func makeRemoteClient() -> HTTPClient {
-        #if DEBUG
-        if UserDefaults.standard.string(forKey: "connectivity") == "offline" {
-            return AlwaysFailingHTTPClient()
-        }
-        #endif
-        return URLSessionHTTPClient(session: URLSession(configuration: .default))
+    func makeRemoteClient() -> HTTPClient {
+        URLSessionHTTPClient(session: URLSession(configuration: .default))
     }
 }
-
-#if DEBUG
-final class AlwaysFailingHTTPClient: HTTPClient {
-    struct Task: HTTPClientTask {
-        func cancel() {}
-    }
-
-    func get(from _: URL, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> Void) -> HTTPClientTask {
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.8) {
-            completion(.failure(NSError(domain: "com.alfredohdz.hackr-news-app.acceptance-tests", code: 0, userInfo: nil)))
-        }
-        return Task()
-    }
-}
-#endif
