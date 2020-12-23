@@ -29,6 +29,7 @@
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, ipsum dolor sit amet, consectetur adipiscing elit" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zf0-NK-Q0W">
                                                 <rect key="frame" x="0.0" y="0.0" width="356.66666666666669" height="38"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="story-title-cell"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -113,6 +114,7 @@
                     <constraint firstAttribute="bottom" secondItem="Kz9-rn-iFO" secondAttribute="bottom" constant="8" id="zVj-fp-MwL"/>
                 </constraints>
             </tableViewCellContentView>
+            <accessibility key="accessibilityConfiguration" identifier="story-cell"/>
             <connections>
                 <outlet property="authorLabel" destination="gmb-K6-y1D" id="prm-aY-Udb"/>
                 <outlet property="commentsLabel" destination="6Af-lE-BiT" id="GaS-bj-ugF"/>
