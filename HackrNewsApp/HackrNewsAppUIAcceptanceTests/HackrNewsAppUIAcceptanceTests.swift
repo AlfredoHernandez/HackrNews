@@ -16,4 +16,14 @@ class HackrNewsAppUIAcceptanceTests: XCTestCase {
         let storyTitle = cells.firstMatch.staticTexts.matching(identifier: "story-title-cell").firstMatch
         XCTAssertTrue(storyTitle.exists)
     }
+
+    func test_onLaunch_doesNotDisplayRemoteStoriesWhenCustomerHasNotConnectivity() {
+        let offlineApp = XCUIApplication()
+        offlineApp.launchArguments = ["-connectivity", "offline"]
+
+        offlineApp.launch()
+
+        let cells = offlineApp.cells.matching(identifier: "story-cell")
+        XCTAssertEqual(cells.count, 0)
+    }
 }
