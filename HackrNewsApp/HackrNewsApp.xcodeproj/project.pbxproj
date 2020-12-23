@@ -70,8 +70,6 @@
 		38F6808B259033C9002ED53A /* HackrNewsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F6808F259033C9002ED53A /* HackrNewsAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsAppTests.swift; sourceTree = "<group>"; };
 		38F68091259033C9002ED53A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		38F6809A259033C9002ED53A /* HackrNewsAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsAppUITests.swift; sourceTree = "<group>"; };
-		38F6809C259033C9002ED53A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +122,6 @@
 			children = (
 				38F68077259033C8002ED53A /* HackrNewsApp */,
 				38F6808E259033C9002ED53A /* HackrNewsAppTests */,
-				38F68099259033C9002ED53A /* HackrNewsAppUITests */,
 				385810AD2593F2B300126F50 /* HackrNewsAppUIAcceptanceTests */,
 				38F68076259033C8002ED53A /* Products */,
 				386FE7692592BAF7003D779F /* Frameworks */,
@@ -162,15 +159,6 @@
 				38F68091259033C9002ED53A /* Info.plist */,
 			);
 			path = HackrNewsAppTests;
-			sourceTree = "<group>";
-		};
-		38F68099259033C9002ED53A /* HackrNewsAppUITests */ = {
-			isa = PBXGroup;
-			children = (
-				38F6809A259033C9002ED53A /* HackrNewsAppUITests.swift */,
-				38F6809C259033C9002ED53A /* Info.plist */,
-			);
-			path = HackrNewsAppUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

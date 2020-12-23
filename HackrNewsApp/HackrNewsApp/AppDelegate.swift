@@ -23,6 +23,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return configuration
     }
-
-    func application(_: UIApplication, didDiscardSceneSessions _: Set<UISceneSession>) {}
 }
