@@ -30,11 +30,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = tabBarController
     }
 
-    private func makeLiveHackrNewsController() -> LiveHackrNewsViewController {
+    private func makeLiveHackrNewsController() -> UINavigationController {
         let httpClient = makeRemoteClient()
         let url = URL(string: "https://hacker-news.firebaseio.com/v0/topstories.json")!
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: url, client: httpClient)
         let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
-        return LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: liveHackrNewsloader, hackrStoryLoader: hackrStoryLoader)
+        let controller = LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: liveHackrNewsloader, hackrStoryLoader: hackrStoryLoader)
+        let navigationController = UINavigationController(rootViewController: controller)
+        return navigationController
     }
 }

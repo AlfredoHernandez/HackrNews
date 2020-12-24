@@ -29,7 +29,13 @@ final class SceneDelegateTests: XCTestCase {
 
         XCTAssertNotNil(rootViewController, "Expected a TabBarController, but got \(String(describing: rootViewController))")
 
-        let firstController = rootViewController?.viewControllers?.first
+        let firstNavController = rootViewController?.viewControllers?.first as? UINavigationController
+        XCTAssertNotNil(
+            firstNavController,
+            "Expected a navigation controller for first controller, bit got \(String(describing: firstNavController))"
+        )
+
+        let firstController = firstNavController?.topViewController
         XCTAssertNotNil(
             firstController as? LiveHackrNewsViewController,
             "Expected a `LiveHackrNewsViewController` as first item on tab bar, got \(String(describing: firstController))"
