@@ -35,6 +35,8 @@ public final class LiveHackrNewsUIComposer {
         title: String
     ) -> LiveHackrNewsViewController {
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
+        viewController.tabBarItem.image = Icons.news.image(state: .normal)
+        viewController.tabBarItem.selectedImage = Icons.news.image(state: .selected)
         viewController.title = title
         return viewController
     }

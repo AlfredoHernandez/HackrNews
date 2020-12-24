@@ -15,6 +15,15 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.title, liveHackrNewsTitle)
     }
 
+    func test_controller_configuresTabBarItem() {
+        let (sut, _) = makeSUT()
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.tabBarItem.image, Icons.news.image(state: .normal))
+        XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.news.image(state: .selected))
+    }
+
     func test_loadLiveHackrNewsActions_requestLiveHackrNewsLoader() {
         let (sut, loader) = makeSUT()
 
