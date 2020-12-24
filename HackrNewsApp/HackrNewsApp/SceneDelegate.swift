@@ -12,16 +12,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        let httpClient = makeRemoteClient()
-        let url = URL(string: "https://hacker-news.firebaseio.com/v0/topstories.json")!
-        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: url, client: httpClient)
-        let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
-        let controller = LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: liveHackrNewsloader, hackrStoryLoader: hackrStoryLoader)
-        window?.rootViewController = controller
+        configureWindow()
+    }
+
+    func configureWindow() {
+        let tabBarController = makeTabBarViewController(with: [makeLiveHackrNewsController()])
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 
     func makeRemoteClient() -> HTTPClient {
         URLSessionHTTPClient(session: URLSession(configuration: .default))
+    }
+
+    private func makeTabBarViewController(with controllers: [UIViewController]) -> UITabBarController {
+        let tabBarController = UITabBarController()
+        tabBarController.tabBar.tintColor = UIColor.systemRed
+        tabBarController.viewControllers = controllers
+        return tabBarController
+    }
+
+    private func makeLiveHackrNewsController() -> UINavigationController {
+        let httpClient = makeRemoteClient()
+        let url = URL(string: "https://hacker-news.firebaseio.com/v0/topstories.json")!
+        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: url, client: httpClient)
+        let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
+        let controller = LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: liveHackrNewsloader, hackrStoryLoader: hackrStoryLoader)
+        let navigationController = UINavigationController(rootViewController: controller)
+        return navigationController
     }
 }

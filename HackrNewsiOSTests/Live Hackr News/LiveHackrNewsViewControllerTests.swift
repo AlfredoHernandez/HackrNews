@@ -7,6 +7,23 @@ import HackrNewsiOS
 import XCTest
 
 final class LiveHackrNewsViewControllerTests: XCTestCase {
+    func test_controller_hasTitle() {
+        let (sut, _) = makeSUT()
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.title, liveHackrNewsTitle)
+    }
+
+    func test_controller_configuresTabBarItem() {
+        let (sut, _) = makeSUT()
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.tabBarItem.image, Icons.news.image(state: .normal))
+        XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.news.image(state: .selected))
+    }
+
     func test_loadLiveHackrNewsActions_requestLiveHackrNewsLoader() {
         let (sut, loader) = makeSUT()
 
@@ -362,5 +379,9 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
             date: createdAt.representation
         )
         return (model, viewModel)
+    }
+
+    private var liveHackrNewsTitle: String {
+        LiveHackrNewsPresenter.title
     }
 }
