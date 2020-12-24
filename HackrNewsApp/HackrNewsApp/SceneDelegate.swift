@@ -26,6 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func makeTabBarViewController(with controllers: [UIViewController]) {
         let tabBarController = UITabBarController()
+        tabBarController.tabBar.tintColor = UIColor.systemRed
         tabBarController.viewControllers = controllers
         window?.rootViewController = tabBarController
     }
