@@ -14,6 +14,10 @@
 
 A simple iOS client for Y Combinator's Hacker News.
 
+![iPhone 12 Mini Launch Screen](./assets/HackrNewsiPhone12MiniMain.png.jpg)
+
+![iPhone 12 Mini Main Screen](./assets/HackrNewsiPhone12MiniMain.png.jpg)
+
 ## App Architecture
 
 ### Core modules
