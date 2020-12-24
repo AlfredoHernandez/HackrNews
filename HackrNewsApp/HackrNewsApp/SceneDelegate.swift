@@ -16,7 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func configureWindow() {
-        makeTabBarViewController(with: [makeLiveHackrNewsController()])
+        let tabBarController = makeTabBarViewController(with: [makeLiveHackrNewsController()])
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 
@@ -24,11 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         URLSessionHTTPClient(session: URLSession(configuration: .default))
     }
 
-    private func makeTabBarViewController(with controllers: [UIViewController]) {
+    private func makeTabBarViewController(with controllers: [UIViewController]) -> UITabBarController {
         let tabBarController = UITabBarController()
         tabBarController.tabBar.tintColor = UIColor.systemRed
         tabBarController.viewControllers = controllers
-        window?.rootViewController = tabBarController
+        return tabBarController
     }
 
     private func makeLiveHackrNewsController() -> UINavigationController {
