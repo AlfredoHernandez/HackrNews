@@ -16,7 +16,7 @@ public final class LiveHackrNewsUIComposer {
     ) -> LiveHackrNewsViewController {
         let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(liveHackrNewsloader))
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
-        let viewController = LiveHackrNewsViewController(refreshController: refreshController)
+        let viewController = makeViewController(with: refreshController, title: LiveHackrNewsPresenter.title)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
             view: LiveHackrNewsViewAdapter(
                 loader: MainQueueDispatchDecorator(hackrStoryLoader),
@@ -27,6 +27,15 @@ public final class LiveHackrNewsUIComposer {
             loadingView: WeakRefVirtualProxy(refreshController),
             errorView: WeakRefVirtualProxy(viewController)
         )
+        return viewController
+    }
+
+    private static func makeViewController(
+        with refreshController: LiveHackrNewsRefreshController,
+        title: String
+    ) -> LiveHackrNewsViewController {
+        let viewController = LiveHackrNewsViewController(refreshController: refreshController)
+        viewController.title = title
         return viewController
     }
 }
