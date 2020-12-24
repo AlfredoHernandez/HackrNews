@@ -25,33 +25,34 @@
                                 <rect key="frame" x="0.0" y="0.0" width="413" height="84"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="S4U-Xd-jOa">
-                                        <rect key="frame" x="0.0" y="1.6666666666666643" width="356.66666666666669" height="80.666666666666686"/>
+                                        <rect key="frame" x="0.0" y="1" width="356.66666666666669" height="82"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, ipsum dolor sit amet, consectetur adipiscing elit" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zf0-NK-Q0W">
                                                 <rect key="frame" x="0.0" y="0.0" width="356.66666666666669" height="38"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="story-title-cell"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pEX-l1-z4a">
-                                                <rect key="frame" x="0.0" y="45" width="117.66666666666667" height="14.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="45" width="125.33333333333333" height="15.666666666666664"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gmb-K6-y1D">
-                                                        <rect key="frame" x="0.0" y="0.0" width="56" height="14.333333333333334"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="15.666666666666666"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="34 points" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3IL-x9-kku">
-                                                        <rect key="frame" x="64" y="0.0" width="53.666666666666657" height="14.333333333333334"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                        <rect key="frame" x="68" y="0.0" width="57.333333333333343" height="15.666666666666666"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dec 02, 1993" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EV9-4l-YxJ">
-                                                <rect key="frame" x="0.0" y="66.333333333333329" width="75.666666666666671" height="14.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="67.666666666666671" width="75.666666666666671" height="14.333333333333329"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                                 <nil key="highlightedColor"/>
@@ -84,7 +85,6 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="iAY-vi-oG9" secondAttribute="trailing" id="5Rm-Gf-jOa"/>
                             <constraint firstAttribute="bottom" secondItem="iAY-vi-oG9" secondAttribute="bottom" id="7vS-u1-u7X"/>
@@ -114,6 +114,7 @@
                     <constraint firstAttribute="bottom" secondItem="Kz9-rn-iFO" secondAttribute="bottom" constant="8" id="zVj-fp-MwL"/>
                 </constraints>
             </tableViewCellContentView>
+            <accessibility key="accessibilityConfiguration" identifier="story-cell"/>
             <connections>
                 <outlet property="authorLabel" destination="gmb-K6-y1D" id="prm-aY-Udb"/>
                 <outlet property="commentsLabel" destination="6Af-lE-BiT" id="GaS-bj-ugF"/>
@@ -130,9 +131,6 @@
         <image name="text.bubble" catalog="system" width="128" height="110"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
