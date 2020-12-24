@@ -22,6 +22,8 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
             UINib(nibName: "LiveHackrNewCell", bundle: Bundle(for: LiveHackrNewCell.self)),
             forCellReuseIdentifier: "LiveHackrNewCell"
         )
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.refreshControl = refreshController?.view
         refreshController?.refresh()
     }
