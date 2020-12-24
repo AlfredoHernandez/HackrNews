@@ -18,6 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
         let controller = LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: liveHackrNewsloader, hackrStoryLoader: hackrStoryLoader)
         window?.rootViewController = controller
+    }
+
+    func configureWindow() {
         window?.makeKeyAndVisible()
     }
 
