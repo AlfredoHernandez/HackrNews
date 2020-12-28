@@ -20,7 +20,7 @@ final class StoryPresentationTests: XCTestCase {
 
         XCTAssertEqual(view.messages, [.display(isLoading: true), .display(
             id: new.id,
-            title: "Loading title...",
+            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
             author: "Loading author...",
             comments: "Loading comments...",
             score: "Score",
