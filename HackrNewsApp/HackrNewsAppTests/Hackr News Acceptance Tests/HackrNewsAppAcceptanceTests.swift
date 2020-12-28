@@ -5,6 +5,7 @@
 import HackrNews
 @testable import HackrNewsApp
 import HackrNewsiOS
+import SafariServices
 import XCTest
 
 final class HackrNewsAppAcceptanceTests: XCTestCase {
@@ -22,7 +23,16 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertEqual(storiesViewController.numberOfRenderedLiveHackrNewsViews(), 0)
     }
 
-    func test_onSelectStory_displaysStoryUrlInSafari() {}
+    func test_onSelectStory_displaysStoryUrlInSafari() {
+        let storiesViewController = launch(httpClient: .online(response))
+        storiesViewController.simulateStoryViewVisible(at: 0)
+
+        storiesViewController.simulateTapOnStory(at: 0)
+        RunLoop.current.run(until: Date())
+
+        let safariViewController = storiesViewController.navigationController?.presentedViewController
+        XCTAssertTrue(safariViewController is SFSafariViewController)
+    }
 
     // MARK: - Helpers
 
