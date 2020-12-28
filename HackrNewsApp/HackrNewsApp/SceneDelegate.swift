@@ -4,11 +4,16 @@
 
 import HackrNews
 import HackrNewsiOS
+import SafariServices
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private let baseUrl = LHNEndpoint.baseUrl
+
+    private lazy var navigationController: UINavigationController = {
+        UINavigationController(rootViewController: makeLiveHackrNewsController())
+    }()
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
@@ -17,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func configureWindow() {
-        let tabBarController = makeTabBarViewController(with: [makeLiveHackrNewsController()])
+        let tabBarController = makeTabBarViewController(with: [navigationController])
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
@@ -33,12 +38,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return tabBarController
     }
 
-    private func makeLiveHackrNewsController() -> UINavigationController {
+    private func makeLiveHackrNewsController() -> LiveHackrNewsViewController {
         let httpClient = makeRemoteClient()
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.topStories.url(baseUrl), client: httpClient)
         let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
-        let controller = LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: liveHackrNewsloader, hackrStoryLoader: hackrStoryLoader)
-        let navigationController = UINavigationController(rootViewController: controller)
-        return navigationController
+        return LiveHackrNewsUIComposer.composeWith(
+            liveHackrNewsloader: liveHackrNewsloader,
+            hackrStoryLoader: hackrStoryLoader,
+            didSelectStory: openOnSafari
+        )
+    }
+
+    private func openOnSafari(with url: URL) {
+        let controller = SFSafariViewController(url: url)
+        controller.preferredControlTintColor = .systemRed
+        navigationController.present(controller, animated: true)
     }
 }

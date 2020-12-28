@@ -24,7 +24,8 @@ final class StoryPresentationTests: XCTestCase {
             author: "Loading author...",
             comments: "Loading comments...",
             score: "Score",
-            date: "Loading date..."
+            date: "Loading date...",
+            url: nil
         ), .display(errorMessage: .none)])
     }
 
@@ -57,7 +58,8 @@ final class StoryPresentationTests: XCTestCase {
                     author: story.author,
                     comments: "10",
                     score: localized("story_points_message", [story.score ?? 0]),
-                    date: "Apr 04, 2007"
+                    date: "Apr 04, 2007",
+                    url: anyURL()
                 ),
                 .display(errorMessage: .none),
             ]
@@ -100,7 +102,7 @@ final class StoryPresentationTests: XCTestCase {
     private class StoryViewSpy: StoryView, StoryLoadingView, StoryErrorView {
         enum Message: Equatable {
             case display(isLoading: Bool)
-            case display(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?)
+            case display(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?, url: URL?)
             case display(errorMessage: String?)
         }
 
@@ -114,7 +116,8 @@ final class StoryPresentationTests: XCTestCase {
                     author: viewModel.author,
                     comments: viewModel.comments,
                     score: viewModel.score,
-                    date: viewModel.date
+                    date: viewModel.date,
+                    url: viewModel.url
                 ))
         }
 

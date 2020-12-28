@@ -75,7 +75,7 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
 
     private func feedStories(stubs: [StoryStub]) -> [LiveHackrNewCellController] {
         stubs.map { stub in
-            let controller = LiveHackrNewCellController(delegate: stub)
+            let controller = LiveHackrNewCellController(delegate: stub, didSelectStory: { _ in })
             stub.controller = controller
             return controller
         }
@@ -87,7 +87,7 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
         weak var controller: LiveHackrNewCellController?
 
         init(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?, error: Error? = nil) {
-            viewModel = StoryViewModel(newId: id, title: title, author: author, comments: comments, score: score, date: date)
+            viewModel = StoryViewModel(newId: id, title: title, author: author, comments: comments, score: score, date: date, url: nil)
             if error != nil {
                 errorViewModel = StoryErrorViewModel(message: "any error message")
             }

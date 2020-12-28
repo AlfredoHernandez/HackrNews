@@ -12,10 +12,12 @@ public protocol LiveHackrNewCellControllerDelegate {
 
 public final class LiveHackrNewCellController: StoryView, StoryLoadingView, StoryErrorView {
     private let delegate: LiveHackrNewCellControllerDelegate
+    private let didSelectStory: (URL) -> Void
     private var cell: LiveHackrNewCell?
 
-    public init(delegate: LiveHackrNewCellControllerDelegate) {
+    public init(delegate: LiveHackrNewCellControllerDelegate, didSelectStory: @escaping (URL) -> Void) {
         self.delegate = delegate
+        self.didSelectStory = didSelectStory
     }
 
     func view(in tableView: UITableView) -> UITableViewCell {
@@ -39,6 +41,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
 
     public func display(_ viewModel: StoryViewModel) {
         cell?.id = viewModel.newId
+        cell?.url = viewModel.url
         cell?.titleLabel.text = viewModel.title
         cell?.authorLabel.text = viewModel.author
         cell?.commentsLabel.text = viewModel.comments
@@ -53,6 +56,11 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
     public func display(_ viewModel: StoryErrorViewModel) {
         cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
         cell?.container.isHidden = !(viewModel.message == nil)
+    }
+
+    func didSelect() {
+        guard let url = cell?.url else { return }
+        didSelectStory(url)
     }
 
     private func releaseCellForReuse() {

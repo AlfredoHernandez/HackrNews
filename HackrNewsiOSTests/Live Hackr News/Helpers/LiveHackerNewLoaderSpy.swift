@@ -5,7 +5,7 @@
 import Foundation
 import HackrNews
 
-extension LiveHackrNewsViewControllerTests {
+extension LiveHackrNewsUIIntegrationTests {
     class LiveHackerNewLoaderSpy: LiveHackrNewsLoader, HackrStoryLoader {
         var completions = [(LiveHackrNewsLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }

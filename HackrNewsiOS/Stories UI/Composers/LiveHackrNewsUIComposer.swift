@@ -11,6 +11,7 @@ public final class LiveHackrNewsUIComposer {
     public static func composeWith(
         liveHackrNewsloader: LiveHackrNewsLoader,
         hackrStoryLoader: HackrStoryLoader,
+        didSelectStory: @escaping (URL) -> Void,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> LiveHackrNewsViewController {
@@ -21,6 +22,7 @@ public final class LiveHackrNewsUIComposer {
             view: LiveHackrNewsViewAdapter(
                 loader: MainQueueDispatchDecorator(hackrStoryLoader),
                 controller: viewController,
+                didSelectStory: didSelectStory,
                 locale: locale,
                 calendar: calendar
             ),
@@ -46,11 +48,19 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
     private let loader: HackrStoryLoader
     private let locale: Locale
     private let calendar: Calendar
+    private let didSelectStory: (URL) -> Void
     private weak var controller: LiveHackrNewsViewController?
 
-    init(loader: HackrStoryLoader, controller: LiveHackrNewsViewController, locale: Locale, calendar: Calendar) {
+    init(
+        loader: HackrStoryLoader,
+        controller: LiveHackrNewsViewController,
+        didSelectStory: @escaping (URL) -> Void,
+        locale: Locale,
+        calendar: Calendar
+    ) {
         self.loader = loader
         self.controller = controller
+        self.didSelectStory = didSelectStory
         self.locale = locale
         self.calendar = calendar
     }
@@ -58,7 +68,7 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
     func display(_ viewModel: LiveHackrNewsViewModel) {
         controller?.display(viewModel.stories.map { new in
             let adapter = LiveHackrNewPresentationAdapter(model: new, loader: loader)
-            let controller = LiveHackrNewCellController(delegate: adapter)
+            let controller = LiveHackrNewCellController(delegate: adapter, didSelectStory: didSelectStory)
             adapter.presenter = StoryPresenter(
                 view: WeakRefVirtualProxy(controller),
                 loadingView: WeakRefVirtualProxy(controller),

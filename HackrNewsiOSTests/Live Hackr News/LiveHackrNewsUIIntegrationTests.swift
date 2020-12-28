@@ -6,7 +6,7 @@ import HackrNews
 import HackrNewsiOS
 import XCTest
 
-final class LiveHackrNewsViewControllerTests: XCTestCase {
+final class LiveHackrNewsUIIntegrationTests: XCTestCase {
     func test_controller_hasTitle() {
         let (sut, _) = makeSUT()
 
@@ -333,6 +333,41 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         )
     }
 
+    // MARK: - Selection handler tests
+
+    func test_didSelectStory_triggersHandlerWithUrl() {
+        var handledURLs = [URL]()
+        let (sut, loader) = makeSUT(selection: { handledURLs.append($0) })
+        let url1 = URL(string: "https://any-url.com/first")!
+        let (lhn1, story1) = makeLiveHackrNewAndStory(id: 1, url: url1)
+        let url2 = URL(string: "https://any-url.com/second")!
+        let (lhn2, story2) = makeLiveHackrNewAndStory(id: 2, url: url2)
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [lhn1, lhn2], at: 0)
+
+        sut.simulateStoryViewVisible(at: 0)
+        sut.simulateTapOnStory(at: 0)
+        XCTAssertTrue(handledURLs.isEmpty, "Expected to not trigger selection action with URL \(url1) when is loading")
+
+        loader.completeStoryLoading(with: story1, at: 0)
+        sut.simulateTapOnStory(at: 0)
+        XCTAssertEqual(handledURLs, [url1], "Expected to trigger selection action with URL \(url1), but got \(handledURLs)")
+
+        sut.simulateStoryViewVisible(at: 1)
+        sut.simulateTapOnStory(at: 1)
+        XCTAssertEqual(handledURLs, [url1], "Expected to not trigger second selection action with URL \(url2) when is loading")
+
+        loader.completeStoryLoading(with: story2, at: 1)
+        sut.simulateTapOnStory(at: 1)
+        XCTAssertEqual(
+            handledURLs,
+            [url1, url2],
+            "Expected to trigger selection action with URL \(url1) and \(url2), but got \(handledURLs)"
+        )
+    }
+
+    // MARK: - Dispatching to main thread tests
+
     func test_loadLiveHackrNewsCompletion_dispatchesFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
@@ -365,6 +400,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(
+        selection: @escaping (URL) -> Void = { _ in },
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian),
         file: StaticString = #filePath,
@@ -374,6 +410,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         let sut = LiveHackrNewsUIComposer.composeWith(
             liveHackrNewsloader: loader,
             hackrStoryLoader: loader,
+            didSelectStory: selection,
             locale: locale,
             calendar: calendar
         )
@@ -384,6 +421,12 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
     private func makeLiveHackrNew(id: Int = Int.random(in: 0 ... 100)) -> (model: LiveHackrNew, url: URL) {
         (LiveHackrNew(id: id), URL(string: "https://hacker-news.firebaseio.com/v0/item/\(id).json")!)
+    }
+
+    private func makeLiveHackrNewAndStory(id: Int = 1, url: URL) -> (new: LiveHackrNew, story: Story) {
+        let lhn = LiveHackrNew(id: id)
+        let story = makeStory(id: id, url: url).model
+        return (lhn, story)
     }
 
     private func makeStory(
@@ -414,7 +457,8 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
             author: author,
             comments: "\(comments.count)",
             score: score.representation,
-            date: createdAt.representation
+            date: createdAt.representation,
+            url: url
         )
         return (model, viewModel)
     }

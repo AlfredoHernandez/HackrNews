@@ -11,14 +11,16 @@ public struct StoryViewModel: Equatable {
     public let comments: String?
     public let score: String?
     public let date: String?
+    public let url: URL?
 
-    public init(newId: Int, title: String?, author: String?, comments: String?, score: String?, date: String?) {
+    public init(newId: Int, title: String?, author: String?, comments: String?, score: String?, date: String?, url: URL?) {
         self.newId = newId
         self.title = title
         self.author = author
         self.comments = comments
         self.score = score
         self.date = date
+        self.url = url
     }
 }
 
@@ -94,7 +96,8 @@ public final class StoryPresenter {
             author: "Loading author...",
             comments: "Loading comments...",
             score: "Score",
-            date: "Loading date..."
+            date: "Loading date...",
+            url: nil
         ))
         errorView.display(StoryErrorViewModel(message: nil))
     }
@@ -107,7 +110,8 @@ public final class StoryPresenter {
             author: story.author,
             comments: story.totalComments?.description ?? "0",
             score: String(format: score, story.score ?? "0"),
-            date: format(from: story.createdAt)
+            date: format(from: story.createdAt),
+            url: story.url
         ))
         errorView.display(StoryErrorViewModel(message: nil))
     }
