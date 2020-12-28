@@ -335,39 +335,6 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
 
     // MARK: - Selection handler tests
 
-    func test_didSelectStory_triggersHandler() {
-        var selectionCallCount = 0
-        let (sut, loader) = makeSUT(selection: { _ in selectionCallCount += 1 })
-        let lhn0 = makeLiveHackrNew(id: 0).model
-        let story0 = makeStory(id: lhn0.id).model
-
-        sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn0], at: 0)
-        sut.simulateStoryViewVisible(at: 0)
-        loader.completeStoryLoading(with: story0, at: 0)
-
-        XCTAssertEqual(selectionCallCount, 0, "Expected not to trigger selection action before selection")
-
-        sut.simulateTapOnStory(at: 0)
-        XCTAssertEqual(selectionCallCount, 1, "Expected to trigger selection action")
-
-        sut.simulateTapOnStory(at: 0)
-        XCTAssertEqual(selectionCallCount, 2, "Expected to trigger again selection action")
-    }
-
-    func test_didSelectStory_doesNotTriggerHandlerOnLoadingStory() {
-        var handledURLs = [URL]()
-        let (sut, loader) = makeSUT(selection: { handledURLs.append($0) })
-        let url1 = URL(string: "https://any-url.com/first")!
-        let (lhn1, _) = makeLiveHackrNewAndStory(id: 1, url: url1)
-        sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn1], at: 0)
-
-        sut.simulateStoryViewVisible(at: 0)
-        sut.simulateTapOnStory(at: 0)
-        XCTAssertTrue(handledURLs.isEmpty, "Expected to not trigger selection action with URL \(url1) when is loading")
-    }
-
     func test_didSelectStory_triggersHandlerWithUrl() {
         var handledURLs = [URL]()
         let (sut, loader) = makeSUT(selection: { handledURLs.append($0) })
@@ -379,11 +346,17 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         loader.completeLiveHackrNewsLoading(with: [lhn1, lhn2], at: 0)
 
         sut.simulateStoryViewVisible(at: 0)
+        sut.simulateTapOnStory(at: 0)
+        XCTAssertTrue(handledURLs.isEmpty, "Expected to not trigger selection action with URL \(url1) when is loading")
+
         loader.completeStoryLoading(with: story1, at: 0)
         sut.simulateTapOnStory(at: 0)
         XCTAssertEqual(handledURLs, [url1], "Expected to trigger selection action with URL \(url1), but got \(handledURLs)")
 
         sut.simulateStoryViewVisible(at: 1)
+        sut.simulateTapOnStory(at: 1)
+        XCTAssertEqual(handledURLs, [url1], "Expected to not trigger second selection action with URL \(url2) when is loading")
+
         loader.completeStoryLoading(with: story2, at: 1)
         sut.simulateTapOnStory(at: 1)
         XCTAssertEqual(
