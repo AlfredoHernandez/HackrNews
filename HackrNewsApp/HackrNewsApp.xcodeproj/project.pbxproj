@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		385810BF2594021300126F50 /* DebuggingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385810BE2594021300126F50 /* DebuggingSceneDelegate.swift */; };
 		3864BFDE25951EB700FBAA13 /* SceneDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3864BFDC25951EB700FBAA13 /* SceneDelegateTests.swift */; };
 		386FE76C2592BAF7003D779F /* HackrNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76A2592BAF7003D779F /* HackrNews.framework */; };
 		386FE76D2592BAF7003D779F /* HackrNews.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76A2592BAF7003D779F /* HackrNews.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -61,7 +60,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		385810BE2594021300126F50 /* DebuggingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggingSceneDelegate.swift; sourceTree = "<group>"; };
 		3864BFDC25951EB700FBAA13 /* SceneDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegateTests.swift; sourceTree = "<group>"; };
 		386FE76A2592BAF7003D779F /* HackrNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HackrNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		386FE76B2592BAF7003D779F /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,7 +189,6 @@
 			children = (
 				38F68078259033C8002ED53A /* AppDelegate.swift */,
 				38F6807A259033C8002ED53A /* SceneDelegate.swift */,
-				385810BE2594021300126F50 /* DebuggingSceneDelegate.swift */,
 				38882C6F259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift */,
 				38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator.swift */,
 				38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy.swift */,
@@ -322,7 +319,6 @@
 				38882C76259A928D00A4D2D4 /* WeakRefVirtualProxy.swift in Sources */,
 				38882C73259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift in Sources */,
 				38F6807B259033C8002ED53A /* SceneDelegate.swift in Sources */,
-				385810BF2594021300126F50 /* DebuggingSceneDelegate.swift in Sources */,
 				38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator.swift in Sources */,
 				388C5B142599680500045DB9 /* LHNEndpoint.swift in Sources */,
 			);

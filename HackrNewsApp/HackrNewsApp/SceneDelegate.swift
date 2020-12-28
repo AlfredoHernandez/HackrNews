@@ -36,10 +36,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
 
-    func makeRemoteClient() -> HTTPClient {
-        URLSessionHTTPClient(session: URLSession(configuration: .default))
-    }
-
     private func makeTabBarViewController(with controllers: [UIViewController]) -> UITabBarController {
         let tabBarController = UITabBarController()
         tabBarController.tabBar.tintColor = UIColor.systemRed
