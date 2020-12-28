@@ -280,19 +280,19 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
     func test_storyView_doesNotRenderStoryContentWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
         let lhn0 = makeLiveHackrNew(id: 0)
-        let story0 = makeStory().model
+        let story0 = makeStory()
 
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [lhn0.model], at: 0)
         let view = sut.simulateStoryViewNotVisible(at: 0)
 
-        loader.completeStoryLoading(with: story0, at: 0)
+        loader.completeStoryLoading(with: story0.model, at: 0)
 
-        XCTAssertNil(view?.titleLabel.text)
-        XCTAssertNil(view?.authorLabel.text)
-        XCTAssertNil(view?.scoreLabel.text)
-        XCTAssertNil(view?.createdAtLabel.text)
-        XCTAssertNil(view?.commentsLabel.text)
+        XCTAssertNotEqual(view?.titleText, story0.viewModel.title, "Expected default `loading item..` text, bit got \(String(describing: view?.titleText))")
+        XCTAssertNotEqual(view?.authorText, story0.viewModel.author, "Expected default `loading item..` text, bit got \(String(describing: view?.authorText))")
+        XCTAssertNotEqual(view?.scoreText, story0.viewModel.score, "Expected default `loading item..` text, bit got \(String(describing: view?.scoreText))")
+        XCTAssertNotEqual(view?.createdAtText, story0.viewModel.date, "Expected default `loading item..` text, bit got \(String(describing: view?.createdAtText))")
+        XCTAssertNotEqual(view?.commentsText, story0.viewModel.comments, "Expected default `loading item..` text, bit got \(String(describing: view?.commentsText))")
     }
 
     func test_loadLiveHackrNewsCompletion_dispatchesFromBackgroundToMainThread() {

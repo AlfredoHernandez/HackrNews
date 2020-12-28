@@ -20,11 +20,11 @@ final class StoryPresentationTests: XCTestCase {
 
         XCTAssertEqual(view.messages, [.display(isLoading: true), .display(
             id: new.id,
-            title: nil,
-            author: nil,
-            comments: nil,
-            score: nil,
-            date: nil
+            title: "Loading title...",
+            author: "Loading author...",
+            comments: "Loading comments...",
+            score: "Score",
+            date: "Loading date..."
         ), .display(errorMessage: .none)])
     }
 

@@ -118,9 +118,12 @@
             <connections>
                 <outlet property="authorLabel" destination="gmb-K6-y1D" id="prm-aY-Udb"/>
                 <outlet property="commentsLabel" destination="6Af-lE-BiT" id="GaS-bj-ugF"/>
-                <outlet property="container" destination="Kz9-rn-iFO" id="ddx-Ha-Mvh"/>
+                <outlet property="container" destination="iAY-vi-oG9" id="xCL-aY-KAa"/>
                 <outlet property="createdAtLabel" destination="EV9-4l-YxJ" id="4ng-aB-urI"/>
+                <outlet property="leftContainer" destination="S4U-Xd-jOa" id="RCd-xc-So0"/>
+                <outlet property="middleContainer" destination="pEX-l1-z4a" id="Mzm-32-w3U"/>
                 <outlet property="retryLoadStoryButton" destination="UKf-Il-Rla" id="n9X-Cj-IUq"/>
+                <outlet property="rightContainer" destination="KbG-39-cVe" id="gaR-1Q-REs"/>
                 <outlet property="scoreLabel" destination="3IL-x9-kku" id="1A5-bq-fGK"/>
                 <outlet property="titleLabel" destination="Zf0-NK-Q0W" id="oOI-cq-EMF"/>
             </connections>
