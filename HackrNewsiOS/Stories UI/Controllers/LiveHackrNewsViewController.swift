@@ -30,7 +30,7 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
 
     public func display(_ cellControllers: [LiveHackrNewCellController]) {
         tableModel = cellControllers
-    } 
+    }
 
     override public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         tableModel.count

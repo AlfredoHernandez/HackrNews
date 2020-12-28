@@ -288,11 +288,31 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
 
         loader.completeStoryLoading(with: story0.model, at: 0)
 
-        XCTAssertNotEqual(view?.titleText, story0.viewModel.title, "Expected default `loading item..` text, bit got \(String(describing: view?.titleText))")
-        XCTAssertNotEqual(view?.authorText, story0.viewModel.author, "Expected default `loading item..` text, bit got \(String(describing: view?.authorText))")
-        XCTAssertNotEqual(view?.scoreText, story0.viewModel.score, "Expected default `loading item..` text, bit got \(String(describing: view?.scoreText))")
-        XCTAssertNotEqual(view?.createdAtText, story0.viewModel.date, "Expected default `loading item..` text, bit got \(String(describing: view?.createdAtText))")
-        XCTAssertNotEqual(view?.commentsText, story0.viewModel.comments, "Expected default `loading item..` text, bit got \(String(describing: view?.commentsText))")
+        XCTAssertNotEqual(
+            view?.titleText,
+            story0.viewModel.title,
+            "Expected default `loading item..` text, but got \(String(describing: view?.titleText))"
+        )
+        XCTAssertNotEqual(
+            view?.authorText,
+            story0.viewModel.author,
+            "Expected default `loading item..` text, but got \(String(describing: view?.authorText))"
+        )
+        XCTAssertNotEqual(
+            view?.scoreText,
+            story0.viewModel.score,
+            "Expected default `loading item..` text, but got \(String(describing: view?.scoreText))"
+        )
+        XCTAssertNotEqual(
+            view?.createdAtText,
+            story0.viewModel.date,
+            "Expected default `loading item..` text, but got \(String(describing: view?.createdAtText))"
+        )
+        XCTAssertNotEqual(
+            view?.commentsText,
+            story0.viewModel.comments,
+            "Expected default `loading item..` text, but got \(String(describing: view?.commentsText))"
+        )
     }
 
     func test_loadLiveHackrNewsCompletion_dispatchesFromBackgroundToMainThread() {
