@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3823131F259285CB0053274E /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3823131E259285CB0053274E /* MainQueueDispatchDecorator.swift */; };
 		3864BFE6259526FD00FBAA13 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3864BFE5259526FD00FBAA13 /* Icons.swift */; };
-		3864BFEB259527AC00FBAA13 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3864BFEA259527AC00FBAA13 /* Icons.xcassets */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
 		386551C925869FD2002054AA /* LiveHackrNewsUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551C825869FD2002054AA /* LiveHackrNewsUIIntegrationTests.swift */; };
 		386551CE2586A5DB002054AA /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392AE2582DADC00FCAF70 /* XCTestCase+MemoryLeaksTracking.swift */; };
@@ -115,7 +114,6 @@
 /* Begin PBXFileReference section */
 		3823131E259285CB0053274E /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
 		3864BFE5259526FD00FBAA13 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
-		3864BFEA259527AC00FBAA13 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		386551A625868EF1002054AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		386551AB25868EF2002054AA /* HackrNewsiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -253,7 +251,6 @@
 				38699B052588836F002B460B /* LiveHackrNewsUIComposer.swift */,
 				3823131E259285CB0053274E /* MainQueueDispatchDecorator.swift */,
 				3864BFE5259526FD00FBAA13 /* Icons.swift */,
-				3864BFEA259527AC00FBAA13 /* Icons.xcassets */,
 			);
 			path = Composers;
 			sourceTree = "<group>";
@@ -693,7 +690,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3864BFEB259527AC00FBAA13 /* Icons.xcassets in Resources */,
 				38F6802A258FFD40002ED53A /* LiveHackrNewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
