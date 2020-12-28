@@ -16,7 +16,11 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertNotNil(storiesViewController.simulateStoryViewVisible(at: 1))
     }
 
-    func test_onLaunch_doesNotDisplayRemoteStoriesWhenCustomerHasNotConnectivity() {}
+    func test_onLaunch_doesNotDisplayRemoteStoriesWhenCustomerHasNotConnectivity() {
+        let storiesViewController = launch(httpClient: .offline)
+
+        XCTAssertEqual(storiesViewController.numberOfRenderedLiveHackrNewsViews(), 0)
+    }
 
     func test_onSelectStory_displaysStoryUrlInSafari() {}
 
