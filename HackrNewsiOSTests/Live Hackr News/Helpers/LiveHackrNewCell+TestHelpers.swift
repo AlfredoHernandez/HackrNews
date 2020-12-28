@@ -3,30 +3,67 @@
 //
 
 import HackrNewsiOS
+import UIKit
 
 extension LiveHackrNewCell {
     var cellId: Int { id }
 
     var isShowingLoadingIndicator: Bool { isLoadingContent }
 
+    var containerView: UIView? {
+        container
+    }
+
+    var leftContainerView: UIView? {
+        leftContainer
+    }
+
+    var middleContainerView: UIView? {
+        middleContainer
+    }
+
+    var rightContainerView: UIView? {
+        rightContainer
+    }
+
+    var titleView: UILabel? {
+        titleLabel
+    }
+
     var titleText: String? {
-        titleLabel.text
+        titleView?.text
+    }
+
+    var authorView: UILabel? {
+        authorLabel
     }
 
     var authorText: String? {
-        authorLabel.text
+        authorView?.text
+    }
+
+    var scoreView: UILabel? {
+        scoreLabel
     }
 
     var scoreText: String? {
-        scoreLabel.text
+        scoreView?.text
+    }
+
+    var commentsView: UILabel? {
+        commentsLabel
     }
 
     var commentsText: String? {
-        commentsLabel.text
+        commentsView?.text
+    }
+
+    var createdAtView: UILabel? {
+        createdAtLabel
     }
 
     var createdAtText: String? {
-        createdAtLabel.text
+        createdAtView?.text
     }
 
     var isShowingRetryAction: Bool {

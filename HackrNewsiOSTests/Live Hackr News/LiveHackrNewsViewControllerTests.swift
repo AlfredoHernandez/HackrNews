@@ -190,6 +190,24 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         XCTAssertEqual(view0?.createdAtText, story1VM.date)
     }
 
+    func test_storyCell_hasSkeletonableViews() {
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew().model])
+        let view = sut.simulateStoryViewVisible(at: 0)
+
+        XCTAssertEqual(view?.containerView?.isSkeletonable, true, "Expected containerView to be skeletonable")
+        XCTAssertEqual(view?.leftContainerView?.isSkeletonable, true, "Expected leftContainerView to be skeletonable")
+        XCTAssertEqual(view?.middleContainerView?.isSkeletonable, true, "Expected middleContainerView to be skeletonable")
+        XCTAssertEqual(view?.rightContainerView?.isSkeletonable, true, "Expected rightContainerView to be skeletonable")
+        XCTAssertEqual(view?.titleView?.isSkeletonable, true, "Expected titleView to be skeletonable")
+        XCTAssertEqual(view?.authorView?.isSkeletonable, true, "Expected authorView to be skeletonable")
+        XCTAssertEqual(view?.scoreView?.isSkeletonable, true, "Expected scoreView to be skeletonable")
+        XCTAssertEqual(view?.createdAtView?.isSkeletonable, true, "Expected createdAtView to be skeletonable")
+        XCTAssertEqual(view?.commentsView?.isSkeletonable, true, "Expected commentsView to be skeletonable")
+    }
+
     func test_storyViewRetryButton_isVisibleOnStoryLoadedWithErrorAndHidesContainer() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
