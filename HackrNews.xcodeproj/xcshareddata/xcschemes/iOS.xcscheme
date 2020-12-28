@@ -86,17 +86,6 @@
                ReferencedContainer = "container:HackrNewsApp/HackrNewsApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "385810AB2593F2B300126F50"
-               BuildableName = "HackrNewsAppUIAcceptanceTests.xctest"
-               BlueprintName = "HackrNewsAppUIAcceptanceTests"
-               ReferencedContainer = "container:HackrNewsApp/HackrNewsApp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
