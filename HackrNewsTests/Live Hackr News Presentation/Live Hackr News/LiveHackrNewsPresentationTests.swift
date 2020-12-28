@@ -7,7 +7,7 @@ import XCTest
 
 final class LiveHackrNewsPresentationTests: XCTestCase {
     func test_title_isLocalized() {
-        XCTAssertEqual(LiveHackrNewsPresenter.title, localized("new_stories_title"))
+        XCTAssertEqual(LiveHackrNewsPresenter.title, localized("top_stories_title"))
     }
 
     func test_init_doesNotSendMessagesToView() {

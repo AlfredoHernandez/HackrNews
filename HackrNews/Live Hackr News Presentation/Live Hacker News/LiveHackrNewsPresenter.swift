@@ -11,7 +11,7 @@ public class LiveHackrNewsPresenter {
 
     public static var title: String {
         NSLocalizedString(
-            "new_stories_title",
+            "top_stories_title",
             tableName: "NewStories",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
