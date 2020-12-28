@@ -98,7 +98,7 @@ public final class StoryPresenter {
             newId: story.id,
             title: story.title,
             author: story.author,
-            comments: story.comments?.count.description ?? "0",
+            comments: story.totalComments?.description ?? "0",
             score: String(format: score, story.score ?? "0"),
             date: format(from: story.createdAt)
         ))
