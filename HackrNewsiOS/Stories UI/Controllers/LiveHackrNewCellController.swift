@@ -34,7 +34,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
     }
 
     public func display(_ viewModel: StoryLoadingViewModel) {
-        cell?.container.isShimmering = viewModel.isLoading
+        cell?.isLoadingContent = viewModel.isLoading
     }
 
     public func display(_ viewModel: StoryViewModel) {

@@ -7,9 +7,7 @@ import HackrNewsiOS
 extension LiveHackrNewCell {
     var cellId: Int { id }
 
-    var isShowingLoadingIndicator: Bool {
-        container.isShimmering
-    }
+    var isShowingLoadingIndicator: Bool { isLoadingContent }
 
     var titleText: String? {
         titleLabel.text

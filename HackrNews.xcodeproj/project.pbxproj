@@ -19,6 +19,7 @@
 		38699AFB258865B6002B460B /* LiveHackrNewsRefreshController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38699AFA258865B6002B460B /* LiveHackrNewsRefreshController.swift */; };
 		38699B002588774E002B460B /* LiveHackrNewCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38699AFF2588774E002B460B /* LiveHackrNewCellController.swift */; };
 		38699B062588836F002B460B /* LiveHackrNewsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38699B052588836F002B460B /* LiveHackrNewsUIComposer.swift */; };
+		388C5B0B2599559D00045DB9 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 388C5B0A2599559D00045DB9 /* SkeletonView */; };
 		38B0054C259108CC00FA0D4A /* LiveHackrNewsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B0054B259108CC00FA0D4A /* LiveHackrNewsLoader.swift */; };
 		38B00554259108DD00FA0D4A /* HackrStoryLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B00553259108DD00FA0D4A /* HackrStoryLoader.swift */; };
 		38B0055B2591096B00FA0D4A /* LoadFromRemoteLiveHackrNewsLoaderUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B005592591096B00FA0D4A /* LoadFromRemoteLiveHackrNewsLoaderUseCaseTests.swift */; };
@@ -189,6 +190,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				388C5B0B2599559D00045DB9 /* SkeletonView in Frameworks */,
 				386551EA2586D198002054AA /* HackrNews.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -578,6 +580,9 @@
 				386551ED2586D198002054AA /* PBXTargetDependency */,
 			);
 			name = HackrNewsiOS;
+			packageProductDependencies = (
+				388C5B0A2599559D00045DB9 /* SkeletonView */,
+			);
 			productName = HackrNewsiOS;
 			productReference = 386551A325868EF1002054AA /* HackrNewsiOS.framework */;
 			productType = "com.apple.product-type.framework";
@@ -671,6 +676,9 @@
 				Base,
 			);
 			mainGroup = 38D3925D2582C55300FCAF70;
+			packageReferences = (
+				388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */,
+			);
 			productRefGroup = 38D392682582C55300FCAF70 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1218,6 +1226,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		388C5B0A2599559D00045DB9 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 38D3925E2582C55300FCAF70 /* Project object */;
 }

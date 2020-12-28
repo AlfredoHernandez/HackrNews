@@ -20,11 +20,11 @@ final class StoryPresentationTests: XCTestCase {
 
         XCTAssertEqual(view.messages, [.display(isLoading: true), .display(
             id: new.id,
-            title: nil,
-            author: nil,
-            comments: nil,
-            score: nil,
-            date: nil
+            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+            author: "Loading author...",
+            comments: "Loading comments...",
+            score: "Score",
+            date: "Loading date..."
         ), .display(errorMessage: .none)])
     }
 
@@ -39,7 +39,7 @@ final class StoryPresentationTests: XCTestCase {
             author: "an author",
             score: 2,
             createdAt: date,
-            totalComments: 1,
+            totalComments: 10,
             comments: [1],
             type: "story",
             url: anyURL()
@@ -55,7 +55,7 @@ final class StoryPresentationTests: XCTestCase {
                     id: story.id,
                     title: story.title,
                     author: story.author,
-                    comments: "1",
+                    comments: "10",
                     score: localized("story_points_message", [story.score ?? 0]),
                     date: "Apr 04, 2007"
                 ),

@@ -88,7 +88,14 @@ public final class StoryPresenter {
 
     public func didStartLoadingStory(from new: LiveHackrNew) {
         loadingView.display(StoryLoadingViewModel(isLoading: true))
-        view.display(StoryViewModel(newId: new.id, title: nil, author: nil, comments: nil, score: nil, date: nil))
+        view.display(StoryViewModel(
+            newId: new.id,
+            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+            author: "Loading author...",
+            comments: "Loading comments...",
+            score: "Score",
+            date: "Loading date..."
+        ))
         errorView.display(StoryErrorViewModel(message: nil))
     }
 
@@ -98,7 +105,7 @@ public final class StoryPresenter {
             newId: story.id,
             title: story.title,
             author: story.author,
-            comments: story.comments?.count.description ?? "0",
+            comments: story.totalComments?.description ?? "0",
             score: String(format: score, story.score ?? "0"),
             date: format(from: story.createdAt)
         ))
