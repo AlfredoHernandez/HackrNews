@@ -32,7 +32,6 @@
 		38F6807B259033C8002ED53A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F6807A259033C8002ED53A /* SceneDelegate.swift */; };
 		38F68082259033C9002ED53A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38F68081259033C9002ED53A /* Assets.xcassets */; };
 		38F68085259033C9002ED53A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38F68083259033C9002ED53A /* LaunchScreen.storyboard */; };
-		38F68090259033C9002ED53A /* HackrNewsAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F6808F259033C9002ED53A /* HackrNewsAppTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,7 +95,6 @@
 		38F68084259033C9002ED53A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		38F68086259033C9002ED53A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38F6808B259033C9002ED53A /* HackrNewsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		38F6808F259033C9002ED53A /* HackrNewsAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsAppTests.swift; sourceTree = "<group>"; };
 		38F68091259033C9002ED53A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -199,17 +197,17 @@
 		38F68077259033C8002ED53A /* HackrNewsApp */ = {
 			isa = PBXGroup;
 			children = (
-				38F68086259033C9002ED53A /* Info.plist */,
 				38F68078259033C8002ED53A /* AppDelegate.swift */,
-				385810BE2594021300126F50 /* DebuggingSceneDelegate.swift */,
-				388C5B132599680500045DB9 /* LHNEndpoint.swift */,
 				38F6807A259033C8002ED53A /* SceneDelegate.swift */,
+				385810BE2594021300126F50 /* DebuggingSceneDelegate.swift */,
 				38882C6F259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift */,
 				38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator.swift */,
 				38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy.swift */,
+				388C5B132599680500045DB9 /* LHNEndpoint.swift */,
 				38882C70259A928D00A4D2D4 /* Icons.swift */,
 				38F68081259033C9002ED53A /* Assets.xcassets */,
 				38F68083259033C9002ED53A /* LaunchScreen.storyboard */,
+				38F68086259033C9002ED53A /* Info.plist */,
 			);
 			path = HackrNewsApp;
 			sourceTree = "<group>";
@@ -219,10 +217,9 @@
 			children = (
 				38882C9F259A940600A4D2D4 /* Helpers */,
 				38882C84259A92FD00A4D2D4 /* Live Hackr News */,
-				38F68091259033C9002ED53A /* Info.plist */,
-				38F6808F259033C9002ED53A /* HackrNewsAppTests.swift */,
 				388C5B0F2599676800045DB9 /* LHNEndpointTests.swift */,
 				3864BFDC25951EB700FBAA13 /* SceneDelegateTests.swift */,
+				38F68091259033C9002ED53A /* Info.plist */,
 			);
 			path = HackrNewsAppTests;
 			sourceTree = "<group>";
@@ -384,7 +381,6 @@
 				38882C8C259A932A00A4D2D4 /* LiveHackrNewsViewController+TestHelpers.swift in Sources */,
 				388C5B102599676800045DB9 /* LHNEndpointTests.swift in Sources */,
 				38882CA1259A941100A4D2D4 /* UIControl+TestHelpers.swift in Sources */,
-				38F68090259033C9002ED53A /* HackrNewsAppTests.swift in Sources */,
 				38882C8B259A932A00A4D2D4 /* Story+Any.swift in Sources */,
 				38882CAA259A944200A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */,
 				38882C8E259A932A00A4D2D4 /* LiveHackrNewsViewControllerTests+Assertions.swift in Sources */,
