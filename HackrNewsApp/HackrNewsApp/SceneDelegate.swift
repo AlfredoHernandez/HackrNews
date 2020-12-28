@@ -37,7 +37,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let httpClient = makeRemoteClient()
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.topStories.url(baseUrl), client: httpClient)
         let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
-        let controller = LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: liveHackrNewsloader, hackrStoryLoader: hackrStoryLoader)
+        let controller = LiveHackrNewsUIComposer.composeWith(
+            liveHackrNewsloader: liveHackrNewsloader,
+            hackrStoryLoader: hackrStoryLoader,
+            didSelectStory: { _ in }
+        )
         let navigationController = UINavigationController(rootViewController: controller)
         return navigationController
     }

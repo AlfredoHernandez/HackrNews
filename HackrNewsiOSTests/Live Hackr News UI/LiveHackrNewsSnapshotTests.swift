@@ -75,7 +75,7 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
 
     private func feedStories(stubs: [StoryStub]) -> [LiveHackrNewCellController] {
         stubs.map { stub in
-            let controller = LiveHackrNewCellController(delegate: stub)
+            let controller = LiveHackrNewCellController(delegate: stub, didSelectStory: { _ in })
             stub.controller = controller
             return controller
         }

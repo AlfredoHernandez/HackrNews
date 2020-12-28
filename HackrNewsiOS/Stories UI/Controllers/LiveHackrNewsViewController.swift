@@ -40,6 +40,10 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
         cellController(forRowAt: indexPath).view(in: tableView)
     }
 
+    override public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cellController(forRowAt: indexPath).didSelect()
+    }
+
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
         cancelCellControllerLoad(at: indexPath)
     }
