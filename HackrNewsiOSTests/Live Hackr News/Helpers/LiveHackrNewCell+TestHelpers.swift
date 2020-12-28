@@ -26,44 +26,44 @@ extension LiveHackrNewCell {
         rightContainer
     }
 
-    var titleView: UIView? {
+    var titleView: UILabel? {
         titleLabel
     }
 
     var titleText: String? {
-        titleLabel.text
+        titleView?.text
     }
 
-    var authorView: UIView? {
+    var authorView: UILabel? {
         authorLabel
     }
 
     var authorText: String? {
-        authorLabel.text
+        authorView?.text
     }
 
-    var scoreView: UIView? {
+    var scoreView: UILabel? {
         scoreLabel
     }
 
     var scoreText: String? {
-        scoreLabel.text
+        scoreView?.text
     }
 
-    var commentsView: UIView? {
+    var commentsView: UILabel? {
         commentsLabel
     }
 
     var commentsText: String? {
-        commentsLabel.text
+        commentsView?.text
     }
 
-    var createdAtView: UIView? {
+    var createdAtView: UILabel? {
         createdAtLabel
     }
 
     var createdAtText: String? {
-        createdAtLabel.text
+        createdAtView?.text
     }
 
     var isShowingRetryAction: Bool {
