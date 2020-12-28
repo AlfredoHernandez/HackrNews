@@ -7,6 +7,7 @@ import UIKit
 
 public class LiveHackrNewCell: UITableViewCell {
     public var id: Int = 0
+    public var url: URL?
     @IBOutlet public private(set) var container: UIView!
     @IBOutlet public var leftContainer: UIStackView!
     @IBOutlet public var middleContainer: UIStackView!

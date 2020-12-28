@@ -353,6 +353,31 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(selectionCallCount, 2, "Expected to trigger again selection action")
     }
 
+    func test_didSelectStory_triggersHandlerWithUrl() {
+        var handledURLs = [URL]()
+        let (sut, loader) = makeSUT(selection: { handledURLs.append($0) })
+        let url1 = URL(string: "https://any-url.com/first")!
+        let (lhn1, story1) = makeLiveHackrNewAndStory(id: 1, url: url1)
+        let url2 = URL(string: "https://any-url.com/second")!
+        let (lhn2, story2) = makeLiveHackrNewAndStory(id: 2, url: url2)
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [lhn1, lhn2], at: 0)
+
+        sut.simulateStoryViewVisible(at: 0)
+        loader.completeStoryLoading(with: story1, at: 0)
+        sut.simulateTapOnStory(at: 0)
+        XCTAssertEqual(handledURLs, [url1], "Expected to trigger selection action with URL \(url1), but got \(handledURLs)")
+
+        sut.simulateStoryViewVisible(at: 1)
+        loader.completeStoryLoading(with: story2, at: 1)
+        sut.simulateTapOnStory(at: 1)
+        XCTAssertEqual(
+            handledURLs,
+            [url1, url2],
+            "Expected to trigger selection action with URL \(url1) and \(url2), but got \(handledURLs)"
+        )
+    }
+
     func test_loadLiveHackrNewsCompletion_dispatchesFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
@@ -408,6 +433,12 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         (LiveHackrNew(id: id), URL(string: "https://hacker-news.firebaseio.com/v0/item/\(id).json")!)
     }
 
+    private func makeLiveHackrNewAndStory(id: Int = 1, url: URL) -> (new: LiveHackrNew, story: Story) {
+        let lhn = LiveHackrNew(id: id)
+        let story = makeStory(id: id, url: url).model
+        return (lhn, story)
+    }
+
     private func makeStory(
         id: Int = 0,
         title: String = "",
@@ -436,7 +467,8 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
             author: author,
             comments: "\(comments.count)",
             score: score.representation,
-            date: createdAt.representation
+            date: createdAt.representation,
+            url: url
         )
         return (model, viewModel)
     }
