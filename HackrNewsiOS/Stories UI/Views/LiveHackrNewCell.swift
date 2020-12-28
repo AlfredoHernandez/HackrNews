@@ -21,7 +21,7 @@ public class LiveHackrNewCell: UITableViewCell {
     public var isLoadingContent: Bool = false {
         willSet {
             if newValue {
-                container.showSkeleton()
+                container.showAnimatedGradientSkeleton()
             } else {
                 container.hideSkeleton()
             }
