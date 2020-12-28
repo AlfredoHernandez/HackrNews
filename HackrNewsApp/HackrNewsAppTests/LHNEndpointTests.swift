@@ -11,4 +11,10 @@ class LHNEndpointTests: XCTestCase {
 
         XCTAssertEqual(endpoint.absoluteString, "https://hacker-news.firebaseio.com/v0/newstories.json")
     }
+
+    func test_topStoriesUrl_isCorrectURL() {
+        let endpoint = LHNEndpoint.topStories.url()
+
+        XCTAssertEqual(endpoint.absoluteString, "https://hacker-news.firebaseio.com/v0/topstories.json")
+    }
 }
