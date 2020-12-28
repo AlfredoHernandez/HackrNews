@@ -3,6 +3,7 @@
 //
 
 import HackrNews
+@testable import HackrNewsApp
 import HackrNewsiOS
 import XCTest
 

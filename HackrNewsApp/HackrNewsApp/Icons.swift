@@ -4,12 +4,12 @@
 
 import UIKit
 
-public enum IconState {
+enum IconState {
     case normal
     case selected
 }
 
-public enum Icons {
+enum Icons {
     case news
 
     public func image(state: IconState) -> UIImage {
