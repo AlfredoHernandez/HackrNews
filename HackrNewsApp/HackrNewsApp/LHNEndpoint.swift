@@ -8,12 +8,14 @@ enum LHNEndpoint {
     case newStories
     case topStories
 
-    func url() -> URL {
+    static let baseUrl = URL(string: "https://hacker-news.firebaseio.com")!
+
+    func url(_ baseURL: URL) -> URL {
         switch self {
         case .newStories:
-            return URL(string: "https://hacker-news.firebaseio.com/v0/newstories.json")!
+            return baseURL.appendingPathComponent("/v0/newstories.json")
         case .topStories:
-            return URL(string: "https://hacker-news.firebaseio.com/v0/topstories.json")!
+            return baseURL.appendingPathComponent("/v0/topstories.json")
         }
     }
 }

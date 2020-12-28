@@ -6,15 +6,21 @@
 import XCTest
 
 class LHNEndpointTests: XCTestCase {
-    func test_newStoriesUrl_isCorrectURL() {
-        let endpoint = LHNEndpoint.newStories.url()
+    func test_baseUrl_isCorrect() {
+        XCTAssertEqual(LHNEndpoint.baseUrl.absoluteString, "https://hacker-news.firebaseio.com")
+    }
 
-        XCTAssertEqual(endpoint.absoluteString, "https://hacker-news.firebaseio.com/v0/newstories.json")
+    func test_newStoriesUrl_isCorrectURL() {
+        let baseUrl = URL(string: "http://any-url.com")!
+        let endpoint = LHNEndpoint.newStories.url(baseUrl)
+
+        XCTAssertEqual(endpoint.absoluteString, "http://any-url.com/v0/newstories.json")
     }
 
     func test_topStoriesUrl_isCorrectURL() {
-        let endpoint = LHNEndpoint.topStories.url()
+        let baseUrl = URL(string: "http://any-url.com")!
+        let endpoint = LHNEndpoint.topStories.url(baseUrl)
 
-        XCTAssertEqual(endpoint.absoluteString, "https://hacker-news.firebaseio.com/v0/topstories.json")
+        XCTAssertEqual(endpoint.absoluteString, "http://any-url.com/v0/topstories.json")
     }
 }

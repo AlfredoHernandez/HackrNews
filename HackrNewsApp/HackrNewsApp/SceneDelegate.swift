@@ -8,6 +8,7 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    private let baseUrl = LHNEndpoint.baseUrl
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
@@ -34,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func makeLiveHackrNewsController() -> UINavigationController {
         let httpClient = makeRemoteClient()
-        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.newStories.url(), client: httpClient)
+        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.newStories.url(baseUrl), client: httpClient)
         let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
         let controller = LiveHackrNewsUIComposer.composeWith(liveHackrNewsloader: liveHackrNewsloader, hackrStoryLoader: hackrStoryLoader)
         let navigationController = UINavigationController(rootViewController: controller)
