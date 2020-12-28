@@ -23,7 +23,7 @@ public class LiveHackrNewCell: UITableViewCell {
             if newValue {
                 container.showAnimatedGradientSkeleton()
             } else {
-                container.hideSkeleton()
+                container.hideSkeleton(transition: .crossDissolve(0.5))
             }
         }
     }
