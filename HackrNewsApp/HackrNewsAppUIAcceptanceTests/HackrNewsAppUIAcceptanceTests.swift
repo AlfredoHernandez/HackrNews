@@ -26,4 +26,15 @@ class HackrNewsAppUIAcceptanceTests: XCTestCase {
         let cells = offlineApp.cells.matching(identifier: "story-cell")
         XCTAssertEqual(cells.count, 0)
     }
+
+    func test_onSelectStory_displaysStoryUrlInSafari() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-connectivity", "online"]
+        app.launch()
+
+        let cells = app.cells.matching(identifier: "story-cell")
+        cells.firstMatch.tap()
+
+        XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 5))
+    }
 }
