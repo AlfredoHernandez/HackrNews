@@ -6,7 +6,7 @@ import HackrNews
 import HackrNewsiOS
 import XCTest
 
-final class LiveHackrNewsViewControllerTests: XCTestCase {
+final class LiveHackrNewsUIIntegrationTests: XCTestCase {
     func test_controller_hasTitle() {
         let (sut, _) = makeSUT()
 
@@ -333,6 +333,26 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         )
     }
 
+    func test_didSelectStory_triggersHandler() {
+        var selectionCallCount = 0
+        let (sut, loader) = makeSUT(selection: { _ in selectionCallCount += 1 })
+        let lhn0 = makeLiveHackrNew(id: 0).model
+        let story0 = makeStory(id: lhn0.id).model
+
+        sut.loadViewIfNeeded()
+        loader.completeLiveHackrNewsLoading(with: [lhn0], at: 0)
+        sut.simulateStoryViewVisible(at: 0)
+        loader.completeStoryLoading(with: story0, at: 0)
+
+        XCTAssertEqual(selectionCallCount, 0, "Expected not to trigger selection action before selection")
+
+        sut.simulateTapOnStory(at: 0)
+        XCTAssertEqual(selectionCallCount, 1, "Expected to trigger selection action")
+
+        sut.simulateTapOnStory(at: 0)
+        XCTAssertEqual(selectionCallCount, 2, "Expected to trigger again selection action")
+    }
+
     func test_loadLiveHackrNewsCompletion_dispatchesFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
@@ -365,6 +385,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(
+        selection: @escaping (URL) -> Void = { _ in },
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian),
         file: StaticString = #filePath,
@@ -374,6 +395,7 @@ final class LiveHackrNewsViewControllerTests: XCTestCase {
         let sut = LiveHackrNewsUIComposer.composeWith(
             liveHackrNewsloader: loader,
             hackrStoryLoader: loader,
+            didSelectStory: selection,
             locale: locale,
             calendar: calendar
         )
