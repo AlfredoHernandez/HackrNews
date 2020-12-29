@@ -53,7 +53,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
 
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
-        let liveHackrNews = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+        let liveHackrNews = anyLiveHackrNews()
 
         sut.save(liveHackrNews)
 
@@ -62,7 +62,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
 
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
-        let liveHackrNews = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+        let liveHackrNews = anyLiveHackrNews()
 
         sut.save(liveHackrNews)
         store.completeDeletion(with: anyNSError())
@@ -72,7 +72,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
 
     func test_save_requestsCacheInsertionOnSuccesfulDeletion() {
         let (sut, store) = makeSUT()
-        let liveHackrNews = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+        let liveHackrNews = anyLiveHackrNews()
 
         sut.save(liveHackrNews)
         store.completeDeletionSuccessfully()
@@ -88,5 +88,9 @@ final class CacheHackrNewsUseCase: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
+    }
+
+    private func anyLiveHackrNews() -> [LiveHackrNew] {
+        [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
     }
 }
