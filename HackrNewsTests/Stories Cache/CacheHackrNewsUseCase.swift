@@ -6,8 +6,8 @@ import HackrNews
 import XCTest
 
 class LocalLiveHackrNewsLoader {
-    let store: LiveHackrNewsStore
-    let currentDate: () -> Date
+    private let store: LiveHackrNewsStore
+    private let currentDate: () -> Date
 
     init(store: LiveHackrNewsStore, currentDate: @escaping () -> Date) {
         self.store = store
@@ -22,43 +22,12 @@ class LocalLiveHackrNewsLoader {
     }
 }
 
-class LiveHackrNewsStore {
+protocol LiveHackrNewsStore {
     typealias DeletionCompletion = (Error?) -> Void
-    private(set) var deletionRequests = [DeletionCompletion]()
     typealias InsertionCompletion = (Error?) -> Void
-    private(set) var insertionRequests = [InsertionCompletion]()
 
-    private(set) var receivedMessages = [ReceivedMessage]()
-    enum ReceivedMessage: Equatable {
-        case deletion
-        case insertion([LiveHackrNew], Date)
-    }
-
-    func deleteCachedNews(completion: @escaping DeletionCompletion) {
-        deletionRequests.append(completion)
-        receivedMessages.append(.deletion)
-    }
-
-    func insertCacheNews(_ news: [LiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
-        insertionRequests.append(completion)
-        receivedMessages.append(.insertion(news, timestamp))
-    }
-
-    func completeDeletion(with error: Error, at index: Int = 0) {
-        deletionRequests[index](error)
-    }
-
-    func completeDeletionSuccessfully(at index: Int = 0) {
-        deletionRequests[index](.none)
-    }
-
-    func completeInsertion(with error: Error, at index: Int = 0) {
-        insertionRequests[index](error)
-    }
-
-    func completeInsertionSuccessfully(at index: Int = 0) {
-        insertionRequests[index](.none)
-    }
+    func deleteCachedNews(completion: @escaping DeletionCompletion)
+    func insertCacheNews(_ news: [LiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion)
 }
 
 final class CacheHackrNewsUseCase: XCTestCase {
@@ -130,8 +99,8 @@ final class CacheHackrNewsUseCase: XCTestCase {
         currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: LocalLiveHackrNewsLoader, store: LiveHackrNewsStore) {
-        let store = LiveHackrNewsStore()
+    ) -> (sut: LocalLiveHackrNewsLoader, store: LiveHackrNewsStoreSpy) {
+        let store = LiveHackrNewsStoreSpy()
         let sut = LocalLiveHackrNewsLoader(store: store, currentDate: currentDate)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
@@ -161,5 +130,42 @@ final class CacheHackrNewsUseCase: XCTestCase {
         wait(for: [exp], timeout: 1.0)
 
         XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
+    }
+
+    private class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
+        private(set) var deletionRequests = [DeletionCompletion]()
+        private(set) var insertionRequests = [InsertionCompletion]()
+        private(set) var receivedMessages = [ReceivedMessage]()
+
+        enum ReceivedMessage: Equatable {
+            case deletion
+            case insertion([LiveHackrNew], Date)
+        }
+
+        func deleteCachedNews(completion: @escaping DeletionCompletion) {
+            deletionRequests.append(completion)
+            receivedMessages.append(.deletion)
+        }
+
+        func insertCacheNews(_ news: [LiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
+            insertionRequests.append(completion)
+            receivedMessages.append(.insertion(news, timestamp))
+        }
+
+        func completeDeletion(with error: Error, at index: Int = 0) {
+            deletionRequests[index](error)
+        }
+
+        func completeDeletionSuccessfully(at index: Int = 0) {
+            deletionRequests[index](.none)
+        }
+
+        func completeInsertion(with error: Error, at index: Int = 0) {
+            insertionRequests[index](error)
+        }
+
+        func completeInsertionSuccessfully(at index: Int = 0) {
+            insertionRequests[index](.none)
+        }
     }
 }
