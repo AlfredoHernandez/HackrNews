@@ -9,5 +9,13 @@ public protocol LiveHackrNewsStore {
     typealias InsertionCompletion = (Error?) -> Void
 
     func deleteCachedNews(completion: @escaping DeletionCompletion)
-    func insertCacheNews(_ news: [LiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion)
+    func insertCacheNews(_ news: [LocalLiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion)
+}
+
+public struct LocalLiveHackrNew: Equatable {
+    public let id: Int
+
+    public init(id: Int) {
+        self.id = id
+    }
 }

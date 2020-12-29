@@ -33,11 +33,12 @@ final class CacheHackrNewsUseCase: XCTestCase {
         let timestamp = Date()
         let (sut, store) = makeSUT(currentDate: { timestamp })
         let liveHackrNews = anyLiveHackrNews()
+        let localLiveHackrNews = liveHackrNews.map { LocalLiveHackrNew(id: $0.id) }
 
         sut.save(liveHackrNews) { _ in }
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.receivedMessages, [.deletion, .insertion(liveHackrNews, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deletion, .insertion(localLiveHackrNews, timestamp)])
     }
 
     func test_save_failsOnDeletionError() {
@@ -144,7 +145,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
 
         enum ReceivedMessage: Equatable {
             case deletion
-            case insertion([LiveHackrNew], Date)
+            case insertion([LocalLiveHackrNew], Date)
         }
 
         func deleteCachedNews(completion: @escaping DeletionCompletion) {
@@ -152,7 +153,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
             receivedMessages.append(.deletion)
         }
 
-        func insertCacheNews(_ news: [LiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
+        func insertCacheNews(_ news: [LocalLiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
             insertionRequests.append(completion)
             receivedMessages.append(.insertion(news, timestamp))
         }

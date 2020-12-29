@@ -23,9 +23,15 @@ public class LocalLiveHackrNewsLoader {
     }
 
     private func cache(_ news: [LiveHackrNew], with completion: @escaping (SaveResult) -> Void) {
-        store.insertCacheNews(news, with: currentDate()) { [weak self] insertionError in
+        store.insertCacheNews(news.toLocal(), with: currentDate()) { [weak self] insertionError in
             guard self != nil else { return }
             completion(insertionError)
         }
+    }
+}
+
+extension Array where Element == LiveHackrNew {
+    func toLocal() -> [LocalLiveHackrNew] {
+        map { LocalLiveHackrNew(id: $0.id) }
     }
 }
