@@ -25,7 +25,6 @@ class LocalLiveHackrNewsLoader {
 class LiveHackrNewsStore {
     typealias DeletionCompletion = (Error?) -> Void
     var deleteCacheStoriesCallCount = 0
-    var insertCacheStoriesCallCount = 0
     var deletionRequests = [DeletionCompletion]()
     var insertions = [(news: [LiveHackrNew], timestamp: Date)]()
 
@@ -35,7 +34,6 @@ class LiveHackrNewsStore {
     }
 
     func insertCacheNews(_ news: [LiveHackrNew], with timestamp: Date) {
-        insertCacheStoriesCallCount += 1
         insertions.append((news, timestamp))
     }
 
@@ -71,17 +69,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
         sut.save(liveHackrNews)
         store.completeDeletion(with: anyNSError())
 
-        XCTAssertEqual(store.insertCacheStoriesCallCount, 0)
-    }
-
-    func test_save_requestsCacheInsertionOnSuccesfulDeletion() {
-        let (sut, store) = makeSUT()
-        let liveHackrNews = anyLiveHackrNews()
-
-        sut.save(liveHackrNews)
-        store.completeDeletionSuccessfully()
-
-        XCTAssertEqual(store.insertCacheStoriesCallCount, 1)
+        XCTAssertEqual(store.insertions.count, 0)
     }
 
     func test_save_requestsCacheInsertionWithTimestampOnSuccessfulDeletion() {
