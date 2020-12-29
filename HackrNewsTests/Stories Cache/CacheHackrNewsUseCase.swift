@@ -15,7 +15,8 @@ class LocalLiveHackrNewsLoader {
     }
 
     func save(_ news: [LiveHackrNew], completion: @escaping (Error?) -> Void) {
-        store.deleteCachedNews { [unowned self] error in
+        store.deleteCachedNews { [weak self] error in
+            guard let self = self else { return }
             guard error == nil else { return completion(error) }
             self.store.insertCacheNews(news, with: self.currentDate(), completion: completion)
         }
@@ -91,6 +92,21 @@ final class CacheHackrNewsUseCase: XCTestCase {
             store.completeDeletionSuccessfully()
             store.completeInsertionSuccessfully()
         })
+    }
+
+    func test_save_doesNotDeliversDelitionErrorAfterSUTInstanceHasBeenDeallocated() {
+        let store = LiveHackrNewsStoreSpy()
+        var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
+        var receivedResults = [Error?]()
+
+        sut?.save(anyLiveHackrNews(), completion: { result in
+            receivedResults.append(result)
+        })
+        sut = nil
+
+        store.completeDeletion(with: anyNSError())
+
+        XCTAssertTrue(receivedResults.isEmpty, "Expected to have no results, but got \(receivedResults)")
     }
 
     // MARK: - Helpers
