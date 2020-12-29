@@ -71,7 +71,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
     func test_save_doesNotDeliversDelitionErrorAfterSUTInstanceHasBeenDeallocated() {
         let store = LiveHackrNewsStoreSpy()
         var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
-        var receivedResults = [Error?]()
+        var receivedResults = [LocalLiveHackrNewsLoader.SaveResult]()
 
         sut?.save(anyLiveHackrNews(), completion: { result in
             receivedResults.append(result)

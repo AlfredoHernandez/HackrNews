@@ -5,6 +5,7 @@
 import Foundation
 
 public class LocalLiveHackrNewsLoader {
+    public typealias SaveResult = Error?
     private let store: LiveHackrNewsStore
     private let currentDate: () -> Date
 
@@ -13,7 +14,7 @@ public class LocalLiveHackrNewsLoader {
         self.currentDate = currentDate
     }
 
-    public func save(_ news: [LiveHackrNew], completion: @escaping (Error?) -> Void) {
+    public func save(_ news: [LiveHackrNew], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedNews { [weak self] deletionError in
             guard let self = self else { return }
             guard deletionError == nil else { return completion(deletionError) }
@@ -21,7 +22,7 @@ public class LocalLiveHackrNewsLoader {
         }
     }
 
-    private func cache(_ news: [LiveHackrNew], with completion: @escaping (Error?) -> Void) {
+    private func cache(_ news: [LiveHackrNew], with completion: @escaping (SaveResult) -> Void) {
         store.insertCacheNews(news, with: currentDate()) { [weak self] insertionError in
             guard self != nil else { return }
             completion(insertionError)
