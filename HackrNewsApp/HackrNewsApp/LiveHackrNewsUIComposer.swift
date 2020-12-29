@@ -4,6 +4,7 @@
 
 import Foundation
 import HackrNews
+import HackrNewsiOS
 
 public final class LiveHackrNewsUIComposer {
     private init() {}

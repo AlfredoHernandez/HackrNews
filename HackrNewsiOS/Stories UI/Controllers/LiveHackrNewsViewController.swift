@@ -11,7 +11,7 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
         didSet { tableView.reloadData() }
     }
 
-    convenience init(refreshController: LiveHackrNewsRefreshController) {
+    public convenience init(refreshController: LiveHackrNewsRefreshController) {
         self.init()
         self.refreshController = refreshController
     }

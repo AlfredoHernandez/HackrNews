@@ -11,6 +11,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private let baseUrl = LHNEndpoint.baseUrl
 
+    private lazy var httpClient: HTTPClient = {
+        URLSessionHTTPClient(session: URLSession(configuration: .default))
+    }()
+
+    convenience init(httpClient: HTTPClient) {
+        self.init()
+        self.httpClient = httpClient
+    }
+
     private lazy var navigationController: UINavigationController = {
         UINavigationController(rootViewController: makeLiveHackrNewsController())
     }()
@@ -27,10 +36,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
 
-    func makeRemoteClient() -> HTTPClient {
-        URLSessionHTTPClient(session: URLSession(configuration: .default))
-    }
-
     private func makeTabBarViewController(with controllers: [UIViewController]) -> UITabBarController {
         let tabBarController = UITabBarController()
         tabBarController.tabBar.tintColor = UIColor.systemRed
@@ -39,7 +44,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func makeLiveHackrNewsController() -> LiveHackrNewsViewController {
-        let httpClient = makeRemoteClient()
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.topStories.url(baseUrl), client: httpClient)
         let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
         return LiveHackrNewsUIComposer.composeWith(

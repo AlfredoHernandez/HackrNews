@@ -5,16 +5,16 @@
 import HackrNews
 import UIKit
 
-protocol LiveHackrNewsRefreshControllerDelegate {
+public protocol LiveHackrNewsRefreshControllerDelegate {
     func didRequestNews()
 }
 
-final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadingView {
+public final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadingView {
     private(set) lazy var view = loadView()
 
     private let delegate: LiveHackrNewsRefreshControllerDelegate
 
-    init(delegate: LiveHackrNewsRefreshControllerDelegate) {
+    public init(delegate: LiveHackrNewsRefreshControllerDelegate) {
         self.delegate = delegate
     }
 
@@ -22,7 +22,7 @@ final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadingView {
         delegate.didRequestNews()
     }
 
-    func display(_ viewModel: LiveHackrNewsLoadingViewModel) {
+    public func display(_ viewModel: LiveHackrNewsLoadingViewModel) {
         if viewModel.isLoading {
             view.beginRefreshing()
         } else {
