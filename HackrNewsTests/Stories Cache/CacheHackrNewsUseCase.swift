@@ -43,9 +43,11 @@ final class CacheHackrNewsUseCase: XCTestCase {
 
     // MARK: - Helpers
 
-    private func makeSUT() -> (sut: LocalLiveHackrNewsLoader, store: LiveHackrNewsStore) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalLiveHackrNewsLoader, store: LiveHackrNewsStore) {
         let store = LiveHackrNewsStore()
         let sut = LocalLiveHackrNewsLoader(store: store)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
     }
 }
