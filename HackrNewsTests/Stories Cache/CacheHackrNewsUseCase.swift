@@ -5,39 +5,6 @@
 import HackrNews
 import XCTest
 
-class LocalLiveHackrNewsLoader {
-    private let store: LiveHackrNewsStore
-    private let currentDate: () -> Date
-
-    init(store: LiveHackrNewsStore, currentDate: @escaping () -> Date) {
-        self.store = store
-        self.currentDate = currentDate
-    }
-
-    func save(_ news: [LiveHackrNew], completion: @escaping (Error?) -> Void) {
-        store.deleteCachedNews { [weak self] deletionError in
-            guard let self = self else { return }
-            guard deletionError == nil else { return completion(deletionError) }
-            self.cache(news, with: completion)
-        }
-    }
-
-    private func cache(_ news: [LiveHackrNew], with completion: @escaping (Error?) -> Void) {
-        store.insertCacheNews(news, with: currentDate()) { [weak self] insertionError in
-            guard self != nil else { return }
-            completion(insertionError)
-        }
-    }
-}
-
-protocol LiveHackrNewsStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
-
-    func deleteCachedNews(completion: @escaping DeletionCompletion)
-    func insertCacheNews(_ news: [LiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion)
-}
-
 final class CacheHackrNewsUseCase: XCTestCase {
     func test_init_doesNotDeleteCacheUponCreation() {
         let (_, store) = makeSUT()
