@@ -13,15 +13,27 @@ class LocalLiveHackrNewsLoader {
     }
 
     func save(_: [LiveHackrNew]) {
-        store.deleteCachedNews()
+        store.deleteCachedNews { _ in
+        }
     }
 }
 
 class LiveHackrNewsStore {
     var deleteCacheStoriesCallCount = 0
+    var insertCacheStoriesCallCount = 0
+    var deletionRequests = [(Error?) -> Void]()
 
-    func deleteCachedNews() {
+    func deleteCachedNews(completion: @escaping (Error?) -> Void) {
         deleteCacheStoriesCallCount += 1
+        deletionRequests.append(completion)
+    }
+
+    func insertCacheNews(_: [LiveHackrNew]) {
+        insertCacheStoriesCallCount += 1
+    }
+
+    func completeDeletion(with error: Error, at index: Int = 0) {
+        deletionRequests[index](error)
     }
 }
 
@@ -39,6 +51,16 @@ final class CacheHackrNewsUseCase: XCTestCase {
         sut.save(liveHackrNews)
 
         XCTAssertEqual(store.deleteCacheStoriesCallCount, 1)
+    }
+
+    func test_save_doesNotRequestCacheInsertionOnDeletionError() {
+        let (sut, store) = makeSUT()
+        let liveHackrNews = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+
+        sut.save(liveHackrNews)
+        store.completeDeletion(with: anyNSError())
+
+        XCTAssertEqual(store.insertCacheStoriesCallCount, 0)
     }
 
     // MARK: - Helpers
