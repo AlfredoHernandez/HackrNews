@@ -15,7 +15,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
 
-        sut.save(anyLiveHackrNews()) { _ in }
+        sut.save(anyLiveHackrNews().models) { _ in }
 
         XCTAssertEqual(store.receivedMessages, [.deletion])
     }
@@ -23,7 +23,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
 
-        sut.save(anyLiveHackrNews()) { _ in }
+        sut.save(anyLiveHackrNews().models) { _ in }
         store.completeDeletion(with: anyNSError())
 
         XCTAssertEqual(store.receivedMessages, [.deletion])
@@ -33,12 +33,11 @@ final class CacheHackrNewsUseCase: XCTestCase {
         let timestamp = Date()
         let (sut, store) = makeSUT(currentDate: { timestamp })
         let liveHackrNews = anyLiveHackrNews()
-        let localLiveHackrNews = liveHackrNews.map { LocalLiveHackrNew(id: $0.id) }
 
-        sut.save(liveHackrNews) { _ in }
+        sut.save(liveHackrNews.models) { _ in }
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.receivedMessages, [.deletion, .insertion(localLiveHackrNews, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deletion, .insertion(liveHackrNews.local, timestamp)])
     }
 
     func test_save_failsOnDeletionError() {
@@ -74,7 +73,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
         var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
         var receivedResults = [LocalLiveHackrNewsLoader.SaveResult]()
 
-        sut?.save(anyLiveHackrNews(), completion: { result in
+        sut?.save(anyLiveHackrNews().models, completion: { result in
             receivedResults.append(result)
         })
         sut = nil
@@ -89,7 +88,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
         var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
         var receivedResults = [Error?]()
 
-        sut?.save(anyLiveHackrNews(), completion: { result in
+        sut?.save(anyLiveHackrNews().models, completion: { result in
             receivedResults.append(result)
         })
         store.completeDeletionSuccessfully()
@@ -113,8 +112,10 @@ final class CacheHackrNewsUseCase: XCTestCase {
         return (sut, store)
     }
 
-    private func anyLiveHackrNews() -> [LiveHackrNew] {
-        [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+    private func anyLiveHackrNews() -> (models: [LiveHackrNew], local: [LocalLiveHackrNew]) {
+        let models = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+        let locals = models.map { LocalLiveHackrNew(id: $0.id) }
+        return (models, locals)
     }
 
     private func expect(
@@ -127,7 +128,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
         var receivedError: Error?
         let exp = expectation(description: "Wait for save command")
 
-        sut.save(anyLiveHackrNews()) { error in
+        sut.save(anyLiveHackrNews().models) { error in
             receivedError = error
             exp.fulfill()
         }
