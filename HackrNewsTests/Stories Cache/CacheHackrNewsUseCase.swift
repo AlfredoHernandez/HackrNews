@@ -24,17 +24,21 @@ class LocalLiveHackrNewsLoader {
 
 class LiveHackrNewsStore {
     typealias DeletionCompletion = (Error?) -> Void
-    var deleteCacheStoriesCallCount = 0
-    var deletionRequests = [DeletionCompletion]()
-    var insertions = [(news: [LiveHackrNew], timestamp: Date)]()
+    private(set) var deletionRequests = [DeletionCompletion]()
+
+    private(set) var receivedMessages = [ReceivedMessage]()
+    enum ReceivedMessage: Equatable {
+        case deletion
+        case insertion([LiveHackrNew], Date)
+    }
 
     func deleteCachedNews(completion: @escaping DeletionCompletion) {
-        deleteCacheStoriesCallCount += 1
         deletionRequests.append(completion)
+        receivedMessages.append(.deletion)
     }
 
     func insertCacheNews(_ news: [LiveHackrNew], with timestamp: Date) {
-        insertions.append((news, timestamp))
+        receivedMessages.append(.insertion(news, timestamp))
     }
 
     func completeDeletion(with error: Error, at index: Int = 0) {
@@ -50,7 +54,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
     func test_init_doesNotDeleteCacheUponCreation() {
         let (_, store) = makeSUT()
 
-        XCTAssertEqual(store.deleteCacheStoriesCallCount, 0)
+        XCTAssertEqual(store.receivedMessages, [])
     }
 
     func test_save_requestsCacheDeletion() {
@@ -59,7 +63,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
 
         sut.save(liveHackrNews)
 
-        XCTAssertEqual(store.deleteCacheStoriesCallCount, 1)
+        XCTAssertEqual(store.receivedMessages, [.deletion])
     }
 
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
@@ -69,7 +73,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
         sut.save(liveHackrNews)
         store.completeDeletion(with: anyNSError())
 
-        XCTAssertEqual(store.insertions.count, 0)
+        XCTAssertEqual(store.receivedMessages, [.deletion])
     }
 
     func test_save_requestsCacheInsertionWithTimestampOnSuccessfulDeletion() {
@@ -80,9 +84,7 @@ final class CacheHackrNewsUseCase: XCTestCase {
         sut.save(liveHackrNews)
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.insertions.count, 1)
-        XCTAssertEqual(store.insertions.first?.news, liveHackrNews)
-        XCTAssertEqual(store.insertions.first?.timestamp, timestamp)
+        XCTAssertEqual(store.receivedMessages, [.deletion, .insertion(liveHackrNews, timestamp)])
     }
 
     // MARK: - Helpers
