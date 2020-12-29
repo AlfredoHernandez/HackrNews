@@ -55,6 +55,10 @@ class LiveHackrNewsStore {
     func completeInsertion(with error: Error, at index: Int = 0) {
         insertionRequests[index](error)
     }
+
+    func completeInsertionSuccessfully(at index: Int = 0) {
+        insertionRequests[index](.none)
+    }
 }
 
 final class CacheHackrNewsUseCase: XCTestCase {
@@ -126,6 +130,24 @@ final class CacheHackrNewsUseCase: XCTestCase {
         wait(for: [exp], timeout: 1.0)
 
         XCTAssertEqual(receivedError as NSError?, insertionError)
+    }
+
+    func test_save_succeedsOnSuccessfulInsertion() {
+        let (sut, store) = makeSUT()
+        var receivedError: Error?
+        let exp = expectation(description: "Wait for save command")
+
+        sut.save(anyLiveHackrNews()) { error in
+            receivedError = error
+            exp.fulfill()
+        }
+
+        store.completeDeletionSuccessfully()
+        store.completeInsertionSuccessfully()
+
+        wait(for: [exp], timeout: 1.0)
+
+        XCTAssertNil(receivedError)
     }
 
     // MARK: - Helpers
