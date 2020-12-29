@@ -15,13 +15,17 @@ class LocalLiveHackrNewsLoader {
     }
 
     func save(_ news: [LiveHackrNew], completion: @escaping (Error?) -> Void) {
-        store.deleteCachedNews { [weak self] error in
+        store.deleteCachedNews { [weak self] deletionError in
             guard let self = self else { return }
-            guard error == nil else { return completion(error) }
-            self.store.insertCacheNews(news, with: self.currentDate()) { [weak self] error in
-                guard self != nil else { return }
-                completion(error)
-            }
+            guard deletionError == nil else { return completion(deletionError) }
+            self.cache(news, with: completion)
+        }
+    }
+
+    private func cache(_ news: [LiveHackrNew], with completion: @escaping (Error?) -> Void) {
+        store.insertCacheNews(news, with: currentDate()) { [weak self] insertionError in
+            guard self != nil else { return }
+            completion(insertionError)
         }
     }
 }
