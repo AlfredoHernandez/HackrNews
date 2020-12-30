@@ -6,6 +6,7 @@ import Foundation
 
 public class LocalLiveHackrNewsLoader {
     public typealias SaveResult = Error?
+    public typealias LoadResult = LiveHackrNewsLoader.Result
     private let store: LiveHackrNewsStore
     private let currentDate: () -> Date
 
@@ -29,8 +30,14 @@ public class LocalLiveHackrNewsLoader {
         }
     }
 
-    public func load(completion: @escaping (Error?) -> Void) {
-        store.retrieve(completion: completion)
+    public func load(completion: @escaping (LoadResult) -> Void) {
+        store.retrieve { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success([]))
+            }
+        }
     }
 }
 
