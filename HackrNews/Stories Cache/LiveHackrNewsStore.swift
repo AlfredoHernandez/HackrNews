@@ -10,4 +10,5 @@ public protocol LiveHackrNewsStore {
 
     func deleteCachedNews(completion: @escaping DeletionCompletion)
     func insertCacheNews(_ news: [LocalLiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion)
+    func retrieve()
 }

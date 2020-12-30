@@ -28,6 +28,10 @@ public class LocalLiveHackrNewsLoader {
             completion(insertionError)
         }
     }
+
+    public func load() {
+        store.retrieve()
+    }
 }
 
 extension Array where Element == LiveHackrNew {

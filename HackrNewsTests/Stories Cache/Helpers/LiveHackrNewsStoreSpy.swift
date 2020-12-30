@@ -13,6 +13,7 @@ class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
     enum ReceivedMessage: Equatable {
         case deletion
         case insertion([LocalLiveHackrNew], Date)
+        case retrieve
     }
 
     func deleteCachedNews(completion: @escaping DeletionCompletion) {
@@ -39,5 +40,9 @@ class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
 
     func completeInsertionSuccessfully(at index: Int = 0) {
         insertionRequests[index](.none)
+    }
+
+    func retrieve() {
+        receivedMessages.append(.retrieve)
     }
 }
