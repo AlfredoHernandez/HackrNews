@@ -37,6 +37,17 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
         })
     }
 
+    func test_load_deliversCachedNewsOnLessThanOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let lessThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: 1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+
+        expect(sut, toCompleteWith: .success(news.models)) {
+            store.completeRetrieval(with: news.local, timestamp: lessThanOneDayOldTimestamp)
+        }
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -75,5 +86,23 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
         action()
 
         wait(for: [exp], timeout: 1.0)
+    }
+
+    // MARK: - Shared helpers
+
+    private func anyLiveHackrNews() -> (models: [LiveHackrNew], local: [LocalLiveHackrNew]) {
+        let models = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+        let locals = models.map { LocalLiveHackrNew(id: $0.id) }
+        return (models, locals)
+    }
+}
+
+private extension Date {
+    func adding(days: Int) -> Date {
+        Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+
+    func adding(seconds: TimeInterval) -> Date {
+        self + seconds
     }
 }

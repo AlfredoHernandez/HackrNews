@@ -49,10 +49,14 @@ class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
     }
 
     func completeRetrieval(with error: Error, at index: Int = 0) {
-        retrievalRequests[index](error)
+        retrievalRequests[index](.failure(error))
     }
 
     func completeRetrievalWithEmptyCache(at index: Int = 0) {
-        retrievalRequests[index](nil)
+        retrievalRequests[index](.empty)
+    }
+
+    func completeRetrieval(with news: [LocalLiveHackrNew], timestamp: Date, at index: Int = 0) {
+        retrievalRequests[index](.found(news: news, timestamp: timestamp))
     }
 }
