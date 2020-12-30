@@ -23,46 +23,18 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
     func test_load_failsOnRetrievalError() {
         let (sut, store) = makeSUT()
         let retrievalError = anyNSError()
-        var receivedError: Error?
-        let exp = expectation(description: "Wait for load completion")
 
-        sut.load { result in
-            switch result {
-            case let .failure(error):
-                receivedError = error
-            default:
-                XCTFail("Expected failure, but got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        store.completeRetrieval(with: retrievalError)
-
-        wait(for: [exp], timeout: 1.0)
-        XCTAssertEqual(
-            receivedError as NSError?,
-            retrievalError,
-            "Expected a retrieval error, but got \(String(describing: receivedError))"
-        )
+        expect(sut, toCompleteWith: .failure(retrievalError), when: {
+            store.completeRetrieval(with: retrievalError)
+        })
     }
 
     func test_load_retrieveNoNewsOnEmptyCache() {
         let (sut, store) = makeSUT()
-        var receivedNews = [LiveHackrNew]()
-        let exp = expectation(description: "Wait for load completion")
 
-        sut.load { result in
-            switch result {
-            case let .success(news):
-                receivedNews = news
-            default:
-                XCTFail("Expected success, but got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        store.completeRetrievalWithEmptyCache()
-
-        wait(for: [exp], timeout: 1.0)
-        XCTAssertTrue(receivedNews.isEmpty)
+        expect(sut, toCompleteWith: .success([]), when: {
+            store.completeRetrievalWithEmptyCache()
+        })
     }
 
     // MARK: - Helpers
@@ -77,5 +49,31 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
+    }
+
+    private func expect(
+        _ sut: LocalLiveHackrNewsLoader,
+        toCompleteWith expectedResult: LocalLiveHackrNewsLoader.LoadResult,
+        when action: () -> Void,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let exp = expectation(description: "Wait for load completion")
+
+        sut.load { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedNews), .success(expectedNews)):
+                XCTAssertEqual(receivedNews, expectedNews, file: file, line: line)
+            case let (.failure(receivedError as NSError), .failure(expectedError as NSError)):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+            default:
+                XCTFail("Expected \(expectedResult), but got \(receivedResult) instead")
+            }
+            exp.fulfill()
+        }
+
+        action()
+
+        wait(for: [exp], timeout: 1.0)
     }
 }
