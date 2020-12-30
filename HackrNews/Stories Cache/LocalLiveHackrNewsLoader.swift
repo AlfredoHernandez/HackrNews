@@ -39,7 +39,6 @@ public class LocalLiveHackrNewsLoader {
             case let .found(news: news, timestamp: timestamp) where self.validate(timestamp):
                 completion(.success(news.toModels()))
             case let .failure(error):
-                self.store.deleteCachedNews { _ in }
                 completion(.failure(error))
             case .found:
                 self.store.deleteCachedNews { _ in }
@@ -53,6 +52,11 @@ public class LocalLiveHackrNewsLoader {
     private func validate(_ timestamp: Date) -> Bool {
         guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
         return currentDate() < maxCacheAge
+    }
+
+    public func validateCache() {
+        store.retrieve { _ in }
+        store.deleteCachedNews { _ in }
     }
 }
 
