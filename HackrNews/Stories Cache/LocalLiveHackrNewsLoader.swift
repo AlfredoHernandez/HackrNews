@@ -40,7 +40,10 @@ public class LocalLiveHackrNewsLoader {
             case let .failure(error):
                 store.deleteCachedNews { _ in }
                 completion(.failure(error))
-            case .found, .empty:
+            case .found:
+                store.deleteCachedNews { _ in }
+                fallthrough
+            case .empty:
                 completion(.success([]))
             }
         }
