@@ -51,11 +51,11 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversNoNewsOnMoreThanOneDayOldCache() {
         let news = anyLiveHackrNews()
         let fixedCurrentDate = Date()
-        let lessThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: -1)
+        let moreThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: -1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
 
         expect(sut, toCompleteWith: .success([])) {
-            store.completeRetrieval(with: news.local, timestamp: lessThanOneDayOldTimestamp)
+            store.completeRetrieval(with: news.local, timestamp: moreThanOneDayOldTimestamp)
         }
     }
 
@@ -69,6 +69,8 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
             store.completeRetrieval(with: news.local, timestamp: oneDayOldTimestamp)
         }
     }
+
+    // MARK: - Cache deletion business case
 
     func test_load_deletesCacheOnRetrievalError() {
         let (sut, store) = makeSUT()
@@ -84,6 +86,18 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
 
         sut.load { _ in }
         store.completeRetrievalWithEmptyCache()
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+
+    func test_load_doesNotDeleteCacheOnLessThatOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let lessThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: 1)
+        let (sut, store) = makeSUT()
+
+        sut.load { _ in }
+        store.completeRetrieval(with: news.local, timestamp: lessThanOneDayOldTimestamp)
 
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
