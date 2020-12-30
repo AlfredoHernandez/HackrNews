@@ -31,16 +31,21 @@ public class LocalLiveHackrNewsLoader {
     }
 
     public func load(completion: @escaping (LoadResult) -> Void) {
-        store.retrieve { result in
+        store.retrieve { [unowned self] result in
             switch result {
-            case .empty:
-                completion(.success([]))
+            case let .found(news: news, timestamp: timestamp) where validate(timestamp):
+                completion(.success(news.toModels()))
             case let .failure(error):
                 completion(.failure(error))
-            case let .found(news: news, timestamp: timestamp):
-                completion(.success(news.toModels()))
+            case .found, .empty:
+                completion(.success([]))
             }
         }
+    }
+
+    private func validate(_ timestamp: Date) -> Bool {
+        guard let maxCacheAge = Calendar(identifier: .gregorian).date(byAdding: .day, value: 1, to: timestamp) else { return false }
+        return currentDate() < maxCacheAge
     }
 }
 
