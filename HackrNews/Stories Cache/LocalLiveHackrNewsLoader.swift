@@ -5,8 +5,6 @@
 import Foundation
 
 public class LocalLiveHackrNewsLoader {
-    public typealias SaveResult = Error?
-    public typealias LoadResult = LiveHackrNewsLoader.Result
     private let store: LiveHackrNewsStore
     private let currentDate: () -> Date
     private let calendar = Calendar(identifier: .gregorian)
@@ -25,8 +23,10 @@ public class LocalLiveHackrNewsLoader {
 
 // MARK: - Save Cache
 
-extension LocalLiveHackrNewsLoader {
-    public func save(_ news: [LiveHackrNew], completion: @escaping (SaveResult) -> Void) {
+public extension LocalLiveHackrNewsLoader {
+    typealias SaveResult = Error?
+
+    func save(_ news: [LiveHackrNew], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedNews { [weak self] deletionError in
             guard let self = self else { return }
             guard deletionError == nil else { return completion(deletionError) }
@@ -45,6 +45,8 @@ extension LocalLiveHackrNewsLoader {
 // MARK: - Load Cache
 
 extension LocalLiveHackrNewsLoader: LiveHackrNewsLoader {
+    public typealias LoadResult = LiveHackrNewsLoader.Result
+
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
