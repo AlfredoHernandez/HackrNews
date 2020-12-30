@@ -55,8 +55,14 @@ public class LocalLiveHackrNewsLoader {
     }
 
     public func validateCache() {
-        store.retrieve { _ in }
-        store.deleteCachedNews { _ in }
+        store.retrieve { [unowned self] result in
+            switch result {
+            case .failure:
+                store.deleteCachedNews { _ in }
+            default:
+                break
+            }
+        }
     }
 }
 
