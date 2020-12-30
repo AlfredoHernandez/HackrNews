@@ -38,6 +38,7 @@ public class LocalLiveHackrNewsLoader {
             case let .found(news: news, timestamp: timestamp) where validate(timestamp):
                 completion(.success(news.toModels()))
             case let .failure(error):
+                store.deleteCachedNews { _ in }
                 completion(.failure(error))
             case .found, .empty:
                 completion(.success([]))
