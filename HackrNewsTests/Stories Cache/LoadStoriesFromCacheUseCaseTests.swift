@@ -114,6 +114,18 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deletion])
     }
 
+    func test_load_deletesCacheOnMoreThanOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let moreThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(days: -1)
+        let (sut, store) = makeSUT()
+
+        sut.load { _ in }
+        store.completeRetrieval(with: news.local, timestamp: moreThanOneDayOldTimestamp)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deletion])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
