@@ -8,6 +8,7 @@ import HackrNews
 class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
     private(set) var deletionRequests = [DeletionCompletion]()
     private(set) var insertionRequests = [InsertionCompletion]()
+    private(set) var retrievalRequests = [RetrievalCompletion]()
     private(set) var receivedMessages = [ReceivedMessage]()
 
     enum ReceivedMessage: Equatable {
@@ -42,7 +43,12 @@ class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
         insertionRequests[index](.none)
     }
 
-    func retrieve() {
+    func retrieve(completion: @escaping RetrievalCompletion) {
+        retrievalRequests.append(completion)
         receivedMessages.append(.retrieve)
+    }
+
+    func completeRetrieval(with error: Error, at index: Int = 0) {
+        retrievalRequests[index](error)
     }
 }
