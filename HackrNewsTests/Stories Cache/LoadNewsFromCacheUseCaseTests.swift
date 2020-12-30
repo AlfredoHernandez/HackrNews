@@ -90,7 +90,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
-    func test_load_doesNotDeleteCacheOnLessThatOneDayOldCache() {
+    func test_load_hasNoSideEffectsOnLessThatOneDayOldCache() {
         let news = anyLiveHackrNews()
         let fixedCurrentDate = Date()
         let lessThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: 1)
@@ -186,6 +186,8 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
         return (models, locals)
     }
 }
+
+// MARK: - Shared extensions
 
 private extension Date {
     func adding(days: Int) -> Date {
