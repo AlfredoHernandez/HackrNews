@@ -9,6 +9,8 @@ public class LocalLiveHackrNewsLoader {
     public typealias LoadResult = LiveHackrNewsLoader.Result
     private let store: LiveHackrNewsStore
     private let currentDate: () -> Date
+    private let calendar = Calendar(identifier: .gregorian)
+    private var maxCacheAgeInDays: Int { 1 }
 
     public init(store: LiveHackrNewsStore, currentDate: @escaping () -> Date) {
         self.store = store
@@ -44,7 +46,7 @@ public class LocalLiveHackrNewsLoader {
     }
 
     private func validate(_ timestamp: Date) -> Bool {
-        guard let maxCacheAge = Calendar(identifier: .gregorian).date(byAdding: .day, value: 1, to: timestamp) else { return false }
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
         return currentDate() < maxCacheAge
     }
 }
