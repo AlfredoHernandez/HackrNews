@@ -44,8 +44,8 @@ extension LocalLiveHackrNewsLoader {
 
 // MARK: - Load Cache
 
-public extension LocalLiveHackrNewsLoader {
-    func load(completion: @escaping (LoadResult) -> Void) {
+extension LocalLiveHackrNewsLoader: LiveHackrNewsLoader {
+    public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
