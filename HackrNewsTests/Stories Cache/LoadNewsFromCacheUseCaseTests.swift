@@ -102,7 +102,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
-    func test_load_deletesCacheOnOneDayOldCache() {
+    func test_load_hasNoSideEffectCacheOnOneDayOldCache() {
         let news = anyLiveHackrNews()
         let fixedCurrentDate = Date()
         let oneDayOldTimestamp = fixedCurrentDate.adding(days: -1)
@@ -111,10 +111,10 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
         sut.load { _ in }
         store.completeRetrieval(with: news.local, timestamp: oneDayOldTimestamp)
 
-        XCTAssertEqual(store.receivedMessages, [.retrieve, .deletion])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
-    func test_load_deletesCacheOnMoreThanOneDayOldCache() {
+    func test_load_hasNoSideEffectsOnMoreThanOneDayOldCache() {
         let news = anyLiveHackrNews()
         let fixedCurrentDate = Date()
         let moreThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(days: -1)
@@ -123,7 +123,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
         sut.load { _ in }
         store.completeRetrieval(with: news.local, timestamp: moreThanOneDayOldTimestamp)
 
-        XCTAssertEqual(store.receivedMessages, [.retrieve, .deletion])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {

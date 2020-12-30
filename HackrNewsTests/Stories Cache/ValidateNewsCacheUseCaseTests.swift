@@ -42,6 +42,30 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
+    func test_validateCache_deletesCacheOnOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let oneDayOldTimestamp = fixedCurrentDate.adding(days: -1)
+        let (sut, store) = makeSUT()
+
+        sut.validateCache()
+        store.completeRetrieval(with: news.local, timestamp: oneDayOldTimestamp)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deletion])
+    }
+
+    func test_validateCache_deletesCacheOnMoreThanOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let moreThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(days: -1)
+        let (sut, store) = makeSUT()
+
+        sut.validateCache()
+        store.completeRetrieval(with: news.local, timestamp: moreThanOneDayOldTimestamp)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve, .deletion])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(

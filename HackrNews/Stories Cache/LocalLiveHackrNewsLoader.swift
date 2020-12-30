@@ -40,10 +40,7 @@ public class LocalLiveHackrNewsLoader {
                 completion(.success(news.toModels()))
             case let .failure(error):
                 completion(.failure(error))
-            case .found:
-                self.store.deleteCachedNews { _ in }
-                fallthrough
-            case .empty:
+            case .found, .empty:
                 completion(.success([]))
             }
         }
@@ -57,9 +54,11 @@ public class LocalLiveHackrNewsLoader {
     public func validateCache() {
         store.retrieve { [unowned self] result in
             switch result {
+            case let .found(_, timestamp: timestamp) where !self.validate(timestamp):
+                store.deleteCachedNews { _ in }
             case .failure:
                 store.deleteCachedNews { _ in }
-            default:
+            case .empty, .found:
                 break
             }
         }
