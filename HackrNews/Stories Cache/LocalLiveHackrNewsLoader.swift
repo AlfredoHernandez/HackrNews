@@ -33,15 +33,16 @@ public class LocalLiveHackrNewsLoader {
     }
 
     public func load(completion: @escaping (LoadResult) -> Void) {
-        store.retrieve { [unowned self] result in
+        store.retrieve { [weak self] result in
+            guard let self = self else { return }
             switch result {
-            case let .found(news: news, timestamp: timestamp) where validate(timestamp):
+            case let .found(news: news, timestamp: timestamp) where self.validate(timestamp):
                 completion(.success(news.toModels()))
             case let .failure(error):
-                store.deleteCachedNews { _ in }
+                self.store.deleteCachedNews { _ in }
                 completion(.failure(error))
             case .found:
-                store.deleteCachedNews { _ in }
+                self.store.deleteCachedNews { _ in }
                 fallthrough
             case .empty:
                 completion(.success([]))
