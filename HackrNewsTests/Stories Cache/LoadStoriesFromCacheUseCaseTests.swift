@@ -59,6 +59,17 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
         }
     }
 
+    func test_load_deliversNoNewsOnOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let oneDayOldTimestamp = fixedCurrentDate.adding(days: -1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+
+        expect(sut, toCompleteWith: .success([])) {
+            store.completeRetrieval(with: news.local, timestamp: oneDayOldTimestamp)
+        }
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
