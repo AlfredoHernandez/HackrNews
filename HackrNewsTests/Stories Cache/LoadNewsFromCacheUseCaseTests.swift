@@ -5,7 +5,7 @@
 import HackrNews
 import XCTest
 
-final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
+final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     func test_init_doesNotLoadCacheUponCreation() {
         let (_, store) = makeSUT()
 
@@ -51,11 +51,11 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
     func test_load_deliversNoNewsOnMoreThanOneDayOldCache() {
         let news = anyLiveHackrNews()
         let fixedCurrentDate = Date()
-        let lessThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: -1)
+        let moreThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: -1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
 
         expect(sut, toCompleteWith: .success([])) {
-            store.completeRetrieval(with: news.local, timestamp: lessThanOneDayOldTimestamp)
+            store.completeRetrieval(with: news.local, timestamp: moreThanOneDayOldTimestamp)
         }
     }
 
@@ -68,6 +68,74 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
         expect(sut, toCompleteWith: .success([])) {
             store.completeRetrieval(with: news.local, timestamp: oneDayOldTimestamp)
         }
+    }
+
+    // MARK: - Cache deletion business case
+
+    func test_load_hasNoSideEffectsOnRetrievalError() {
+        let (sut, store) = makeSUT()
+
+        sut.load { _ in }
+        store.completeRetrieval(with: anyNSError())
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+
+    func test_load_hasNoSideEffectsOnEmptyCache() {
+        let (sut, store) = makeSUT()
+
+        sut.load { _ in }
+        store.completeRetrievalWithEmptyCache()
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+
+    func test_load_hasNoSideEffectsOnLessThatOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let lessThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: 1)
+        let (sut, store) = makeSUT()
+
+        sut.load { _ in }
+        store.completeRetrieval(with: news.local, timestamp: lessThanOneDayOldTimestamp)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+
+    func test_load_hasNoSideEffectCacheOnOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let oneDayOldTimestamp = fixedCurrentDate.adding(days: -1)
+        let (sut, store) = makeSUT()
+
+        sut.load { _ in }
+        store.completeRetrieval(with: news.local, timestamp: oneDayOldTimestamp)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+
+    func test_load_hasNoSideEffectsOnMoreThanOneDayOldCache() {
+        let news = anyLiveHackrNews()
+        let fixedCurrentDate = Date()
+        let moreThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(days: -1)
+        let (sut, store) = makeSUT()
+
+        sut.load { _ in }
+        store.completeRetrieval(with: news.local, timestamp: moreThanOneDayOldTimestamp)
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+
+    func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+        let store = LiveHackrNewsStoreSpy()
+        var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
+        var receivedResults = [LocalLiveHackrNewsLoader.LoadResult]()
+
+        sut?.load { receivedResults.append($0) }
+        sut = nil
+        store.completeRetrievalWithEmptyCache()
+
+        XCTAssertTrue(receivedResults.isEmpty)
     }
 
     // MARK: - Helpers
@@ -118,6 +186,8 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
         return (models, locals)
     }
 }
+
+// MARK: - Shared extensions
 
 private extension Date {
     func adding(days: Int) -> Date {
