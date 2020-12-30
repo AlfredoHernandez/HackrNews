@@ -6,8 +6,11 @@ import Foundation
 
 public class LocalLiveHackrNewsLoader {
     public typealias SaveResult = Error?
+    public typealias LoadResult = LiveHackrNewsLoader.Result
     private let store: LiveHackrNewsStore
     private let currentDate: () -> Date
+    private let calendar = Calendar(identifier: .gregorian)
+    private var maxCacheAgeInDays: Int { 1 }
 
     public init(store: LiveHackrNewsStore, currentDate: @escaping () -> Date) {
         self.store = store
@@ -28,10 +31,34 @@ public class LocalLiveHackrNewsLoader {
             completion(insertionError)
         }
     }
+
+    public func load(completion: @escaping (LoadResult) -> Void) {
+        store.retrieve { [unowned self] result in
+            switch result {
+            case let .found(news: news, timestamp: timestamp) where validate(timestamp):
+                completion(.success(news.toModels()))
+            case let .failure(error):
+                completion(.failure(error))
+            case .found, .empty:
+                completion(.success([]))
+            }
+        }
+    }
+
+    private func validate(_ timestamp: Date) -> Bool {
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
+        return currentDate() < maxCacheAge
+    }
 }
 
 extension Array where Element == LiveHackrNew {
     func toLocal() -> [LocalLiveHackrNew] {
         map { LocalLiveHackrNew(id: $0.id) }
+    }
+}
+
+extension Array where Element == LocalLiveHackrNew {
+    func toModels() -> [LiveHackrNew] {
+        map { LiveHackrNew(id: $0.id) }
     }
 }
