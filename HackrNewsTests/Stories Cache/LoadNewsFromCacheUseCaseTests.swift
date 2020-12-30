@@ -5,7 +5,7 @@
 import HackrNews
 import XCTest
 
-final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
+final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     func test_init_doesNotLoadCacheUponCreation() {
         let (_, store) = makeSUT()
 
