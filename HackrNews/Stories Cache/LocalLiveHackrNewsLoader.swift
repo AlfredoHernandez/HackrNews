@@ -17,6 +17,15 @@ public class LocalLiveHackrNewsLoader {
         self.currentDate = currentDate
     }
 
+    private func validate(_ timestamp: Date) -> Bool {
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
+        return currentDate() < maxCacheAge
+    }
+}
+
+// MARK: - Save Cache
+
+extension LocalLiveHackrNewsLoader {
     public func save(_ news: [LiveHackrNew], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedNews { [weak self] deletionError in
             guard let self = self else { return }
@@ -31,8 +40,12 @@ public class LocalLiveHackrNewsLoader {
             completion(insertionError)
         }
     }
+}
 
-    public func load(completion: @escaping (LoadResult) -> Void) {
+// MARK: - Load Cache
+
+public extension LocalLiveHackrNewsLoader {
+    func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -45,13 +58,12 @@ public class LocalLiveHackrNewsLoader {
             }
         }
     }
+}
 
-    private func validate(_ timestamp: Date) -> Bool {
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
-        return currentDate() < maxCacheAge
-    }
+// MARK: - Cache validation
 
-    public func validateCache() {
+public extension LocalLiveHackrNewsLoader {
+    func validateCache() {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
