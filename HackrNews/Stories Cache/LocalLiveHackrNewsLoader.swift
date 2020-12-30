@@ -52,12 +52,13 @@ public class LocalLiveHackrNewsLoader {
     }
 
     public func validateCache() {
-        store.retrieve { [unowned self] result in
+        store.retrieve { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .found(_, timestamp: timestamp) where !self.validate(timestamp):
-                store.deleteCachedNews { _ in }
+                self.store.deleteCachedNews { _ in }
             case .failure:
-                store.deleteCachedNews { _ in }
+                self.store.deleteCachedNews { _ in }
             case .empty, .found:
                 break
             }
