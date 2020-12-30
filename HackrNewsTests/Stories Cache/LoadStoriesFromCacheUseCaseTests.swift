@@ -45,6 +45,26 @@ final class LoadStoriesFromCacheUseCaseTests: XCTestCase {
         )
     }
 
+    func test_load_retrieveNoNewsOnEmptyCache() {
+        let (sut, store) = makeSUT()
+        var receivedNews = [LiveHackrNew]()
+        let exp = expectation(description: "Wait for load completion")
+
+        sut.load { result in
+            switch result {
+            case let .success(news):
+                receivedNews = news
+            default:
+                XCTFail("Expected success, but got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        store.completeRetrievalWithEmptyCache()
+
+        wait(for: [exp], timeout: 1.0)
+        XCTAssertTrue(receivedNews.isEmpty)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(

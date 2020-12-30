@@ -51,4 +51,8 @@ class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
     func completeRetrieval(with error: Error, at index: Int = 0) {
         retrievalRequests[index](error)
     }
+
+    func completeRetrievalWithEmptyCache(at index: Int = 0) {
+        retrievalRequests[index](nil)
+    }
 }
