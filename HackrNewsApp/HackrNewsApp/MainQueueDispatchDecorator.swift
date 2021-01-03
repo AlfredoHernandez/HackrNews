@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import Foundation
@@ -29,8 +29,8 @@ extension MainQueueDispatchDecorator: LiveHackrNewsLoader where T == LiveHackrNe
 }
 
 extension MainQueueDispatchDecorator: HackrStoryLoader where T == HackrStoryLoader {
-    func load(from url: URL, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
-        decoratee.load(from: url) { [weak self] result in
+    func load(completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
+        decoratee.load { [weak self] result in
             self?.dispatch { completion(result) }
         }
     }

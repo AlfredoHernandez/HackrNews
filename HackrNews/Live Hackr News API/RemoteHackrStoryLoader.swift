@@ -1,13 +1,15 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import Foundation
 
 public final class RemoteHackrStoryLoader: HackrStoryLoader {
+    private let url: URL
     private let client: HTTPClient
 
-    public init(client: HTTPClient) {
+    public init(url: URL, client: HTTPClient) {
+        self.url = url
         self.client = client
     }
 
@@ -18,7 +20,7 @@ public final class RemoteHackrStoryLoader: HackrStoryLoader {
 
     public typealias Result = HackrStoryLoader.Result
 
-    public func load(from url: URL, completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask {
+    public func load(completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask {
         let task = HTTPTaskWrapper(completion)
         task.wrapped = client.get(from: url) { [weak self] result in
             guard self != nil else { return }
