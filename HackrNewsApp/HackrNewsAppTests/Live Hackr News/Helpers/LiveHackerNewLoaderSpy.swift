@@ -24,6 +24,7 @@ extension LiveHackrNewsUIIntegrationTests {
         }
 
         // MARK: - HackrStoryLoader
+
         var cancelledStoryUrls = 0
         var storiesRequests = [(HackrStoryLoader.Result) -> Void]()
         var storiesRequestsCallCount: Int { storiesRequests.count }
