@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import HackrNews
@@ -30,38 +30,38 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
-    func test_validateCache_doesNotDeleteCacheOnLessThatOneDayOldCache() {
+    func test_validateCache_doesNotDeleteNonExpiredCache() {
         let news = anyLiveHackrNews()
         let fixedCurrentDate = Date()
-        let lessThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(seconds: 1)
+        let nonExpiredTimestamp = fixedCurrentDate.minusCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT()
 
         sut.validateCache()
-        store.completeRetrieval(with: news.local, timestamp: lessThanOneDayOldTimestamp)
+        store.completeRetrieval(with: news.local, timestamp: nonExpiredTimestamp)
 
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
 
-    func test_validateCache_deletesCacheOnOneDayOldCache() {
+    func test_validateCache_deletesCacheOnCacheExpiration() {
         let news = anyLiveHackrNews()
         let fixedCurrentDate = Date()
-        let oneDayOldTimestamp = fixedCurrentDate.adding(days: -1)
+        let expirationTimestamp = fixedCurrentDate.minusCacheMaxAge()
         let (sut, store) = makeSUT()
 
         sut.validateCache()
-        store.completeRetrieval(with: news.local, timestamp: oneDayOldTimestamp)
+        store.completeRetrieval(with: news.local, timestamp: expirationTimestamp)
 
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deletion])
     }
 
-    func test_validateCache_deletesCacheOnMoreThanOneDayOldCache() {
+    func test_validateCache_deletesCacheOnExpiredCache() {
         let news = anyLiveHackrNews()
         let fixedCurrentDate = Date()
-        let moreThanOneDayOldTimestamp = fixedCurrentDate.adding(days: -1).adding(days: -1)
+        let expiredTimestamp = fixedCurrentDate.minusCacheMaxAge().adding(days: -1)
         let (sut, store) = makeSUT()
 
         sut.validateCache()
-        store.completeRetrieval(with: news.local, timestamp: moreThanOneDayOldTimestamp)
+        store.completeRetrieval(with: news.local, timestamp: expiredTimestamp)
 
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deletion])
     }
@@ -97,17 +97,5 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         let models = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
         let locals = models.map { LocalLiveHackrNew(id: $0.id) }
         return (models, locals)
-    }
-}
-
-// MARK: - Shared extensions
-
-private extension Date {
-    func adding(days: Int) -> Date {
-        Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
-    }
-
-    func adding(seconds: TimeInterval) -> Date {
-        self + seconds
     }
 }

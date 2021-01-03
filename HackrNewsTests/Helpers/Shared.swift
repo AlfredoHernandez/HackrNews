@@ -25,3 +25,23 @@ extension HTTPURLResponse {
         self.init(url: anyURL(), statusCode: statusCode, httpVersion: nil, headerFields: nil)!
     }
 }
+
+extension Date {
+    func adding(days: Int) -> Date {
+        Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+
+    func adding(seconds: TimeInterval) -> Date {
+        self + seconds
+    }
+}
+
+// MARK: - Cache Policy Helper
+
+extension Date {
+    private var cacheMaxAgeInDays: Int { 1 }
+
+    func minusCacheMaxAge() -> Date {
+        adding(days: -cacheMaxAgeInDays)
+    }
+}
