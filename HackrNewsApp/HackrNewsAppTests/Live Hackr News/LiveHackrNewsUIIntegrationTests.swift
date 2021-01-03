@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import HackrNews
@@ -95,14 +95,14 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [new1.model, new2.model], at: 0)
 
-        XCTAssertEqual(loader.loadedStoryUrls, [], "Expected no story URL requests until views become visible")
+        XCTAssertEqual(loader.storiesRequestsCallCount, 0, "Expected no story URL requests until views become visible")
 
         sut.simulateStoryViewVisible(at: 0)
-        XCTAssertEqual(loader.loadedStoryUrls, [new1.url], "Expected first story URL request once first view becomes visible")
+        XCTAssertEqual(loader.storiesRequestsCallCount, 1, "Expected first story URL request once first view becomes visible")
 
         sut.simulateStoryViewVisible(at: 1)
         XCTAssertEqual(
-            loader.loadedStoryUrls, [new1.url, new2.url],
+            loader.storiesRequestsCallCount, 2,
             "Expected second story URL request once second view also becomes visible"
         )
     }
@@ -115,19 +115,19 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [new1.model, new2.model], at: 0)
 
-        XCTAssertEqual(loader.cancelledStoryUrls, [], "Expected no cancelled story URL requests until views become visible")
+        XCTAssertEqual(loader.cancelledStoryUrls, 0, "Expected no cancelled story URL requests until views become visible")
 
         sut.simulateStoryViewNotVisible(at: 0)
         XCTAssertEqual(
             loader.cancelledStoryUrls,
-            [new1.url],
+            1,
             "Expected first story URL request cancelled once first view becomes not visible"
         )
 
         sut.simulateStoryViewNotVisible(at: 1)
         XCTAssertEqual(
             loader.cancelledStoryUrls,
-            [new1.url, new2.url],
+            2,
             "Expected second story URL request cancelled once second view also becomes not visible"
         )
     }
@@ -239,21 +239,17 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
-        XCTAssertEqual(loader.loadedStoryUrls, [lhn0.url, lhn1.url], "Expected to load both urls")
+        XCTAssertEqual(loader.storiesRequestsCallCount, 2, "Expected to load both urls")
 
         loader.completeStoryLoadingWithError(at: 0)
         loader.completeStoryLoadingWithError(at: 1)
-        XCTAssertEqual(loader.loadedStoryUrls, [lhn0.url, lhn1.url], "Expected no more loadings when completes with error")
+        XCTAssertEqual(loader.storiesRequestsCallCount, 2, "Expected no more loadings when completes with error")
 
         view0?.simulateRetryAction()
-        XCTAssertEqual(loader.loadedStoryUrls, [lhn0.url, lhn1.url, lhn0.url], "Expected one more url after first tap retry action")
+        XCTAssertEqual(loader.storiesRequestsCallCount, 3, "Expected one more url after first tap retry action")
 
         view1?.simulateRetryAction()
-        XCTAssertEqual(
-            loader.loadedStoryUrls,
-            [lhn0.url, lhn1.url, lhn0.url, lhn1.url],
-            "Expected another url after second tap retry action"
-        )
+        XCTAssertEqual(loader.storiesRequestsCallCount, 4, "Expected another url after second tap retry action")
     }
 
     func test_storyView_preloadsStoryWhenIsNearVisible() {
@@ -263,17 +259,13 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
 
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [lhn0.model, lhn1.model], at: 0)
-        XCTAssertEqual(loader.loadedStoryUrls, [], "Expected no stories urls before views are near to be visible")
+        XCTAssertEqual(loader.storiesRequestsCallCount, 0, "Expected no stories urls before views are near to be visible")
 
         sut.simulateStoryNearViewVisible(at: 0)
-        XCTAssertEqual(loader.loadedStoryUrls, [lhn0.url], "Expected first url after first view is near to be visible")
+        XCTAssertEqual(loader.storiesRequestsCallCount, 1, "Expected first url after first view is near to be visible")
 
         sut.simulateStoryNearViewVisible(at: 1)
-        XCTAssertEqual(
-            loader.loadedStoryUrls,
-            [lhn0.url, lhn1.url],
-            "Expected first and second urls after second view is near to be visible"
-        )
+        XCTAssertEqual(loader.storiesRequestsCallCount, 2, "Expected first and second urls after second view is near to be visible")
     }
 
     func test_storyView_cancelsStoryPreloadingWhenNotNearVisibleAnymore() {
@@ -283,15 +275,15 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
 
         sut.loadViewIfNeeded()
         loader.completeLiveHackrNewsLoading(with: [lhn0.model, lhn1.model], at: 0)
-        XCTAssertEqual(loader.cancelledStoryUrls, [], "Expected no stories urls before views are near to be visible")
+        XCTAssertEqual(loader.cancelledStoryUrls, 0, "Expected no stories urls before views are near to be visible")
 
         sut.simulateStoryNotNearViewVisible(at: 0)
-        XCTAssertEqual(loader.cancelledStoryUrls, [lhn0.url], "Expected first canceld url after first view is near to be visible")
+        XCTAssertEqual(loader.cancelledStoryUrls, 1, "Expected first canceld url after first view is near to be visible")
 
         sut.simulateStoryNotNearViewVisible(at: 1)
         XCTAssertEqual(
             loader.cancelledStoryUrls,
-            [lhn0.url, lhn1.url],
+            2,
             "Expected first and second urls canceled after second view is near to be visible"
         )
     }
@@ -410,7 +402,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         let loader = LiveHackerNewLoaderSpy()
         let sut = LiveHackrNewsUIComposer.composeWith(
             liveHackrNewsloader: loader,
-            hackrStoryLoader: loader,
+            hackrStoryLoader: { _ in loader },
             didSelectStory: selection,
             locale: locale,
             calendar: calendar
