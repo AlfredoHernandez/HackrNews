@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import HackrNews
@@ -12,13 +12,13 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     func test_onLaunch_displaysRemoteStoriesWhenCustomerHasConnectivity() {
         let stories = launch(httpClient: .online(response))
         XCTAssertEqual(stories.numberOfRenderedLiveHackrNewsViews(), 5)
-        
+
         let view0 = stories.simulateStoryViewVisible(at: 0)
         let view1 = stories.simulateStoryViewVisible(at: 1)
-        
+
         XCTAssertNotNil(view0, "Expected view0 to be not nil")
         XCTAssertNotNil(view1, "Expected view1 to be not nil")
-        
+
         XCTAssertEqual(view0?.isShowingRetryAction, false, "Expected to not display retry indicator in view0")
         XCTAssertEqual(view1?.isShowingRetryAction, false, "Expected to not display retry indicator in view1")
     }

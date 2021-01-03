@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 @testable import HackrNewsApp
@@ -23,13 +23,12 @@ class LHNEndpointTests: XCTestCase {
 
         XCTAssertEqual(endpoint.absoluteString, "http://any-url.com/v0/topstories.json")
     }
-    
+
     func test_itemUrl() {
         let baseUrl = URL(string: "http://any-url.com")!
         let id = 1993
         let endpoint = LHNEndpoint.item(id).url(baseUrl)
-        
+
         XCTAssertEqual(endpoint.absoluteString, "http://any-url.com/v0/item/1993.json")
-        
     }
 }
