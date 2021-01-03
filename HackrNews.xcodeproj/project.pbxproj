@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3857813025A26D4100C518E8 /* CachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3857812F25A26D4100C518E8 /* CachePolicy.swift */; };
+		3857814125A280C000C518E8 /* CodableHackrNewsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3857814025A280C000C518E8 /* CodableHackrNewsStoreTests.swift */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
 		386551D42586B179002054AA /* LiveHackrNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551D32586B179002054AA /* LiveHackrNewsViewController.swift */; };
 		386551EA2586D198002054AA /* HackrNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D392672582C55300FCAF70 /* HackrNews.framework */; platformFilter = ios; };
@@ -109,6 +110,7 @@
 
 /* Begin PBXFileReference section */
 		3857812F25A26D4100C518E8 /* CachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachePolicy.swift; sourceTree = "<group>"; };
+		3857814025A280C000C518E8 /* CodableHackrNewsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHackrNewsStoreTests.swift; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		386551A625868EF1002054AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		386551AB25868EF2002054AA /* HackrNewsiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -482,6 +484,7 @@
 				38F2AE83259BA7B300DFB287 /* CacheHackrNewsUseCaseTests.swift */,
 				38B15FA9259CF66100F410DE /* LoadNewsFromCacheUseCaseTests.swift */,
 				38B15FC6259D1BE000F410DE /* ValidateNewsCacheUseCaseTests.swift */,
+				3857814025A280C000C518E8 /* CodableHackrNewsStoreTests.swift */,
 			);
 			path = "Stories Cache";
 			sourceTree = "<group>";
@@ -784,6 +787,7 @@
 				38D392B82582DCD600FCAF70 /* URLSessionHTTPClientTests.swift in Sources */,
 				38B15FB0259CF7F500F410DE /* LiveHackrNewsStoreSpy.swift in Sources */,
 				38D393082583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift in Sources */,
+				3857814125A280C000C518E8 /* CodableHackrNewsStoreTests.swift in Sources */,
 				38B15FC7259D1BE100F410DE /* ValidateNewsCacheUseCaseTests.swift in Sources */,
 				38B0058C259118F100FA0D4A /* LoadFromRemoteHackrStoryLoaderUseCaseTests.swift in Sources */,
 				38B0055B2591096B00FA0D4A /* LoadFromRemoteLiveHackrNewsLoaderUseCaseTests.swift in Sources */,
