@@ -186,19 +186,3 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
         return (models, locals)
     }
 }
-
-// MARK: - Shared extensions
-
-private extension Date {
-    func minusCacheMaxAge() -> Date {
-        adding(days: -1)
-    }
-
-    func adding(days: Int) -> Date {
-        Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
-    }
-
-    func adding(seconds: TimeInterval) -> Date {
-        self + seconds
-    }
-}
