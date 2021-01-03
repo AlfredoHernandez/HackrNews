@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import HackrNews
@@ -45,7 +45,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func makeLiveHackrNewsController() -> LiveHackrNewsViewController {
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.topStories.url(baseUrl), client: httpClient)
-        let hackrStoryLoader = RemoteHackrStoryLoader(client: httpClient)
         return LiveHackrNewsUIComposer.composeWith(
             liveHackrNewsloader: liveHackrNewsloader,
             hackrStoryLoader: hackrStoryLoader,
@@ -57,5 +56,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let controller = SFSafariViewController(url: url)
         controller.preferredControlTintColor = .systemRed
         navigationController.present(controller, animated: true)
+    }
+
+    private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
+        return RemoteHackrStoryLoader(url: LHNEndpoint.item(id).url(baseUrl), client: httpClient)
     }
 }

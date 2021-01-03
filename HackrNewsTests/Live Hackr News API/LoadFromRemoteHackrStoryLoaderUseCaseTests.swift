@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import HackrNews
@@ -14,19 +14,19 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
 
     func test_loadDataFromURL_requestDataFromURL() {
         let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT()
+        let (sut, client) = makeSUT(url: url)
 
-        _ = sut.load(from: url) { _ in }
+        _ = sut.load { _ in }
 
         XCTAssertEqual(client.requestedURLs, [url])
     }
 
     func test_loadDataFromURLTwice_requestsDataFromURLTwice() {
         let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT()
+        let (sut, client) = makeSUT(url: url)
 
-        _ = sut.load(from: url) { _ in }
-        _ = sut.load(from: url) { _ in }
+        _ = sut.load { _ in }
+        _ = sut.load { _ in }
 
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
@@ -71,10 +71,10 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
     }
 
     func test_cancelLoadDataTask_cancelsClientURLRequest() {
-        let (sut, client) = makeSUT()
         let url = URL(string: "https://a-given-url.com")!
+        let (sut, client) = makeSUT(url: url)
 
-        let task = sut.load(from: url) { _ in }
+        let task = sut.load { _ in }
 
         XCTAssertTrue(client.cancelledURLs.isEmpty, "Expected no cancelled URL request until task is cancelled")
 
@@ -83,12 +83,12 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
     }
 
     func test_loadDataFromURL_doesNotDeliverResultAfterCancellingTask() {
-        let (sut, client) = makeSUT()
         let url = URL(string: "https://a-given-url.com")!
         let nonEmptyData = Data("non-empty data".utf8)
+        let (sut, client) = makeSUT(url: url)
 
         var received = [RemoteHackrStoryLoader.Result]()
-        let task = sut.load(from: url) { result in
+        let task = sut.load { result in
             received.append(result)
         }
         task.cancel()
@@ -102,10 +102,10 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
 
     func test_loadDataFromURL_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let client = HTTPClientSpy()
-        var sut: RemoteHackrStoryLoader? = RemoteHackrStoryLoader(client: client)
+        var sut: RemoteHackrStoryLoader? = RemoteHackrStoryLoader(url: anyURL(), client: client)
 
         var capturedResults = [RemoteHackrStoryLoader.Result]()
-        _ = sut?.load(from: anyURL()) { capturedResults.append($0) }
+        _ = sut?.load { capturedResults.append($0) }
 
         sut = nil
         client.complete(with: 200, data: anyData())
@@ -115,9 +115,13 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
 
     // MARK: Tests helpers
 
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteHackrStoryLoader, client: HTTPClientSpy) {
+    private func makeSUT(
+        url: URL = URL(string: "https://a-url.com")!,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (sut: RemoteHackrStoryLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
-        let sut = RemoteHackrStoryLoader(client: client)
+        let sut = RemoteHackrStoryLoader(url: url, client: client)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(client, file: file, line: line)
         return (sut, client)
@@ -130,10 +134,9 @@ final class LoadFromRemoteHackrStoryLoaderUseCaseTests: XCTestCase {
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        let url = URL(string: "https://a-given-url.com")!
         let exp = expectation(description: "Wait for load completion")
 
-        _ = sut.load(from: url) { receivedResult in
+        _ = sut.load { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedData), .success(expectedData)):
                 XCTAssertEqual(receivedData, expectedData, file: file, line: line)

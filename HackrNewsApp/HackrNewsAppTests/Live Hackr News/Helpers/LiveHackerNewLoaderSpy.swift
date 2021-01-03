@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import Foundation
@@ -25,12 +25,9 @@ extension LiveHackrNewsUIIntegrationTests {
 
         // MARK: - HackrStoryLoader
 
-        var loadedStoryUrls: [URL] {
-            storiesRequests.map(\.url)
-        }
-
-        var cancelledStoryUrls = [URL]()
-        var storiesRequests = [(url: URL, completion: (HackrStoryLoader.Result) -> Void)]()
+        var cancelledStoryUrls = 0
+        var storiesRequests = [(HackrStoryLoader.Result) -> Void]()
+        var storiesRequestsCallCount: Int { storiesRequests.count }
 
         private struct TaskSpy: HackrStoryLoaderTask {
             let cancellCallback: () -> Void
@@ -40,18 +37,18 @@ extension LiveHackrNewsUIIntegrationTests {
             }
         }
 
-        func load(from url: URL, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
-            storiesRequests.append((url, completion))
-            return TaskSpy { [weak self] in self?.cancelledStoryUrls.append(url) }
+        func load(completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
+            storiesRequests.append(completion)
+            return TaskSpy { [weak self] in self?.cancelledStoryUrls += 1 }
         }
 
         func completeStoryLoading(with story: Story = Story.any, at index: Int = 0) {
-            storiesRequests[index].completion(.success(story))
+            storiesRequests[index](.success(story))
         }
 
         func completeStoryLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
-            storiesRequests[index].completion(.failure(error))
+            storiesRequests[index](.failure(error))
         }
     }
 }

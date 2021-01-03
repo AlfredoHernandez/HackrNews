@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +11,7 @@ public final class LiveHackrNewsUIComposer {
 
     public static func composeWith(
         liveHackrNewsloader: LiveHackrNewsLoader,
-        hackrStoryLoader: HackrStoryLoader,
+        hackrStoryLoader: @escaping (Int) -> HackrStoryLoader,
         didSelectStory: @escaping (URL) -> Void,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
@@ -21,7 +21,7 @@ public final class LiveHackrNewsUIComposer {
         let viewController = makeViewController(with: refreshController, title: LiveHackrNewsPresenter.title)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
             view: LiveHackrNewsViewAdapter(
-                loader: MainQueueDispatchDecorator(hackrStoryLoader),
+                loader: hackrStoryLoader,
                 controller: viewController,
                 didSelectStory: didSelectStory,
                 locale: locale,
@@ -46,14 +46,14 @@ public final class LiveHackrNewsUIComposer {
 }
 
 private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
-    private let loader: HackrStoryLoader
+    private let loader: (Int) -> HackrStoryLoader
     private let locale: Locale
     private let calendar: Calendar
     private let didSelectStory: (URL) -> Void
     private weak var controller: LiveHackrNewsViewController?
 
     init(
-        loader: HackrStoryLoader,
+        loader: @escaping (Int) -> HackrStoryLoader,
         controller: LiveHackrNewsViewController,
         didSelectStory: @escaping (URL) -> Void,
         locale: Locale,
@@ -68,7 +68,7 @@ private final class LiveHackrNewsViewAdapter: LiveHackrNewsView {
 
     func display(_ viewModel: LiveHackrNewsViewModel) {
         controller?.display(viewModel.stories.map { new in
-            let adapter = LiveHackrNewPresentationAdapter(model: new, loader: loader)
+            let adapter = LiveHackrNewPresentationAdapter(model: new, loader: MainQueueDispatchDecorator(loader(new.id)))
             let controller = LiveHackrNewCellController(delegate: adapter, didSelectStory: didSelectStory)
             adapter.presenter = StoryPresenter(
                 view: WeakRefVirtualProxy(controller),
@@ -117,8 +117,7 @@ private final class LiveHackrNewPresentationAdapter: LiveHackrNewCellControllerD
 
     func didRequestStory() {
         presenter?.didStartLoadingStory(from: model)
-        let url = URL(string: "https://hacker-news.firebaseio.com/v0/item/\(model.id).json")!
-        task = loader.load(from: url) { [weak self] result in
+        task = loader.load { [weak self] result in
             switch result {
             case let .success(story):
                 self?.presenter?.didFinishLoadingStory(story: story)
