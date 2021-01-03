@@ -59,7 +59,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
-        let url = URL(string: "https://hacker-news.firebaseio.com/v0/item/\(id).json")!
-        return RemoteHackrStoryLoader(url: url, client: httpClient)
+        return RemoteHackrStoryLoader(url: LHNEndpoint.item(id).url(baseUrl), client: httpClient)
     }
 }
