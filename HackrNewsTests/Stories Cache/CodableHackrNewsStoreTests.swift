@@ -62,7 +62,7 @@ final class CodableHackrNewsStoreTests: XCTestCase {
     }
 
     func test_retrieve_deliversEmptyOnEmptyCache() {
-        let sut = CodableHackrNewsStore()
+        let sut = makeSUT()
         let exp = expectation(description: "Wait for result")
 
         sut.retrieve { result in
@@ -79,7 +79,7 @@ final class CodableHackrNewsStoreTests: XCTestCase {
     }
 
     func test_retrieve_hasNoSideEffects() {
-        let sut = CodableHackrNewsStore()
+        let sut = makeSUT()
         let exp = expectation(description: "Wait for result")
 
         sut.retrieve { firstResult in
@@ -100,7 +100,7 @@ final class CodableHackrNewsStoreTests: XCTestCase {
     }
 
     func test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues() {
-        let sut = CodableHackrNewsStore()
+        let sut = makeSUT()
         let exp = expectation(description: "Wait for result")
         let news = [LocalLiveHackrNew(id: 1), LocalLiveHackrNew(id: 2), LocalLiveHackrNew(id: 3)]
         let timestap = Date()
@@ -120,5 +120,11 @@ final class CodableHackrNewsStoreTests: XCTestCase {
         }
 
         wait(for: [exp], timeout: 1.0)
+    }
+
+    // MARK: Helpers
+
+    private func makeSUT() -> CodableHackrNewsStore {
+        CodableHackrNewsStore()
     }
 }
