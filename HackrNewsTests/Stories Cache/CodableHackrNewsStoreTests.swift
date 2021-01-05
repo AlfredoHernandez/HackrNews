@@ -7,8 +7,24 @@ import XCTest
 
 class CodableHackrNewsStore {
     private struct Cache: Codable {
-        let news: [LocalLiveHackrNew]
+        let news: [CodableNew]
         let timestamp: Date
+
+        var localNews: [LocalLiveHackrNew] {
+            news.map(\.local)
+        }
+    }
+
+    private struct CodableNew: Codable {
+        private let id: Int
+
+        init(_ localLiveHackrNew: LocalLiveHackrNew) {
+            id = localLiveHackrNew.id
+        }
+
+        var local: LocalLiveHackrNew {
+            LocalLiveHackrNew(id: id)
+        }
     }
 
     private let storeUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -20,12 +36,13 @@ class CodableHackrNewsStore {
         }
         let decoder = JSONDecoder()
         let decoded = try! decoder.decode(Cache.self, from: data)
-        completion(.found(news: decoded.news, timestamp: decoded.timestamp))
+        completion(.found(news: decoded.localNews, timestamp: decoded.timestamp))
     }
 
     func insertCacheNews(_ news: [LocalLiveHackrNew], with timestamp: Date, completion: @escaping LiveHackrNewsStore.InsertionCompletion) {
         let encoder = JSONEncoder()
-        let encoded = try! encoder.encode(Cache(news: news, timestamp: timestamp))
+        let cache = Cache(news: news.map(CodableNew.init), timestamp: timestamp)
+        let encoded = try! encoder.encode(cache)
         try! encoded.write(to: storeUrl)
         completion(nil)
     }
