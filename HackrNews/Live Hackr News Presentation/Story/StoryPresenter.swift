@@ -75,6 +75,16 @@ public final class StoryPresenter {
         )
     }
 
+    private var comments: String {
+        NSLocalizedString(
+            "story_comments_message",
+            tableName: "Story",
+            bundle: Bundle(for: StoryPresenter.self),
+            value: "",
+            comment: "Story comments text label"
+        )
+    }
+
     private var score: String {
         NSLocalizedString(
             "story_points_message",
@@ -120,7 +130,7 @@ public final class StoryPresenter {
             newId: story.id,
             title: story.title,
             author: story.author,
-            comments: story.totalComments?.description ?? "0",
+            comments: String(format: comments, story.totalComments ?? 0),
             score: String(format: score, story.score ?? "0"),
             date: format(from: story.createdAt),
             url: story.url,
