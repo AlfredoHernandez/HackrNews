@@ -55,7 +55,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
 
     public func display(_ viewModel: StoryErrorViewModel) {
         cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
-        cell?.container.isHidden = !(viewModel.message == nil)
+        cell?.mainContainer.isHidden = !(viewModel.message == nil)
     }
 
     func didSelect() {

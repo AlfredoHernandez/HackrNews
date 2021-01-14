@@ -8,10 +8,10 @@ import UIKit
 public class LiveHackrNewCell: UITableViewCell {
     public var id: Int = 0
     public var url: URL?
-    @IBOutlet public private(set) var container: UIView!
+    @IBOutlet public private(set) var mainContainer: UIView!
     @IBOutlet public var leftContainer: UIStackView!
-    @IBOutlet public var middleContainer: UIStackView!
-    @IBOutlet public var rightContainer: UIStackView!
+    @IBOutlet public var storyInfoContainer: UIStackView!
+    @IBOutlet public private(set) var storyUserInfoContainer: UIStackView!
     @IBOutlet public private(set) var titleLabel: UILabel!
     @IBOutlet public private(set) var authorLabel: UILabel!
     @IBOutlet public private(set) var scoreLabel: UILabel!
@@ -22,9 +22,9 @@ public class LiveHackrNewCell: UITableViewCell {
     public var isLoadingContent: Bool = false {
         willSet {
             if newValue {
-                container.showAnimatedGradientSkeleton()
+                mainContainer.showAnimatedGradientSkeleton()
             } else {
-                container.hideSkeleton(transition: .crossDissolve(0.5))
+                mainContainer.hideSkeleton(transition: .crossDissolve(0.5))
             }
         }
     }

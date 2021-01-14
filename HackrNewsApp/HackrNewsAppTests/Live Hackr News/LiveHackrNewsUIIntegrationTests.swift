@@ -201,7 +201,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(view?.containerView?.isSkeletonable, true, "Expected containerView to be skeletonable")
         XCTAssertEqual(view?.leftContainerView?.isSkeletonable, true, "Expected leftContainerView to be skeletonable")
         XCTAssertEqual(view?.middleContainerView?.isSkeletonable, true, "Expected middleContainerView to be skeletonable")
-        XCTAssertEqual(view?.rightContainerView?.isSkeletonable, true, "Expected rightContainerView to be skeletonable")
+        XCTAssertEqual(view?.storyUserInfoView?.isSkeletonable, true, "Expected storyUserInfoView to be skeletonable")
         XCTAssertEqual(view?.titleView?.isSkeletonable, true, "Expected titleView to be skeletonable")
         XCTAssertEqual(view?.authorView?.isSkeletonable, true, "Expected authorView to be skeletonable")
         XCTAssertEqual(view?.scoreView?.isSkeletonable, true, "Expected scoreView to be skeletonable")

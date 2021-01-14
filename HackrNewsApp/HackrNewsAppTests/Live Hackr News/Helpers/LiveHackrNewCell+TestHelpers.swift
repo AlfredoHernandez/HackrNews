@@ -11,7 +11,7 @@ extension LiveHackrNewCell {
     var isShowingLoadingIndicator: Bool { isLoadingContent }
 
     var containerView: UIView? {
-        container
+        mainContainer
     }
 
     var leftContainerView: UIView? {
@@ -19,11 +19,11 @@ extension LiveHackrNewCell {
     }
 
     var middleContainerView: UIView? {
-        middleContainer
+        storyInfoContainer
     }
 
-    var rightContainerView: UIView? {
-        rightContainer
+    var storyUserInfoView: UIView? {
+        storyUserInfoContainer
     }
 
     var titleView: UILabel? {
@@ -71,7 +71,7 @@ extension LiveHackrNewCell {
     }
 
     var isShowingStoryContainer: Bool {
-        !container.isHidden
+        !mainContainer.isHidden
     }
 
     func simulateRetryAction() {
