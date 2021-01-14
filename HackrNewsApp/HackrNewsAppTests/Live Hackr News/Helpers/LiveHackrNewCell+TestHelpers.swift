@@ -34,6 +34,10 @@ extension LiveHackrNewCell {
         titleView?.text
     }
 
+    var urlText: String? {
+        urlLabel.text
+    }
+
     var authorView: UILabel? {
         authorLabel
     }

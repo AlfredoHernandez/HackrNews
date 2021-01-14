@@ -193,6 +193,7 @@
                 <outlet property="storyInfoContainer" destination="pEX-l1-z4a" id="Mzm-32-w3U"/>
                 <outlet property="storyUserInfoContainer" destination="uxu-9B-Bfx" id="4Gd-9D-VaZ"/>
                 <outlet property="titleLabel" destination="Zf0-NK-Q0W" id="oOI-cq-EMF"/>
+                <outlet property="urlLabel" destination="DN7-J2-8kE" id="yUh-XH-6n6"/>
             </connections>
             <point key="canvasLocation" x="-899.20000000000005" y="-172.90640394088672"/>
         </tableViewCell>

@@ -13,6 +13,7 @@ public class LiveHackrNewCell: UITableViewCell {
     @IBOutlet public var storyInfoContainer: UIStackView!
     @IBOutlet public private(set) var storyUserInfoContainer: UIStackView!
     @IBOutlet public private(set) var titleLabel: UILabel!
+    @IBOutlet public private(set) var urlLabel: UILabel!
     @IBOutlet public private(set) var authorLabel: UILabel!
     @IBOutlet public private(set) var scoreLabel: UILabel!
     @IBOutlet public private(set) var commentsLabel: UILabel!

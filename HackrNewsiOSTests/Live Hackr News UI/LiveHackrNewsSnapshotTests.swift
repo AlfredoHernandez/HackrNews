@@ -27,7 +27,8 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
                 author: "a-large-username",
                 comments: "6 comments",
                 score: "65 points",
-                date: "Dec 20, 2020"
+                date: "Dec 20, 2020",
+                displayURL: "any-url.com"
             ),
             StoryStub(
                 id: 2,
@@ -35,7 +36,8 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
                 author: "a-user",
                 comments: "45K comments",
                 score: "0 points",
-                date: "Dec 18, 2020"
+                date: "Dec 18, 2020",
+                displayURL: "another-url.com"
             ),
             StoryStub(
                 id: 3,
@@ -43,9 +45,18 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
                 author: "another-large-username",
                 comments: "20 comments",
                 score: "37 points",
-                date: "Dec 2, 2020"
+                date: "Dec 2, 2020",
+                displayURL: "a-large-url-that-should-display-correctly.com"
             ),
-            StoryStub(id: 4, title: "Sed ut perspiciatis", author: "user", comments: "1M comments", score: "5 points", date: "Nov 3, 2020"),
+            StoryStub(
+                id: 4,
+                title: "Sed ut perspiciatis",
+                author: "user",
+                comments: "1M comments",
+                score: "5 points",
+                date: "Nov 3, 2020",
+                displayURL: "a.com"
+            ),
         ]))
 
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "stories_light")
@@ -56,10 +67,10 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
         let sut = makeSUT()
 
         sut.display(feedStories(stubs: [
-            StoryStub(id: 1, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
-            StoryStub(id: 2, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
-            StoryStub(id: 3, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
-            StoryStub(id: 4, title: nil, author: nil, comments: nil, score: nil, date: nil, error: anyNSError()),
+            StoryStub(id: 1, title: nil, author: nil, comments: nil, score: nil, date: nil, displayURL: nil, error: anyNSError()),
+            StoryStub(id: 2, title: nil, author: nil, comments: nil, score: nil, date: nil, displayURL: nil, error: anyNSError()),
+            StoryStub(id: 3, title: nil, author: nil, comments: nil, score: nil, date: nil, displayURL: nil, error: anyNSError()),
+            StoryStub(id: 4, title: nil, author: nil, comments: nil, score: nil, date: nil, displayURL: nil, error: anyNSError()),
         ]))
 
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "storie_failed_light")
@@ -93,8 +104,26 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
         var errorViewModel: StoryErrorViewModel?
         weak var controller: LiveHackrNewCellController?
 
-        init(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?, error: Error? = nil) {
-            viewModel = StoryViewModel(newId: id, title: title, author: author, comments: comments, score: score, date: date, url: nil)
+        init(
+            id: Int,
+            title: String?,
+            author: String?,
+            comments: String?,
+            score: String?,
+            date: String?,
+            displayURL: String?,
+            error: Error? = nil
+        ) {
+            viewModel = StoryViewModel(
+                newId: id,
+                title: title,
+                author: author,
+                comments: comments,
+                score: score,
+                date: date,
+                url: nil,
+                displayURL: displayURL
+            )
             if error != nil {
                 errorViewModel = StoryErrorViewModel(message: "any error message")
             }

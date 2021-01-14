@@ -178,6 +178,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
 
         loader.completeStoryLoading(with: story0, at: 0)
         XCTAssertEqual(view0?.titleText, story0VM.title)
+        XCTAssertEqual(view0?.urlText, story0VM.displayURL)
         XCTAssertEqual(view0?.authorText, story0VM.author)
         XCTAssertEqual(view0?.scoreText, story0VM.score)
         XCTAssertEqual(view0?.commentsText, story0VM.comments)
@@ -185,6 +186,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
 
         loader.completeStoryLoading(with: story1, at: 1)
         XCTAssertEqual(view1?.titleText, story1VM.title)
+        XCTAssertEqual(view1?.urlText, story1VM.displayURL)
         XCTAssertEqual(view1?.authorText, story1VM.author)
         XCTAssertEqual(view1?.scoreText, story1VM.score)
         XCTAssertEqual(view1?.commentsText, story1VM.comments)
@@ -451,7 +453,8 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
             comments: "\(comments.count)",
             score: score.representation,
             date: createdAt.representation,
-            url: url
+            url: url,
+            displayURL: url.host
         )
         return (model, viewModel)
     }
