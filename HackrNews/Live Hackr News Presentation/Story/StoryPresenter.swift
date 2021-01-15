@@ -126,16 +126,7 @@ public final class StoryPresenter {
 
     public func didFinishLoadingStory(story: Story) {
         loadingView.display(StoryLoadingViewModel(isLoading: false))
-        view.display(StoryViewModel(
-            newId: story.id,
-            title: story.title,
-            author: story.author,
-            comments: String(format: comments, story.totalComments ?? 0),
-            score: String(format: score, story.score ?? "0"),
-            date: format(from: story.createdAt),
-            url: story.url,
-            displayURL: story.url?.host
-        ))
+        view.display(map(story: story))
         errorView.display(StoryErrorViewModel(message: nil))
     }
 
@@ -150,5 +141,18 @@ public final class StoryPresenter {
         dateFormatter.calendar = calendar
         dateFormatter.dateFormat = "MMM dd, yyyy"
         return dateFormatter.string(from: date)
+    }
+
+    private func map(story: Story) -> StoryViewModel {
+        StoryViewModel(
+            newId: story.id,
+            title: story.title,
+            author: story.author,
+            comments: String(format: comments, story.totalComments ?? 0),
+            score: String(format: score, story.score ?? "0"),
+            date: format(from: story.createdAt),
+            url: story.url,
+            displayURL: story.url?.host
+        )
     }
 }

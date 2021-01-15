@@ -450,7 +450,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
             newId: id,
             title: title,
             author: author,
-            comments: "\(comments.count)",
+            comments: "\(totalComments) comments",
             score: score.representation,
             date: createdAt.representation,
             url: url,
