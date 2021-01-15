@@ -25,7 +25,8 @@ final class StoryPresentationTests: XCTestCase {
             comments: "Loading comments...",
             score: "Score",
             date: "Loading date...",
-            url: nil
+            url: nil,
+            displayURL: "Loading url..."
         ), .display(errorMessage: .none)])
     }
 
@@ -34,6 +35,7 @@ final class StoryPresentationTests: XCTestCase {
         let calendar = Calendar(identifier: .gregorian)
         let (sut, view) = makeSUT(locale: locale, calendar: calendar)
         let date = Date(timeIntervalSince1970: 1175714200)
+        let url = URL(string: "https://any-url.com/a-link.html")!
         let story = Story(
             id: 1,
             title: "a title",
@@ -43,7 +45,7 @@ final class StoryPresentationTests: XCTestCase {
             totalComments: 10,
             comments: [1],
             type: "story",
-            url: anyURL()
+            url: url
         )
 
         sut.didFinishLoadingStory(story: story)
@@ -56,10 +58,11 @@ final class StoryPresentationTests: XCTestCase {
                     id: story.id,
                     title: story.title,
                     author: story.author,
-                    comments: "10",
+                    comments: localized("story_comments_message", [story.totalComments ?? 0]),
                     score: localized("story_points_message", [story.score ?? 0]),
                     date: "Apr 04, 2007",
-                    url: anyURL()
+                    url: url,
+                    displayURL: "any-url.com"
                 ),
                 .display(errorMessage: .none),
             ]
@@ -102,7 +105,16 @@ final class StoryPresentationTests: XCTestCase {
     private class StoryViewSpy: StoryView, StoryLoadingView, StoryErrorView {
         enum Message: Equatable {
             case display(isLoading: Bool)
-            case display(id: Int, title: String?, author: String?, comments: String?, score: String?, date: String?, url: URL?)
+            case display(
+                id: Int,
+                title: String?,
+                author: String?,
+                comments: String?,
+                score: String?,
+                date: String?,
+                url: URL?,
+                displayURL: String?
+            )
             case display(errorMessage: String?)
         }
 
@@ -117,7 +129,8 @@ final class StoryPresentationTests: XCTestCase {
                     comments: viewModel.comments,
                     score: viewModel.score,
                     date: viewModel.date,
-                    url: viewModel.url
+                    url: viewModel.url,
+                    displayURL: viewModel.displayURL
                 ))
         }
 

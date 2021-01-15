@@ -43,6 +43,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
         cell?.id = viewModel.newId
         cell?.url = viewModel.url
         cell?.titleLabel.text = viewModel.title
+        cell?.urlLabel.text = viewModel.displayURL
         cell?.authorLabel.text = viewModel.author
         cell?.commentsLabel.text = viewModel.comments
         cell?.scoreLabel.text = viewModel.score
@@ -55,7 +56,7 @@ public final class LiveHackrNewCellController: StoryView, StoryLoadingView, Stor
 
     public func display(_ viewModel: StoryErrorViewModel) {
         cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
-        cell?.container.isHidden = !(viewModel.message == nil)
+        cell?.mainContainer.isHidden = !(viewModel.message == nil)
     }
 
     func didSelect() {

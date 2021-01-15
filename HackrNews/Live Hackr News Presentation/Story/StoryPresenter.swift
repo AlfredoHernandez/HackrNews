@@ -12,8 +12,18 @@ public struct StoryViewModel: Equatable {
     public let score: String?
     public let date: String?
     public let url: URL?
+    public let displayURL: String?
 
-    public init(newId: Int, title: String?, author: String?, comments: String?, score: String?, date: String?, url: URL?) {
+    public init(
+        newId: Int,
+        title: String?,
+        author: String?,
+        comments: String?,
+        score: String?,
+        date: String?,
+        url: URL?,
+        displayURL: String?
+    ) {
         self.newId = newId
         self.title = title
         self.author = author
@@ -21,6 +31,7 @@ public struct StoryViewModel: Equatable {
         self.score = score
         self.date = date
         self.url = url
+        self.displayURL = displayURL
     }
 }
 
@@ -64,6 +75,16 @@ public final class StoryPresenter {
         )
     }
 
+    private var comments: String {
+        NSLocalizedString(
+            "story_comments_message",
+            tableName: "Story",
+            bundle: Bundle(for: StoryPresenter.self),
+            value: "",
+            comment: "Story comments text label"
+        )
+    }
+
     private var score: String {
         NSLocalizedString(
             "story_points_message",
@@ -97,22 +118,15 @@ public final class StoryPresenter {
             comments: "Loading comments...",
             score: "Score",
             date: "Loading date...",
-            url: nil
+            url: nil,
+            displayURL: "Loading url..."
         ))
         errorView.display(StoryErrorViewModel(message: nil))
     }
 
     public func didFinishLoadingStory(story: Story) {
         loadingView.display(StoryLoadingViewModel(isLoading: false))
-        view.display(StoryViewModel(
-            newId: story.id,
-            title: story.title,
-            author: story.author,
-            comments: story.totalComments?.description ?? "0",
-            score: String(format: score, story.score ?? "0"),
-            date: format(from: story.createdAt),
-            url: story.url
-        ))
+        view.display(map(story: story))
         errorView.display(StoryErrorViewModel(message: nil))
     }
 
@@ -127,5 +141,18 @@ public final class StoryPresenter {
         dateFormatter.calendar = calendar
         dateFormatter.dateFormat = "MMM dd, yyyy"
         return dateFormatter.string(from: date)
+    }
+
+    private func map(story: Story) -> StoryViewModel {
+        StoryViewModel(
+            newId: story.id,
+            title: story.title,
+            author: story.author,
+            comments: String(format: comments, story.totalComments ?? 0),
+            score: String(format: score, story.score ?? "0"),
+            date: format(from: story.createdAt),
+            url: story.url,
+            displayURL: story.url?.host
+        )
     }
 }
