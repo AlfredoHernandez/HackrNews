@@ -17,6 +17,8 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
     }
 
     override public func viewDidLoad() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
         tableView.prefetchDataSource = self
         tableView.register(
             UINib(nibName: "LiveHackrNewCell", bundle: Bundle(for: LiveHackrNewCell.self)),
@@ -25,6 +27,7 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.refreshControl = refreshController?.view
+        fixNavigationBarSize()
         refreshController?.refresh()
     }
 
@@ -64,6 +67,12 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
 
     private func cancelCellControllerLoad(at indexPath: IndexPath) {
         cellController(forRowAt: indexPath).cancelLoad()
+    }
+
+    private func fixNavigationBarSize() {
+        let top = tableView.adjustedContentInset.top
+        let y = refreshControl?.frame.maxY ?? 0.0 + top
+        tableView.setContentOffset(CGPoint(x: 0, y: -y), animated: true)
     }
 }
 
