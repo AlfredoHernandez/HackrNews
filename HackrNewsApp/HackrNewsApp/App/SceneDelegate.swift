@@ -20,7 +20,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.httpClient = httpClient
     }
 
-    private lazy var tabBarController: UITabBarController = makeTabBarViewController(with: [topStories(), newStories(), bestStories()])
+    private lazy var tabBarController: UITabBarController = makeTabBarViewController(
+        with: [
+            stories(for: .topStories, withURL: LHNEndpoint.topStories.url(baseUrl)),
+            stories(for: .newStories, withURL: LHNEndpoint.newStories.url(baseUrl)),
+            stories(for: .bestStories, withURL: LHNEndpoint.bestStories.url(baseUrl)),
+        ]
+    )
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
@@ -40,35 +46,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return tabBarController
     }
 
-    private func topStories() -> UINavigationController {
-        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.topStories.url(baseUrl), client: httpClient)
+    private func stories(for contentType: ContentType, withURL url: URL) -> UINavigationController {
+        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: url, client: httpClient)
         return UINavigationController(
             rootViewController: LiveHackrNewsUIComposer.composeWith(
-                contentType: .topStories,
-                liveHackrNewsloader: liveHackrNewsloader,
-                hackrStoryLoader: hackrStoryLoader,
-                didSelectStory: openOnSafari
-            )
-        )
-    }
-
-    private func newStories() -> UINavigationController {
-        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.newStories.url(baseUrl), client: httpClient)
-        return UINavigationController(
-            rootViewController: LiveHackrNewsUIComposer.composeWith(
-                contentType: .newStories,
-                liveHackrNewsloader: liveHackrNewsloader,
-                hackrStoryLoader: hackrStoryLoader,
-                didSelectStory: openOnSafari
-            )
-        )
-    }
-
-    private func bestStories() -> UINavigationController {
-        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.bestStories.url(baseUrl), client: httpClient)
-        return UINavigationController(
-            rootViewController: LiveHackrNewsUIComposer.composeWith(
-                contentType: .bestStories,
+                contentType: contentType,
                 liveHackrNewsloader: liveHackrNewsloader,
                 hackrStoryLoader: hackrStoryLoader,
                 didSelectStory: openOnSafari
