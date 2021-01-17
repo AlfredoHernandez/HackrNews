@@ -44,8 +44,11 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     func test_onLaunchandTapNewStories_displaysRemoteStoriesWhenCustomesHasConnectivity() {
         let app = launch(httpClient: .online(response))
 
-        let newStories = app.simulateTapOnNewStories()
+        let topStories = app.simulateTapOnTopStories()
+        XCTAssertNotNil(topStories, "Expected a `LiveHackrNewsViewController` to display new stories")
+        XCTAssertEqual(topStories.title, LiveHackrNewsPresenter.topStoriesTitle)
 
+        let newStories = app.simulateTapOnNewStories()
         XCTAssertNotNil(newStories, "Expected a `LiveHackrNewsViewController` to display new stories")
         XCTAssertEqual(newStories.title, LiveHackrNewsPresenter.newStoriesTitle)
     }

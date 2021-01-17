@@ -20,10 +20,17 @@ extension UIViewController {
         return tabBarController!.selectedViewController
     }
 
+    func simulateTapOnTopStories() -> LiveHackrNewsViewController {
+        let navigation = simulateTap(at: topStoriesTab) as! UINavigationController
+        return navigation.topViewController as! LiveHackrNewsViewController
+    }
+
     func simulateTapOnNewStories() -> LiveHackrNewsViewController {
         let navigation = simulateTap(at: newStoriesTab) as! UINavigationController
         return navigation.topViewController as! LiveHackrNewsViewController
     }
+
+    private var topStoriesTab: Int { 0 }
 
     private var newStoriesTab: Int { 1 }
 }
