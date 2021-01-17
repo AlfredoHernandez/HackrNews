@@ -1,3 +1,4 @@
 "top_stories_title" = "Top Stories";
 "new_stories_title" = "New Stories";
+"best_stories_title" = "Best Stories";
 "new_stories_error_message" = "Couldn't connect to server";
