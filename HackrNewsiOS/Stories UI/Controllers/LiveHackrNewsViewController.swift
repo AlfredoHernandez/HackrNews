@@ -8,7 +8,10 @@ import UIKit
 public class LiveHackrNewsViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var refreshController: LiveHackrNewsRefreshController?
     private(set) var tableModel = [LiveHackrNewCellController]() {
-        didSet { tableView.reloadData() }
+        didSet {
+            tableView.reloadData()
+            fixNavigationBarSize()
+        }
     }
 
     public convenience init(refreshController: LiveHackrNewsRefreshController) {
@@ -71,8 +74,8 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
 
     private func fixNavigationBarSize() {
         let top = tableView.adjustedContentInset.top
-        let y = refreshControl?.frame.maxY ?? 0.0 + top
-        tableView.setContentOffset(CGPoint(x: 0, y: -y), animated: true)
+        let totalTop = (refreshControl?.frame.maxY ?? 0.0) + top + 1
+        tableView.setContentOffset(CGPoint(x: 0, y: -totalTop), animated: true)
     }
 }
 
