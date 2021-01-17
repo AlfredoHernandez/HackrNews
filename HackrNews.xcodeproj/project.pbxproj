@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		384B7C0125B4F84500270EAC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 384B7C0025B4F84500270EAC /* Colors.xcassets */; };
+		384B7C0825B4F99900270EAC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
 		386551D42586B179002054AA /* LiveHackrNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386551D32586B179002054AA /* LiveHackrNewsViewController.swift */; };
 		386551EA2586D198002054AA /* HackrNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D392672582C55300FCAF70 /* HackrNews.framework */; platformFilter = ios; };
@@ -100,6 +102,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		384B7C0025B4F84500270EAC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		386551A625868EF1002054AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		386551AB25868EF2002054AA /* HackrNewsiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,9 +198,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		384B7BF825B4F7E400270EAC /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */,
+				384B7C0025B4F84500270EAC /* Colors.xcassets */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		386551A425868EF1002054AA /* HackrNewsiOS */ = {
 			isa = PBXGroup;
 			children = (
+				384B7BF825B4F7E400270EAC /* Theme */,
 				38C916D12588619B001C5DE2 /* Stories UI */,
 				386551A625868EF1002054AA /* Info.plist */,
 			);
@@ -633,6 +647,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38F6802A258FFD40002ED53A /* LiveHackrNewCell.xib in Resources */,
+				384B7C0125B4F84500270EAC /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,6 +691,7 @@
 				38699B002588774E002B460B /* LiveHackrNewCellController.swift in Sources */,
 				386551D42586B179002054AA /* LiveHackrNewsViewController.swift in Sources */,
 				38C916D5258861BC001C5DE2 /* LiveHackrNewCell.swift in Sources */,
+				384B7C0825B4F99900270EAC /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
