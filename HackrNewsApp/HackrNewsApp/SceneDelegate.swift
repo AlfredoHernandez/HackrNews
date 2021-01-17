@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private lazy var navigationController: UINavigationController = {
-        UINavigationController(rootViewController: makeLiveHackrNewsController())
+        UINavigationController(rootViewController: makeTopStoriesController())
     }()
 
     private lazy var newStoriesNavigationController: UINavigationController = {
@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return tabBarController
     }
 
-    private func makeLiveHackrNewsController() -> LiveHackrNewsViewController {
+    private func makeTopStoriesController() -> LiveHackrNewsViewController {
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.topStories.url(baseUrl), client: httpClient)
         return LiveHackrNewsUIComposer.composeWith(
             contentType: .topStories,

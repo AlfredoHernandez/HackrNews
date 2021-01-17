@@ -46,8 +46,8 @@ public final class LiveHackrNewsUIComposer {
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
         switch contentType {
         case .topStories:
-            viewController.tabBarItem.image = Icons.news.image(state: .normal)
-            viewController.tabBarItem.selectedImage = Icons.news.image(state: .selected)
+            viewController.tabBarItem.image = Icons.top.image(state: .normal)
+            viewController.tabBarItem.selectedImage = Icons.top.image(state: .selected)
             viewController.title = LiveHackrNewsPresenter.topStoriesTitle
         case .newStories:
             viewController.tabBarItem.image = Icons.new.image(state: .normal)

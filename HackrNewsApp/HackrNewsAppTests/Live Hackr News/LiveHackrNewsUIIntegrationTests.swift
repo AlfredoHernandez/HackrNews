@@ -14,8 +14,8 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.title, topStoriesTitle)
-        XCTAssertEqual(sut.tabBarItem.image, Icons.news.image(state: .normal))
-        XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.news.image(state: .selected))
+        XCTAssertEqual(sut.tabBarItem.image, Icons.top.image(state: .normal))
+        XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.top.image(state: .selected))
     }
 
     func test_controllerNewStories_hasTitle() {
