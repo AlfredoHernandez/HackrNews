@@ -2,9 +2,9 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
-import Foundation
 import HackrNews
 import HackrNewsiOS
+import UIKit
 
 final class LiveHackrNewsUIComposer {
     private init() {}
@@ -39,20 +39,21 @@ final class LiveHackrNewsUIComposer {
         contentType: ContentType
     ) -> LiveHackrNewsViewController {
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
+        let config = tabBarControllerConfig(for: contentType)
+        viewController.title = config.title
+        viewController.tabBarItem.image = config.image
+        viewController.tabBarItem.selectedImage = config.selected
+        return viewController
+    }
+
+    private static func tabBarControllerConfig(for contentType: ContentType) -> (title: String, image: UIImage, selected: UIImage) {
         switch contentType {
         case .topStories:
-            viewController.tabBarItem.image = Icons.top.image(state: .normal)
-            viewController.tabBarItem.selectedImage = Icons.top.image(state: .selected)
-            viewController.title = LiveHackrNewsPresenter.topStoriesTitle
+            return (LiveHackrNewsPresenter.topStoriesTitle, Icons.top.image(state: .normal), Icons.top.image(state: .selected))
         case .newStories:
-            viewController.tabBarItem.image = Icons.new.image(state: .normal)
-            viewController.tabBarItem.selectedImage = Icons.new.image(state: .selected)
-            viewController.title = LiveHackrNewsPresenter.newStoriesTitle
+            return (LiveHackrNewsPresenter.newStoriesTitle, Icons.new.image(state: .normal), Icons.new.image(state: .selected))
         case .bestStories:
-            viewController.tabBarItem.image = Icons.best.image(state: .normal)
-            viewController.tabBarItem.selectedImage = Icons.best.image(state: .selected)
-            viewController.title = LiveHackrNewsPresenter.bestStoriesTitle
+            return (LiveHackrNewsPresenter.bestStoriesTitle, Icons.best.image(state: .normal), Icons.best.image(state: .selected))
         }
-        return viewController
     }
 }
