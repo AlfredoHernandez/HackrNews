@@ -57,7 +57,7 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
     }
 
     private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
-        let table = "NewStories"
+        let table = "LiveHackrNews"
         let bundle = Bundle(for: LiveHackrNewsPresenter.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if key == value {

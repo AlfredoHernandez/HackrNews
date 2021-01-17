@@ -39,7 +39,7 @@
 		38D393002583037B00FCAF70 /* LiveHackrNewsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392FF2583037B00FCAF70 /* LiveHackrNewsPresenter.swift */; };
 		38D393082583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D393072583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift */; };
 		38D3930C258304C600FCAF70 /* LiveHackrNewsLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D3930B258304C600FCAF70 /* LiveHackrNewsLocalizationTests.swift */; };
-		38D3930F2583050900FCAF70 /* NewStories.strings in Resources */ = {isa = PBXBuildFile; fileRef = 38D393112583050900FCAF70 /* NewStories.strings */; };
+		38D3930F2583050900FCAF70 /* LiveHackrNews.strings in Resources */ = {isa = PBXBuildFile; fileRef = 38D393112583050900FCAF70 /* LiveHackrNews.strings */; };
 		38D3931525830CFD00FCAF70 /* LiveHackrNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D3931425830CFD00FCAF70 /* LiveHackrNew.swift */; };
 		38D3931C2583185E00FCAF70 /* LiveHackrNewsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D3931B2583185E00FCAF70 /* LiveHackrNewsErrorViewModel.swift */; };
 		38D393222583186D00FCAF70 /* LiveHackrNewsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D393212583186D00FCAF70 /* LiveHackrNewsErrorView.swift */; };
@@ -135,7 +135,7 @@
 		38D392FF2583037B00FCAF70 /* LiveHackrNewsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsPresenter.swift; sourceTree = "<group>"; };
 		38D393072583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedLocalizationTestsHelpers.swift; sourceTree = "<group>"; };
 		38D3930B258304C600FCAF70 /* LiveHackrNewsLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsLocalizationTests.swift; sourceTree = "<group>"; };
-		38D393102583050900FCAF70 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NewStories.strings; sourceTree = "<group>"; };
+		38D393102583050900FCAF70 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LiveHackrNews.strings; sourceTree = "<group>"; };
 		38D3931425830CFD00FCAF70 /* LiveHackrNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNew.swift; sourceTree = "<group>"; };
 		38D3931A258310C000FCAF70 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		38D3931B2583185E00FCAF70 /* LiveHackrNewsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsErrorViewModel.swift; sourceTree = "<group>"; };
@@ -426,7 +426,7 @@
 				38D393252583187D00FCAF70 /* LiveHackrNewsLoadingViewModel.swift */,
 				38D393212583186D00FCAF70 /* LiveHackrNewsErrorView.swift */,
 				38D3931B2583185E00FCAF70 /* LiveHackrNewsErrorViewModel.swift */,
-				38D393112583050900FCAF70 /* NewStories.strings */,
+				38D393112583050900FCAF70 /* LiveHackrNews.strings */,
 			);
 			path = "Live Hacker News";
 			sourceTree = "<group>";
@@ -654,7 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38F67FE8258FCFC6002ED53A /* Story.strings in Resources */,
-				38D3930F2583050900FCAF70 /* NewStories.strings in Resources */,
+				38D3930F2583050900FCAF70 /* LiveHackrNews.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,12 +756,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		38D393112583050900FCAF70 /* NewStories.strings */ = {
+		38D393112583050900FCAF70 /* LiveHackrNews.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				38D393102583050900FCAF70 /* en */,
 			);
-			name = NewStories.strings;
+			name = LiveHackrNews.strings;
 			sourceTree = "<group>";
 		};
 		38F67FEA258FCFC6002ED53A /* Story.strings */ = {
