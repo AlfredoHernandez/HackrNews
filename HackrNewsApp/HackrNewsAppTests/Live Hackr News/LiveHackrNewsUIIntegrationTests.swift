@@ -28,6 +28,16 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.new.image(state: .selected))
     }
 
+    func test_controllerBestStories_isConfigured() {
+        let (sut, _) = makeSUT(contentType: .bestStories)
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.title, bestStoriesTitle)
+        XCTAssertEqual(sut.tabBarItem.image, Icons.best.image(state: .normal))
+        XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.best.image(state: .selected))
+    }
+
     func test_loadLiveHackrNewsActions_requestLiveHackrNewsLoader() {
         let (sut, loader) = makeSUT()
 
@@ -470,5 +480,9 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
 
     private var newStoriesTitle: String {
         LiveHackrNewsPresenter.newStoriesTitle
+    }
+
+    private var bestStoriesTitle: String {
+        LiveHackrNewsPresenter.bestStoriesTitle
     }
 }

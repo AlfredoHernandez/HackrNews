@@ -9,6 +9,7 @@ import HackrNewsiOS
 public enum ContentType {
     case topStories
     case newStories
+    case bestStories
 }
 
 public final class LiveHackrNewsUIComposer {
@@ -53,6 +54,10 @@ public final class LiveHackrNewsUIComposer {
             viewController.tabBarItem.image = Icons.new.image(state: .normal)
             viewController.tabBarItem.selectedImage = Icons.new.image(state: .selected)
             viewController.title = LiveHackrNewsPresenter.newStoriesTitle
+        case .bestStories:
+            viewController.tabBarItem.image = Icons.best.image(state: .normal)
+            viewController.tabBarItem.selectedImage = Icons.best.image(state: .selected)
+            viewController.title = LiveHackrNewsPresenter.bestStoriesTitle
         }
         return viewController
     }
