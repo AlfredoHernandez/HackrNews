@@ -24,6 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationController(rootViewController: makeLiveHackrNewsController())
     }()
 
+    private lazy var newStoriesNavigationController: UINavigationController = {
+        UINavigationController(rootViewController: makeNewStoriesController())
+    }()
+
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
@@ -31,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func configureWindow() {
-        let tabBarController = makeTabBarViewController(with: [navigationController])
+        let tabBarController = makeTabBarViewController(with: [navigationController, newStoriesNavigationController])
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
@@ -50,6 +54,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             hackrStoryLoader: hackrStoryLoader,
             didSelectStory: openOnSafari
         )
+    }
+
+    private func makeNewStoriesController() -> LiveHackrNewsViewController {
+        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.newStories.url(baseUrl), client: httpClient)
+        let controller = LiveHackrNewsUIComposer.composeWith(
+            liveHackrNewsloader: liveHackrNewsloader,
+            hackrStoryLoader: hackrStoryLoader,
+            didSelectStory: openOnSafari
+        )
+        controller.title = "New Stories"
+        controller.tabBarItem.image = Icons.new.image(state: .normal)
+        controller.tabBarItem.selectedImage = Icons.new.image(state: .selected)
+        return controller
     }
 
     private func openOnSafari(with url: URL) {
