@@ -28,6 +28,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationController(rootViewController: makeNewStoriesController())
     }()
 
+    private lazy var bestStoriesNavigationController: UINavigationController = {
+        UINavigationController(rootViewController: makeBestStoriesController())
+    }()
+
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
@@ -35,7 +39,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func configureWindow() {
-        let tabBarController = makeTabBarViewController(with: [navigationController, newStoriesNavigationController])
+        let tabBarController =
+            makeTabBarViewController(with: [navigationController, newStoriesNavigationController, bestStoriesNavigationController])
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
@@ -61,6 +66,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.newStories.url(baseUrl), client: httpClient)
         let controller = LiveHackrNewsUIComposer.composeWith(
             contentType: .newStories,
+            liveHackrNewsloader: liveHackrNewsloader,
+            hackrStoryLoader: hackrStoryLoader,
+            didSelectStory: openOnSafari
+        )
+        return controller
+    }
+
+    private func makeBestStoriesController() -> LiveHackrNewsViewController {
+        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.bestStories.url(baseUrl), client: httpClient)
+        let controller = LiveHackrNewsUIComposer.composeWith(
+            contentType: .bestStories,
             liveHackrNewsloader: liveHackrNewsloader,
             hackrStoryLoader: hackrStoryLoader,
             didSelectStory: openOnSafari
