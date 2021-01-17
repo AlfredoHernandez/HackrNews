@@ -15,7 +15,7 @@ public class LiveHackrNewsPresenter {
             tableName: "LiveHackrNews",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
-            comment: "New Stories title view"
+            comment: "Top Stories title view"
         )
     }
 
@@ -26,6 +26,16 @@ public class LiveHackrNewsPresenter {
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
             comment: "New Stories title view"
+        )
+    }
+
+    public static var bestStoriesTitle: String {
+        NSLocalizedString(
+            "best_stories_title",
+            tableName: "LiveHackrNews",
+            bundle: Bundle(for: LiveHackrNewsPresenter.self),
+            value: "",
+            comment: "Best Stories title view"
         )
     }
 

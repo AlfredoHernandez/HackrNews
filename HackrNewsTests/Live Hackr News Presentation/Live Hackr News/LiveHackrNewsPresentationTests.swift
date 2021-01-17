@@ -14,6 +14,10 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
         XCTAssertEqual(LiveHackrNewsPresenter.newStoriesTitle, localized("new_stories_title"))
     }
 
+    func test_bestStoriesTitle_isLocalized() {
+        XCTAssertEqual(LiveHackrNewsPresenter.bestStoriesTitle, localized("best_stories_title"))
+    }
+
     func test_init_doesNotSendMessagesToView() {
         let (_, view) = makeSUT()
 

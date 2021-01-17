@@ -12,6 +12,7 @@ enum IconState {
 enum Icons {
     case top
     case new
+    case best
 
     public func image(state: IconState) -> UIImage {
         switch (self, state) {
@@ -23,6 +24,10 @@ enum Icons {
             return UIImage(systemName: "clock")!
         case (.new, .selected):
             return UIImage(systemName: "clock.fill")!
+        case (.best, .normal):
+            return UIImage(systemName: "hands.clap")!
+        case (.best, .selected):
+            return UIImage(systemName: "hands.clap.fill")!
         }
     }
 }
