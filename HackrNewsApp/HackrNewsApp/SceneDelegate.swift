@@ -50,6 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func makeLiveHackrNewsController() -> LiveHackrNewsViewController {
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.topStories.url(baseUrl), client: httpClient)
         return LiveHackrNewsUIComposer.composeWith(
+            contentType: .topStories,
             liveHackrNewsloader: liveHackrNewsloader,
             hackrStoryLoader: hackrStoryLoader,
             didSelectStory: openOnSafari
@@ -59,13 +60,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func makeNewStoriesController() -> LiveHackrNewsViewController {
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.newStories.url(baseUrl), client: httpClient)
         let controller = LiveHackrNewsUIComposer.composeWith(
+            contentType: .newStories,
             liveHackrNewsloader: liveHackrNewsloader,
             hackrStoryLoader: hackrStoryLoader,
             didSelectStory: openOnSafari
         )
-        controller.title = "New Stories"
-        controller.tabBarItem.image = Icons.new.image(state: .normal)
-        controller.tabBarItem.selectedImage = Icons.new.image(state: .selected)
         return controller
     }
 

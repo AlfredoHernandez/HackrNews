@@ -8,21 +8,24 @@ import HackrNewsiOS
 import XCTest
 
 final class LiveHackrNewsUIIntegrationTests: XCTestCase {
-    func test_controller_hasTitle() {
-        let (sut, _) = makeSUT()
+    func test_controllerTopStories_hasTitle() {
+        let (sut, _) = makeSUT(contentType: .topStories)
 
         sut.loadViewIfNeeded()
 
-        XCTAssertEqual(sut.title, liveHackrNewsTitle)
-    }
-
-    func test_controller_configuresTabBarItem() {
-        let (sut, _) = makeSUT()
-
-        sut.loadViewIfNeeded()
-
+        XCTAssertEqual(sut.title, topStoriesTitle)
         XCTAssertEqual(sut.tabBarItem.image, Icons.news.image(state: .normal))
         XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.news.image(state: .selected))
+    }
+
+    func test_controllerNewStories_hasTitle() {
+        let (sut, _) = makeSUT(contentType: .newStories)
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.title, newStoriesTitle)
+        XCTAssertEqual(sut.tabBarItem.image, Icons.new.image(state: .normal))
+        XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.new.image(state: .selected))
     }
 
     func test_loadLiveHackrNewsActions_requestLiveHackrNewsLoader() {
@@ -396,6 +399,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
 
     private func makeSUT(
         selection: @escaping (URL) -> Void = { _ in },
+        contentType: ContentType = .newStories,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian),
         file: StaticString = #filePath,
@@ -403,6 +407,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
     ) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
         let loader = LiveHackerNewLoaderSpy()
         let sut = LiveHackrNewsUIComposer.composeWith(
+            contentType: contentType,
             liveHackrNewsloader: loader,
             hackrStoryLoader: { _ in loader },
             didSelectStory: selection,
@@ -459,7 +464,11 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         return (model, viewModel)
     }
 
-    private var liveHackrNewsTitle: String {
-        LiveHackrNewsPresenter.title
+    private var topStoriesTitle: String {
+        LiveHackrNewsPresenter.topStoriesTitle
+    }
+
+    private var newStoriesTitle: String {
+        LiveHackrNewsPresenter.newStoriesTitle
     }
 }

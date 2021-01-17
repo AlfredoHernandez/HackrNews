@@ -9,9 +9,19 @@ public class LiveHackrNewsPresenter {
     private let loadingView: LiveHackrNewsLoadingView
     private let errorView: LiveHackrNewsErrorView
 
-    public static var title: String {
+    public static var topStoriesTitle: String {
         NSLocalizedString(
             "top_stories_title",
+            tableName: "NewStories",
+            bundle: Bundle(for: LiveHackrNewsPresenter.self),
+            value: "",
+            comment: "New Stories title view"
+        )
+    }
+
+    public static var newStoriesTitle: String {
+        NSLocalizedString(
+            "new_stories_title",
             tableName: "NewStories",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
