@@ -10,14 +10,19 @@ enum IconState {
 }
 
 enum Icons {
-    case news
+    case top
+    case new
 
     public func image(state: IconState) -> UIImage {
         switch (self, state) {
-        case (.news, .normal):
+        case (.top, .normal):
             return UIImage(systemName: "newspaper")!
-        case (.news, .selected):
+        case (.top, .selected):
             return UIImage(systemName: "newspaper.fill")!
+        case (.new, .normal):
+            return UIImage(systemName: "clock")!
+        case (.new, .selected):
+            return UIImage(systemName: "clock.fill")!
         }
     }
 }

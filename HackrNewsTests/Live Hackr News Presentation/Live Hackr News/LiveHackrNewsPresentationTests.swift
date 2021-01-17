@@ -6,8 +6,12 @@ import HackrNews
 import XCTest
 
 final class LiveHackrNewsPresentationTests: XCTestCase {
-    func test_title_isLocalized() {
-        XCTAssertEqual(LiveHackrNewsPresenter.title, localized("top_stories_title"))
+    func test_topStoriesTitle_isLocalized() {
+        XCTAssertEqual(LiveHackrNewsPresenter.topStoriesTitle, localized("top_stories_title"))
+    }
+
+    func test_newStoriesTitle_isLocalized() {
+        XCTAssertEqual(LiveHackrNewsPresenter.newStoriesTitle, localized("new_stories_title"))
     }
 
     func test_init_doesNotSendMessagesToView() {
@@ -53,7 +57,7 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
     }
 
     private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
-        let table = "NewStories"
+        let table = "LiveHackrNews"
         let bundle = Bundle(for: LiveHackrNewsPresenter.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if key == value {

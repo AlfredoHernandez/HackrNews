@@ -9,10 +9,20 @@ public class LiveHackrNewsPresenter {
     private let loadingView: LiveHackrNewsLoadingView
     private let errorView: LiveHackrNewsErrorView
 
-    public static var title: String {
+    public static var topStoriesTitle: String {
         NSLocalizedString(
             "top_stories_title",
-            tableName: "NewStories",
+            tableName: "LiveHackrNews",
+            bundle: Bundle(for: LiveHackrNewsPresenter.self),
+            value: "",
+            comment: "New Stories title view"
+        )
+    }
+
+    public static var newStoriesTitle: String {
+        NSLocalizedString(
+            "new_stories_title",
+            tableName: "LiveHackrNews",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
             comment: "New Stories title view"
@@ -22,7 +32,7 @@ public class LiveHackrNewsPresenter {
     private var errorMessage: String {
         NSLocalizedString(
             "new_stories_error_message",
-            tableName: "NewStories",
+            tableName: "LiveHackrNews",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
             comment: "New Stories loading error message"

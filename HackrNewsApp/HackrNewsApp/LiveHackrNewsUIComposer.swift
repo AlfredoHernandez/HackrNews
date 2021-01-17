@@ -6,10 +6,16 @@ import Foundation
 import HackrNews
 import HackrNewsiOS
 
+public enum ContentType {
+    case topStories
+    case newStories
+}
+
 public final class LiveHackrNewsUIComposer {
     private init() {}
 
     public static func composeWith(
+        contentType: ContentType,
         liveHackrNewsloader: LiveHackrNewsLoader,
         hackrStoryLoader: @escaping (Int) -> HackrStoryLoader,
         didSelectStory: @escaping (URL) -> Void,
@@ -18,7 +24,7 @@ public final class LiveHackrNewsUIComposer {
     ) -> LiveHackrNewsViewController {
         let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(liveHackrNewsloader))
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
-        let viewController = makeViewController(with: refreshController, title: LiveHackrNewsPresenter.title)
+        let viewController = makeViewController(with: refreshController, contentType: contentType)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
             view: LiveHackrNewsViewAdapter(
                 loader: hackrStoryLoader,
@@ -35,12 +41,19 @@ public final class LiveHackrNewsUIComposer {
 
     private static func makeViewController(
         with refreshController: LiveHackrNewsRefreshController,
-        title: String
+        contentType: ContentType
     ) -> LiveHackrNewsViewController {
         let viewController = LiveHackrNewsViewController(refreshController: refreshController)
-        viewController.tabBarItem.image = Icons.news.image(state: .normal)
-        viewController.tabBarItem.selectedImage = Icons.news.image(state: .selected)
-        viewController.title = title
+        switch contentType {
+        case .topStories:
+            viewController.tabBarItem.image = Icons.top.image(state: .normal)
+            viewController.tabBarItem.selectedImage = Icons.top.image(state: .selected)
+            viewController.title = LiveHackrNewsPresenter.topStoriesTitle
+        case .newStories:
+            viewController.tabBarItem.image = Icons.new.image(state: .normal)
+            viewController.tabBarItem.selectedImage = Icons.new.image(state: .selected)
+            viewController.title = LiveHackrNewsPresenter.newStoriesTitle
+        }
         return viewController
     }
 }

@@ -11,6 +11,7 @@ import XCTest
 final class HackrNewsAppAcceptanceTests: XCTestCase {
     func test_onLaunch_displaysRemoteStoriesWhenCustomerHasConnectivity() {
         let stories = launch(httpClient: .online(response))
+
         XCTAssertEqual(stories.numberOfRenderedLiveHackrNewsViews(), 5)
 
         let view0 = stories.simulateStoryViewVisible(at: 0)
@@ -40,6 +41,18 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertTrue(safariViewController is SFSafariViewController)
     }
 
+    func test_onLaunchandTapNewStories_displaysRemoteStoriesWhenCustomesHasConnectivity() {
+        let app = launch(httpClient: .online(response))
+
+        let topStories = app.simulateTapOnTopStories()
+        XCTAssertNotNil(topStories, "Expected a `LiveHackrNewsViewController` to display new stories")
+        XCTAssertEqual(topStories.title, LiveHackrNewsPresenter.topStoriesTitle)
+
+        let newStories = app.simulateTapOnNewStories()
+        XCTAssertNotNil(newStories, "Expected a `LiveHackrNewsViewController` to display new stories")
+        XCTAssertEqual(newStories.title, LiveHackrNewsPresenter.newStoriesTitle)
+    }
+
     // MARK: - Helpers
 
     private func launch(httpClient: HTTPClientStub = .offline) -> LiveHackrNewsViewController {
@@ -49,8 +62,6 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         sut.configureWindow()
 
         let tabBarController = sut.window?.rootViewController as! UITabBarController
-        let navigationController = tabBarController.viewControllers?.first as! UINavigationController
-        let storiesViewController = navigationController.topViewController as! LiveHackrNewsViewController
-        return storiesViewController
+        return tabBarController.firstViewController
     }
 }

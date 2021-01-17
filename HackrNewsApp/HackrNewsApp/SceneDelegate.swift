@@ -21,7 +21,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private lazy var navigationController: UINavigationController = {
-        UINavigationController(rootViewController: makeLiveHackrNewsController())
+        UINavigationController(rootViewController: makeTopStoriesController())
+    }()
+
+    private lazy var newStoriesNavigationController: UINavigationController = {
+        UINavigationController(rootViewController: makeNewStoriesController())
     }()
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
@@ -31,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func configureWindow() {
-        let tabBarController = makeTabBarViewController(with: [navigationController])
+        let tabBarController = makeTabBarViewController(with: [navigationController, newStoriesNavigationController])
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
@@ -43,13 +47,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return tabBarController
     }
 
-    private func makeLiveHackrNewsController() -> LiveHackrNewsViewController {
+    private func makeTopStoriesController() -> LiveHackrNewsViewController {
         let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.topStories.url(baseUrl), client: httpClient)
         return LiveHackrNewsUIComposer.composeWith(
+            contentType: .topStories,
             liveHackrNewsloader: liveHackrNewsloader,
             hackrStoryLoader: hackrStoryLoader,
             didSelectStory: openOnSafari
         )
+    }
+
+    private func makeNewStoriesController() -> LiveHackrNewsViewController {
+        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: LHNEndpoint.newStories.url(baseUrl), client: httpClient)
+        let controller = LiveHackrNewsUIComposer.composeWith(
+            contentType: .newStories,
+            liveHackrNewsloader: liveHackrNewsloader,
+            hackrStoryLoader: hackrStoryLoader,
+            didSelectStory: openOnSafari
+        )
+        return controller
     }
 
     private func openOnSafari(with url: URL) {
