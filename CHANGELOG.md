@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2021-01-17
+
+### Added 
+
+- New Stories and Top Stories tabs
+- New stories cell UI
+- When user taps on a story, displays the URL content into a Safari navigation browser 
+
+### Fixed
+
+- Navigation bar with large title
+
 ## [0.3.0] - 2020-12-15
 
 ### Added
