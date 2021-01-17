@@ -10,7 +10,6 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
     private(set) var tableModel = [LiveHackrNewCellController]() {
         didSet {
             tableView.reloadData()
-            fixNavigationBarSize()
         }
     }
 
@@ -74,7 +73,7 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
 
     private func fixNavigationBarSize() {
         let top = tableView.adjustedContentInset.top
-        let totalTop = (refreshControl?.frame.maxY ?? 0.0) + top + 1
+        let totalTop = (refreshControl?.frame.maxY ?? 0.0) + top
         tableView.setContentOffset(CGPoint(x: 0, y: -totalTop), animated: true)
     }
 }
