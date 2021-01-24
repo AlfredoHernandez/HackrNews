@@ -46,7 +46,7 @@ final class LoadStoryCommentFromRemoteUseCaseTests: XCTestCase {
         let samples = [199, 201, 300, 400, 500]
         samples.enumerated().forEach { index, code in
             expect(sut, toCompleteWith: failure(.invalidData), when: {
-                let json = makeItemsJSON([])
+                let json = makeItemJSON(makeItem().json)
                 client.complete(with: code, data: json, at: index)
             })
         }
@@ -61,25 +61,17 @@ final class LoadStoryCommentFromRemoteUseCaseTests: XCTestCase {
         })
     }
 
-    func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() {
+    func tests_load_deliversStoryCommentOn200HTTPResponseWithJSONItems() {
         let (sut, client) = makeSUT()
+        let fixedDate = (
+            date: Date(timeIntervalSince1970: 1611468000000),
+            posix: Double(1611468000000)
+        ) // Sunday, 24 January 2021 00:00:00 GMT-06:00
 
-        expect(sut, toCompleteWith: .success([]), when: {
-            let emptyListJSON = makeItemsJSON([])
-            client.complete(with: 200, data: emptyListJSON)
-        })
-    }
+        let item = makeItem(id: 1, author: "an author", comments: [2], parent: 0, text: "a text", createdAt: fixedDate, type: "comment")
 
-    func tests_load_deliversItemsOn200HTTPResponseWithJSONItems() {
-        let (sut, client) = makeSUT()
-
-        let item1 = makeItem(id: 1)
-        let item2 = makeItem(id: 2)
-
-        let items = [item1.model, item2.model]
-
-        expect(sut, toCompleteWith: .success(items), when: {
-            let json = makeItemsJSON([item1.json, item2.json])
+        expect(sut, toCompleteWith: .success(item.model), when: {
+            let json = makeItemJSON(item.json)
             client.complete(with: 200, data: json)
         })
     }
@@ -92,7 +84,7 @@ final class LoadStoryCommentFromRemoteUseCaseTests: XCTestCase {
         var capturedResults = [RemoteStoryCommentLoader.Result]()
         sut?.load { capturedResults.append($0) }
         sut = nil
-        client.complete(with: 200, data: makeItemsJSON([]))
+        client.complete(with: 200, data: makeItemJSON(makeItem().json))
 
         XCTAssertTrue(capturedResults.isEmpty)
     }
@@ -115,13 +107,39 @@ final class LoadStoryCommentFromRemoteUseCaseTests: XCTestCase {
         .failure(error)
     }
 
-    private func makeItem(id: Int) -> (model: LiveHackrNew, json: Int) {
-        let item = LiveHackrNew(id: id)
-        return (item, item.id)
+    // Used fixed date: Sunday, 24 January 2021 00:00:00 GMT-06:00,
+    private func makeItem(
+        id: Int = 1,
+        author: String = "author",
+        comments: [Int] = [],
+        parent: Int = 0,
+        text: String = "text",
+        createdAt: (date: Date, posix: Double) = (date: Date(timeIntervalSince1970: 1611468000000), posix: Double(1611468000000)),
+        type: String = "comment"
+    ) -> (model: StoryComment, json: [String: Any]) {
+        let item = StoryComment(
+            id: id,
+            author: author,
+            comments: comments,
+            parent: parent,
+            text: text,
+            createdAt: createdAt.date,
+            type: type
+        )
+        let json: [String: Any] = [
+            "id": id,
+            "by": author,
+            "kids": comments,
+            "parent": parent,
+            "text": text,
+            "time": createdAt.posix,
+            "type": type,
+        ]
+        return (item, json)
     }
 
-    private func makeItemsJSON(_ items: [Int]) -> Data {
-        try! JSONSerialization.data(withJSONObject: items)
+    private func makeItemJSON(_ json: [String: Any]) -> Data {
+        try! JSONSerialization.data(withJSONObject: json)
     }
 
     private func expect(

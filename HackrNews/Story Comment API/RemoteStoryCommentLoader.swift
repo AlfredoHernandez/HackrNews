@@ -4,7 +4,7 @@
 
 import Foundation
 
-public final class RemoteStoryCommentLoader: LiveHackrNewsLoader {
+public final class RemoteStoryCommentLoader {
     private let url: URL
     private let client: HTTPClient
 
@@ -13,7 +13,7 @@ public final class RemoteStoryCommentLoader: LiveHackrNewsLoader {
         case invalidData
     }
 
-    public typealias Result = LiveHackrNewsLoader.Result
+    public typealias Result = Swift.Result<StoryComment, Swift.Error>
 
     public init(url: URL, client: HTTPClient) {
         self.url = url
@@ -32,10 +32,9 @@ public final class RemoteStoryCommentLoader: LiveHackrNewsLoader {
         }
     }
 
-    private static func map(_ data: Data, from response: HTTPURLResponse) -> LiveHackrNewsLoader.Result {
+    private static func map(_ data: Data, from response: HTTPURLResponse) -> Result {
         do {
-            let items = try StoryCommentsMapper.map(data: data, response: response)
-            return .success(items.map { LiveHackrNew(id: $0) })
+            return .success(try StoryCommentsMapper.map(data: data, response: response))
         } catch {
             return .failure(error)
         }
