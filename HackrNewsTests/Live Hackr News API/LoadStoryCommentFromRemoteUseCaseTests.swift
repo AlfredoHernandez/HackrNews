@@ -6,40 +6,6 @@ import HackrNews
 import XCTest
 
 final class LoadStoryCommentFromRemoteUseCaseTests: XCTestCase {
-    func test_init_doesNotRequestDataFromURL() {
-        let (_, client) = makeSUT()
-
-        XCTAssertTrue(client.requestedURLs.isEmpty)
-    }
-
-    func test_load_requestsDataFromURL() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT(url: url)
-
-        sut.load { _ in }
-
-        XCTAssertEqual(client.requestedURLs, [url])
-    }
-
-    func test_loadTwice_requestsDataFromURLTwice() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT(url: url)
-
-        sut.load { _ in }
-        sut.load { _ in }
-
-        XCTAssertEqual(client.requestedURLs, [url, url])
-    }
-
-    func test_load_deliversErrorOnClientError() {
-        let (sut, client) = makeSUT()
-
-        expect(sut, toCompleteWith: failure(.connectivity), when: {
-            let clientError = NSError(domain: "Test", code: 0)
-            client.complete(with: clientError)
-        })
-    }
-
     func test_load_deliversErrorOnNon200HTTPResonse() {
         let (sut, client) = makeSUT()
 
@@ -74,19 +40,6 @@ final class LoadStoryCommentFromRemoteUseCaseTests: XCTestCase {
             let json = makeItemJSON(item.json)
             client.complete(with: 200, data: json)
         })
-    }
-
-    func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
-        let url = URL(string: "http://any-url.com")!
-        let client = HTTPClientSpy()
-        var sut: RemoteStoryCommentLoader? = RemoteStoryCommentLoader(url: url, client: client)
-
-        var capturedResults = [RemoteStoryCommentLoader.Result]()
-        sut?.load { capturedResults.append($0) }
-        sut = nil
-        client.complete(with: 200, data: makeItemJSON(makeItem().json))
-
-        XCTAssertTrue(capturedResults.isEmpty)
     }
 
     // MARK: Tests helpers

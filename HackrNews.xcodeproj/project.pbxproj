@@ -17,7 +17,7 @@
 		38699B002588774E002B460B /* LiveHackrNewCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38699AFF2588774E002B460B /* LiveHackrNewCellController.swift */; };
 		3882E58925BE09FD00CE62E0 /* LoadStoryCommentFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E58825BE09FD00CE62E0 /* LoadStoryCommentFromRemoteUseCaseTests.swift */; };
 		3882E58E25BE0B2E00CE62E0 /* RemoteStoryCommentLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E58D25BE0B2E00CE62E0 /* RemoteStoryCommentLoader.swift */; };
-		3882E59625BE0BEC00CE62E0 /* StoryCommentsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E59525BE0BEC00CE62E0 /* StoryCommentsMapper.swift */; };
+		3882E59625BE0BEC00CE62E0 /* StoryCommentMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E59525BE0BEC00CE62E0 /* StoryCommentMapper.swift */; };
 		3882E5A225BE11B800CE62E0 /* StoryComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5A125BE11B800CE62E0 /* StoryComment.swift */; };
 		3882E5B125BE241300CE62E0 /* RemoteLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5B025BE241300CE62E0 /* RemoteLoaderTests.swift */; };
 		3882E5B625BE24C000CE62E0 /* RemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */; };
@@ -119,7 +119,7 @@
 		38699AFF2588774E002B460B /* LiveHackrNewCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewCellController.swift; sourceTree = "<group>"; };
 		3882E58825BE09FD00CE62E0 /* LoadStoryCommentFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStoryCommentFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
 		3882E58D25BE0B2E00CE62E0 /* RemoteStoryCommentLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoryCommentLoader.swift; sourceTree = "<group>"; };
-		3882E59525BE0BEC00CE62E0 /* StoryCommentsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCommentsMapper.swift; sourceTree = "<group>"; };
+		3882E59525BE0BEC00CE62E0 /* StoryCommentMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCommentMapper.swift; sourceTree = "<group>"; };
 		3882E5A125BE11B800CE62E0 /* StoryComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryComment.swift; sourceTree = "<group>"; };
 		3882E5B025BE241300CE62E0 /* RemoteLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoaderTests.swift; sourceTree = "<group>"; };
 		3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoader.swift; sourceTree = "<group>"; };
@@ -258,7 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				3882E58D25BE0B2E00CE62E0 /* RemoteStoryCommentLoader.swift */,
-				3882E59525BE0BEC00CE62E0 /* StoryCommentsMapper.swift */,
+				3882E59525BE0BEC00CE62E0 /* StoryCommentMapper.swift */,
 			);
 			path = "Story Comment API";
 			sourceTree = "<group>";
@@ -746,7 +746,7 @@
 				38B00554259108DD00FA0D4A /* HackrStoryLoader.swift in Sources */,
 				38D393262583187D00FCAF70 /* LiveHackrNewsLoadingViewModel.swift in Sources */,
 				38D3931525830CFD00FCAF70 /* LiveHackrNew.swift in Sources */,
-				3882E59625BE0BEC00CE62E0 /* StoryCommentsMapper.swift in Sources */,
+				3882E59625BE0BEC00CE62E0 /* StoryCommentMapper.swift in Sources */,
 				38D393222583186D00FCAF70 /* LiveHackrNewsErrorView.swift in Sources */,
 				38B0056F25910A9600FA0D4A /* RemoteLiveHackrNewsLoader.swift in Sources */,
 				38D392A02582DA2900FCAF70 /* HTTPClient.swift in Sources */,

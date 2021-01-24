@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum StoryCommentsMapper {
+public enum StoryCommentMapper {
     struct Root: Decodable {
         let id: Int
         let by: String
