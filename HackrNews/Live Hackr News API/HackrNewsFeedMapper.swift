@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum LiveDataMapper {
+public enum HackrNewsFeedMapper {
     typealias LiveItem = Int
 
     public static func map(data: Data, response: HTTPURLResponse) throws -> [LiveHackrNew] {

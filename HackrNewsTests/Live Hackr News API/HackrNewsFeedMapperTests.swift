@@ -5,13 +5,13 @@
 import HackrNews
 import XCTest
 
-final class LiveDataMapperTests: XCTestCase {
+final class HackrNewsFeedMapperTests: XCTestCase {
     func test_map_throwsErrorOnNon200HTTPResonse() throws {
         let json = makeItemsJSON([])
         let samples = [199, 201, 300, 400, 500]
 
         try samples.forEach { code in
-            XCTAssertThrowsError(try LiveDataMapper.map(data: json, response: HTTPURLResponse(statusCode: code))) { error in
+            XCTAssertThrowsError(try HackrNewsFeedMapper.map(data: json, response: HTTPURLResponse(statusCode: code))) { error in
                 XCTAssertEqual(error as? RemoteLiveHackrNewsLoader.Error, .invalidData)
             }
         }
@@ -19,7 +19,7 @@ final class LiveDataMapperTests: XCTestCase {
 
     func test_map_throwsErrorOn200HTTPResponseWithInvalidJSON() {
         let invalidJSON = Data("invalid json".utf8)
-        XCTAssertThrowsError(try LiveDataMapper.map(data: invalidJSON, response: HTTPURLResponse(statusCode: 200))) { error in
+        XCTAssertThrowsError(try HackrNewsFeedMapper.map(data: invalidJSON, response: HTTPURLResponse(statusCode: 200))) { error in
             XCTAssertEqual(error as? RemoteLiveHackrNewsLoader.Error, .invalidData)
         }
     }
@@ -27,7 +27,7 @@ final class LiveDataMapperTests: XCTestCase {
     func test_map_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() throws {
         let emptyListJSON = makeItemsJSON([])
 
-        let result = try LiveDataMapper.map(data: emptyListJSON, response: HTTPURLResponse(statusCode: 200))
+        let result = try HackrNewsFeedMapper.map(data: emptyListJSON, response: HTTPURLResponse(statusCode: 200))
 
         XCTAssertEqual(result, [], "Expected no items, but got \(result)")
     }
@@ -37,7 +37,7 @@ final class LiveDataMapperTests: XCTestCase {
         let item2 = makeItem(id: 2)
         let itemsJSON = makeItemsJSON([item1.json, item2.json])
 
-        let result = try LiveDataMapper.map(data: itemsJSON, response: HTTPURLResponse(statusCode: 200))
+        let result = try HackrNewsFeedMapper.map(data: itemsJSON, response: HTTPURLResponse(statusCode: 200))
 
         XCTAssertEqual(result, [item1.model, item2.model], "Expected no items, but got \(result)")
     }
