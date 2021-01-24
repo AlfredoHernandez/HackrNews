@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func stories(for contentType: ContentType, withURL url: URL) -> UINavigationController {
-        let liveHackrNewsloader = RemoteLiveHackrNewsLoader(url: url, client: httpClient)
+        let liveHackrNewsloader = RemoteLoader(url: url, client: httpClient, mapper: HackrNewsFeedMapper.map)
         return UINavigationController(
             rootViewController: LiveHackrNewsUIComposer.composeWith(
                 contentType: contentType,
@@ -71,22 +71,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 // MARK: - Live Hackr News Loader
 
-public typealias RemoteLiveHackrNewsLoader = RemoteLoader<[LiveHackrNew]>
-
-public extension RemoteLiveHackrNewsLoader {
-    convenience init(url: URL, client: HTTPClient) {
-        self.init(url: url, client: client, mapper: HackrNewsFeedMapper.map)
-    }
-}
-
-extension RemoteLiveHackrNewsLoader: LiveHackrNewsLoader where Resource == [LiveHackrNew] {}
-
-// MARK: - Comment Loader
-
-public typealias RemoteStoryCommentLoader = RemoteLoader<StoryComment>
-
-public extension RemoteStoryCommentLoader {
-    convenience init(url: URL, client: HTTPClient) {
-        self.init(url: url, client: client, mapper: StoryCommentMapper.map)
-    }
-}
+extension RemoteLoader: LiveHackrNewsLoader where Resource == [LiveHackrNew] {}
