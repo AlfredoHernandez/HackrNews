@@ -34,8 +34,7 @@ public final class RemoteLiveHackrNewsLoader: LiveHackrNewsLoader {
 
     private static func map(_ data: Data, from response: HTTPURLResponse) -> LiveHackrNewsLoader.Result {
         do {
-            let items = try LiveDataMapper.map(data: data, response: response)
-            return .success(items.map { LiveHackrNew(id: $0) })
+            return .success(try LiveDataMapper.map(data: data, response: response))
         } catch {
             return .failure(error)
         }
