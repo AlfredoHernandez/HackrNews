@@ -12,7 +12,7 @@ final class HackrNewsFeedMapperTests: XCTestCase {
 
         try samples.forEach { code in
             XCTAssertThrowsError(try HackrNewsFeedMapper.map(data: json, response: HTTPURLResponse(statusCode: code))) { error in
-                XCTAssertEqual(error as? RemoteLiveHackrNewsLoader.Error, .invalidData)
+                XCTAssertEqual(error as? HackrNewsFeedMapper.Error, .invalidData)
             }
         }
     }
@@ -20,7 +20,7 @@ final class HackrNewsFeedMapperTests: XCTestCase {
     func test_map_throwsErrorOn200HTTPResponseWithInvalidJSON() {
         let invalidJSON = Data("invalid json".utf8)
         XCTAssertThrowsError(try HackrNewsFeedMapper.map(data: invalidJSON, response: HTTPURLResponse(statusCode: 200))) { error in
-            XCTAssertEqual(error as? RemoteLiveHackrNewsLoader.Error, .invalidData)
+            XCTAssertEqual(error as? HackrNewsFeedMapper.Error, .invalidData)
         }
     }
 
