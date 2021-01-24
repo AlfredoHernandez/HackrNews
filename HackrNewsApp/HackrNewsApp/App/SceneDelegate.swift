@@ -70,3 +70,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 extension RemoteLiveHackrNewsLoader: LiveHackrNewsLoader where Resource == [LiveHackrNew] {}
+
+// Comment Loader
+
+public typealias RemoteStoryCommentLoader = RemoteLoader<StoryComment>
+
+public extension RemoteStoryCommentLoader {
+    convenience init(url: URL, client: HTTPClient) {
+        self.init(url: url, client: client, mapper: StoryCommentMapper.map)
+    }
+}

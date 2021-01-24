@@ -12,7 +12,7 @@ final class StoryCommentMapperTests: XCTestCase {
 
         try samples.forEach { code in
             XCTAssertThrowsError(try StoryCommentMapper.map(data: json, response: HTTPURLResponse(statusCode: code))) { error in
-                XCTAssertEqual(error as? RemoteStoryCommentLoader.Error, .invalidData)
+                XCTAssertEqual(error as? StoryCommentMapper.Error, .invalidData)
             }
         }
     }
@@ -21,7 +21,7 @@ final class StoryCommentMapperTests: XCTestCase {
         let invalidJSON = Data("invalid json".utf8)
 
         XCTAssertThrowsError(try StoryCommentMapper.map(data: invalidJSON, response: HTTPURLResponse(statusCode: 200))) { error in
-            XCTAssertEqual(error as? RemoteStoryCommentLoader.Error, .invalidData)
+            XCTAssertEqual(error as? StoryCommentMapper.Error, .invalidData)
         }
     }
 
