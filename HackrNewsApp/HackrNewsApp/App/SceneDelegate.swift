@@ -68,3 +68,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         RemoteHackrStoryLoader(url: LHNEndpoint.item(id).url(baseUrl), client: httpClient)
     }
 }
+
+extension RemoteLiveHackrNewsLoader: LiveHackrNewsLoader where Resource == [LiveHackrNew] {}
