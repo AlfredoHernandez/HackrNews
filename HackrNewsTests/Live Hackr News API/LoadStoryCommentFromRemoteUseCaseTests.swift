@@ -5,7 +5,7 @@
 import HackrNews
 import XCTest
 
-final class LoadStoryCommentsFromRemoteUseCaseTests: XCTestCase {
+final class LoadStoryCommentFromRemoteUseCaseTests: XCTestCase {
     func test_init_doesNotRequestDataFromURL() {
         let (_, client) = makeSUT()
 
@@ -87,9 +87,9 @@ final class LoadStoryCommentsFromRemoteUseCaseTests: XCTestCase {
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let url = URL(string: "http://any-url.com")!
         let client = HTTPClientSpy()
-        var sut: RemoteStoryCommentsLoader? = RemoteStoryCommentsLoader(url: url, client: client)
+        var sut: RemoteStoryCommentLoader? = RemoteStoryCommentLoader(url: url, client: client)
 
-        var capturedResults = [RemoteStoryCommentsLoader.Result]()
+        var capturedResults = [RemoteStoryCommentLoader.Result]()
         sut?.load { capturedResults.append($0) }
         sut = nil
         client.complete(with: 200, data: makeItemsJSON([]))
@@ -103,15 +103,15 @@ final class LoadStoryCommentsFromRemoteUseCaseTests: XCTestCase {
         url: URL = URL(string: "https://a-url.com")!,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: RemoteStoryCommentsLoader, client: HTTPClientSpy) {
+    ) -> (sut: RemoteStoryCommentLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
-        let sut = RemoteStoryCommentsLoader(url: url, client: client)
+        let sut = RemoteStoryCommentLoader(url: url, client: client)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(client, file: file, line: line)
         return (sut, client)
     }
 
-    private func failure(_ error: RemoteStoryCommentsLoader.Error) -> RemoteStoryCommentsLoader.Result {
+    private func failure(_ error: RemoteStoryCommentLoader.Error) -> RemoteStoryCommentLoader.Result {
         .failure(error)
     }
 
@@ -125,8 +125,8 @@ final class LoadStoryCommentsFromRemoteUseCaseTests: XCTestCase {
     }
 
     private func expect(
-        _ sut: RemoteStoryCommentsLoader,
-        toCompleteWith expectedResult: RemoteStoryCommentsLoader.Result,
+        _ sut: RemoteStoryCommentLoader,
+        toCompleteWith expectedResult: RemoteStoryCommentLoader.Result,
         when action: () -> Void,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -137,8 +137,8 @@ final class LoadStoryCommentsFromRemoteUseCaseTests: XCTestCase {
             case let (.success(receivedItems), .success(expectedItems)):
                 XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
             case let (
-                .failure(receivedError as RemoteStoryCommentsLoader.Error),
-                .failure(expectedError as RemoteStoryCommentsLoader.Error)
+                .failure(receivedError as RemoteStoryCommentLoader.Error),
+                .failure(expectedError as RemoteStoryCommentLoader.Error)
             ):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
             default:

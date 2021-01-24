@@ -4,7 +4,7 @@
 
 import Foundation
 
-public final class RemoteStoryCommentsLoader: LiveHackrNewsLoader {
+public final class RemoteStoryCommentLoader: LiveHackrNewsLoader {
     private let url: URL
     private let client: HTTPClient
 
@@ -25,7 +25,7 @@ public final class RemoteStoryCommentsLoader: LiveHackrNewsLoader {
             guard self != nil else { return }
             switch result {
             case let .success((data, response)):
-                completion(RemoteStoryCommentsLoader.map(data, from: response))
+                completion(RemoteStoryCommentLoader.map(data, from: response))
             case .failure:
                 completion(.failure(Error.connectivity))
             }
