@@ -19,6 +19,8 @@
 		3882E58E25BE0B2E00CE62E0 /* RemoteStoryCommentLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E58D25BE0B2E00CE62E0 /* RemoteStoryCommentLoader.swift */; };
 		3882E59625BE0BEC00CE62E0 /* StoryCommentsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E59525BE0BEC00CE62E0 /* StoryCommentsMapper.swift */; };
 		3882E5A225BE11B800CE62E0 /* StoryComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5A125BE11B800CE62E0 /* StoryComment.swift */; };
+		3882E5B125BE241300CE62E0 /* RemoteLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5B025BE241300CE62E0 /* RemoteLoaderTests.swift */; };
+		3882E5B625BE24C000CE62E0 /* RemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */; };
 		38882CBB259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */; };
 		388C5B0B2599559D00045DB9 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 388C5B0A2599559D00045DB9 /* SkeletonView */; };
 		38B0054C259108CC00FA0D4A /* LiveHackrNewsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B0054B259108CC00FA0D4A /* LiveHackrNewsLoader.swift */; };
@@ -119,6 +121,8 @@
 		3882E58D25BE0B2E00CE62E0 /* RemoteStoryCommentLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStoryCommentLoader.swift; sourceTree = "<group>"; };
 		3882E59525BE0BEC00CE62E0 /* StoryCommentsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCommentsMapper.swift; sourceTree = "<group>"; };
 		3882E5A125BE11B800CE62E0 /* StoryComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryComment.swift; sourceTree = "<group>"; };
+		3882E5B025BE241300CE62E0 /* RemoteLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoaderTests.swift; sourceTree = "<group>"; };
+		3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoader.swift; sourceTree = "<group>"; };
 		38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeaksTracking.swift"; sourceTree = "<group>"; };
 		38B0054B259108CC00FA0D4A /* LiveHackrNewsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsLoader.swift; sourceTree = "<group>"; };
 		38B00553259108DD00FA0D4A /* HackrStoryLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoader.swift; sourceTree = "<group>"; };
@@ -384,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				38D3929F2582DA2900FCAF70 /* HTTPClient.swift */,
+				3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */,
 			);
 			path = "Shared API";
 			sourceTree = "<group>";
@@ -403,6 +408,7 @@
 			children = (
 				38D392BD2582DCF900FCAF70 /* Helpers */,
 				38D392B72582DCD600FCAF70 /* URLSessionHTTPClientTests.swift */,
+				3882E5B025BE241300CE62E0 /* RemoteLoaderTests.swift */,
 			);
 			path = "Shared API Infra";
 			sourceTree = "<group>";
@@ -757,6 +763,7 @@
 				3882E5A225BE11B800CE62E0 /* StoryComment.swift in Sources */,
 				3882E58E25BE0B2E00CE62E0 /* RemoteStoryCommentLoader.swift in Sources */,
 				38D393002583037B00FCAF70 /* LiveHackrNewsPresenter.swift in Sources */,
+				3882E5B625BE24C000CE62E0 /* RemoteLoader.swift in Sources */,
 				38D39332258318E000FCAF70 /* LiveHackrNewsView.swift in Sources */,
 				38B005942591198300FA0D4A /* RemoteHackrStoryLoader.swift in Sources */,
 			);
@@ -766,6 +773,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3882E5B125BE241300CE62E0 /* RemoteLoaderTests.swift in Sources */,
 				38B00582259117AC00FA0D4A /* HTTPClientSpy.swift in Sources */,
 				38882CBB259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */,
 				38D392A92582DABB00FCAF70 /* Shared.swift in Sources */,
