@@ -4,39 +4,10 @@
 
 import Foundation
 
-public final class RemoteLiveHackrNewsLoader: LiveHackrNewsLoader {
-    private let url: URL
-    private let client: HTTPClient
+public typealias RemoteLiveHackrNewsLoader = RemoteLoader<[LiveHackrNew]>
 
-    public enum Error: Swift.Error {
-        case connectivity
-        case invalidData
-    }
-
-    public typealias Result = LiveHackrNewsLoader.Result
-
-    public init(url: URL, client: HTTPClient) {
-        self.url = url
-        self.client = client
-    }
-
-    public func load(completion: @escaping (Result) -> Void) {
-        client.get(from: url) { [weak self] result in
-            guard self != nil else { return }
-            switch result {
-            case let .success((data, response)):
-                completion(RemoteLiveHackrNewsLoader.map(data, from: response))
-            case .failure:
-                completion(.failure(Error.connectivity))
-            }
-        }
-    }
-
-    private static func map(_ data: Data, from response: HTTPURLResponse) -> LiveHackrNewsLoader.Result {
-        do {
-            return .success(try LiveDataMapper.map(data: data, response: response))
-        } catch {
-            return .failure(error)
-        }
+public extension RemoteLiveHackrNewsLoader {
+    convenience init(url: URL, client: HTTPClient) {
+        self.init(url: url, client: client, mapper: LiveDataMapper.map)
     }
 }
