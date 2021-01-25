@@ -65,7 +65,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
-        RemoteHackrStoryLoader(url: LHNEndpoint.item(id).url(baseUrl), client: httpClient)
+        RemoteLoader(url: LHNEndpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
     }
 }
 
@@ -76,6 +76,8 @@ extension RemoteLoader: LiveHackrNewsLoader where Resource == [LiveHackrNew] {
         let _: HTTPClientTask = load(completion: completion)
     }
 }
+
+// MARK: - Hackr Story Loader
 
 extension RemoteLoader: HackrStoryLoader where Resource == Story {
     class TaskWrapper: HackrStoryLoaderTask {
