@@ -6,13 +6,13 @@ import HackrNews
 import HackrNewsiOS
 
 final class LiveHackrNewPresentationAdapter: LiveHackrNewCellControllerDelegate {
-    private let model: LiveHackrNew
+    private let model: HackrNew
     private let loader: HackrStoryLoader
     private var task: HackrStoryLoaderTask?
 
     var presenter: StoryPresenter?
 
-    init(model: LiveHackrNew, loader: HackrStoryLoader) {
+    init(model: HackrNew, loader: HackrStoryLoader) {
         self.model = model
         self.loader = loader
     }

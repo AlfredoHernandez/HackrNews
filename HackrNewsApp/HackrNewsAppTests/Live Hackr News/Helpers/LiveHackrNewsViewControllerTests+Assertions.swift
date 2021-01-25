@@ -9,7 +9,7 @@ import XCTest
 extension LiveHackrNewsUIIntegrationTests {
     func assertThat(
         _ sut: LiveHackrNewsViewController,
-        hasViewConfiguredFor model: LiveHackrNew,
+        hasViewConfiguredFor model: HackrNew,
         at index: Int,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -29,7 +29,7 @@ extension LiveHackrNewsUIIntegrationTests {
 
     func assertThat(
         _ sut: LiveHackrNewsViewController,
-        isRendering liveHackerNews: [LiveHackrNew],
+        isRendering liveHackerNews: [HackrNew],
         file: StaticString = #filePath,
         line: UInt = #line
     ) {

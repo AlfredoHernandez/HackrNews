@@ -14,7 +14,7 @@ final class StoryPresentationTests: XCTestCase {
 
     func test_didStartLoadingStory_displaysLoaderAndHidesError() {
         let (sut, view) = makeSUT()
-        let new = LiveHackrNew(id: anyID())
+        let new = HackrNew(id: anyID())
 
         sut.didStartLoadingStory(from: new)
 

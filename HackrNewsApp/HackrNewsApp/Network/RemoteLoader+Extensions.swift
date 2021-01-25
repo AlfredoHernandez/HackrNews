@@ -7,7 +7,7 @@ import HackrNews
 
 // MARK: - Live Hackr News Loader
 
-extension RemoteLoader: HackrNewsFeedLoader where Resource == [LiveHackrNew] {
+extension RemoteLoader: HackrNewsFeedLoader where Resource == [HackrNew] {
     public func load(completion: @escaping (Result) -> Void) {
         let _: HTTPClientTask = load(completion: completion)
     }

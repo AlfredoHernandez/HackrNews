@@ -11,10 +11,10 @@ public enum HackrNewsFeedMapper {
         case invalidData
     }
 
-    public static func map(data: Data, response: HTTPURLResponse) throws -> [LiveHackrNew] {
+    public static func map(data: Data, response: HTTPURLResponse) throws -> [HackrNew] {
         guard response.isOK, let data = try? JSONDecoder().decode([LiveItem].self, from: data) else {
             throw Error.invalidData
         }
-        return data.map { LiveHackrNew(id: $0) }
+        return data.map { HackrNew(id: $0) }
     }
 }

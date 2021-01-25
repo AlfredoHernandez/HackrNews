@@ -34,8 +34,8 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
 
     func test_didFinishLoadingStories_displayStoriesAndStopsLoading() {
         let (sut, view) = makeSUT()
-        let new1 = LiveHackrNew(id: 1)
-        let new2 = LiveHackrNew(id: 2)
+        let new1 = HackrNew(id: 1)
+        let new2 = HackrNew(id: 2)
 
         sut.didFinishLoadingNews(news: [new1, new2])
 
@@ -76,7 +76,7 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
         enum Message: Equatable {
             case display(isLoading: Bool)
             case display(errorMessage: String?)
-            case display(stories: [LiveHackrNew])
+            case display(stories: [HackrNew])
         }
 
         func display(_ viewModel: LiveHackrNewsErrorViewModel) {

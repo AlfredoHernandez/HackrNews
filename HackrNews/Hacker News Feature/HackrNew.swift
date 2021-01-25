@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct LiveHackrNew: Equatable {
+public struct HackrNew: Equatable {
     public let id: Int
 
     public init(id: Int) {

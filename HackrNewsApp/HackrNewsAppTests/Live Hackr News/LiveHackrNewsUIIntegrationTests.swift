@@ -429,12 +429,12 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         return (sut, loader)
     }
 
-    private func makeLiveHackrNew(id: Int = Int.random(in: 0 ... 100)) -> LiveHackrNew {
-        LiveHackrNew(id: id)
+    private func makeLiveHackrNew(id: Int = Int.random(in: 0 ... 100)) -> HackrNew {
+        HackrNew(id: id)
     }
 
-    private func makeLiveHackrNewAndStory(id: Int = 1, url: URL) -> (new: LiveHackrNew, story: Story) {
-        let lhn = LiveHackrNew(id: id)
+    private func makeLiveHackrNewAndStory(id: Int = 1, url: URL) -> (new: HackrNew, story: Story) {
+        let lhn = HackrNew(id: id)
         let story = makeStory(id: id, url: url).model
         return (lhn, story)
     }

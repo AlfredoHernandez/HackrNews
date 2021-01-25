@@ -123,8 +123,8 @@ final class RemoteLoaderTests: XCTestCase {
         .failure(error)
     }
 
-    private func makeItem(id: Int) -> (model: LiveHackrNew, json: Int) {
-        let item = LiveHackrNew(id: id)
+    private func makeItem(id: Int) -> (model: HackrNew, json: Int) {
+        let item = HackrNew(id: id)
         return (item, item.id)
     }
 

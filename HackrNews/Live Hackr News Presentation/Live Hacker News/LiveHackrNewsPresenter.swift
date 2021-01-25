@@ -60,7 +60,7 @@ public class LiveHackrNewsPresenter {
         errorView.display(.noErrorMessage)
     }
 
-    public func didFinishLoadingNews(news: [LiveHackrNew]) {
+    public func didFinishLoadingNews(news: [HackrNew]) {
         loadingView.display(LiveHackrNewsLoadingViewModel(isLoading: false))
         view.display(LiveHackrNewsViewModel(stories: news))
     }

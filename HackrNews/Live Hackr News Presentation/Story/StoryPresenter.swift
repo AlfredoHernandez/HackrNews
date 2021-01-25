@@ -109,7 +109,7 @@ public final class StoryPresenter {
         self.calendar = calendar
     }
 
-    public func didStartLoadingStory(from new: LiveHackrNew) {
+    public func didStartLoadingStory(from new: HackrNew) {
         loadingView.display(StoryLoadingViewModel(isLoading: true))
         view.display(StoryViewModel(
             newId: new.id,

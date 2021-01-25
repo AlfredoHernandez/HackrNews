@@ -14,7 +14,7 @@ extension LiveHackrNewsUIIntegrationTests {
             completions.append(completion)
         }
 
-        func completeLiveHackrNewsLoading(with news: [LiveHackrNew] = [], at index: Int = 0) {
+        func completeLiveHackrNewsLoading(with news: [HackrNew] = [], at index: Int = 0) {
             completions[index](.success(news))
         }
 
