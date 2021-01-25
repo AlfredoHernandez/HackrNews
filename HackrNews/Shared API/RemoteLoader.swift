@@ -23,16 +23,40 @@ public final class RemoteLoader<Resource> {
         self.mapper = mapper
     }
 
-    public func load(completion: @escaping (Result) -> Void) {
-        client.get(from: url) { [weak self] result in
+    private final class HTTPTaskWrapper: HTTPClientTask {
+        private var completion: ((Result) -> Void)?
+        var wrapped: HTTPClientTask?
+
+        init(_ completion: @escaping (Result) -> Void) {
+            self.completion = completion
+        }
+
+        func complete(with result: Result) {
+            completion?(result)
+        }
+
+        func cancel() {
+            wrapped?.cancel()
+            preventFurtherCompletions()
+        }
+
+        private func preventFurtherCompletions() {
+            completion = nil
+        }
+    }
+
+    public func load(completion: @escaping (Result) -> Void) -> HTTPClientTask {
+        let task = HTTPTaskWrapper(completion)
+        task.wrapped = client.get(from: url) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success((data, response)):
-                completion(self.map(data, from: response))
+                task.complete(with: self.map(data, from: response))
             case .failure:
-                completion(.failure(Error.connectivity))
+                task.complete(with: .failure(Error.connectivity))
             }
         }
+        return task
     }
 
     private func map(_ data: Data, from response: HTTPURLResponse) -> Result {

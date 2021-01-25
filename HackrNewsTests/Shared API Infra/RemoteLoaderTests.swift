@@ -16,7 +16,7 @@ final class RemoteLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT(url: url)
 
-        sut.load { _ in }
+        _ = sut.load { _ in }
 
         XCTAssertEqual(client.requestedURLs, [url])
     }
@@ -25,8 +25,8 @@ final class RemoteLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT(url: url)
 
-        sut.load { _ in }
-        sut.load { _ in }
+        _ = sut.load { _ in }
+        _ = sut.load { _ in }
 
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
@@ -61,13 +61,43 @@ final class RemoteLoaderTests: XCTestCase {
         })
     }
 
+    func test_cancelLoadDataTask_cancelsClientURLRequest() {
+        let url = URL(string: "https://a-given-url.com")!
+        let (sut, client) = makeSUT(url: url)
+
+        let task = sut.load { _ in }
+
+        XCTAssertTrue(client.cancelledURLs.isEmpty, "Expected no cancelled URL request until task is cancelled")
+
+        task.cancel()
+        XCTAssertEqual(client.cancelledURLs, [url], "Expected cancelled URL request after task is cancelled")
+    }
+
+    func test_loadDataFromURL_doesNotDeliverResultAfterCancellingTask() {
+        let url = URL(string: "https://a-given-url.com")!
+        let nonEmptyData = Data("non-empty data".utf8)
+        let (sut, client) = makeSUT(url: url)
+
+        var received = [RemoteLoader<String>.Result]()
+        let task = sut.load { result in
+            received.append(result)
+        }
+        task.cancel()
+
+        client.complete(with: 404, data: anyData())
+        client.complete(with: 200, data: nonEmptyData)
+        client.complete(with: anyNSError())
+
+        XCTAssertTrue(received.isEmpty, "Expected no received results after cancelling task, but got \(received)")
+    }
+
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let url = URL(string: "http://any-url.com")!
         let client = HTTPClientSpy()
         var sut: RemoteLoader<String>? = RemoteLoader<String>(url: url, client: client, mapper: { _, _ in "any" })
 
         var capturedResults = [RemoteLoader<String>.Result]()
-        sut?.load { capturedResults.append($0) }
+        _ = sut?.load { capturedResults.append($0) }
         sut = nil
         client.complete(with: 200, data: makeItemsJSON([]))
 
@@ -110,7 +140,7 @@ final class RemoteLoaderTests: XCTestCase {
         line: UInt = #line
     ) {
         let exp = expectation(description: "Wait for load completion")
-        sut.load { receivedResult in
+        _ = sut.load { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedItems), .success(expectedItems)):
                 XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
