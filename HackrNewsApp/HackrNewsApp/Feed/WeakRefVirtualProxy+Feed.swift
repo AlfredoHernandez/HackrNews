@@ -5,14 +5,6 @@
 import Foundation
 import HackrNews
 
-final class WeakRefVirtualProxy<T: AnyObject> {
-    weak var object: T?
-
-    init(_ object: T) {
-        self.object = object
-    }
-}
-
 // MARK: - Live Hackr News
 
 extension WeakRefVirtualProxy: LiveHackrNewsLoadingView where T: LiveHackrNewsLoadingView {

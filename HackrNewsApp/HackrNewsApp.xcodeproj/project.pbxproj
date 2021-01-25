@@ -18,9 +18,9 @@
 		386FE76E2592BAF7003D779F /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76B2592BAF7003D779F /* HackrNewsiOS.framework */; };
 		386FE76F2592BAF7003D779F /* HackrNewsiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76B2592BAF7003D779F /* HackrNewsiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38882C73259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C6F259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift */; };
-		38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator.swift */; };
+		38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift */; };
 		38882C75259A928D00A4D2D4 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C70259A928D00A4D2D4 /* Icons.swift */; };
-		38882C76259A928D00A4D2D4 /* WeakRefVirtualProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy.swift */; };
+		38882C76259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift */; };
 		38882C8B259A932A00A4D2D4 /* Story+Any.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C86259A932A00A4D2D4 /* Story+Any.swift */; };
 		38882C8C259A932A00A4D2D4 /* LiveHackrNewsViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C87259A932A00A4D2D4 /* LiveHackrNewsViewController+TestHelpers.swift */; };
 		38882C8D259A932A00A4D2D4 /* LiveHackerNewLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C88259A932A00A4D2D4 /* LiveHackerNewLoaderSpy.swift */; };
@@ -37,6 +37,9 @@
 		38F6807B259033C8002ED53A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F6807A259033C8002ED53A /* SceneDelegate.swift */; };
 		38F68082259033C9002ED53A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38F68081259033C9002ED53A /* Assets.xcassets */; };
 		38F68085259033C9002ED53A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38F68083259033C9002ED53A /* LaunchScreen.storyboard */; };
+		38FED3A625BE4A4A007FFA8C /* RemoteLoader+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FED3A525BE4A4A007FFA8C /* RemoteLoader+Extensions.swift */; };
+		38FED3AB25BE4A8B007FFA8C /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FED3AA25BE4A8B007FFA8C /* MainQueueDispatchDecorator.swift */; };
+		38FED3B425BE4AFA007FFA8C /* WeakRefVirtualProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38FED3B325BE4AFA007FFA8C /* WeakRefVirtualProxy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,8 +78,8 @@
 		386FE76B2592BAF7003D779F /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38882C6F259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsUIComposer.swift; sourceTree = "<group>"; };
 		38882C70259A928D00A4D2D4 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
-		38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakRefVirtualProxy.swift; sourceTree = "<group>"; };
-		38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
+		38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeakRefVirtualProxy+Feed.swift"; sourceTree = "<group>"; };
+		38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainQueueDispatchDecorator+Feed.swift"; sourceTree = "<group>"; };
 		38882C86259A932A00A4D2D4 /* Story+Any.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Story+Any.swift"; sourceTree = "<group>"; };
 		38882C87259A932A00A4D2D4 /* LiveHackrNewsViewController+TestHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LiveHackrNewsViewController+TestHelpers.swift"; sourceTree = "<group>"; };
 		38882C88259A932A00A4D2D4 /* LiveHackerNewLoaderSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveHackerNewLoaderSpy.swift; sourceTree = "<group>"; };
@@ -97,6 +100,9 @@
 		38F68086259033C9002ED53A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38F6808B259033C9002ED53A /* HackrNewsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackrNewsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F68091259033C9002ED53A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		38FED3A525BE4A4A007FFA8C /* RemoteLoader+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteLoader+Extensions.swift"; sourceTree = "<group>"; };
+		38FED3AA25BE4A8B007FFA8C /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
+		38FED3B325BE4AFA007FFA8C /* WeakRefVirtualProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakRefVirtualProxy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,11 +132,8 @@
 				384B7BDC25B4D9B200270EAC /* LiveHackrNewsPresentationAdapter.swift */,
 				384B7BD525B4D91800270EAC /* LiveHackrNewsViewAdapter.swift */,
 				384B7BD825B4D95400270EAC /* LiveHackrNewPresentationAdapter.swift */,
-				384B7BD125B4D8C900270EAC /* ContentType.swift */,
-				38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator.swift */,
-				38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy.swift */,
-				388C5B132599680500045DB9 /* LHNEndpoint.swift */,
-				38882C70259A928D00A4D2D4 /* Icons.swift */,
+				38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift */,
+				38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -224,6 +227,8 @@
 			isa = PBXGroup;
 			children = (
 				384B7BE125B4DA9100270EAC /* App */,
+				38FED3A925BE4A71007FFA8C /* Common */,
+				38FED3A425BE4A3D007FFA8C /* Network */,
 				384B7BD025B4D8C000270EAC /* Feed */,
 				38F68081259033C9002ED53A /* Assets.xcassets */,
 				38F68083259033C9002ED53A /* LaunchScreen.storyboard */,
@@ -243,6 +248,26 @@
 				38F68091259033C9002ED53A /* Info.plist */,
 			);
 			path = HackrNewsAppTests;
+			sourceTree = "<group>";
+		};
+		38FED3A425BE4A3D007FFA8C /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				38FED3A525BE4A4A007FFA8C /* RemoteLoader+Extensions.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		38FED3A925BE4A71007FFA8C /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				38882C70259A928D00A4D2D4 /* Icons.swift */,
+				388C5B132599680500045DB9 /* LHNEndpoint.swift */,
+				384B7BD125B4D8C900270EAC /* ContentType.swift */,
+				38FED3AA25BE4A8B007FFA8C /* MainQueueDispatchDecorator.swift */,
+				38FED3B325BE4AFA007FFA8C /* WeakRefVirtualProxy.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,11 +375,14 @@
 				384B7BDD25B4D9B200270EAC /* LiveHackrNewsPresentationAdapter.swift in Sources */,
 				384B7BD225B4D8C900270EAC /* ContentType.swift in Sources */,
 				38F68079259033C8002ED53A /* AppDelegate.swift in Sources */,
-				38882C76259A928D00A4D2D4 /* WeakRefVirtualProxy.swift in Sources */,
+				38FED3AB25BE4A8B007FFA8C /* MainQueueDispatchDecorator.swift in Sources */,
+				38882C76259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift in Sources */,
+				38FED3A625BE4A4A007FFA8C /* RemoteLoader+Extensions.swift in Sources */,
 				38882C73259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift in Sources */,
 				384B7BD625B4D91800270EAC /* LiveHackrNewsViewAdapter.swift in Sources */,
 				38F6807B259033C8002ED53A /* SceneDelegate.swift in Sources */,
-				38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator.swift in Sources */,
+				38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift in Sources */,
+				38FED3B425BE4AFA007FFA8C /* WeakRefVirtualProxy.swift in Sources */,
 				388C5B142599680500045DB9 /* LHNEndpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,6 +550,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HS399QXLRD;
 				INFOPLIST_FILE = HackrNewsApp/Info.plist;
@@ -532,6 +561,7 @@
 				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alfredohdz.HackrNewsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -542,6 +572,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HS399QXLRD;
 				INFOPLIST_FILE = HackrNewsApp/Info.plist;
@@ -552,6 +583,7 @@
 				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alfredohdz.HackrNewsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

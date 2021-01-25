@@ -5,21 +5,6 @@
 import Foundation
 import HackrNews
 
-final class MainQueueDispatchDecorator<T> {
-    private let decoratee: T
-
-    init(_ decoratee: T) {
-        self.decoratee = decoratee
-    }
-
-    func dispatch(completion: @escaping () -> Void) {
-        guard Thread.isMainThread else {
-            return DispatchQueue.main.async(execute: completion)
-        }
-        completion()
-    }
-}
-
 extension MainQueueDispatchDecorator: LiveHackrNewsLoader where T == LiveHackrNewsLoader {
     func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
         decoratee.load { [weak self] result in

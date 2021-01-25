@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum StoryCommentsMapper {
+public enum StoryCommentMapper {
     struct Root: Decodable {
         let id: Int
         let by: String
@@ -15,11 +15,15 @@ public enum StoryCommentsMapper {
         let type: String
     }
 
+    public enum Error: Swift.Error {
+        case invalidData
+    }
+
     public static func map(data: Data, response: HTTPURLResponse) throws -> StoryComment {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         guard response.isOK, let item = try? decoder.decode(Root.self, from: data) else {
-            throw RemoteStoryCommentLoader.Error.invalidData
+            throw Error.invalidData
         }
         return StoryComment(
             id: item.id,
