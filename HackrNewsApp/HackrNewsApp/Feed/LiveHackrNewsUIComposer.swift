@@ -11,7 +11,7 @@ final class LiveHackrNewsUIComposer {
 
     static func composeWith(
         contentType: ContentType,
-        liveHackrNewsloader: LiveHackrNewsLoader,
+        liveHackrNewsloader: HackrNewsFeedLoader,
         hackrStoryLoader: @escaping (Int) -> HackrStoryLoader,
         didSelectStory: @escaping (URL) -> Void,
         locale: Locale = .current,

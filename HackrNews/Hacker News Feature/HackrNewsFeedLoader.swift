@@ -4,7 +4,7 @@
 
 import Foundation
 
-public protocol LiveHackrNewsLoader {
+public protocol HackrNewsFeedLoader {
     typealias Result = Swift.Result<[LiveHackrNew], Swift.Error>
     func load(completion: @escaping (Result) -> Void)
 }

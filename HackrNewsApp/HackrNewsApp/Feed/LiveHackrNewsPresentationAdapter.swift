@@ -7,10 +7,10 @@ import HackrNews
 import HackrNewsiOS
 
 final class LiveHackrNewsPresentationAdapter: LiveHackrNewsRefreshControllerDelegate {
-    private let liveHackrNewsloader: LiveHackrNewsLoader
+    private let liveHackrNewsloader: HackrNewsFeedLoader
     var presenter: LiveHackrNewsPresenter?
 
-    init(liveHackrNewsloader: LiveHackrNewsLoader) {
+    init(liveHackrNewsloader: HackrNewsFeedLoader) {
         self.liveHackrNewsloader = liveHackrNewsloader
     }
 

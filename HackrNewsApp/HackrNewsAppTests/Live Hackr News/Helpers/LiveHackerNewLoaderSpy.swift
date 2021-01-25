@@ -6,11 +6,11 @@ import Foundation
 import HackrNews
 
 extension LiveHackrNewsUIIntegrationTests {
-    class LiveHackerNewLoaderSpy: LiveHackrNewsLoader, HackrStoryLoader {
-        var completions = [(LiveHackrNewsLoader.Result) -> Void]()
+    class LiveHackerNewLoaderSpy: HackrNewsFeedLoader, HackrStoryLoader {
+        var completions = [(HackrNewsFeedLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }
 
-        func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
+        func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
             completions.append(completion)
         }
 
