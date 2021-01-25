@@ -49,12 +49,7 @@ public final class RemoteLoader<Resource> {
         let task = HTTPTaskWrapper(completion)
         task.wrapped = client.get(from: url) { [weak self] result in
             guard let self = self else { return }
-            switch result {
-            case let .success((data, response)):
-                task.complete(with: self.map(data, from: response))
-            case .failure:
-                task.complete(with: .failure(Error.connectivity))
-            }
+            task.complete(with: result.mapError { _ in Error.connectivity }.flatMap(self.map))
         }
         return task
     }
