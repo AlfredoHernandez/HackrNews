@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct StoryItemMapper {
+public struct StoryItemMapper {
     private struct Item: Decodable {
         private let id: Int
         private let title: String?
@@ -31,11 +31,15 @@ struct StoryItemMapper {
         }
     }
 
-    static func map(data: Data, response: HTTPURLResponse) throws -> Story {
+    public enum Error: Swift.Error {
+        case invalidData
+    }
+
+    public static func map(data: Data, response: HTTPURLResponse) throws -> Story {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         guard response.isOK, let item = try? decoder.decode(Item.self, from: data) else {
-            throw RemoteHackrStoryLoader.Error.invalidData
+            throw Error.invalidData
         }
         return item.model
     }
