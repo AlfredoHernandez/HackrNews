@@ -6,7 +6,7 @@ import Foundation
 import HackrNews
 
 extension HackrNewsFeedUIIntegrationTests {
-    class LiveHackerNewLoaderSpy: HackrNewsFeedLoader, HackrStoryLoader {
+    class HackerNewsFeedLoaderSpy: HackrNewsFeedLoader, HackrStoryLoader {
         var completions = [(HackrNewsFeedLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }
 
@@ -14,7 +14,7 @@ extension HackrNewsFeedUIIntegrationTests {
             completions.append(completion)
         }
 
-        func completeLiveHackrNewsLoading(with news: [HackrNew] = [], at index: Int = 0) {
+        func completeHackrNewsFeedLoading(with news: [HackrNew] = [], at index: Int = 0) {
             completions[index](.success(news))
         }
 

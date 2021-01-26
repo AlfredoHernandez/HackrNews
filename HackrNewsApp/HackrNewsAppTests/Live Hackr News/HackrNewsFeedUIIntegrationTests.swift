@@ -59,7 +59,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
 
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected show loading indicator once view is loaded")
 
-        loader.completeLiveHackrNewsLoading(at: 0)
+        loader.completeHackrNewsFeedLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes successfully")
 
         sut.simulateUserInitiatedHackrNewsFeedReload()
@@ -79,11 +79,11 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         assertThat(sut, isRendering: [])
 
-        loader.completeLiveHackrNewsLoading(with: [new1], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [new1], at: 0)
         assertThat(sut, isRendering: [new1])
 
         sut.simulateUserInitiatedHackrNewsFeedReload()
-        loader.completeLiveHackrNewsLoading(with: [new1, new2, new3, new4], at: 1)
+        loader.completeHackrNewsFeedLoading(with: [new1, new2, new3, new4], at: 1)
         assertThat(sut, isRendering: [new1, new2, new3, new4])
     }
 
@@ -92,7 +92,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let new1 = makeLiveHackrNew(id: 1)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [new1], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [new1], at: 0)
         assertThat(sut, isRendering: [new1])
 
         sut.simulateUserInitiatedHackrNewsFeedReload()
@@ -106,7 +106,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let new2 = makeLiveHackrNew(id: 2)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [new1, new2], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [new1, new2], at: 0)
 
         XCTAssertEqual(loader.storiesRequestsCallCount, 0, "Expected no story URL requests until views become visible")
 
@@ -126,7 +126,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let new2 = makeLiveHackrNew(id: 2)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [new1, new2], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [new1, new2], at: 0)
 
         XCTAssertEqual(loader.cancelledStoryUrls, 0, "Expected no cancelled story URL requests until views become visible")
 
@@ -149,7 +149,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -184,7 +184,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         )
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -210,7 +210,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew()])
+        loader.completeHackrNewsFeedLoading(with: [makeLiveHackrNew()])
         let view = sut.simulateStoryViewVisible(at: 0)
 
         XCTAssertEqual(view?.containerView?.isSkeletonable, true, "Expected containerView to be skeletonable")
@@ -227,7 +227,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
     func test_storyViewRetryButton_isVisibleOnStoryLoadedWithErrorAndHidesContainer() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [makeLiveHackrNew(), makeLiveHackrNew()], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -250,7 +250,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let lhn0 = makeLiveHackrNew(id: 0)
         let lhn1 = makeLiveHackrNew(id: 1)
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn0, lhn1], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [lhn0, lhn1], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -273,7 +273,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let lhn1 = makeLiveHackrNew(id: 1)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn0, lhn1], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [lhn0, lhn1], at: 0)
         XCTAssertEqual(loader.storiesRequestsCallCount, 0, "Expected no stories urls before views are near to be visible")
 
         sut.simulateStoryNearViewVisible(at: 0)
@@ -289,7 +289,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let lhn1 = makeLiveHackrNew(id: 1)
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn0, lhn1], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [lhn0, lhn1], at: 0)
         XCTAssertEqual(loader.cancelledStoryUrls, 0, "Expected no stories urls before views are near to be visible")
 
         sut.simulateStoryNotNearViewVisible(at: 0)
@@ -309,7 +309,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let story0 = makeStory()
 
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn0], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [lhn0], at: 0)
         let view = sut.simulateStoryViewNotVisible(at: 0)
 
         loader.completeStoryLoading(with: story0.model, at: 0)
@@ -351,7 +351,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let url2 = URL(string: "https://any-url.com/second")!
         let (lhn2, story2) = makeLiveHackrNewAndStory(id: 2, url: url2)
         sut.loadViewIfNeeded()
-        loader.completeLiveHackrNewsLoading(with: [lhn1, lhn2], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [lhn1, lhn2], at: 0)
 
         sut.simulateStoryViewVisible(at: 0)
         sut.simulateTapOnStory(at: 0)
@@ -382,7 +382,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
 
         let exp = expectation(description: "Wait for loader completion")
         DispatchQueue.global().async {
-            loader.completeLiveHackrNewsLoading()
+            loader.completeHackrNewsFeedLoading()
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
@@ -394,7 +394,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let story0 = makeStory().model
         sut.loadViewIfNeeded()
 
-        loader.completeLiveHackrNewsLoading(with: [lhn0], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [lhn0], at: 0)
         sut.simulateStoryViewVisible(at: 0)
 
         let exp = expectation(description: "Wait for loader completion")
@@ -414,8 +414,8 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         calendar: Calendar = Calendar(identifier: .gregorian),
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (HackrNewsFeedViewController, LiveHackerNewLoaderSpy) {
-        let loader = LiveHackerNewLoaderSpy()
+    ) -> (HackrNewsFeedViewController, HackerNewsFeedLoaderSpy) {
+        let loader = HackerNewsFeedLoaderSpy()
         let sut = HackrNewsFeedUIComposer.composeWith(
             contentType: contentType,
             hackrNewsFeedloader: loader,

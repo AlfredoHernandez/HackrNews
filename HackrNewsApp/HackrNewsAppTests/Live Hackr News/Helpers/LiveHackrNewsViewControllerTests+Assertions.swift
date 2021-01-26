@@ -29,18 +29,18 @@ extension HackrNewsFeedUIIntegrationTests {
 
     func assertThat(
         _ sut: HackrNewsFeedViewController,
-        isRendering liveHackerNews: [HackrNew],
+        isRendering feed: [HackrNew],
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        guard sut.numberOfRenderedHackrNewsFeedViews() == liveHackerNews.count else {
+        guard sut.numberOfRenderedHackrNewsFeedViews() == feed.count else {
             return XCTFail(
-                "Expected \(liveHackerNews.count) news, got \(sut.numberOfRenderedHackrNewsFeedViews()) instead.",
+                "Expected \(feed.count) news, got \(sut.numberOfRenderedHackrNewsFeedViews()) instead.",
                 file: file,
                 line: line
             )
         }
-        liveHackerNews.enumerated().forEach { index, new in
+        feed.enumerated().forEach { index, new in
             assertThat(sut, hasViewConfiguredFor: new, at: index, file: file, line: line)
         }
     }
