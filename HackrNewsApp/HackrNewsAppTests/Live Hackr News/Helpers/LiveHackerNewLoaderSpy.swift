@@ -5,7 +5,7 @@
 import Foundation
 import HackrNews
 
-extension LiveHackrNewsUIIntegrationTests {
+extension HackrNewsFeedUIIntegrationTests {
     class LiveHackerNewLoaderSpy: HackrNewsFeedLoader, HackrStoryLoader {
         var completions = [(HackrNewsFeedLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }

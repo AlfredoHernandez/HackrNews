@@ -26,7 +26,7 @@
 		38882C8D259A932A00A4D2D4 /* LiveHackerNewLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C88259A932A00A4D2D4 /* LiveHackerNewLoaderSpy.swift */; };
 		38882C8E259A932A00A4D2D4 /* LiveHackrNewsViewControllerTests+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C89259A932A00A4D2D4 /* LiveHackrNewsViewControllerTests+Assertions.swift */; };
 		38882C8F259A932A00A4D2D4 /* LiveHackrNewCell+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C8A259A932A00A4D2D4 /* LiveHackrNewCell+TestHelpers.swift */; };
-		38882C95259A934C00A4D2D4 /* LiveHackrNewsUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C94259A934C00A4D2D4 /* LiveHackrNewsUIIntegrationTests.swift */; };
+		38882C95259A934C00A4D2D4 /* HackrNewsFeedUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C94259A934C00A4D2D4 /* HackrNewsFeedUIIntegrationTests.swift */; };
 		38882CA1259A941100A4D2D4 /* UIControl+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CA0259A941100A4D2D4 /* UIControl+TestHelpers.swift */; };
 		38882CAA259A944200A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CA9259A944200A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */; };
 		38882CC5259A979600A4D2D4 /* HackrNewsAppAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CC4259A979600A4D2D4 /* HackrNewsAppAcceptanceTests.swift */; };
@@ -85,7 +85,7 @@
 		38882C88259A932A00A4D2D4 /* LiveHackerNewLoaderSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveHackerNewLoaderSpy.swift; sourceTree = "<group>"; };
 		38882C89259A932A00A4D2D4 /* LiveHackrNewsViewControllerTests+Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LiveHackrNewsViewControllerTests+Assertions.swift"; sourceTree = "<group>"; };
 		38882C8A259A932A00A4D2D4 /* LiveHackrNewCell+TestHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LiveHackrNewCell+TestHelpers.swift"; sourceTree = "<group>"; };
-		38882C94259A934C00A4D2D4 /* LiveHackrNewsUIIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsUIIntegrationTests.swift; sourceTree = "<group>"; };
+		38882C94259A934C00A4D2D4 /* HackrNewsFeedUIIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedUIIntegrationTests.swift; sourceTree = "<group>"; };
 		38882CA0259A941100A4D2D4 /* UIControl+TestHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIControl+TestHelpers.swift"; sourceTree = "<group>"; };
 		38882CA9259A944200A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeaksTracking.swift"; sourceTree = "<group>"; };
 		38882CC4259A979600A4D2D4 /* HackrNewsAppAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsAppAcceptanceTests.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				38882C85259A930800A4D2D4 /* Helpers */,
-				38882C94259A934C00A4D2D4 /* LiveHackrNewsUIIntegrationTests.swift */,
+				38882C94259A934C00A4D2D4 /* HackrNewsFeedUIIntegrationTests.swift */,
 			);
 			path = "Live Hackr News";
 			sourceTree = "<group>";
@@ -403,7 +403,7 @@
 				38882C8E259A932A00A4D2D4 /* LiveHackrNewsViewControllerTests+Assertions.swift in Sources */,
 				38882C8F259A932A00A4D2D4 /* LiveHackrNewCell+TestHelpers.swift in Sources */,
 				3864BFDE25951EB700FBAA13 /* SceneDelegateTests.swift in Sources */,
-				38882C95259A934C00A4D2D4 /* LiveHackrNewsUIIntegrationTests.swift in Sources */,
+				38882C95259A934C00A4D2D4 /* HackrNewsFeedUIIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
