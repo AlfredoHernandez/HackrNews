@@ -6,7 +6,7 @@ import Foundation
 import HackrNews
 import HackrNewsiOS
 
-final class HackrNewsFeedPresentationAdapter: LiveHackrNewsRefreshControllerDelegate {
+final class HackrNewsFeedPresentationAdapter: HackrNewsFeedRefreshControllerDelegate {
     private let liveHackrNewsloader: HackrNewsFeedLoader
     var presenter: LiveHackrNewsPresenter?
 

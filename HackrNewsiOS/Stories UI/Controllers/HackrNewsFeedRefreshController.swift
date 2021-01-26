@@ -5,16 +5,16 @@
 import HackrNews
 import UIKit
 
-public protocol LiveHackrNewsRefreshControllerDelegate {
+public protocol HackrNewsFeedRefreshControllerDelegate {
     func didRequestNews()
 }
 
 public final class HackrNewsFeedRefreshController: NSObject, HackrNewsFeedLoadingView {
     private(set) lazy var view = loadView()
 
-    private let delegate: LiveHackrNewsRefreshControllerDelegate
+    private let delegate: HackrNewsFeedRefreshControllerDelegate
 
-    public init(delegate: LiveHackrNewsRefreshControllerDelegate) {
+    public init(delegate: HackrNewsFeedRefreshControllerDelegate) {
         self.delegate = delegate
     }
 
