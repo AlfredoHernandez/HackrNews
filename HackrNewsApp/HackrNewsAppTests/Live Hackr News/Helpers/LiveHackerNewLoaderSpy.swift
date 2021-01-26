@@ -5,20 +5,20 @@
 import Foundation
 import HackrNews
 
-extension LiveHackrNewsUIIntegrationTests {
-    class LiveHackerNewLoaderSpy: LiveHackrNewsLoader, HackrStoryLoader {
-        var completions = [(LiveHackrNewsLoader.Result) -> Void]()
+extension HackrNewsFeedUIIntegrationTests {
+    class HackrNewsFeedLoaderSpy: HackrNewsFeedLoader, HackrStoryLoader {
+        var completions = [(HackrNewsFeedLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }
 
-        func load(completion: @escaping (LiveHackrNewsLoader.Result) -> Void) {
+        func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
             completions.append(completion)
         }
 
-        func completeLiveHackrNewsLoading(with news: [LiveHackrNew] = [], at index: Int = 0) {
+        func completeHackrNewsFeedLoading(with news: [HackrNew] = [], at index: Int = 0) {
             completions[index](.success(news))
         }
 
-        func completeLiveHackrNewsLoadingWithError(at index: Int = 0) {
+        func completeHackrNewsFeedLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
             completions[index](.failure(error))
         }

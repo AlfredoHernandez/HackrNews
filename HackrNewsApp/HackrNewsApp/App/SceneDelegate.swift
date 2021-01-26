@@ -9,7 +9,7 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private let baseUrl = LHNEndpoint.baseUrl
+    private let baseUrl = Endpoint.baseUrl
 
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .default))
@@ -22,9 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private lazy var tabBarController: UITabBarController = makeTabBarViewController(
         with: [
-            stories(for: .topStories, withURL: LHNEndpoint.topStories.url(baseUrl)),
-            stories(for: .newStories, withURL: LHNEndpoint.newStories.url(baseUrl)),
-            stories(for: .bestStories, withURL: LHNEndpoint.bestStories.url(baseUrl)),
+            stories(for: .topStories, withURL: Endpoint.topStories.url(baseUrl)),
+            stories(for: .newStories, withURL: Endpoint.newStories.url(baseUrl)),
+            stories(for: .bestStories, withURL: Endpoint.bestStories.url(baseUrl)),
         ]
     )
 
@@ -41,17 +41,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func makeTabBarViewController(with controllers: [UIViewController]) -> UITabBarController {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.tintColor = UIColor.hackerNews
+        tabBarController.tabBar.tintColor = UIColor.hackrNews
         tabBarController.viewControllers = controllers
         return tabBarController
     }
 
     private func stories(for contentType: ContentType, withURL url: URL) -> UINavigationController {
-        let liveHackrNewsloader = RemoteLoader(url: url, client: httpClient, mapper: HackrNewsFeedMapper.map)
+        let hackrNewsFeedloader = RemoteLoader(url: url, client: httpClient, mapper: HackrNewsFeedMapper.map)
         return UINavigationController(
-            rootViewController: LiveHackrNewsUIComposer.composeWith(
+            rootViewController: HackrNewsFeedUIComposer.composeWith(
                 contentType: contentType,
-                liveHackrNewsloader: liveHackrNewsloader,
+                hackrNewsFeedloader: hackrNewsFeedloader,
                 hackrStoryLoader: hackrStoryLoader,
                 didSelectStory: openOnSafari
             )
@@ -60,11 +60,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func openOnSafari(with url: URL) {
         let controller = SFSafariViewController(url: url)
-        controller.preferredControlTintColor = UIColor.hackerNews
+        controller.preferredControlTintColor = UIColor.hackrNews
         tabBarController.present(controller, animated: true)
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
-        RemoteLoader(url: LHNEndpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
+        RemoteLoader(url: Endpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
     }
 }

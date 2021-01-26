@@ -5,20 +5,20 @@
 import HackrNewsiOS
 import UIKit
 
-extension LiveHackrNewsViewController {
+extension HackrNewsFeedViewController {
     var isShowingLoadingIndicator: Bool {
         refreshControl?.isRefreshing == true
     }
 
-    func simulateUserInitiatedLiveHackrNewsReload() {
+    func simulateUserInitiatedHackrNewsFeedReload() {
         refreshControl?.simulatePullToRefresh()
     }
 
-    func numberOfRenderedLiveHackrNewsViews() -> Int {
+    func numberOfRenderedHackrNewsFeedViews() -> Int {
         tableView.numberOfRows(inSection: hackrNewsSection)
     }
 
-    func liveHackrNewView(for row: Int) -> UITableViewCell? {
+    func hackrNewStoryView(for row: Int) -> UITableViewCell? {
         let ds = tableView.dataSource
         let indexPath = IndexPath(row: row, section: hackrNewsSection)
         return ds?.tableView(tableView, cellForRowAt: indexPath)
@@ -39,8 +39,8 @@ extension LiveHackrNewsViewController {
     }
 
     @discardableResult
-    func simulateStoryViewVisible(at index: Int) -> LiveHackrNewCell? {
-        liveHackrNewView(for: index) as? LiveHackrNewCell
+    func simulateStoryViewVisible(at index: Int) -> HackrNewFeedCell? {
+        hackrNewStoryView(for: index) as? HackrNewFeedCell
     }
 
     func simulateTapOnStory(at index: Int) {
@@ -50,7 +50,7 @@ extension LiveHackrNewsViewController {
     }
 
     @discardableResult
-    func simulateStoryViewNotVisible(at index: Int) -> LiveHackrNewCell? {
+    func simulateStoryViewNotVisible(at index: Int) -> HackrNewFeedCell? {
         let view = simulateStoryViewVisible(at: index)
         let delegate = tableView.delegate
         let indexPath = IndexPath(row: index, section: hackrNewsSection)

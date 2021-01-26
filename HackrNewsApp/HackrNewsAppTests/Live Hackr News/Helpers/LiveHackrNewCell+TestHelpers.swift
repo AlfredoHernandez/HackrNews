@@ -5,7 +5,7 @@
 import HackrNewsiOS
 import UIKit
 
-extension LiveHackrNewCell {
+extension HackrNewFeedCell {
     var cellId: Int { id }
 
     var isShowingLoadingIndicator: Bool { isLoadingContent }

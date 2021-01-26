@@ -6,17 +6,17 @@ import HackrNews
 import HackrNewsiOS
 import XCTest
 
-extension LiveHackrNewsUIIntegrationTests {
+extension HackrNewsFeedUIIntegrationTests {
     func assertThat(
-        _ sut: LiveHackrNewsViewController,
-        hasViewConfiguredFor model: LiveHackrNew,
+        _ sut: HackrNewsFeedViewController,
+        hasViewConfiguredFor model: HackrNew,
         at index: Int,
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        let view = sut.liveHackrNewView(for: index)
-        guard let cell = view as? LiveHackrNewCell else {
-            return XCTFail("Expected \(LiveHackrNewCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
+        let view = sut.hackrNewStoryView(for: index)
+        guard let cell = view as? HackrNewFeedCell else {
+            return XCTFail("Expected \(HackrNewFeedCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
         }
         XCTAssertEqual(
             cell.cellId,
@@ -28,19 +28,19 @@ extension LiveHackrNewsUIIntegrationTests {
     }
 
     func assertThat(
-        _ sut: LiveHackrNewsViewController,
-        isRendering liveHackerNews: [LiveHackrNew],
+        _ sut: HackrNewsFeedViewController,
+        isRendering feed: [HackrNew],
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        guard sut.numberOfRenderedLiveHackrNewsViews() == liveHackerNews.count else {
+        guard sut.numberOfRenderedHackrNewsFeedViews() == feed.count else {
             return XCTFail(
-                "Expected \(liveHackerNews.count) news, got \(sut.numberOfRenderedLiveHackrNewsViews()) instead.",
+                "Expected \(feed.count) news, got \(sut.numberOfRenderedHackrNewsFeedViews()) instead.",
                 file: file,
                 line: line
             )
         }
-        liveHackerNews.enumerated().forEach { index, new in
+        feed.enumerated().forEach { index, new in
             assertThat(sut, hasViewConfiguredFor: new, at: index, file: file, line: line)
         }
     }

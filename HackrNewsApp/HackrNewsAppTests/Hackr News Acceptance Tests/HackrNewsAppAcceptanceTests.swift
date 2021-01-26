@@ -12,7 +12,7 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     func test_onLaunch_displaysRemoteStoriesWhenCustomerHasConnectivity() {
         let stories = launch(httpClient: .online(response))
 
-        XCTAssertEqual(stories.numberOfRenderedLiveHackrNewsViews(), 5)
+        XCTAssertEqual(stories.numberOfRenderedHackrNewsFeedViews(), 5)
 
         let view0 = stories.simulateStoryViewVisible(at: 0)
         let view1 = stories.simulateStoryViewVisible(at: 1)
@@ -27,7 +27,7 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     func test_onLaunch_doesNotDisplayRemoteStoriesWhenCustomerHasNotConnectivity() {
         let stories = launch(httpClient: .offline)
 
-        XCTAssertEqual(stories.numberOfRenderedLiveHackrNewsViews(), 0)
+        XCTAssertEqual(stories.numberOfRenderedHackrNewsFeedViews(), 0)
     }
 
     func test_onSelectStory_displaysStoryUrlInSafari() {
@@ -45,21 +45,21 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         let app = launch(httpClient: .online(response))
 
         let topStories = app.simulateTapOnTopStories()
-        XCTAssertNotNil(topStories, "Expected a `LiveHackrNewsViewController` to display new stories")
-        XCTAssertEqual(topStories.title, LiveHackrNewsPresenter.topStoriesTitle)
+        XCTAssertNotNil(topStories, "Expected a `\(HackrNewsFeedViewController.self)` to display new stories")
+        XCTAssertEqual(topStories.title, HackrNewsFeedPresenter.topStoriesTitle)
 
         let newStories = app.simulateTapOnNewStories()
-        XCTAssertNotNil(newStories, "Expected a `LiveHackrNewsViewController` to display new stories")
-        XCTAssertEqual(newStories.title, LiveHackrNewsPresenter.newStoriesTitle)
+        XCTAssertNotNil(newStories, "Expected a `\(HackrNewsFeedViewController.self)` to display new stories")
+        XCTAssertEqual(newStories.title, HackrNewsFeedPresenter.newStoriesTitle)
 
         let bestStories = app.simulateTapOnBestStories()
-        XCTAssertNotNil(bestStories, "Expected a `LiveHackrNewsViewController` to display new stories")
-        XCTAssertEqual(bestStories.title, LiveHackrNewsPresenter.bestStoriesTitle)
+        XCTAssertNotNil(bestStories, "Expected a `\(HackrNewsFeedViewController.self)` to display new stories")
+        XCTAssertEqual(bestStories.title, HackrNewsFeedPresenter.bestStoriesTitle)
     }
 
     // MARK: - Helpers
 
-    private func launch(httpClient: HTTPClientStub = .offline) -> LiveHackrNewsViewController {
+    private func launch(httpClient: HTTPClientStub = .offline) -> HackrNewsFeedViewController {
         let sut = SceneDelegate(httpClient: httpClient)
         sut.window = UIWindow()
 
