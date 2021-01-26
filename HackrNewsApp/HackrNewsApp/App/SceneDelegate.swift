@@ -41,7 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func makeTabBarViewController(with controllers: [UIViewController]) -> UITabBarController {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.tintColor = UIColor.hackerNews
+        tabBarController.tabBar.tintColor = UIColor.hackrNews
         tabBarController.viewControllers = controllers
         return tabBarController
     }
@@ -60,7 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func openOnSafari(with url: URL) {
         let controller = SFSafariViewController(url: url)
-        controller.preferredControlTintColor = UIColor.hackerNews
+        controller.preferredControlTintColor = UIColor.hackrNews
         tabBarController.present(controller, animated: true)
     }
 

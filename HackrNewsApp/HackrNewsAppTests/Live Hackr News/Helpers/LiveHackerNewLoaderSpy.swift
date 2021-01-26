@@ -6,7 +6,7 @@ import Foundation
 import HackrNews
 
 extension HackrNewsFeedUIIntegrationTests {
-    class HackerNewsFeedLoaderSpy: HackrNewsFeedLoader, HackrStoryLoader {
+    class HackrNewsFeedLoaderSpy: HackrNewsFeedLoader, HackrStoryLoader {
         var completions = [(HackrNewsFeedLoader.Result) -> Void]()
         var loadCallCount: Int { completions.count }
 

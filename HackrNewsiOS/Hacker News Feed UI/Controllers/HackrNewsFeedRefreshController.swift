@@ -33,7 +33,7 @@ public final class HackrNewsFeedRefreshController: NSObject, HackrNewsFeedLoadin
     private func loadView() -> UIRefreshControl {
         let view = UIRefreshControl()
         view.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        view.tintColor = UIColor.hackerNews
+        view.tintColor = UIColor.hackrNews
         return view
     }
 }
