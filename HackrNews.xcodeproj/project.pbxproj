@@ -217,7 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				384B7BF825B4F7E400270EAC /* Theme */,
-				38C916D12588619B001C5DE2 /* Stories UI */,
+				38C916D12588619B001C5DE2 /* Hacker News Feed UI */,
 				386551A625868EF1002054AA /* Info.plist */,
 			);
 			path = HackrNewsiOS;
@@ -292,13 +292,13 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		38C916D12588619B001C5DE2 /* Stories UI */ = {
+		38C916D12588619B001C5DE2 /* Hacker News Feed UI */ = {
 			isa = PBXGroup;
 			children = (
 				38C916D2258861A6001C5DE2 /* Controllers */,
 				38C916D3258861B2001C5DE2 /* Views */,
 			);
-			path = "Stories UI";
+			path = "Hacker News Feed UI";
 			sourceTree = "<group>";
 		};
 		38C916D2258861A6001C5DE2 /* Controllers */ = {
