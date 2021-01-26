@@ -17,7 +17,7 @@ final class HackrNewsFeedUIComposer {
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> HackrNewsFeedViewController {
-        let presentationAdapter = HackrNewsFeedPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(hackrNewsFeedloader))
+        let presentationAdapter = HackrNewsFeedPresentationAdapter(loader: MainQueueDispatchDecorator(hackrNewsFeedloader))
         let refreshController = HackrNewsFeedRefreshController(delegate: presentationAdapter)
         let viewController = makeViewController(with: refreshController, contentType: contentType)
         presentationAdapter.presenter = LiveHackrNewsPresenter(

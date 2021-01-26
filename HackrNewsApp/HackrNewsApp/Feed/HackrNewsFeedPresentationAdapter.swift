@@ -7,16 +7,16 @@ import HackrNews
 import HackrNewsiOS
 
 final class HackrNewsFeedPresentationAdapter: HackrNewsFeedRefreshControllerDelegate {
-    private let liveHackrNewsloader: HackrNewsFeedLoader
+    private let loader: HackrNewsFeedLoader
     var presenter: LiveHackrNewsPresenter?
 
-    init(liveHackrNewsloader: HackrNewsFeedLoader) {
-        self.liveHackrNewsloader = liveHackrNewsloader
+    init(loader: HackrNewsFeedLoader) {
+        self.loader = loader
     }
 
     func didRequestNews() {
         presenter?.didStartLoadingNews()
-        liveHackrNewsloader.load { [weak self] result in
+        loader.load { [weak self] result in
             switch result {
             case let .success(news):
                 self?.presenter?.didFinishLoadingNews(news: news)
