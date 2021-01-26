@@ -17,11 +17,11 @@ final class HackrNewsFeedUIComposer {
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> LiveHackrNewsViewController {
-        let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(hackrNewsFeedloader))
+        let presentationAdapter = HackrNewsFeedPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(hackrNewsFeedloader))
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = makeViewController(with: refreshController, contentType: contentType)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
-            view: LiveHackrNewsViewAdapter(
+            view: StoryViewAdapter(
                 loader: hackrStoryLoader,
                 controller: viewController,
                 didSelectStory: didSelectStory,
