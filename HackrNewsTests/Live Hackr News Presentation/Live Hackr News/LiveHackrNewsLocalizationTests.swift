@@ -7,7 +7,7 @@ import XCTest
 
 final class LiveHackrNewsLocalizationTests: XCTestCase {
     func test_localizedStrings_haveKeysAndValuesForAllSupportedLocalizations() {
-        let table = "LiveHackrNews"
+        let table = "HackrNewsFeed"
         let bundle = Bundle(for: LiveHackrNewsPresenter.self)
         assertLocalizedKeysAndValuesExists(in: bundle, table)
     }

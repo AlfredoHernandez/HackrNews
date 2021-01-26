@@ -12,7 +12,7 @@ public class LiveHackrNewsPresenter {
     public static var topStoriesTitle: String {
         NSLocalizedString(
             "top_stories_title",
-            tableName: "LiveHackrNews",
+            tableName: "HackrNewsFeed",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
             comment: "Top Stories title view"
@@ -22,7 +22,7 @@ public class LiveHackrNewsPresenter {
     public static var newStoriesTitle: String {
         NSLocalizedString(
             "new_stories_title",
-            tableName: "LiveHackrNews",
+            tableName: "HackrNewsFeed",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
             comment: "New Stories title view"
@@ -32,7 +32,7 @@ public class LiveHackrNewsPresenter {
     public static var bestStoriesTitle: String {
         NSLocalizedString(
             "best_stories_title",
-            tableName: "LiveHackrNews",
+            tableName: "HackrNewsFeed",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
             comment: "Best Stories title view"
@@ -42,7 +42,7 @@ public class LiveHackrNewsPresenter {
     private var errorMessage: String {
         NSLocalizedString(
             "new_stories_error_message",
-            tableName: "LiveHackrNews",
+            tableName: "HackrNewsFeed",
             bundle: Bundle(for: LiveHackrNewsPresenter.self),
             value: "",
             comment: "New Stories loading error message"
