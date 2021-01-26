@@ -18,7 +18,7 @@ final class HackrNewsFeedUIComposer {
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> HackrNewsFeedViewController {
         let presentationAdapter = HackrNewsFeedPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(hackrNewsFeedloader))
-        let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
+        let refreshController = HackrNewsFeedRefreshController(delegate: presentationAdapter)
         let viewController = makeViewController(with: refreshController, contentType: contentType)
         presentationAdapter.presenter = LiveHackrNewsPresenter(
             view: StoryViewAdapter(
@@ -35,7 +35,7 @@ final class HackrNewsFeedUIComposer {
     }
 
     private static func makeViewController(
-        with refreshController: LiveHackrNewsRefreshController,
+        with refreshController: HackrNewsFeedRefreshController,
         contentType: ContentType
     ) -> HackrNewsFeedViewController {
         let viewController = HackrNewsFeedViewController(refreshController: refreshController)

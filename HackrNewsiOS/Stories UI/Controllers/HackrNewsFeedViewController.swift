@@ -6,14 +6,14 @@ import HackrNews
 import UIKit
 
 public class HackrNewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var refreshController: LiveHackrNewsRefreshController?
+    private var refreshController: HackrNewsFeedRefreshController?
     private(set) var tableModel = [LiveHackrNewCellController]() {
         didSet {
             tableView.reloadData()
         }
     }
 
-    public convenience init(refreshController: LiveHackrNewsRefreshController) {
+    public convenience init(refreshController: HackrNewsFeedRefreshController) {
         self.init()
         self.refreshController = refreshController
     }

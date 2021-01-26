@@ -9,7 +9,7 @@ public protocol LiveHackrNewsRefreshControllerDelegate {
     func didRequestNews()
 }
 
-public final class LiveHackrNewsRefreshController: NSObject, HackrNewsFeedLoadingView {
+public final class HackrNewsFeedRefreshController: NSObject, HackrNewsFeedLoadingView {
     private(set) lazy var view = loadView()
 
     private let delegate: LiveHackrNewsRefreshControllerDelegate
