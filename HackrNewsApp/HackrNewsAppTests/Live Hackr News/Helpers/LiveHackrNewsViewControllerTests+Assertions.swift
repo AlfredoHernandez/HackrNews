@@ -14,7 +14,7 @@ extension LiveHackrNewsUIIntegrationTests {
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        let view = sut.liveHackrNewView(for: index)
+        let view = sut.hackrNewStoryView(for: index)
         guard let cell = view as? HackrNewFeedCell else {
             return XCTFail("Expected \(HackrNewFeedCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
         }
@@ -33,9 +33,9 @@ extension LiveHackrNewsUIIntegrationTests {
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        guard sut.numberOfRenderedLiveHackrNewsViews() == liveHackerNews.count else {
+        guard sut.numberOfRenderedHackrNewsFeedViews() == liveHackerNews.count else {
             return XCTFail(
-                "Expected \(liveHackerNews.count) news, got \(sut.numberOfRenderedLiveHackrNewsViews()) instead.",
+                "Expected \(liveHackerNews.count) news, got \(sut.numberOfRenderedHackrNewsFeedViews()) instead.",
                 file: file,
                 line: line
             )

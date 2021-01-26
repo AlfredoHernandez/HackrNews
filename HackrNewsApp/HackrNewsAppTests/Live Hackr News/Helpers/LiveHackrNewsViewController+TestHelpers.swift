@@ -10,15 +10,15 @@ extension HackrNewsFeedViewController {
         refreshControl?.isRefreshing == true
     }
 
-    func simulateUserInitiatedLiveHackrNewsReload() {
+    func simulateUserInitiatedHackrNewsFeedReload() {
         refreshControl?.simulatePullToRefresh()
     }
 
-    func numberOfRenderedLiveHackrNewsViews() -> Int {
+    func numberOfRenderedHackrNewsFeedViews() -> Int {
         tableView.numberOfRows(inSection: hackrNewsSection)
     }
 
-    func liveHackrNewView(for row: Int) -> UITableViewCell? {
+    func hackrNewStoryView(for row: Int) -> UITableViewCell? {
         let ds = tableView.dataSource
         let indexPath = IndexPath(row: row, section: hackrNewsSection)
         return ds?.tableView(tableView, cellForRowAt: indexPath)
@@ -40,7 +40,7 @@ extension HackrNewsFeedViewController {
 
     @discardableResult
     func simulateStoryViewVisible(at index: Int) -> HackrNewFeedCell? {
-        liveHackrNewView(for: index) as? HackrNewFeedCell
+        hackrNewStoryView(for: index) as? HackrNewFeedCell
     }
 
     func simulateTapOnStory(at index: Int) {

@@ -46,10 +46,10 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertEqual(loader.loadCallCount, 1)
 
-        sut.simulateUserInitiatedLiveHackrNewsReload()
+        sut.simulateUserInitiatedHackrNewsFeedReload()
         XCTAssertEqual(loader.loadCallCount, 2)
 
-        sut.simulateUserInitiatedLiveHackrNewsReload()
+        sut.simulateUserInitiatedHackrNewsFeedReload()
         XCTAssertEqual(loader.loadCallCount, 3)
     }
 
@@ -62,7 +62,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         loader.completeLiveHackrNewsLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes successfully")
 
-        sut.simulateUserInitiatedLiveHackrNewsReload()
+        sut.simulateUserInitiatedHackrNewsFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected show loading indicator once user initiated loading")
 
         loader.completeLiveHackrNewsLoadingWithError(at: 1)
@@ -82,7 +82,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         loader.completeLiveHackrNewsLoading(with: [new1], at: 0)
         assertThat(sut, isRendering: [new1])
 
-        sut.simulateUserInitiatedLiveHackrNewsReload()
+        sut.simulateUserInitiatedHackrNewsFeedReload()
         loader.completeLiveHackrNewsLoading(with: [new1, new2, new3, new4], at: 1)
         assertThat(sut, isRendering: [new1, new2, new3, new4])
     }
@@ -95,7 +95,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         loader.completeLiveHackrNewsLoading(with: [new1], at: 0)
         assertThat(sut, isRendering: [new1])
 
-        sut.simulateUserInitiatedLiveHackrNewsReload()
+        sut.simulateUserInitiatedHackrNewsFeedReload()
         loader.completeLiveHackrNewsLoadingWithError(at: 1)
         assertThat(sut, isRendering: [new1])
     }
