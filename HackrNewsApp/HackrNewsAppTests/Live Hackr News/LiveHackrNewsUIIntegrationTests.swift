@@ -418,7 +418,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         let loader = LiveHackerNewLoaderSpy()
         let sut = HackrNewsFeedUIComposer.composeWith(
             contentType: contentType,
-            liveHackrNewsloader: loader,
+            hackrNewsFeedloader: loader,
             hackrStoryLoader: { _ in loader },
             didSelectStory: selection,
             locale: locale,

@@ -11,13 +11,13 @@ final class HackrNewsFeedUIComposer {
 
     static func composeWith(
         contentType: ContentType,
-        liveHackrNewsloader: HackrNewsFeedLoader,
+        hackrNewsFeedloader: HackrNewsFeedLoader,
         hackrStoryLoader: @escaping (Int) -> HackrStoryLoader,
         didSelectStory: @escaping (URL) -> Void,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> LiveHackrNewsViewController {
-        let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(liveHackrNewsloader))
+        let presentationAdapter = LiveHackrNewsPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(hackrNewsFeedloader))
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = makeViewController(with: refreshController, contentType: contentType)
         presentationAdapter.presenter = LiveHackrNewsPresenter(

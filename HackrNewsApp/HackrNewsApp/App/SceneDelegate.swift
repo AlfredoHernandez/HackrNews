@@ -47,11 +47,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func stories(for contentType: ContentType, withURL url: URL) -> UINavigationController {
-        let liveHackrNewsloader = RemoteLoader(url: url, client: httpClient, mapper: HackrNewsFeedMapper.map)
+        let hackrNewsFeedloader = RemoteLoader(url: url, client: httpClient, mapper: HackrNewsFeedMapper.map)
         return UINavigationController(
             rootViewController: HackrNewsFeedUIComposer.composeWith(
                 contentType: contentType,
-                liveHackrNewsloader: liveHackrNewsloader,
+                hackrNewsFeedloader: hackrNewsFeedloader,
                 hackrStoryLoader: hackrStoryLoader,
                 didSelectStory: openOnSafari
             )
