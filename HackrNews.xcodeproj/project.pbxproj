@@ -274,14 +274,14 @@
 			path = "Live Hackr News API";
 			sourceTree = "<group>";
 		};
-		38B0054A259107F900FA0D4A /* Live Hackr News API */ = {
+		38B0054A259107F900FA0D4A /* Hackr News Feed API */ = {
 			isa = PBXGroup;
 			children = (
 				38D392E72582F7C600FCAF70 /* Helpers */,
 				38D392E32582F76B00FCAF70 /* HackrNewsFeedMapper.swift */,
 				38D392D32582DFFB00FCAF70 /* StoryItemMapper.swift */,
 			);
-			path = "Live Hackr News API";
+			path = "Hackr News Feed API";
 			sourceTree = "<group>";
 		};
 		38B00580259117A700FA0D4A /* Helpers */ = {
@@ -350,8 +350,8 @@
 				38D392C42582DD1300FCAF70 /* Shared API Infra */,
 				38D3929E2582DA1F00FCAF70 /* Shared API */,
 				38D3928D2582D7BB00FCAF70 /* Hacker News Feature */,
-				38B0054A259107F900FA0D4A /* Live Hackr News API */,
-				38E3D012258C21BA00469872 /* Live Hackr News Presentation */,
+				38B0054A259107F900FA0D4A /* Hackr News Feed API */,
+				38E3D012258C21BA00469872 /* Hackr News Feed Presentation */,
 				3882E5A025BE119E00CE62E0 /* Story Comment Feature */,
 				3882E5A625BE143D00CE62E0 /* Story Comment API */,
 				38D3926B2582C55300FCAF70 /* Info.plist */,
@@ -445,13 +445,13 @@
 			path = "Live Hackr News Presentation";
 			sourceTree = "<group>";
 		};
-		38E3D012258C21BA00469872 /* Live Hackr News Presentation */ = {
+		38E3D012258C21BA00469872 /* Hackr News Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				38E3D057258C2AEE00469872 /* Hacker News Feed */,
 				38E3D056258C2ADA00469872 /* Story */,
 			);
-			path = "Live Hackr News Presentation";
+			path = "Hackr News Feed Presentation";
 			sourceTree = "<group>";
 		};
 		38E3D056258C2ADA00469872 /* Story */ = {
