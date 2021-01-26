@@ -38,7 +38,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.tabBarItem.selectedImage, Icons.best.image(state: .selected))
     }
 
-    func test_loadLiveHackrNewsActions_requestLiveHackrNewsLoader() {
+    func test_loadHackrNewsFeedActions_requestHackrNewsFeedLoader() {
         let (sut, loader) = makeSUT()
 
         XCTAssertEqual(loader.loadCallCount, 0)
@@ -53,7 +53,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3)
     }
 
-    func test_loadingLiveHackrNewsIndicator_isVisibleWhileLoadingLiveHackrNews() {
+    func test_loadingHackrNewsFeedIndicator_isVisibleWhileLoadingHackrNewsFeed() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
 
@@ -65,11 +65,11 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         sut.simulateUserInitiatedHackrNewsFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected show loading indicator once user initiated loading")
 
-        loader.completeLiveHackrNewsLoadingWithError(at: 1)
+        loader.completeHackrNewsFeedLoadingWithError(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes with error")
     }
 
-    func test_loadLiveHackrNewsCompletion_rendersSuccessfullyLoadedLiveHackrNews() {
+    func test_loadHackrNewsFeedCompletion_rendersSuccessfullyLoadedHackrNewsFeed() {
         let (sut, loader) = makeSUT()
         let new1 = makeLiveHackrNew(id: 1)
         let new2 = makeLiveHackrNew(id: 2)
@@ -87,7 +87,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [new1, new2, new3, new4])
     }
 
-    func test_loadLiveHackrNewsCompletion_doesNotAlterCurrentRenderingStateOnError() {
+    func test_loadHackrNewsFeedCompletion_doesNotAlterCurrentRenderingStateOnError() {
         let (sut, loader) = makeSUT()
         let new1 = makeLiveHackrNew(id: 1)
 
@@ -96,11 +96,11 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [new1])
 
         sut.simulateUserInitiatedHackrNewsFeedReload()
-        loader.completeLiveHackrNewsLoadingWithError(at: 1)
+        loader.completeHackrNewsFeedLoadingWithError(at: 1)
         assertThat(sut, isRendering: [new1])
     }
 
-    func test_liveHackrNewView_loadsStoryURLWhenVisible() {
+    func test_storyView_loadsStoryURLWhenVisible() {
         let (sut, loader) = makeSUT()
         let new1 = makeLiveHackrNew(id: 1)
         let new2 = makeLiveHackrNew(id: 2)
@@ -120,7 +120,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         )
     }
 
-    func test_liveHackrNewView_cancelsStoryLoadingWhenNotVisibleAnymore() {
+    func test_hackrNewFeedView_cancelsStoryLoadingWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
         let new1 = makeLiveHackrNew(id: 1)
         let new2 = makeLiveHackrNew(id: 2)
@@ -145,7 +145,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         )
     }
 
-    func test_liveHackrNewViewLoadingIndicator_isVisibleWhileLoading() {
+    func test_hackrNewFeedViewLoadingIndicator_isVisibleWhileLoading() {
         let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()

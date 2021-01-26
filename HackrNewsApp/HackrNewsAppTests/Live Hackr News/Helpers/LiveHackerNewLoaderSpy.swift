@@ -18,7 +18,7 @@ extension HackrNewsFeedUIIntegrationTests {
             completions[index](.success(news))
         }
 
-        func completeLiveHackrNewsLoadingWithError(at index: Int = 0) {
+        func completeHackrNewsFeedLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
             completions[index](.failure(error))
         }
