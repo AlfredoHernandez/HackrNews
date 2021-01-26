@@ -5,7 +5,7 @@
 import HackrNews
 import XCTest
 
-final class LiveHackrNewsLocalizationTests: XCTestCase {
+final class HackrNewsFeedLocalizationTests: XCTestCase {
     func test_localizedStrings_haveKeysAndValuesForAllSupportedLocalizations() {
         let table = "HackrNewsFeed"
         let bundle = Bundle(for: HackrNewsFeedPresenter.self)

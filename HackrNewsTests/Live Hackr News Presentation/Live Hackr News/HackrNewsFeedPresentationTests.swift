@@ -5,7 +5,7 @@
 import HackrNews
 import XCTest
 
-final class LiveHackrNewsPresentationTests: XCTestCase {
+final class HackrNewsFeedPresentationTests: XCTestCase {
     func test_topStoriesTitle_isLocalized() {
         XCTAssertEqual(HackrNewsFeedPresenter.topStoriesTitle, localized("top_stories_title"))
     }
