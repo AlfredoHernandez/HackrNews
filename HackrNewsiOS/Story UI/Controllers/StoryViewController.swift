@@ -54,6 +54,7 @@ class StoryViewController: UITableViewController {
         cell.scoreLabel.text = "\(story!.score) points"
         cell.commentsLabel.text = "\(story!.totalComments) comments"
         cell.createdAtLabel.text = format(from: story?.createdAt ?? Date())
+        cell.urlLabel.text = story?.url.host
         return cell
     }
 

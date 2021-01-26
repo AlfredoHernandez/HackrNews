@@ -27,6 +27,7 @@ final class StoryViewControllerIntegrationTests: XCTestCase {
         XCTAssertEqual(view?.scoreLabel.text, "10 points")
         XCTAssertEqual(view?.commentsLabel.text, "0 comments")
         XCTAssertEqual(view?.createdAtLabel.text, "1 day ago")
+        XCTAssertEqual(view?.urlLabel.text, "any-url.com")
     }
 }
 
