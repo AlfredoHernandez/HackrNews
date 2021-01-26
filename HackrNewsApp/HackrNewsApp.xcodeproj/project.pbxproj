@@ -17,7 +17,7 @@
 		386FE76D2592BAF7003D779F /* HackrNews.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76A2592BAF7003D779F /* HackrNews.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		386FE76E2592BAF7003D779F /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76B2592BAF7003D779F /* HackrNewsiOS.framework */; };
 		386FE76F2592BAF7003D779F /* HackrNewsiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76B2592BAF7003D779F /* HackrNewsiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		38882C73259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C6F259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift */; };
+		38882C73259A928D00A4D2D4 /* HackrNewsFeedUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C6F259A928D00A4D2D4 /* HackrNewsFeedUIComposer.swift */; };
 		38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift */; };
 		38882C75259A928D00A4D2D4 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C70259A928D00A4D2D4 /* Icons.swift */; };
 		38882C76259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift */; };
@@ -76,7 +76,7 @@
 		3864BFDC25951EB700FBAA13 /* SceneDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegateTests.swift; sourceTree = "<group>"; };
 		386FE76A2592BAF7003D779F /* HackrNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HackrNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		386FE76B2592BAF7003D779F /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		38882C6F259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsUIComposer.swift; sourceTree = "<group>"; };
+		38882C6F259A928D00A4D2D4 /* HackrNewsFeedUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedUIComposer.swift; sourceTree = "<group>"; };
 		38882C70259A928D00A4D2D4 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeakRefVirtualProxy+Feed.swift"; sourceTree = "<group>"; };
 		38882C72259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainQueueDispatchDecorator+Feed.swift"; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		384B7BD025B4D8C000270EAC /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				38882C6F259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift */,
+				38882C6F259A928D00A4D2D4 /* HackrNewsFeedUIComposer.swift */,
 				384B7BDC25B4D9B200270EAC /* LiveHackrNewsPresentationAdapter.swift */,
 				384B7BD525B4D91800270EAC /* LiveHackrNewsViewAdapter.swift */,
 				384B7BD825B4D95400270EAC /* LiveHackrNewPresentationAdapter.swift */,
@@ -378,7 +378,7 @@
 				38FED3AB25BE4A8B007FFA8C /* MainQueueDispatchDecorator.swift in Sources */,
 				38882C76259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift in Sources */,
 				38FED3A625BE4A4A007FFA8C /* RemoteLoader+Extensions.swift in Sources */,
-				38882C73259A928D00A4D2D4 /* LiveHackrNewsUIComposer.swift in Sources */,
+				38882C73259A928D00A4D2D4 /* HackrNewsFeedUIComposer.swift in Sources */,
 				384B7BD625B4D91800270EAC /* LiveHackrNewsViewAdapter.swift in Sources */,
 				38F6807B259033C8002ED53A /* SceneDelegate.swift in Sources */,
 				38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift in Sources */,

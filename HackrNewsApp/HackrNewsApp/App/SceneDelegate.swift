@@ -49,7 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func stories(for contentType: ContentType, withURL url: URL) -> UINavigationController {
         let liveHackrNewsloader = RemoteLoader(url: url, client: httpClient, mapper: HackrNewsFeedMapper.map)
         return UINavigationController(
-            rootViewController: LiveHackrNewsUIComposer.composeWith(
+            rootViewController: HackrNewsFeedUIComposer.composeWith(
                 contentType: contentType,
                 liveHackrNewsloader: liveHackrNewsloader,
                 hackrStoryLoader: hackrStoryLoader,

@@ -6,7 +6,7 @@ import HackrNews
 import HackrNewsiOS
 import UIKit
 
-final class LiveHackrNewsUIComposer {
+final class HackrNewsFeedUIComposer {
     private init() {}
 
     static func composeWith(
