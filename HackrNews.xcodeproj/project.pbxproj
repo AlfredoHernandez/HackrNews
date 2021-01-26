@@ -41,7 +41,7 @@
 		38D392E42582F76B00FCAF70 /* HackrNewsFeedMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392E32582F76B00FCAF70 /* HackrNewsFeedMapper.swift */; };
 		38D392E92582F7D300FCAF70 /* HTTPURLResponse+StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392E82582F7D300FCAF70 /* HTTPURLResponse+StatusCode.swift */; };
 		38D392F7258301A300FCAF70 /* HackrNewsFeedPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392F6258301A300FCAF70 /* HackrNewsFeedPresentationTests.swift */; };
-		38D393002583037B00FCAF70 /* LiveHackrNewsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392FF2583037B00FCAF70 /* LiveHackrNewsPresenter.swift */; };
+		38D393002583037B00FCAF70 /* HackrNewsFeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392FF2583037B00FCAF70 /* HackrNewsFeedPresenter.swift */; };
 		38D393082583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D393072583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift */; };
 		38D3930C258304C600FCAF70 /* HackrNewsFeedLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D3930B258304C600FCAF70 /* HackrNewsFeedLocalizationTests.swift */; };
 		38D3930F2583050900FCAF70 /* HackrNewsFeed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 38D393112583050900FCAF70 /* HackrNewsFeed.strings */; };
@@ -142,7 +142,7 @@
 		38D392E32582F76B00FCAF70 /* HackrNewsFeedMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedMapper.swift; sourceTree = "<group>"; };
 		38D392E82582F7D300FCAF70 /* HTTPURLResponse+StatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+StatusCode.swift"; sourceTree = "<group>"; };
 		38D392F6258301A300FCAF70 /* HackrNewsFeedPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedPresentationTests.swift; sourceTree = "<group>"; };
-		38D392FF2583037B00FCAF70 /* LiveHackrNewsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveHackrNewsPresenter.swift; sourceTree = "<group>"; };
+		38D392FF2583037B00FCAF70 /* HackrNewsFeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedPresenter.swift; sourceTree = "<group>"; };
 		38D393072583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedLocalizationTestsHelpers.swift; sourceTree = "<group>"; };
 		38D3930B258304C600FCAF70 /* HackrNewsFeedLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedLocalizationTests.swift; sourceTree = "<group>"; };
 		38D393102583050900FCAF70 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/HackrNewsFeed.strings; sourceTree = "<group>"; };
@@ -264,14 +264,14 @@
 			path = "Story Comment API";
 			sourceTree = "<group>";
 		};
-		38B00549259107BF00FA0D4A /* Live Hackr News API */ = {
+		38B00549259107BF00FA0D4A /* Hackr News Feed API */ = {
 			isa = PBXGroup;
 			children = (
 				38B00580259117A700FA0D4A /* Helpers */,
 				38B005592591096B00FA0D4A /* HackrNewsFeedMapperTests.swift */,
 				38B0058A259118F100FA0D4A /* StoryItemMapperTests.swift */,
 			);
-			path = "Live Hackr News API";
+			path = "Hackr News Feed API";
 			sourceTree = "<group>";
 		};
 		38B0054A259107F900FA0D4A /* Hackr News Feed API */ = {
@@ -364,8 +364,8 @@
 			children = (
 				38D392A72582DAB100FCAF70 /* Helpers */,
 				38D392B62582DCCB00FCAF70 /* Shared API Infra */,
-				38B00549259107BF00FA0D4A /* Live Hackr News API */,
-				38D392F5258300FF00FCAF70 /* Live Hackr News Presentation */,
+				38B00549259107BF00FA0D4A /* Hackr News Feed API */,
+				38D392F5258300FF00FCAF70 /* Hackr News Feed Presentation */,
 				3882E5BD25BE2F4200CE62E0 /* Story Comment API */,
 				38D392772582C55300FCAF70 /* Info.plist */,
 			);
@@ -436,13 +436,13 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		38D392F5258300FF00FCAF70 /* Live Hackr News Presentation */ = {
+		38D392F5258300FF00FCAF70 /* Hackr News Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				38E3D060258C2B3E00469872 /* Live Hackr News */,
+				38E3D060258C2B3E00469872 /* Hackr News Feed */,
 				38E3D061258C2B4900469872 /* Story */,
 			);
-			path = "Live Hackr News Presentation";
+			path = "Hackr News Feed Presentation";
 			sourceTree = "<group>";
 		};
 		38E3D012258C21BA00469872 /* Hackr News Feed Presentation */ = {
@@ -466,7 +466,7 @@
 		38E3D057258C2AEE00469872 /* Hacker News Feed */ = {
 			isa = PBXGroup;
 			children = (
-				38D392FF2583037B00FCAF70 /* LiveHackrNewsPresenter.swift */,
+				38D392FF2583037B00FCAF70 /* HackrNewsFeedPresenter.swift */,
 				38D39331258318E000FCAF70 /* HackrNewsFeedView.swift */,
 				38D3932D258318D300FCAF70 /* HackrNewsFeedViewModel.swift */,
 				38D39329258318BE00FCAF70 /* HackrNewsFeedLoadingView.swift */,
@@ -478,13 +478,13 @@
 			path = "Hacker News Feed";
 			sourceTree = "<group>";
 		};
-		38E3D060258C2B3E00469872 /* Live Hackr News */ = {
+		38E3D060258C2B3E00469872 /* Hackr News Feed */ = {
 			isa = PBXGroup;
 			children = (
 				38D392F6258301A300FCAF70 /* HackrNewsFeedPresentationTests.swift */,
 				38D3930B258304C600FCAF70 /* HackrNewsFeedLocalizationTests.swift */,
 			);
-			path = "Live Hackr News";
+			path = "Hackr News Feed";
 			sourceTree = "<group>";
 		};
 		38E3D061258C2B4900469872 /* Story */ = {
@@ -759,7 +759,7 @@
 				38D392862582C64600FCAF70 /* Story.swift in Sources */,
 				38D392C62582DD1D00FCAF70 /* URLSessionHTTPClient.swift in Sources */,
 				3882E5A225BE11B800CE62E0 /* StoryComment.swift in Sources */,
-				38D393002583037B00FCAF70 /* LiveHackrNewsPresenter.swift in Sources */,
+				38D393002583037B00FCAF70 /* HackrNewsFeedPresenter.swift in Sources */,
 				3882E5B625BE24C000CE62E0 /* RemoteLoader.swift in Sources */,
 				38D39332258318E000FCAF70 /* HackrNewsFeedView.swift in Sources */,
 			);
