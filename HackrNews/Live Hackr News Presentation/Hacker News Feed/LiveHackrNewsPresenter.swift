@@ -5,9 +5,9 @@
 import Foundation
 
 public class LiveHackrNewsPresenter {
-    private let view: LiveHackrNewsView
-    private let loadingView: LiveHackrNewsLoadingView
-    private let errorView: LiveHackrNewsErrorView
+    private let view: HackrNewsFeedView
+    private let loadingView: HackrNewsFeedLoadingView
+    private let errorView: HackrNewsFeedErrorView
 
     public static var topStoriesTitle: String {
         NSLocalizedString(
@@ -49,24 +49,24 @@ public class LiveHackrNewsPresenter {
         )
     }
 
-    public init(view: LiveHackrNewsView, loadingView: LiveHackrNewsLoadingView, errorView: LiveHackrNewsErrorView) {
+    public init(view: HackrNewsFeedView, loadingView: HackrNewsFeedLoadingView, errorView: HackrNewsFeedErrorView) {
         self.view = view
         self.loadingView = loadingView
         self.errorView = errorView
     }
 
     public func didStartLoadingNews() {
-        loadingView.display(LiveHackrNewsLoadingViewModel(isLoading: true))
+        loadingView.display(HackrNewsFeedLoadingViewModel(isLoading: true))
         errorView.display(.noErrorMessage)
     }
 
     public func didFinishLoadingNews(news: [HackrNew]) {
-        loadingView.display(LiveHackrNewsLoadingViewModel(isLoading: false))
-        view.display(LiveHackrNewsViewModel(stories: news))
+        loadingView.display(HackrNewsFeedLoadingViewModel(isLoading: false))
+        view.display(HackrNewsFeedViewModel(stories: news))
     }
 
     public func didFinishLoadingNews(with _: Error) {
-        loadingView.display(LiveHackrNewsLoadingViewModel(isLoading: false))
-        errorView.display(LiveHackrNewsErrorViewModel(message: errorMessage))
+        loadingView.display(HackrNewsFeedLoadingViewModel(isLoading: false))
+        errorView.display(HackrNewsFeedErrorViewModel(message: errorMessage))
     }
 }

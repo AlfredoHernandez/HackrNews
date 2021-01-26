@@ -4,6 +4,6 @@
 
 import Foundation
 
-public protocol LiveHackrNewsLoadingView {
-    func display(_ viewModel: LiveHackrNewsLoadingViewModel)
+public protocol HackrNewsFeedView {
+    func display(_ viewModel: HackrNewsFeedViewModel)
 }

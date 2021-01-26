@@ -9,7 +9,7 @@ public protocol LiveHackrNewsRefreshControllerDelegate {
     func didRequestNews()
 }
 
-public final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadingView {
+public final class LiveHackrNewsRefreshController: NSObject, HackrNewsFeedLoadingView {
     private(set) lazy var view = loadView()
 
     private let delegate: LiveHackrNewsRefreshControllerDelegate
@@ -22,7 +22,7 @@ public final class LiveHackrNewsRefreshController: NSObject, LiveHackrNewsLoadin
         delegate.didRequestNews()
     }
 
-    public func display(_ viewModel: LiveHackrNewsLoadingViewModel) {
+    public func display(_ viewModel: HackrNewsFeedLoadingViewModel) {
         if viewModel.isLoading {
             view.beginRefreshing()
         } else {

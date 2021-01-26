@@ -78,8 +78,8 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
     }
 }
 
-extension LiveHackrNewsViewController: LiveHackrNewsErrorView {
-    public func display(_: LiveHackrNewsErrorViewModel) {
+extension LiveHackrNewsViewController: HackrNewsFeedErrorView {
+    public func display(_: HackrNewsFeedErrorViewModel) {
         // TODO: Display error message
     }
 }

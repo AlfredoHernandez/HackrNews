@@ -4,6 +4,6 @@
 
 import Foundation
 
-public struct LiveHackrNewsViewModel {
+public struct HackrNewsFeedViewModel {
     public let stories: [HackrNew]
 }

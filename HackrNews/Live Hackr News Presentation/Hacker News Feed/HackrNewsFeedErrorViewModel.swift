@@ -4,14 +4,14 @@
 
 import Foundation
 
-public struct LiveHackrNewsErrorViewModel {
+public struct HackrNewsFeedErrorViewModel {
     public let message: String?
 
     public init(message: String?) {
         self.message = message
     }
 
-    public static var noErrorMessage: LiveHackrNewsErrorViewModel {
-        LiveHackrNewsErrorViewModel(message: nil)
+    public static var noErrorMessage: HackrNewsFeedErrorViewModel {
+        HackrNewsFeedErrorViewModel(message: nil)
     }
 }

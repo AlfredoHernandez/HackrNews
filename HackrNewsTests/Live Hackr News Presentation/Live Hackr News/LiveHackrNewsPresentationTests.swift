@@ -70,7 +70,7 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
         return value
     }
 
-    private class NewStoriesViewSpy: LiveHackrNewsView, LiveHackrNewsLoadingView, LiveHackrNewsErrorView {
+    private class NewStoriesViewSpy: HackrNewsFeedView, HackrNewsFeedLoadingView, HackrNewsFeedErrorView {
         var messages = [Message]()
 
         enum Message: Equatable {
@@ -79,15 +79,15 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
             case display(stories: [HackrNew])
         }
 
-        func display(_ viewModel: LiveHackrNewsErrorViewModel) {
+        func display(_ viewModel: HackrNewsFeedErrorViewModel) {
             messages.append(.display(errorMessage: viewModel.message))
         }
 
-        func display(_ viewModel: LiveHackrNewsLoadingViewModel) {
+        func display(_ viewModel: HackrNewsFeedLoadingViewModel) {
             messages.append(.display(isLoading: viewModel.isLoading))
         }
 
-        func display(_ viewModel: LiveHackrNewsViewModel) {
+        func display(_ viewModel: HackrNewsFeedViewModel) {
             messages.append(.display(stories: viewModel.stories))
         }
     }

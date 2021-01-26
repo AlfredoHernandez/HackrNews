@@ -6,7 +6,7 @@ import Foundation
 import HackrNews
 import HackrNewsiOS
 
-final class StoryViewAdapter: LiveHackrNewsView {
+final class StoryViewAdapter: HackrNewsFeedView {
     private let loader: (Int) -> HackrStoryLoader
     private let locale: Locale
     private let calendar: Calendar
@@ -27,7 +27,7 @@ final class StoryViewAdapter: LiveHackrNewsView {
         self.calendar = calendar
     }
 
-    func display(_ viewModel: LiveHackrNewsViewModel) {
+    func display(_ viewModel: HackrNewsFeedViewModel) {
         controller?.display(viewModel.stories.map { new in
             let adapter = StoryPresentationAdapter(model: new, loader: MainQueueDispatchDecorator(loader(new.id)))
             let controller = LiveHackrNewCellController(delegate: adapter, didSelectStory: didSelectStory)

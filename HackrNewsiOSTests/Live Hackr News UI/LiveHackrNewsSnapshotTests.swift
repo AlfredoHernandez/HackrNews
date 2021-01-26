@@ -10,7 +10,7 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
     func test_emptyStories() {
         let sut = makeSUT()
 
-        sut.display(LiveHackrNewsErrorViewModel(message: .none))
+        sut.display(HackrNewsFeedErrorViewModel(message: .none))
         sut.display(emptyStories())
 
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "empty_stories_light")

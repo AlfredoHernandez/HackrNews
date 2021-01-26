@@ -4,6 +4,6 @@
 
 import Foundation
 
-public protocol LiveHackrNewsErrorView {
-    func display(_ viewModel: LiveHackrNewsErrorViewModel)
+public struct HackrNewsFeedLoadingViewModel {
+    public let isLoading: Bool
 }
