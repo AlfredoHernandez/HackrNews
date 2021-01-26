@@ -59,7 +59,7 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func launch(httpClient: HTTPClientStub = .offline) -> LiveHackrNewsViewController {
+    private func launch(httpClient: HTTPClientStub = .offline) -> HackrNewsFeedViewController {
         let sut = SceneDelegate(httpClient: httpClient)
         sut.window = UIWindow()
 

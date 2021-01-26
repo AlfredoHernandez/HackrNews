@@ -11,11 +11,11 @@ final class StoryViewAdapter: HackrNewsFeedView {
     private let locale: Locale
     private let calendar: Calendar
     private let didSelectStory: (URL) -> Void
-    private weak var controller: LiveHackrNewsViewController?
+    private weak var controller: HackrNewsFeedViewController?
 
     init(
         loader: @escaping (Int) -> HackrStoryLoader,
-        controller: LiveHackrNewsViewController,
+        controller: HackrNewsFeedViewController,
         didSelectStory: @escaping (URL) -> Void,
         locale: Locale,
         calendar: Calendar

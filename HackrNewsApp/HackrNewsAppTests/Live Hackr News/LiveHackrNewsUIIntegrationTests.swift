@@ -414,7 +414,7 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
         calendar: Calendar = Calendar(identifier: .gregorian),
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (LiveHackrNewsViewController, LiveHackerNewLoaderSpy) {
+    ) -> (HackrNewsFeedViewController, LiveHackerNewLoaderSpy) {
         let loader = LiveHackerNewLoaderSpy()
         let sut = HackrNewsFeedUIComposer.composeWith(
             contentType: contentType,

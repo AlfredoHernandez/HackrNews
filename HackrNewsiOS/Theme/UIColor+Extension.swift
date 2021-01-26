@@ -6,6 +6,6 @@ import UIKit
 
 public extension UIColor {
     static var hackerNews: UIColor {
-        UIColor(named: "HackrNews", in: Bundle(for: LiveHackrNewsViewController.self), compatibleWith: nil)!
+        UIColor(named: "HackrNews", in: Bundle(for: HackrNewsFeedViewController.self), compatibleWith: nil)!
     }
 }

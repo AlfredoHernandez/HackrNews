@@ -79,8 +79,8 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func makeSUT() -> LiveHackrNewsViewController {
-        let controller = LiveHackrNewsViewController()
+    private func makeSUT() -> HackrNewsFeedViewController {
+        let controller = HackrNewsFeedViewController()
         controller.tableView.showsVerticalScrollIndicator = false
         return controller
     }

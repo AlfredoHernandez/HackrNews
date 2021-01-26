@@ -16,7 +16,7 @@ final class HackrNewsFeedUIComposer {
         didSelectStory: @escaping (URL) -> Void,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
-    ) -> LiveHackrNewsViewController {
+    ) -> HackrNewsFeedViewController {
         let presentationAdapter = HackrNewsFeedPresentationAdapter(liveHackrNewsloader: MainQueueDispatchDecorator(hackrNewsFeedloader))
         let refreshController = LiveHackrNewsRefreshController(delegate: presentationAdapter)
         let viewController = makeViewController(with: refreshController, contentType: contentType)
@@ -37,8 +37,8 @@ final class HackrNewsFeedUIComposer {
     private static func makeViewController(
         with refreshController: LiveHackrNewsRefreshController,
         contentType: ContentType
-    ) -> LiveHackrNewsViewController {
-        let viewController = LiveHackrNewsViewController(refreshController: refreshController)
+    ) -> HackrNewsFeedViewController {
+        let viewController = HackrNewsFeedViewController(refreshController: refreshController)
         let config = tabBarControllerConfig(for: contentType)
         viewController.title = config.title
         viewController.tabBarItem.image = config.image

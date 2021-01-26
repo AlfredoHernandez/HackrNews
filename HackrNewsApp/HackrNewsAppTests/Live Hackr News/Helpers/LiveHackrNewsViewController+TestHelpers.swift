@@ -5,7 +5,7 @@
 import HackrNewsiOS
 import UIKit
 
-extension LiveHackrNewsViewController {
+extension HackrNewsFeedViewController {
     var isShowingLoadingIndicator: Bool {
         refreshControl?.isRefreshing == true
     }

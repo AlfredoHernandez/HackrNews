@@ -5,7 +5,7 @@
 import HackrNews
 import UIKit
 
-public class LiveHackrNewsViewController: UITableViewController, UITableViewDataSourcePrefetching {
+public class HackrNewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var refreshController: LiveHackrNewsRefreshController?
     private(set) var tableModel = [LiveHackrNewCellController]() {
         didSet {
@@ -78,7 +78,7 @@ public class LiveHackrNewsViewController: UITableViewController, UITableViewData
     }
 }
 
-extension LiveHackrNewsViewController: HackrNewsFeedErrorView {
+extension HackrNewsFeedViewController: HackrNewsFeedErrorView {
     public func display(_: HackrNewsFeedErrorViewModel) {
         // TODO: Display error message
     }
