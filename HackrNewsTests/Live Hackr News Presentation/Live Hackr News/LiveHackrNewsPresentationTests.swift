@@ -7,15 +7,15 @@ import XCTest
 
 final class LiveHackrNewsPresentationTests: XCTestCase {
     func test_topStoriesTitle_isLocalized() {
-        XCTAssertEqual(LiveHackrNewsPresenter.topStoriesTitle, localized("top_stories_title"))
+        XCTAssertEqual(HackrNewsFeedPresenter.topStoriesTitle, localized("top_stories_title"))
     }
 
     func test_newStoriesTitle_isLocalized() {
-        XCTAssertEqual(LiveHackrNewsPresenter.newStoriesTitle, localized("new_stories_title"))
+        XCTAssertEqual(HackrNewsFeedPresenter.newStoriesTitle, localized("new_stories_title"))
     }
 
     func test_bestStoriesTitle_isLocalized() {
-        XCTAssertEqual(LiveHackrNewsPresenter.bestStoriesTitle, localized("best_stories_title"))
+        XCTAssertEqual(HackrNewsFeedPresenter.bestStoriesTitle, localized("best_stories_title"))
     }
 
     func test_init_doesNotSendMessagesToView() {
@@ -52,9 +52,9 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LiveHackrNewsPresenter, NewStoriesViewSpy) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (HackrNewsFeedPresenter, NewStoriesViewSpy) {
         let view = NewStoriesViewSpy()
-        let sut = LiveHackrNewsPresenter(view: view, loadingView: view, errorView: view)
+        let sut = HackrNewsFeedPresenter(view: view, loadingView: view, errorView: view)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(view, file: file, line: line)
         return (sut, view)
@@ -62,7 +62,7 @@ final class LiveHackrNewsPresentationTests: XCTestCase {
 
     private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
         let table = "HackrNewsFeed"
-        let bundle = Bundle(for: LiveHackrNewsPresenter.self)
+        let bundle = Bundle(for: HackrNewsFeedPresenter.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if key == value {
             XCTFail("Missing localized string for key \(key) in table \(table)", file: file, line: line)

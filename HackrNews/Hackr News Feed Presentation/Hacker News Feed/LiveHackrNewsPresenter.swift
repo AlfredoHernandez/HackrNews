@@ -4,7 +4,7 @@
 
 import Foundation
 
-public class LiveHackrNewsPresenter {
+public class HackrNewsFeedPresenter {
     private let view: HackrNewsFeedView
     private let loadingView: HackrNewsFeedLoadingView
     private let errorView: HackrNewsFeedErrorView
@@ -13,7 +13,7 @@ public class LiveHackrNewsPresenter {
         NSLocalizedString(
             "top_stories_title",
             tableName: "HackrNewsFeed",
-            bundle: Bundle(for: LiveHackrNewsPresenter.self),
+            bundle: Bundle(for: HackrNewsFeedPresenter.self),
             value: "",
             comment: "Top Stories title view"
         )
@@ -23,7 +23,7 @@ public class LiveHackrNewsPresenter {
         NSLocalizedString(
             "new_stories_title",
             tableName: "HackrNewsFeed",
-            bundle: Bundle(for: LiveHackrNewsPresenter.self),
+            bundle: Bundle(for: HackrNewsFeedPresenter.self),
             value: "",
             comment: "New Stories title view"
         )
@@ -33,7 +33,7 @@ public class LiveHackrNewsPresenter {
         NSLocalizedString(
             "best_stories_title",
             tableName: "HackrNewsFeed",
-            bundle: Bundle(for: LiveHackrNewsPresenter.self),
+            bundle: Bundle(for: HackrNewsFeedPresenter.self),
             value: "",
             comment: "Best Stories title view"
         )
@@ -43,7 +43,7 @@ public class LiveHackrNewsPresenter {
         NSLocalizedString(
             "new_stories_error_message",
             tableName: "HackrNewsFeed",
-            bundle: Bundle(for: LiveHackrNewsPresenter.self),
+            bundle: Bundle(for: HackrNewsFeedPresenter.self),
             value: "",
             comment: "New Stories loading error message"
         )

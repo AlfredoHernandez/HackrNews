@@ -46,15 +46,15 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
 
         let topStories = app.simulateTapOnTopStories()
         XCTAssertNotNil(topStories, "Expected a `LiveHackrNewsViewController` to display new stories")
-        XCTAssertEqual(topStories.title, LiveHackrNewsPresenter.topStoriesTitle)
+        XCTAssertEqual(topStories.title, HackrNewsFeedPresenter.topStoriesTitle)
 
         let newStories = app.simulateTapOnNewStories()
         XCTAssertNotNil(newStories, "Expected a `LiveHackrNewsViewController` to display new stories")
-        XCTAssertEqual(newStories.title, LiveHackrNewsPresenter.newStoriesTitle)
+        XCTAssertEqual(newStories.title, HackrNewsFeedPresenter.newStoriesTitle)
 
         let bestStories = app.simulateTapOnBestStories()
         XCTAssertNotNil(bestStories, "Expected a `LiveHackrNewsViewController` to display new stories")
-        XCTAssertEqual(bestStories.title, LiveHackrNewsPresenter.bestStoriesTitle)
+        XCTAssertEqual(bestStories.title, HackrNewsFeedPresenter.bestStoriesTitle)
     }
 
     // MARK: - Helpers

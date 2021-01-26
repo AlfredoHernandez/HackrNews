@@ -475,14 +475,14 @@ final class LiveHackrNewsUIIntegrationTests: XCTestCase {
     }
 
     private var topStoriesTitle: String {
-        LiveHackrNewsPresenter.topStoriesTitle
+        HackrNewsFeedPresenter.topStoriesTitle
     }
 
     private var newStoriesTitle: String {
-        LiveHackrNewsPresenter.newStoriesTitle
+        HackrNewsFeedPresenter.newStoriesTitle
     }
 
     private var bestStoriesTitle: String {
-        LiveHackrNewsPresenter.bestStoriesTitle
+        HackrNewsFeedPresenter.bestStoriesTitle
     }
 }

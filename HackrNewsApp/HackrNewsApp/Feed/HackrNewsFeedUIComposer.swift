@@ -20,7 +20,7 @@ final class HackrNewsFeedUIComposer {
         let presentationAdapter = HackrNewsFeedPresentationAdapter(loader: MainQueueDispatchDecorator(hackrNewsFeedloader))
         let refreshController = HackrNewsFeedRefreshController(delegate: presentationAdapter)
         let viewController = makeViewController(with: refreshController, contentType: contentType)
-        presentationAdapter.presenter = LiveHackrNewsPresenter(
+        presentationAdapter.presenter = HackrNewsFeedPresenter(
             view: StoryViewAdapter(
                 loader: hackrStoryLoader,
                 controller: viewController,
@@ -49,11 +49,11 @@ final class HackrNewsFeedUIComposer {
     private static func tabBarControllerConfig(for contentType: ContentType) -> (title: String, image: UIImage, selected: UIImage) {
         switch contentType {
         case .topStories:
-            return (LiveHackrNewsPresenter.topStoriesTitle, Icons.top.image(state: .normal), Icons.top.image(state: .selected))
+            return (HackrNewsFeedPresenter.topStoriesTitle, Icons.top.image(state: .normal), Icons.top.image(state: .selected))
         case .newStories:
-            return (LiveHackrNewsPresenter.newStoriesTitle, Icons.new.image(state: .normal), Icons.new.image(state: .selected))
+            return (HackrNewsFeedPresenter.newStoriesTitle, Icons.new.image(state: .normal), Icons.new.image(state: .selected))
         case .bestStories:
-            return (LiveHackrNewsPresenter.bestStoriesTitle, Icons.best.image(state: .normal), Icons.best.image(state: .selected))
+            return (HackrNewsFeedPresenter.bestStoriesTitle, Icons.best.image(state: .normal), Icons.best.image(state: .selected))
         }
     }
 }
