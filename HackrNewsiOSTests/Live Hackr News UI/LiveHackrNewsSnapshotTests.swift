@@ -85,15 +85,15 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
         return controller
     }
 
-    private func emptyStories() -> [LiveHackrNewCellController] { [] }
+    private func emptyStories() -> [HackrNewFeedCellController] { [] }
 
     private func anyNSError() -> NSError {
         NSError(domain: "", code: 0, userInfo: nil)
     }
 
-    private func feedStories(stubs: [StoryStub]) -> [LiveHackrNewCellController] {
+    private func feedStories(stubs: [StoryStub]) -> [HackrNewFeedCellController] {
         stubs.map { stub in
-            let controller = LiveHackrNewCellController(delegate: stub, didSelectStory: { _ in })
+            let controller = HackrNewFeedCellController(delegate: stub, didSelectStory: { _ in })
             stub.controller = controller
             return controller
         }
@@ -102,7 +102,7 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
     private class StoryStub: LiveHackrNewCellControllerDelegate {
         let viewModel: StoryViewModel
         var errorViewModel: StoryErrorViewModel?
-        weak var controller: LiveHackrNewCellController?
+        weak var controller: HackrNewFeedCellController?
 
         init(
             id: Int,

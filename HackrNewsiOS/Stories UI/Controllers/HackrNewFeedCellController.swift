@@ -10,7 +10,7 @@ public protocol LiveHackrNewCellControllerDelegate {
     func didCancelRequest()
 }
 
-public final class LiveHackrNewCellController: StoryView, StoryLoadingView, StoryErrorView {
+public final class HackrNewFeedCellController: StoryView, StoryLoadingView, StoryErrorView {
     private let delegate: LiveHackrNewCellControllerDelegate
     private let didSelectStory: (URL) -> Void
     private var cell: LiveHackrNewCell?

@@ -7,7 +7,7 @@ import UIKit
 
 public class HackrNewsFeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var refreshController: HackrNewsFeedRefreshController?
-    private(set) var tableModel = [LiveHackrNewCellController]() {
+    private(set) var tableModel = [HackrNewFeedCellController]() {
         didSet {
             tableView.reloadData()
         }
@@ -33,7 +33,7 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
         refreshController?.refresh()
     }
 
-    public func display(_ cellControllers: [LiveHackrNewCellController]) {
+    public func display(_ cellControllers: [HackrNewFeedCellController]) {
         tableModel = cellControllers
     }
 
@@ -63,7 +63,7 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
         indexPaths.forEach(cancelCellControllerLoad)
     }
 
-    private func cellController(forRowAt indexPath: IndexPath) -> LiveHackrNewCellController {
+    private func cellController(forRowAt indexPath: IndexPath) -> HackrNewFeedCellController {
         tableModel[indexPath.row]
     }
 
