@@ -5,7 +5,7 @@
 import Foundation
 import HackrNews
 
-// MARK: - Live Hackr News
+// MARK: - Hackr News Feed
 
 extension WeakRefVirtualProxy: HackrNewsFeedLoadingView where T: HackrNewsFeedLoadingView {
     func display(_ viewModel: HackrNewsFeedLoadingViewModel) {

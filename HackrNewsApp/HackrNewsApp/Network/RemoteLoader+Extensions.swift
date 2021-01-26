@@ -5,7 +5,7 @@
 import Foundation
 import HackrNews
 
-// MARK: - Live Hackr News Loader
+// MARK: - Hackr News Feed Loader
 
 extension RemoteLoader: HackrNewsFeedLoader where Resource == [HackrNew] {
     public func load(completion: @escaping (Result) -> Void) {

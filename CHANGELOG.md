@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - A new scheme to create specific iOS components.
-- A `LiveHackrNewsUIComposer` to create the `LiveHackrNewsViewController` which displays the new stories into a table view
+- A `HackrNewsFeedUIComposer` to create the `HackrNewsFeedViewController` which displays the new stories into a table view
 
 ## [0.2.0] - 2020-12-10
 
@@ -33,6 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This CHANGELOG file.
 - A Network client based on `URLSession`
 - A Generic `RemoteLoader`  to perform GET requests and decode retrieved data
-- Presentation layer to display `LiveHackerNew` models
+- Presentation layer to display `Story` models
 - Strings for `en` language in presentation layer
 
