@@ -99,7 +99,7 @@ final class LiveHackrNewsSnapshotTests: XCTestCase {
         }
     }
 
-    private class StoryStub: LiveHackrNewCellControllerDelegate {
+    private class StoryStub: HackrNewFeedCellControllerDelegate {
         let viewModel: StoryViewModel
         var errorViewModel: StoryErrorViewModel?
         weak var controller: HackrNewFeedCellController?

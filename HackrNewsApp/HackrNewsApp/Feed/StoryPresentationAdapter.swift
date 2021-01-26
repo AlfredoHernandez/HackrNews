@@ -5,7 +5,7 @@
 import HackrNews
 import HackrNewsiOS
 
-final class StoryPresentationAdapter: LiveHackrNewCellControllerDelegate {
+final class StoryPresentationAdapter: HackrNewFeedCellControllerDelegate {
     private let model: HackrNew
     private let loader: HackrStoryLoader
     private var task: HackrStoryLoaderTask?

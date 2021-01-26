@@ -5,17 +5,17 @@
 import HackrNews
 import UIKit
 
-public protocol LiveHackrNewCellControllerDelegate {
+public protocol HackrNewFeedCellControllerDelegate {
     func didRequestStory()
     func didCancelRequest()
 }
 
 public final class HackrNewFeedCellController: StoryView, StoryLoadingView, StoryErrorView {
-    private let delegate: LiveHackrNewCellControllerDelegate
+    private let delegate: HackrNewFeedCellControllerDelegate
     private let didSelectStory: (URL) -> Void
     private var cell: LiveHackrNewCell?
 
-    public init(delegate: LiveHackrNewCellControllerDelegate, didSelectStory: @escaping (URL) -> Void) {
+    public init(delegate: HackrNewFeedCellControllerDelegate, didSelectStory: @escaping (URL) -> Void) {
         self.delegate = delegate
         self.didSelectStory = didSelectStory
     }
