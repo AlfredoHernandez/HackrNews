@@ -5,7 +5,7 @@
 import SkeletonView
 import UIKit
 
-public class LiveHackrNewCell: UITableViewCell {
+public class HackrNewFeedCell: UITableViewCell {
     public var id: Int = 0
     public var url: URL?
     @IBOutlet public private(set) var mainContainer: UIView!

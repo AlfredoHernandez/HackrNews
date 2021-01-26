@@ -23,8 +23,8 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
         navigationItem.largeTitleDisplayMode = .always
         tableView.prefetchDataSource = self
         tableView.register(
-            UINib(nibName: "LiveHackrNewCell", bundle: Bundle(for: LiveHackrNewCell.self)),
-            forCellReuseIdentifier: "LiveHackrNewCell"
+            UINib(nibName: "HackrNewFeedCell", bundle: Bundle(for: HackrNewFeedCell.self)),
+            forCellReuseIdentifier: "HackrNewFeedCell"
         )
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension

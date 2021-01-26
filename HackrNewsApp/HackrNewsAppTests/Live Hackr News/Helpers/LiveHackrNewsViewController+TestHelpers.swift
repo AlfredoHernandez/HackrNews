@@ -39,8 +39,8 @@ extension HackrNewsFeedViewController {
     }
 
     @discardableResult
-    func simulateStoryViewVisible(at index: Int) -> LiveHackrNewCell? {
-        liveHackrNewView(for: index) as? LiveHackrNewCell
+    func simulateStoryViewVisible(at index: Int) -> HackrNewFeedCell? {
+        liveHackrNewView(for: index) as? HackrNewFeedCell
     }
 
     func simulateTapOnStory(at index: Int) {
@@ -50,7 +50,7 @@ extension HackrNewsFeedViewController {
     }
 
     @discardableResult
-    func simulateStoryViewNotVisible(at index: Int) -> LiveHackrNewCell? {
+    func simulateStoryViewNotVisible(at index: Int) -> HackrNewFeedCell? {
         let view = simulateStoryViewVisible(at: index)
         let delegate = tableView.delegate
         let indexPath = IndexPath(row: index, section: hackrNewsSection)

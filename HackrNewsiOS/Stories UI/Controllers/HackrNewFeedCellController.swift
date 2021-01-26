@@ -13,7 +13,7 @@ public protocol HackrNewFeedCellControllerDelegate {
 public final class HackrNewFeedCellController: StoryView, StoryLoadingView, StoryErrorView {
     private let delegate: HackrNewFeedCellControllerDelegate
     private let didSelectStory: (URL) -> Void
-    private var cell: LiveHackrNewCell?
+    private var cell: HackrNewFeedCell?
 
     public init(delegate: HackrNewFeedCellControllerDelegate, didSelectStory: @escaping (URL) -> Void) {
         self.delegate = delegate
@@ -21,7 +21,7 @@ public final class HackrNewFeedCellController: StoryView, StoryLoadingView, Stor
     }
 
     func view(in tableView: UITableView) -> UITableViewCell {
-        cell = tableView.dequeueReusableCell(withIdentifier: "LiveHackrNewCell") as? LiveHackrNewCell
+        cell = tableView.dequeueReusableCell(withIdentifier: "HackrNewFeedCell") as? HackrNewFeedCell
         delegate.didRequestStory()
         return cell!
     }

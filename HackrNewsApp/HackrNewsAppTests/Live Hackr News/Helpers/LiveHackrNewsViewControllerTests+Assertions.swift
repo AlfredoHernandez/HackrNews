@@ -15,8 +15,8 @@ extension LiveHackrNewsUIIntegrationTests {
         line: UInt = #line
     ) {
         let view = sut.liveHackrNewView(for: index)
-        guard let cell = view as? LiveHackrNewCell else {
-            return XCTFail("Expected \(LiveHackrNewCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
+        guard let cell = view as? HackrNewFeedCell else {
+            return XCTFail("Expected \(HackrNewFeedCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
         }
         XCTAssertEqual(
             cell.cellId,
