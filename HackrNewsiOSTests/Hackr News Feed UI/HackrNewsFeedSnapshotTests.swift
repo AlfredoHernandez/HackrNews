@@ -6,7 +6,7 @@ import HackrNews
 import HackrNewsiOS
 import XCTest
 
-final class LiveHackrNewsSnapshotTests: XCTestCase {
+final class HackrNewsFeedSnapshotTests: XCTestCase {
     func test_emptyStories() {
         let sut = makeSUT()
 
