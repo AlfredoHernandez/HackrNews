@@ -4,7 +4,7 @@
 
 import Foundation
 
-enum LHNEndpoint {
+enum Endpoint {
     case newStories
     case topStories
     case bestStories

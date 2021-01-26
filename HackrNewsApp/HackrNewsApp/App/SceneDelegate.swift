@@ -9,7 +9,7 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private let baseUrl = LHNEndpoint.baseUrl
+    private let baseUrl = Endpoint.baseUrl
 
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .default))
@@ -22,9 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private lazy var tabBarController: UITabBarController = makeTabBarViewController(
         with: [
-            stories(for: .topStories, withURL: LHNEndpoint.topStories.url(baseUrl)),
-            stories(for: .newStories, withURL: LHNEndpoint.newStories.url(baseUrl)),
-            stories(for: .bestStories, withURL: LHNEndpoint.bestStories.url(baseUrl)),
+            stories(for: .topStories, withURL: Endpoint.topStories.url(baseUrl)),
+            stories(for: .newStories, withURL: Endpoint.newStories.url(baseUrl)),
+            stories(for: .bestStories, withURL: Endpoint.bestStories.url(baseUrl)),
         ]
     )
 
@@ -65,6 +65,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
-        RemoteLoader(url: LHNEndpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
+        RemoteLoader(url: Endpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
     }
 }
