@@ -6,7 +6,7 @@ import HackrNews
 @testable import HackrNewsiOS
 import XCTest
 
-final class StoryViewControllerIntegrationTests: XCTestCase {
+final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
     func test_story_withDetails() {
         let fixedDate = Date().adding(days: -1)
         let story = StoryDetail(

@@ -6,14 +6,14 @@ import HackrNews
 import UIKit
 
 public class StoryDetailsUIComposer {
-    public static func composeWith(model: StoryDetail) -> StoryViewController {
+    public static func composeWith(model: StoryDetail) -> StoryDetailsViewController {
         let storyCellController = StoryCellController(model: model)
-        let controller = StoryViewController(storyCellController: storyCellController)
+        let controller = StoryDetailsViewController(storyCellController: storyCellController)
         return controller
     }
 }
 
-public class StoryViewController: UITableViewController {
+public class StoryDetailsViewController: UITableViewController {
     private var storyCellController: StoryCellController?
 
     convenience init(storyCellController: StoryCellController) {

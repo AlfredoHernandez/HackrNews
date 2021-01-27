@@ -30,8 +30,8 @@
 		38882CBB259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */; };
 		388C5B0B2599559D00045DB9 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 388C5B0A2599559D00045DB9 /* SkeletonView */; };
 		38A4BFF625C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */; };
-		38AFE49925C0C37B0026610D /* StoryViewControllerIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AFE49825C0C37B0026610D /* StoryViewControllerIntegrationTests.swift */; };
-		38AFE4A125C0C40D0026610D /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AFE4A025C0C40D0026610D /* StoryViewController.swift */; };
+		38AFE49925C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AFE49825C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift */; };
+		38AFE4A125C0C40D0026610D /* StoryDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AFE4A025C0C40D0026610D /* StoryDetailsViewController.swift */; };
 		38AFE4A825C0C7E40026610D /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392A82582DABB00FCAF70 /* Shared.swift */; };
 		38B0054C259108CC00FA0D4A /* HackrNewsFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B0054B259108CC00FA0D4A /* HackrNewsFeedLoader.swift */; };
 		38B00554259108DD00FA0D4A /* HackrStoryLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B00553259108DD00FA0D4A /* HackrStoryLoader.swift */; };
@@ -139,8 +139,8 @@
 		3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoader.swift; sourceTree = "<group>"; };
 		38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeaksTracking.swift"; sourceTree = "<group>"; };
 		38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
-		38AFE49825C0C37B0026610D /* StoryViewControllerIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewControllerIntegrationTests.swift; sourceTree = "<group>"; };
-		38AFE4A025C0C40D0026610D /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
+		38AFE49825C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsViewControllerIntegrationTests.swift; sourceTree = "<group>"; };
+		38AFE4A025C0C40D0026610D /* StoryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsViewController.swift; sourceTree = "<group>"; };
 		38B0054B259108CC00FA0D4A /* HackrNewsFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedLoader.swift; sourceTree = "<group>"; };
 		38B00553259108DD00FA0D4A /* HackrStoryLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoader.swift; sourceTree = "<group>"; };
 		38B005592591096B00FA0D4A /* HackrNewsFeedMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedMapperTests.swift; sourceTree = "<group>"; };
@@ -265,7 +265,7 @@
 			children = (
 				384B7BF825B4F7E400270EAC /* Theme */,
 				38C916D12588619B001C5DE2 /* Hacker News Feed UI */,
-				38AFE49225C0C3300026610D /* Story UI */,
+				38AFE49225C0C3300026610D /* Story Details UI */,
 				386551A625868EF1002054AA /* Info.plist */,
 			);
 			path = HackrNewsiOS;
@@ -314,19 +314,19 @@
 			path = "Story Details API";
 			sourceTree = "<group>";
 		};
-		38AFE49225C0C3300026610D /* Story UI */ = {
+		38AFE49225C0C3300026610D /* Story Details UI */ = {
 			isa = PBXGroup;
 			children = (
 				38AFE49325C0C3400026610D /* Controllers */,
 				3808B2F125C0E6B600632213 /* Views */,
 			);
-			path = "Story UI";
+			path = "Story Details UI";
 			sourceTree = "<group>";
 		};
 		38AFE49325C0C3400026610D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				38AFE4A025C0C40D0026610D /* StoryViewController.swift */,
+				38AFE4A025C0C40D0026610D /* StoryDetailsViewController.swift */,
 				3808B30625C0F09400632213 /* StoryCellController.swift */,
 			);
 			path = Controllers;
@@ -335,7 +335,7 @@
 		38AFE49725C0C34E0026610D /* Story UI */ = {
 			isa = PBXGroup;
 			children = (
-				38AFE49825C0C37B0026610D /* StoryViewControllerIntegrationTests.swift */,
+				38AFE49825C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift */,
 				38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */,
 			);
 			path = "Story UI";
@@ -800,7 +800,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38AFE4A125C0C40D0026610D /* StoryViewController.swift in Sources */,
+				38AFE4A125C0C40D0026610D /* StoryDetailsViewController.swift in Sources */,
 				3808B30725C0F09400632213 /* StoryCellController.swift in Sources */,
 				38699AFB258865B6002B460B /* HackrNewsFeedRefreshController.swift in Sources */,
 				38699B002588774E002B460B /* HackrNewFeedCellController.swift in Sources */,
@@ -816,7 +816,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38AFE4A825C0C7E40026610D /* Shared.swift in Sources */,
-				38AFE49925C0C37B0026610D /* StoryViewControllerIntegrationTests.swift in Sources */,
+				38AFE49925C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift in Sources */,
 				38A4BFF625C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift in Sources */,
 				38F6803C25900B8D002ED53A /* HackrNewsFeedSnapshotTests.swift in Sources */,
 				38F6802F25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift in Sources */,

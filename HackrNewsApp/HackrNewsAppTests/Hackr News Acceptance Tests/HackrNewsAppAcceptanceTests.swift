@@ -38,7 +38,7 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         RunLoop.current.run(until: Date())
 
         let storyDetailsController = stories.navigationController?.topViewController
-        XCTAssertTrue(storyDetailsController is StoryViewController)
+        XCTAssertTrue(storyDetailsController is StoryDetailsViewController)
     }
 
     func test_onLaunchandTapNewStories_displaysRemoteStoriesWhenCustomesHasConnectivity() {
