@@ -19,8 +19,6 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
     }
 
     override public func viewDidLoad() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
         tableView.prefetchDataSource = self
         tableView.register(
             UINib(nibName: "HackrNewFeedCell", bundle: Bundle(for: HackrNewFeedCell.self)),
@@ -29,7 +27,6 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.refreshControl = refreshController?.view
-        fixNavigationBarSize()
         refreshController?.refresh()
     }
 
@@ -69,12 +66,6 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
 
     private func cancelCellControllerLoad(at indexPath: IndexPath) {
         cellController(forRowAt: indexPath).cancelLoad()
-    }
-
-    private func fixNavigationBarSize() {
-        let top = tableView.adjustedContentInset.top
-        let totalTop = (refreshControl?.frame.maxY ?? 0.0) + top
-        tableView.setContentOffset(CGPoint(x: 0, y: -totalTop), animated: true)
     }
 }
 
