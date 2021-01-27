@@ -18,7 +18,8 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             comments: [],
             url: anyURL()
         )
-        let sut = StoryViewController(story: story)
+        let cell = StoryCellController(model: story)
+        let sut = StoryViewController(storyCellController: cell)
 
         sut.loadViewIfNeeded()
 

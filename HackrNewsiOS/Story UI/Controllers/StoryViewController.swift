@@ -6,12 +6,11 @@ import HackrNews
 import UIKit
 
 public class StoryViewController: UITableViewController {
-    private var story: StoryDetail?
     private var storyCellController: StoryCellController?
 
-    public convenience init(story: StoryDetail) {
+    public convenience init(storyCellController: StoryCellController) {
         self.init()
-        self.story = story
+        self.storyCellController = storyCellController
     }
 
     override public func viewDidLoad() {
@@ -29,7 +28,6 @@ public class StoryViewController: UITableViewController {
     }
 
     override public func tableView(_: UITableView, cellForRowAt _: IndexPath) -> UITableViewCell {
-        storyCellController = StoryCellController(model: story!)
-        return storyCellController!.view()
+        storyCellController!.view()
     }
 }

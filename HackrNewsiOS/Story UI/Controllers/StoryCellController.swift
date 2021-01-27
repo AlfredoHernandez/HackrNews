@@ -5,12 +5,12 @@
 import HackrNews
 import UIKit
 
-final class StoryCellController {
+public final class StoryCellController {
     private var locale = Locale.current
     private var calendar = Calendar(identifier: .gregorian)
     private let model: StoryDetail
 
-    init(model: StoryDetail) {
+    public init(model: StoryDetail) {
         self.model = model
     }
 
