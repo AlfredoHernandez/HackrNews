@@ -8,17 +8,14 @@ import XCTest
 
 final class StoryViewControllerSnapshotTests: XCTestCase {
     func test_emptyStories() {
-        let fixedDate = Date(timeIntervalSince1970: 754790400)
-        let story = StoryDetail(
+        let cell = StoryCellController(viewModel: StoryDetailViewModel(
             title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             author: "a_username",
-            score: 10,
-            createdAt: fixedDate,
-            totalComments: 0,
-            comments: [],
-            url: anyURL()
-        )
-        let cell = StoryCellController(model: story)
+            score: "10 points",
+            comments: "0 comments",
+            createdAt: "27 years ago",
+            displayURL: "any-url.com"
+        ))
         let sut = StoryDetailsViewController(storyCellController: cell)
 
         sut.loadViewIfNeeded()

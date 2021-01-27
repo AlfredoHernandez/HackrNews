@@ -6,29 +6,20 @@ import HackrNews
 import UIKit
 
 public final class StoryCellController {
-    private var locale = Locale.current
-    private var calendar = Calendar(identifier: .gregorian)
-    private let model: StoryDetail
+    private let viewModel: StoryDetailViewModel
 
-    public init(model: StoryDetail) {
-        self.model = model
+    public init(viewModel: StoryDetailViewModel) {
+        self.viewModel = viewModel
     }
 
     func view() -> UITableViewCell {
         let cell = StoryDetailCell()
-        cell.titleLabel.text = model.title
-        cell.authorLabel.text = model.author
-        cell.scoreLabel.text = "\(model.score) points"
-        cell.commentsLabel.text = "\(model.totalComments) comments"
-        cell.createdAtLabel.text = format(from: model.createdAt)
-        cell.urlLabel.text = model.url.host
+        cell.titleLabel.text = viewModel.title
+        cell.authorLabel.text = viewModel.author
+        cell.scoreLabel.text = viewModel.score
+        cell.commentsLabel.text = viewModel.comments
+        cell.createdAtLabel.text = viewModel.createdAt
+        cell.urlLabel.text = viewModel.displayURL
         return cell
-    }
-
-    private func format(from date: Date) -> String? {
-        let dateFormatter = RelativeDateTimeFormatter()
-        dateFormatter.locale = locale
-        dateFormatter.calendar = calendar
-        return dateFormatter.string(for: date)
     }
 }

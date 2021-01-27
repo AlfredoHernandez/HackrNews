@@ -7,7 +7,7 @@ import HackrNews
 
 public class StoryDetailsUIComposer {
     public static func composeWith(model: StoryDetail) -> StoryDetailsViewController {
-        let storyCellController = StoryCellController(model: model)
+        let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model))
         let controller = StoryDetailsViewController(storyCellController: storyCellController)
         return controller
     }

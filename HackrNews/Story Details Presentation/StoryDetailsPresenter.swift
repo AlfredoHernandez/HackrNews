@@ -11,6 +11,15 @@ public struct StoryDetailViewModel {
     public let comments: String
     public let createdAt: String
     public let displayURL: String
+
+    public init(title: String, author: String, score: String, comments: String, createdAt: String, displayURL: String) {
+        self.title = title
+        self.author = author
+        self.score = score
+        self.comments = comments
+        self.createdAt = createdAt
+        self.displayURL = displayURL
+    }
 }
 
 public class StoryDetailsPresenter {
