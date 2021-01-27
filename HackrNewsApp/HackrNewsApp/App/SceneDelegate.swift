@@ -74,9 +74,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             comments: [],
             url: url
         )
-        let cellController = StoryCellController(model: model)
-        let controller =
-            StoryViewController(storyCellController: cellController)
+        let controller = StoryDetailsUIComposer.composeWith(model: model)
         (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
     }
 

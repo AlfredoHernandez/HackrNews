@@ -18,8 +18,7 @@ final class StoryViewControllerIntegrationTests: XCTestCase {
             comments: [],
             url: anyURL()
         )
-        let cell = StoryCellController(model: story)
-        let sut = StoryViewController(storyCellController: cell)
+        let sut = StoryDetailsUIComposer.composeWith(model: story)
 
         sut.loadViewIfNeeded()
 

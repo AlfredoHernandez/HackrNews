@@ -5,10 +5,18 @@
 import HackrNews
 import UIKit
 
+public class StoryDetailsUIComposer {
+    public static func composeWith(model: StoryDetail) -> StoryViewController {
+        let storyCellController = StoryCellController(model: model)
+        let controller = StoryViewController(storyCellController: storyCellController)
+        return controller
+    }
+}
+
 public class StoryViewController: UITableViewController {
     private var storyCellController: StoryCellController?
 
-    public convenience init(storyCellController: StoryCellController) {
+    convenience init(storyCellController: StoryCellController) {
         self.init()
         self.storyCellController = storyCellController
     }
