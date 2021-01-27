@@ -52,6 +52,8 @@ class StoryDetailCell: UITableViewCell {
         return label
     }()
 
+    public let bodyLabel = UILabel()
+
     public private(set) lazy var urlLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0

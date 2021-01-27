@@ -11,7 +11,7 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         let fixedDate = Date().adding(days: -1)
         let story = StoryDetail(
             title: "a title",
-            text: nil,
+            text: "a text",
             author: "an author",
             score: 10,
             createdAt: fixedDate,
@@ -24,6 +24,7 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.titleText, story.title)
+        XCTAssertEqual(sut.text, story.text)
         XCTAssertEqual(sut.authorText, story.author)
         XCTAssertEqual(sut.scoreText, "10 points")
         XCTAssertEqual(sut.commentsText, "0 comments")

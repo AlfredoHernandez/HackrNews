@@ -14,6 +14,10 @@ extension StoryDetailsViewController {
         storyDetailsView?.titleLabel.text
     }
 
+    var text: String? {
+        storyDetailsView?.bodyLabel.text
+    }
+
     var authorText: String? {
         storyDetailsView?.authorLabel.text
     }
