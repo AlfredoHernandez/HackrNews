@@ -52,6 +52,7 @@ private func makeStoryData() -> Data {
         "score": 100,
         "time": 1175714200,
         "title": "Welcome to HackrNewsApp",
+        "text": "Hello, World!",
         "type": "story",
         "url": "http://alfredohdz.com/HackrNews",
     ])

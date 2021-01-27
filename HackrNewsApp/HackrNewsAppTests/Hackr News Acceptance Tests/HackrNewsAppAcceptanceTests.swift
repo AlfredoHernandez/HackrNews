@@ -35,6 +35,7 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         let view = storyDetails?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? StoryDetailCell
 
         XCTAssertEqual(view?.titleLabel.text, "Welcome to HackrNewsApp")
+        XCTAssertEqual(view?.bodyLabel.text, "Hello, World!")
         XCTAssertEqual(view?.authorLabel.text, "AlfredoHernandez")
     }
 

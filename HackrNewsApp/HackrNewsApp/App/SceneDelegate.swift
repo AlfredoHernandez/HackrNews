@@ -67,7 +67,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func details(with model: Story) {
         let storyDetail = StoryDetail(
             title: model.title ?? "",
-            text: nil,
+            text: model.text,
             author: model.author,
             score: model.score ?? 0,
             createdAt: model.createdAt,
