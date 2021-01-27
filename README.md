@@ -26,7 +26,7 @@ Hackr/News is a **Y Combinator's** Hacker News reading app for iOS.
 
 ## Screenshots
 
-###iOS
+### iOS
 
 ![Dark Mode](./assets/dark_mode.png)
 
