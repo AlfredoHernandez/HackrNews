@@ -15,6 +15,7 @@ public class StoryDetailsViewController: UITableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        tableView.separatorStyle = .none
         tableView.register(StoryDetailCell.self, forCellReuseIdentifier: "StoryDetailCell")
         tableView.reloadData()
     }

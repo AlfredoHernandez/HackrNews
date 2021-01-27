@@ -25,6 +25,24 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "story_details_dark")
     }
 
+    func test_details_without_text_story() {
+        let cell = StoryCellController(viewModel: StoryDetailViewModel(
+            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            text: nil,
+            author: "dhouston",
+            score: "111 points",
+            comments: "0 comments",
+            createdAt: "27 years ago",
+            displayURL: "getdropbox.com"
+        ))
+        let sut = StoryDetailsViewController(storyCellController: cell)
+
+        sut.loadViewIfNeeded()
+
+        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "story_details_without_text_light")
+        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "story_details_without_text_dark")
+    }
+
     func test_details_ask() {
         let cell = StoryCellController(viewModel: StoryDetailViewModel(
             title: "Ask HN: The Arc Effect",
