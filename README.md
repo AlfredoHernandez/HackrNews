@@ -20,9 +20,17 @@ Hackr/News is a **Y Combinator's** Hacker News reading app for iOS.
 2. Open the `HackrNewsApp.xcworkspace` file in Xcode.
 3. Run the `HackerNewsApp` in your favorite iOS simulator.
 
+### HackrNews Code Metrics
+
+[Project Code Metrics](./Metrics.md)
+
+## Snapshot Tests
+
+**Please make sure use an `iPhone 12 Mini` simulator to run the snapshot tests. Otherwise tests will fail.**
+
 ## Screenshots
 
-###iOS
+### iOS
 
 ![Dark Mode](./assets/dark_mode.png)
 
