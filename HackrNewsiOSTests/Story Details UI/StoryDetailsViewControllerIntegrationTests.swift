@@ -11,6 +11,7 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         let fixedDate = Date().adding(days: -1)
         let story = StoryDetail(
             title: "a title",
+            text: nil,
             author: "an author",
             score: 10,
             createdAt: fixedDate,

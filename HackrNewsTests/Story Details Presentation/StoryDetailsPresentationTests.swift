@@ -17,6 +17,7 @@ final class StoryDetailsPresentationTests: XCTestCase {
 
         let (story0, viewModel0) = makeStoryDetail(
             title: "a title",
+            text: "a text",
             author: "an author",
             score: 10,
             createdAt: (now.adding(days: -1), "1 day ago"),
@@ -27,6 +28,7 @@ final class StoryDetailsPresentationTests: XCTestCase {
 
         let (story1, viewModel1) = makeStoryDetail(
             title: nil,
+            text: nil,
             author: "an author",
             score: nil,
             createdAt: (now.adding(min: -30), "30 minutes ago"),
@@ -46,6 +48,7 @@ final class StoryDetailsPresentationTests: XCTestCase {
 
     private func makeStoryDetail(
         title: String?,
+        text: String?,
         author: String,
         score: Int?,
         createdAt: (date: Date, string: String),
@@ -55,6 +58,7 @@ final class StoryDetailsPresentationTests: XCTestCase {
     ) -> (StoryDetail, StoryDetailViewModel) {
         let storyDetail = StoryDetail(
             title: title,
+            text: text,
             author: author,
             score: score,
             createdAt: createdAt.date,
@@ -64,6 +68,7 @@ final class StoryDetailsPresentationTests: XCTestCase {
         )
         let viewModel = StoryDetailViewModel(
             title: title,
+            text: text,
             author: author,
             score: (score != nil) ? "\(score!) points" : nil,
             comments: (totalComments != nil) ? "\(totalComments!) comments" : nil,
@@ -76,6 +81,7 @@ final class StoryDetailsPresentationTests: XCTestCase {
 
     private func expect(viewModel: StoryDetailViewModel, equalsTo expectedViewModel: StoryDetailViewModel) {
         XCTAssertEqual(viewModel.title, expectedViewModel.title)
+        XCTAssertEqual(viewModel.text, expectedViewModel.text)
         XCTAssertEqual(viewModel.author, expectedViewModel.author)
         XCTAssertEqual(viewModel.score, expectedViewModel.score)
         XCTAssertEqual(viewModel.comments, expectedViewModel.comments)

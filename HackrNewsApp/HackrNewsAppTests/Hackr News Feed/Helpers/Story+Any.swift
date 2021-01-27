@@ -9,6 +9,7 @@ extension Story {
     static var any = Story(
         id: Int.random(in: 0 ... 100),
         title: "a title",
+        text: "a text",
         author: "a username",
         score: 0,
         createdAt: Date(),

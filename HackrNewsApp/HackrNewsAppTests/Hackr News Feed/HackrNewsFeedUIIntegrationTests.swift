@@ -453,6 +453,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let model = Story(
             id: id,
             title: title,
+            text: nil,
             author: author,
             score: score.number,
             createdAt: createdAt.date,

@@ -6,14 +6,24 @@ import Foundation
 
 public struct StoryDetailViewModel {
     public let title: String?
+    public let text: String?
     public let author: String
     public let score: String?
     public let comments: String?
     public let createdAt: String
     public let displayURL: String?
 
-    public init(title: String?, author: String, score: String?, comments: String?, createdAt: String, displayURL: String?) {
+    public init(
+        title: String?,
+        text: String?,
+        author: String,
+        score: String?,
+        comments: String?,
+        createdAt: String,
+        displayURL: String?
+    ) {
         self.title = title
+        self.text = text
         self.author = author
         self.score = score
         self.comments = comments
@@ -64,6 +74,7 @@ public class StoryDetailsPresenter {
 
         return StoryDetailViewModel(
             title: story.title,
+            text: story.text,
             author: story.author,
             score: (story.score != nil) ? String(format: score, story.score!) : nil,
             comments: (story.comments != nil) ? String(format: comments, story.totalComments!) : nil,
