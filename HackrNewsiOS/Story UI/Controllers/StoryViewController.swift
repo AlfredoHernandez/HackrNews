@@ -14,15 +14,6 @@ struct StoryDetail {
     let url: URL
 }
 
-class StoryDetailCell: UITableViewCell {
-    public private(set) var titleLabel = UILabel()
-    public private(set) var urlLabel = UILabel()
-    public private(set) var authorLabel = UILabel()
-    public private(set) var scoreLabel = UILabel()
-    public private(set) var commentsLabel = UILabel()
-    public private(set) var createdAtLabel = UILabel()
-}
-
 class StoryViewController: UITableViewController {
     private var locale = Locale.current
     private var calendar = Calendar(identifier: .gregorian)

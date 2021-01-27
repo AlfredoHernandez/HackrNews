@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3808B2F325C0E6BF00632213 /* StoryDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3808B2F225C0E6BF00632213 /* StoryDetailCell.swift */; };
 		384B7C0125B4F84500270EAC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 384B7C0025B4F84500270EAC /* Colors.xcassets */; };
 		384B7C0825B4F99900270EAC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
@@ -22,6 +23,7 @@
 		3882E5B625BE24C000CE62E0 /* RemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */; };
 		38882CBB259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */; };
 		388C5B0B2599559D00045DB9 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 388C5B0A2599559D00045DB9 /* SkeletonView */; };
+		38A4BFF625C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */; };
 		38AFE49925C0C37B0026610D /* StoryViewControllerIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AFE49825C0C37B0026610D /* StoryViewControllerIntegrationTests.swift */; };
 		38AFE4A125C0C40D0026610D /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AFE4A025C0C40D0026610D /* StoryViewController.swift */; };
 		38AFE4A825C0C7E40026610D /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392A82582DABB00FCAF70 /* Shared.swift */; };
@@ -108,6 +110,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3808B2F225C0E6BF00632213 /* StoryDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailCell.swift; sourceTree = "<group>"; };
 		384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		384B7C0025B4F84500270EAC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +126,7 @@
 		3882E5B025BE241300CE62E0 /* RemoteLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoaderTests.swift; sourceTree = "<group>"; };
 		3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoader.swift; sourceTree = "<group>"; };
 		38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeaksTracking.swift"; sourceTree = "<group>"; };
+		38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
 		38AFE49825C0C37B0026610D /* StoryViewControllerIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewControllerIntegrationTests.swift; sourceTree = "<group>"; };
 		38AFE4A025C0C40D0026610D /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		38B0054B259108CC00FA0D4A /* HackrNewsFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedLoader.swift; sourceTree = "<group>"; };
@@ -209,6 +213,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3808B2F125C0E6B600632213 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3808B2F225C0E6BF00632213 /* StoryDetailCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		384B7BF825B4F7E400270EAC /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				38AFE49325C0C3400026610D /* Controllers */,
+				3808B2F125C0E6B600632213 /* Views */,
 			);
 			path = "Story UI";
 			sourceTree = "<group>";
@@ -291,6 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				38AFE49825C0C37B0026610D /* StoryViewControllerIntegrationTests.swift */,
+				38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */,
 			);
 			path = "Story UI";
 			sourceTree = "<group>";
@@ -755,6 +769,7 @@
 				38699AFB258865B6002B460B /* HackrNewsFeedRefreshController.swift in Sources */,
 				38699B002588774E002B460B /* HackrNewFeedCellController.swift in Sources */,
 				386551D42586B179002054AA /* HackrNewsFeedViewController.swift in Sources */,
+				3808B2F325C0E6BF00632213 /* StoryDetailCell.swift in Sources */,
 				38C916D5258861BC001C5DE2 /* HackrNewFeedCell.swift in Sources */,
 				384B7C0825B4F99900270EAC /* UIColor+Extension.swift in Sources */,
 			);
@@ -766,6 +781,7 @@
 			files = (
 				38AFE4A825C0C7E40026610D /* Shared.swift in Sources */,
 				38AFE49925C0C37B0026610D /* StoryViewControllerIntegrationTests.swift in Sources */,
+				38A4BFF625C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift in Sources */,
 				38F6803C25900B8D002ED53A /* HackrNewsFeedSnapshotTests.swift in Sources */,
 				38F6802F25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift in Sources */,
 				38F6803425900B42002ED53A /* UIViewController+Snapshot.swift in Sources */,
