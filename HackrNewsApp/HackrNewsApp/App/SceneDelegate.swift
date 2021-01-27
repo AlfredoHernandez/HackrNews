@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 contentType: contentType,
                 hackrNewsFeedloader: hackrNewsFeedloader,
                 hackrStoryLoader: hackrStoryLoader,
-                didSelectStory: openOnSafari
+                didSelectStory: details
             )
         )
     }
@@ -62,6 +62,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let controller = SFSafariViewController(url: url)
         controller.preferredControlTintColor = UIColor.hackrNews
         tabBarController.present(controller, animated: true)
+    }
+
+    private func details(with url: URL) {
+        let controller =
+            StoryViewController(story: StoryDetail(
+                title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+                author: "alfredohdz",
+                score: 10,
+                createdAt: Date(timeIntervalSince1970: 1611701436),
+                totalComments: 0,
+                comments: [],
+                url: url
+            ))
+        (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {

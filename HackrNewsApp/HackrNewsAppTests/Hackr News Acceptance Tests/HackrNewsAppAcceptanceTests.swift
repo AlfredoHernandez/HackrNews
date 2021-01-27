@@ -30,15 +30,15 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertEqual(stories.numberOfRenderedHackrNewsFeedViews(), 0)
     }
 
-    func test_onSelectStory_displaysStoryUrlInSafari() {
+    func test_onSelectStory_displaysStoryDetails() {
         let stories = launch(httpClient: .online(response))
         stories.simulateStoryViewVisible(at: 0)
 
         stories.simulateTapOnStory(at: 0)
         RunLoop.current.run(until: Date())
 
-        let safariViewController = stories.navigationController?.presentedViewController
-        XCTAssertTrue(safariViewController is SFSafariViewController)
+        let storyDetailsController = stories.navigationController?.topViewController
+        XCTAssertTrue(storyDetailsController is StoryViewController)
     }
 
     func test_onLaunchandTapNewStories_displaysRemoteStoriesWhenCustomesHasConnectivity() {
