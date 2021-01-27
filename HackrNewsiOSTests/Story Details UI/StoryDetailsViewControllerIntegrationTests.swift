@@ -3,7 +3,7 @@
 //
 
 import HackrNews
-@testable import HackrNewsiOS
+import HackrNewsiOS
 import XCTest
 
 final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
