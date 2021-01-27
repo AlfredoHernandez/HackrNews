@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3808B2F325C0E6BF00632213 /* StoryDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3808B2F225C0E6BF00632213 /* StoryDetailCell.swift */; };
 		3808B30225C0EBCC00632213 /* StoryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3808B30125C0EBCC00632213 /* StoryDetail.swift */; };
+		3808B30725C0F09400632213 /* StoryCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3808B30625C0F09400632213 /* StoryCellController.swift */; };
 		384B7C0125B4F84500270EAC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 384B7C0025B4F84500270EAC /* Colors.xcassets */; };
 		384B7C0825B4F99900270EAC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
@@ -113,6 +114,7 @@
 /* Begin PBXFileReference section */
 		3808B2F225C0E6BF00632213 /* StoryDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailCell.swift; sourceTree = "<group>"; };
 		3808B30125C0EBCC00632213 /* StoryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetail.swift; sourceTree = "<group>"; };
+		3808B30625C0F09400632213 /* StoryCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellController.swift; sourceTree = "<group>"; };
 		384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		384B7C0025B4F84500270EAC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -299,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				38AFE4A025C0C40D0026610D /* StoryViewController.swift */,
+				3808B30625C0F09400632213 /* StoryCellController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38AFE4A125C0C40D0026610D /* StoryViewController.swift in Sources */,
+				3808B30725C0F09400632213 /* StoryCellController.swift in Sources */,
 				38699AFB258865B6002B460B /* HackrNewsFeedRefreshController.swift in Sources */,
 				38699B002588774E002B460B /* HackrNewFeedCellController.swift in Sources */,
 				386551D42586B179002054AA /* HackrNewsFeedViewController.swift in Sources */,

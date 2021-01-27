@@ -6,9 +6,8 @@ import HackrNews
 import UIKit
 
 public class StoryViewController: UITableViewController {
-    private var locale = Locale.current
-    private var calendar = Calendar(identifier: .gregorian)
     private var story: StoryDetail?
+    private var storyCellController: StoryCellController?
 
     public convenience init(story: StoryDetail) {
         self.init()
@@ -30,20 +29,7 @@ public class StoryViewController: UITableViewController {
     }
 
     override public func tableView(_: UITableView, cellForRowAt _: IndexPath) -> UITableViewCell {
-        let cell = StoryDetailCell()
-        cell.titleLabel.text = story?.title
-        cell.authorLabel.text = story?.author
-        cell.scoreLabel.text = "\(story!.score) points"
-        cell.commentsLabel.text = "\(story!.totalComments) comments"
-        cell.createdAtLabel.text = format(from: story?.createdAt ?? Date())
-        cell.urlLabel.text = story?.url.host
-        return cell
-    }
-
-    private func format(from date: Date) -> String? {
-        let dateFormatter = RelativeDateTimeFormatter()
-        dateFormatter.locale = locale
-        dateFormatter.calendar = calendar
-        return dateFormatter.string(for: date)
+        storyCellController = StoryCellController(model: story!)
+        return storyCellController!.view()
     }
 }
