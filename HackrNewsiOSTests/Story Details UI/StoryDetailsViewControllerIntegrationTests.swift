@@ -22,12 +22,11 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
 
         sut.loadViewIfNeeded()
 
-        let view = sut.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? StoryDetailCell
-        XCTAssertEqual(view?.titleLabel.text, story.title)
-        XCTAssertEqual(view?.authorLabel.text, story.author)
-        XCTAssertEqual(view?.scoreLabel.text, "10 points")
-        XCTAssertEqual(view?.commentsLabel.text, "0 comments")
-        XCTAssertEqual(view?.createdAtLabel.text, "1 day ago")
-        XCTAssertEqual(view?.urlLabel.text, "any-url.com")
+        XCTAssertEqual(sut.titleText, story.title)
+        XCTAssertEqual(sut.authorText, story.author)
+        XCTAssertEqual(sut.scoreText, "10 points")
+        XCTAssertEqual(sut.commentsText, "0 comments")
+        XCTAssertEqual(sut.createdAtText, "1 day ago")
+        XCTAssertEqual(sut.urlText, "any-url.com")
     }
 }

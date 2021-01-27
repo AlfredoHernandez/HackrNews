@@ -15,6 +15,7 @@
 		3843688B25C1ECDD002396A6 /* StoryDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3843688A25C1ECDD002396A6 /* StoryDetailsPresenter.swift */; };
 		3843689525C1ED40002396A6 /* StoryDetails.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3843688525C1E811002396A6 /* StoryDetails.strings */; };
 		384368AA25C1F061002396A6 /* StoryDetailsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384368A925C1F061002396A6 /* StoryDetailsUIComposer.swift */; };
+		384368B925C1F484002396A6 /* StoryDetailsViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384368B825C1F484002396A6 /* StoryDetailsViewController+Helpers.swift */; };
 		384B7C0125B4F84500270EAC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 384B7C0025B4F84500270EAC /* Colors.xcassets */; };
 		384B7C0825B4F99900270EAC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
@@ -125,6 +126,7 @@
 		3843688425C1E811002396A6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/StoryDetails.strings; sourceTree = "<group>"; };
 		3843688A25C1ECDD002396A6 /* StoryDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsPresenter.swift; sourceTree = "<group>"; };
 		384368A925C1F061002396A6 /* StoryDetailsUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsUIComposer.swift; sourceTree = "<group>"; };
+		384368B825C1F484002396A6 /* StoryDetailsViewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoryDetailsViewController+Helpers.swift"; sourceTree = "<group>"; };
 		384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		384B7C0025B4F84500270EAC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,6 +263,14 @@
 			path = Composers;
 			sourceTree = "<group>";
 		};
+		384368B725C1F45F002396A6 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				384368B825C1F484002396A6 /* StoryDetailsViewController+Helpers.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		384B7BF825B4F7E400270EAC /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -346,6 +356,7 @@
 		38AFE49725C0C34E0026610D /* Story Details UI */ = {
 			isa = PBXGroup;
 			children = (
+				384368B725C1F45F002396A6 /* Helpers */,
 				38AFE49825C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift */,
 				38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */,
 			);
@@ -830,6 +841,7 @@
 				38AFE4A825C0C7E40026610D /* Shared.swift in Sources */,
 				38AFE49925C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift in Sources */,
 				38A4BFF625C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift in Sources */,
+				384368B925C1F484002396A6 /* StoryDetailsViewController+Helpers.swift in Sources */,
 				38F6803C25900B8D002ED53A /* HackrNewsFeedSnapshotTests.swift in Sources */,
 				38F6802F25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift in Sources */,
 				38F6803425900B42002ED53A /* UIViewController+Snapshot.swift in Sources */,
