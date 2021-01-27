@@ -1,4 +1,4 @@
-# HackrNews Metrics
+# HackrNews Metrics
 
 ## Code Distribution 
 
@@ -6,7 +6,7 @@
 
 ## Code Distribution (Hackr News App)
 
-![](./swift-code-metrics/code_distribution_hackrnewsapp__hackrnewsapp__hackrnewsapp.pdf)
+![code-distribution](./swift-code-metrics/code_distribution_hackrnewsapp__hackrnewsapp__hackrnewsapp.pdf)
 
 ## Code Distribution (Hackr News Framework)
 
@@ -26,6 +26,6 @@
 
 ![loc](./swift-code-metrics/lines_of_code_-_loc.pdf)
 
-## External dependencies Graph
+## External dependencies Graph
 
 ![external_dependencies_graph](./swift-code-metrics/external_dependencies_graph.pdf)
