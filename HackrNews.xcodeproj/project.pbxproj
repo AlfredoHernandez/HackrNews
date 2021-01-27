@@ -276,7 +276,7 @@
 			children = (
 				38F6800A258FEF31002ED53A /* Helpers */,
 				38F6803825900B6E002ED53A /* Hackr News Feed UI */,
-				38AFE49725C0C34E0026610D /* Story UI */,
+				38AFE49725C0C34E0026610D /* Story Details UI */,
 				386551B225868EF2002054AA /* Info.plist */,
 			);
 			path = HackrNewsiOSTests;
@@ -332,13 +332,13 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		38AFE49725C0C34E0026610D /* Story UI */ = {
+		38AFE49725C0C34E0026610D /* Story Details UI */ = {
 			isa = PBXGroup;
 			children = (
 				38AFE49825C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift */,
 				38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */,
 			);
-			path = "Story UI";
+			path = "Story Details UI";
 			sourceTree = "<group>";
 		};
 		38B00549259107BF00FA0D4A /* Hackr News Feed API */ = {
