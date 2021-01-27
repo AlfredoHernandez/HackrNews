@@ -1,5 +1,7 @@
 # HackrNews Metrics
 
+If Github does not display images, you can go to http://alfredohdz.com/HackrNews/Metrics.html
+
 ## Code Distribution 
 
 ![code_distribution](./swift-code-metrics/code_distribution.pdf)
