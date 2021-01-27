@@ -37,6 +37,7 @@ final class StoryItemMapperTests: XCTestCase {
     private func makeItem(
         id: Int = 1,
         title: String = "a title",
+        text: String = "a text",
         author: String = "an author",
         score: Int = 0,
         createdAt: (date: Date, value: Double) = (Date(timeIntervalSince1970: 1175714200), 1175714200),
@@ -48,6 +49,7 @@ final class StoryItemMapperTests: XCTestCase {
         let model = Story(
             id: id,
             title: title,
+            text: text,
             author: author,
             score: score,
             createdAt: createdAt.date,
@@ -64,6 +66,7 @@ final class StoryItemMapperTests: XCTestCase {
             "score": score,
             "time": createdAt.value,
             "title": title,
+            "text": text,
             "type": type,
             "url": url.absoluteString,
         ]

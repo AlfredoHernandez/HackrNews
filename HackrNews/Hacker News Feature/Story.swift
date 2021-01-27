@@ -7,6 +7,7 @@ import Foundation
 public struct Story: Equatable {
     public let id: Int
     public let title: String?
+    public let text: String?
     public let author: String
     public let score: Int?
     public let createdAt: Date
@@ -18,6 +19,7 @@ public struct Story: Equatable {
     public init(
         id: Int,
         title: String?,
+        text: String?,
         author: String,
         score: Int?,
         createdAt: Date,
@@ -28,6 +30,7 @@ public struct Story: Equatable {
     ) {
         self.id = id
         self.title = title
+        self.text = text
         self.author = author
         self.score = score
         self.createdAt = createdAt

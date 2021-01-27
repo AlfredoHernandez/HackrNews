@@ -8,6 +8,7 @@ public struct StoryItemMapper {
     private struct Item: Decodable {
         private let id: Int
         private let title: String?
+        private let text: String?
         private let by: String
         private let score: Int?
         private let time: Date
@@ -20,6 +21,7 @@ public struct StoryItemMapper {
             Story(
                 id: id,
                 title: title,
+                text: text,
                 author: by,
                 score: score,
                 createdAt: time,

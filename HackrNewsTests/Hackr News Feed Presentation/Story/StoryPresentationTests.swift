@@ -39,6 +39,7 @@ final class StoryPresentationTests: XCTestCase {
         let story = Story(
             id: 1,
             title: "a title",
+            text: "a text",
             author: "an author",
             score: 2,
             createdAt: date,
