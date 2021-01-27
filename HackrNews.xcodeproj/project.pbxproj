@@ -16,6 +16,8 @@
 		3843689525C1ED40002396A6 /* StoryDetails.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3843688525C1E811002396A6 /* StoryDetails.strings */; };
 		384368AA25C1F061002396A6 /* StoryDetailsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384368A925C1F061002396A6 /* StoryDetailsUIComposer.swift */; };
 		384368B925C1F484002396A6 /* StoryDetailsViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384368B825C1F484002396A6 /* StoryDetailsViewController+Helpers.swift */; };
+		384368C325C1F572002396A6 /* story_details_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 384368C125C1F572002396A6 /* story_details_dark.png */; };
+		384368C425C1F572002396A6 /* story_details_light.png in Resources */ = {isa = PBXBuildFile; fileRef = 384368C225C1F572002396A6 /* story_details_light.png */; };
 		384B7C0125B4F84500270EAC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 384B7C0025B4F84500270EAC /* Colors.xcassets */; };
 		384B7C0825B4F99900270EAC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */; };
 		386551AC25868EF2002054AA /* HackrNewsiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386551A325868EF1002054AA /* HackrNewsiOS.framework */; };
@@ -127,6 +129,8 @@
 		3843688A25C1ECDD002396A6 /* StoryDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsPresenter.swift; sourceTree = "<group>"; };
 		384368A925C1F061002396A6 /* StoryDetailsUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsUIComposer.swift; sourceTree = "<group>"; };
 		384368B825C1F484002396A6 /* StoryDetailsViewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoryDetailsViewController+Helpers.swift"; sourceTree = "<group>"; };
+		384368C125C1F572002396A6 /* story_details_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = story_details_dark.png; sourceTree = "<group>"; };
+		384368C225C1F572002396A6 /* story_details_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = story_details_light.png; sourceTree = "<group>"; };
 		384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		384B7C0025B4F84500270EAC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		386551A325868EF1002054AA /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -271,6 +275,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		384368C025C1F546002396A6 /* snapshots */ = {
+			isa = PBXGroup;
+			children = (
+				384368C125C1F572002396A6 /* story_details_dark.png */,
+				384368C225C1F572002396A6 /* story_details_light.png */,
+			);
+			path = snapshots;
+			sourceTree = "<group>";
+		};
 		384B7BF825B4F7E400270EAC /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +369,7 @@
 		38AFE49725C0C34E0026610D /* Story Details UI */ = {
 			isa = PBXGroup;
 			children = (
+				384368C025C1F546002396A6 /* snapshots */,
 				384368B725C1F45F002396A6 /* Helpers */,
 				38AFE49825C0C37B0026610D /* StoryDetailsViewControllerIntegrationTests.swift */,
 				38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */,
@@ -794,7 +808,9 @@
 				38B005CF25916B2900FA0D4A /* storie_failed_light.png in Resources */,
 				38F6804E25900F6F002ED53A /* empty_stories_light.png in Resources */,
 				38B005D025916B2900FA0D4A /* stories_failed_dark.png in Resources */,
+				384368C325C1F572002396A6 /* story_details_dark.png in Resources */,
 				38F6804D25900F6F002ED53A /* empty_stories_dark.png in Resources */,
+				384368C425C1F572002396A6 /* story_details_light.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
