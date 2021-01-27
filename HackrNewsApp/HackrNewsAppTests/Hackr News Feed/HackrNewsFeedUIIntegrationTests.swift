@@ -344,8 +344,8 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
     // MARK: - Selection handler tests
 
     func test_didSelectStory_triggersHandlerWithUrl() {
-        var handledURLs = [URL]()
-        let (sut, loader) = makeSUT(selection: { handledURLs.append($0) })
+        var stories = [Story]()
+        let (sut, loader) = makeSUT(selection: { stories.append($0) })
         let url1 = URL(string: "https://any-url.com/first")!
         let (lhn1, story1) = makeHackrNewAndStory(id: 1, url: url1)
         let url2 = URL(string: "https://any-url.com/second")!
@@ -355,22 +355,22 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
 
         sut.simulateStoryViewVisible(at: 0)
         sut.simulateTapOnStory(at: 0)
-        XCTAssertTrue(handledURLs.isEmpty, "Expected to not trigger selection action with URL \(url1) when is loading")
+        XCTAssertTrue(stories.isEmpty, "Expected to not trigger selection action with \(story1) when is loading")
 
         loader.completeStoryLoading(with: story1, at: 0)
         sut.simulateTapOnStory(at: 0)
-        XCTAssertEqual(handledURLs, [url1], "Expected to trigger selection action with URL \(url1), but got \(handledURLs)")
+        XCTAssertEqual(stories, [story1], "Expected to trigger selection action with \(story1), but got \(stories)")
 
         sut.simulateStoryViewVisible(at: 1)
         sut.simulateTapOnStory(at: 1)
-        XCTAssertEqual(handledURLs, [url1], "Expected to not trigger second selection action with URL \(url2) when is loading")
+        XCTAssertEqual(stories, [story1], "Expected to not trigger second selection action with \(story2) when is loading")
 
         loader.completeStoryLoading(with: story2, at: 1)
         sut.simulateTapOnStory(at: 1)
         XCTAssertEqual(
-            handledURLs,
-            [url1, url2],
-            "Expected to trigger selection action with URL \(url1) and \(url2), but got \(handledURLs)"
+            stories,
+            [story1, story2],
+            "Expected to trigger selection action with \(story1) and \(story2), but got \(stories)"
         )
     }
 
@@ -408,7 +408,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(
-        selection: @escaping (URL) -> Void = { _ in },
+        selection: @escaping (Story) -> Void = { _ in },
         contentType: ContentType = .newStories,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian),

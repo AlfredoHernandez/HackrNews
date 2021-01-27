@@ -64,17 +64,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.present(controller, animated: true)
     }
 
-    private func details(with url: URL) {
-        let model = StoryDetail(
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            author: "alfredohdz",
-            score: 10,
-            createdAt: Date(timeIntervalSince1970: 1611701436),
-            totalComments: 0,
-            comments: [],
-            url: url
+    private func details(with model: Story) {
+        let storyDetail = StoryDetail(
+            title: model.title ?? "",
+            author: model.author,
+            score: model.score ?? 0,
+            createdAt: model.createdAt,
+            totalComments: model.totalComments ?? 0,
+            comments: model.comments ?? [],
+            url: model.url!
         )
-        let controller = StoryDetailsUIComposer.composeWith(model: model)
+        let controller = StoryDetailsUIComposer.composeWith(model: storyDetail)
         (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
     }
 

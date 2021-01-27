@@ -10,13 +10,13 @@ final class StoryViewAdapter: HackrNewsFeedView {
     private let loader: (Int) -> HackrStoryLoader
     private let locale: Locale
     private let calendar: Calendar
-    private let didSelectStory: (URL) -> Void
+    private let didSelectStory: (Story) -> Void
     private weak var controller: HackrNewsFeedViewController?
 
     init(
         loader: @escaping (Int) -> HackrStoryLoader,
         controller: HackrNewsFeedViewController,
-        didSelectStory: @escaping (URL) -> Void,
+        didSelectStory: @escaping (Story) -> Void,
         locale: Locale,
         calendar: Calendar
     ) {
@@ -29,8 +29,18 @@ final class StoryViewAdapter: HackrNewsFeedView {
 
     func display(_ viewModel: HackrNewsFeedViewModel) {
         controller?.display(viewModel.stories.map { new in
-            let adapter = StoryPresentationAdapter(model: new, loader: MainQueueDispatchDecorator(loader(new.id)))
-            let controller = HackrNewFeedCellController(delegate: adapter, didSelectStory: didSelectStory)
+            var story: Story?
+            let adapter = StoryPresentationAdapter(
+                model: new,
+                loader: MainQueueDispatchDecorator(loader(new.id)),
+                completion: { storyResult in
+                    story = storyResult
+                }
+            )
+            let controller = HackrNewFeedCellController(delegate: adapter, didSelectStory: { [weak self] in
+                guard let story = story else { return }
+                self?.didSelectStory(story)
+            })
             adapter.presenter = StoryPresenter(
                 view: WeakRefVirtualProxy(controller),
                 loadingView: WeakRefVirtualProxy(controller),
