@@ -2,6 +2,7 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import HackrNews
 @testable import HackrNewsiOS
 import XCTest
 
