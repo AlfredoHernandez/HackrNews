@@ -7,7 +7,7 @@ import HackrNews
 import XCTest
 
 final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
-    func test_story_withDetails() {
+    func test_viewDidLoad_displaysStory() {
         let fixedDate = Date().adding(days: -1)
         let story = StoryDetail(
             title: "a title",
