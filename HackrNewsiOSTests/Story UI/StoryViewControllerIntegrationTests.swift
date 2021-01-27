@@ -32,9 +32,3 @@ final class StoryViewControllerIntegrationTests: XCTestCase {
         XCTAssertEqual(view?.urlLabel.text, "any-url.com")
     }
 }
-
-extension Date {
-    func adding(days: Int, calendar: Calendar = Calendar(identifier: .gregorian)) -> Date {
-        calendar.date(byAdding: .day, value: days, to: self)!
-    }
-}

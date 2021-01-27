@@ -1,1 +1,3 @@
 "story_details_title" = "Comments";
+"story_details_score" = "%d points";
+"story_details_comments" = "%d comments";
