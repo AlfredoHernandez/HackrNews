@@ -72,7 +72,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             createdAt: model.createdAt,
             totalComments: model.totalComments ?? 0,
             comments: model.comments ?? [],
-            url: model.url!
+            url: model.url
         )
         let controller = StoryDetailsUIComposer.composeWith(model: storyDetail)
         (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
