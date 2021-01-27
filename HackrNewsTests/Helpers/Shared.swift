@@ -30,4 +30,8 @@ extension Date {
     func adding(days: Int, calendar: Calendar = Calendar(identifier: .gregorian)) -> Date {
         calendar.date(byAdding: .day, value: days, to: self)!
     }
+
+    func adding(min: Int, calendar: Calendar = Calendar(identifier: .gregorian)) -> Date {
+        calendar.date(byAdding: .minute, value: min, to: self)!
+    }
 }

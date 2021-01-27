@@ -5,14 +5,14 @@
 import Foundation
 
 public struct StoryDetailViewModel {
-    public let title: String
+    public let title: String?
     public let author: String
-    public let score: String
-    public let comments: String
+    public let score: String?
+    public let comments: String?
     public let createdAt: String
-    public let displayURL: String
+    public let displayURL: String?
 
-    public init(title: String, author: String, score: String, comments: String, createdAt: String, displayURL: String) {
+    public init(title: String?, author: String, score: String?, comments: String?, createdAt: String, displayURL: String?) {
         self.title = title
         self.author = author
         self.score = score
@@ -65,10 +65,10 @@ public class StoryDetailsPresenter {
         return StoryDetailViewModel(
             title: story.title,
             author: story.author,
-            score: String(format: score, story.score),
-            comments: String(format: comments, story.totalComments),
+            score: (story.score != nil) ? String(format: score, story.score!) : nil,
+            comments: (story.comments != nil) ? String(format: comments, story.totalComments!) : nil,
             createdAt: formatter.localizedString(for: story.createdAt, relativeTo: Date()),
-            displayURL: story.url.host ?? story.url.absoluteString
+            displayURL: story.url?.host
         )
     }
 }

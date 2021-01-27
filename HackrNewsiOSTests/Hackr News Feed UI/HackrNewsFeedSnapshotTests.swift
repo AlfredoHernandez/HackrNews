@@ -93,7 +93,7 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
 
     private func feedStories(stubs: [StoryStub]) -> [HackrNewFeedCellController] {
         stubs.map { stub in
-            let controller = HackrNewFeedCellController(delegate: stub, didSelectStory: { })
+            let controller = HackrNewFeedCellController(delegate: stub, didSelectStory: {})
             stub.controller = controller
             return controller
         }
