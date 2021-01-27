@@ -109,5 +109,6 @@ class StoryDetailCell: UITableViewCell {
             mainContainer.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             mainContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         ])
+        selectionStyle = .none
     }
 }
