@@ -5,14 +5,6 @@
 import HackrNews
 import UIKit
 
-public class StoryDetailsUIComposer {
-    public static func composeWith(model: StoryDetail) -> StoryDetailsViewController {
-        let storyCellController = StoryCellController(model: model)
-        let controller = StoryDetailsViewController(storyCellController: storyCellController)
-        return controller
-    }
-}
-
 public class StoryDetailsViewController: UITableViewController {
     private var storyCellController: StoryCellController?
 
