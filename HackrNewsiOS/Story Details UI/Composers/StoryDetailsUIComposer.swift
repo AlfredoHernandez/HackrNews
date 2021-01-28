@@ -9,6 +9,7 @@ public class StoryDetailsUIComposer {
     public static func composeWith(model: StoryDetail) -> StoryDetailsViewController {
         let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model))
         let controller = StoryDetailsViewController(storyCellController: storyCellController)
+        controller.title = StoryDetailsPresenter.title
         return controller
     }
 }
