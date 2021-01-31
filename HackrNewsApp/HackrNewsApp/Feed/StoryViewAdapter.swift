@@ -29,16 +29,12 @@ final class StoryViewAdapter: HackrNewsFeedView {
 
     func display(_ viewModel: HackrNewsFeedViewModel) {
         controller?.display(viewModel.stories.map { new in
-            var story: Story?
             let adapter = StoryPresentationAdapter(
                 model: new,
-                loader: MainQueueDispatchDecorator(loader(new.id)),
-                completion: { storyResult in
-                    story = storyResult
-                }
+                loader: MainQueueDispatchDecorator(loader(new.id))
             )
             let controller = HackrNewFeedCellController(delegate: adapter, didSelectStory: { [weak self] in
-                guard let story = story else { return }
+                guard let story = adapter.storyResult?() else { return }
                 self?.didSelectStory(story)
             })
             adapter.presenter = StoryPresenter(
