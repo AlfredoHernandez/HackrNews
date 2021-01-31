@@ -30,9 +30,11 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         let sut = makeSUT(story: story)
 
         sut.loadViewIfNeeded()
+        RunLoop.current.run(until: Date())
 
         XCTAssertEqual(sut.titleText, story.title)
         XCTAssertEqual(sut.authorText, story.author)
+        XCTAssertEqual(sut.bodyText, story.text)
         XCTAssertEqual(sut.scoreText, "10 points")
         XCTAssertEqual(sut.commentsText, "0 comments")
         XCTAssertEqual(sut.createdAtText, "1 day ago")

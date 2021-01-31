@@ -4,10 +4,17 @@
 
 import Foundation
 @testable import HackrNewsiOS
+import UIKit
 
 extension StoryDetailsViewController {
     var storyDetailsView: StoryDetailCell? {
-        tableView.cellForRow(at: IndexPath(row: 0, section: storyDetailSection)) as? StoryDetailCell
+        let ds = tableView.dataSource
+        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: storyDetailSection)) as? StoryDetailCell
+    }
+
+    var storyTextView: UITableViewCell? {
+        let ds = tableView.dataSource
+        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: 1, section: storyDetailSection))
     }
 
     var titleText: String? {
@@ -32,6 +39,10 @@ extension StoryDetailsViewController {
 
     var urlText: String? {
         storyDetailsView?.urlLabel.text
+    }
+
+    var bodyText: String? {
+        storyTextView?.textLabel?.text
     }
 
     private var storyDetailSection: Int { 0 }
