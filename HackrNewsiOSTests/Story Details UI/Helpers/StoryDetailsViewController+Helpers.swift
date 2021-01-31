@@ -17,6 +17,16 @@ extension StoryDetailsViewController {
         return ds?.tableView(tableView, cellForRowAt: IndexPath(row: 1, section: storyDetailSection))
     }
 
+    @discardableResult
+    func simulateStoryDetailViewVisible() -> StoryDetailCell? {
+        storyDetailsView
+    }
+
+    func simulateStoryDetailViewNotVisible() {
+        let delegate = tableView.delegate
+        delegate?.tableView?(tableView, didEndDisplaying: storyDetailsView!, forRowAt: IndexPath(row: 0, section: storyDetailSection))
+    }
+
     var titleText: String? {
         storyDetailsView?.titleLabel.text
     }

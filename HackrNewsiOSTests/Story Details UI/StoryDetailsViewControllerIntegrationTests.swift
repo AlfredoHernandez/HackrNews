@@ -3,7 +3,7 @@
 //
 
 import HackrNews
-import HackrNewsiOS
+@testable import HackrNewsiOS
 import XCTest
 
 final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
@@ -30,7 +30,6 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         let sut = makeSUT(story: story)
 
         sut.loadViewIfNeeded()
-        RunLoop.current.run(until: Date())
 
         XCTAssertEqual(sut.titleText, story.title)
         XCTAssertEqual(sut.authorText, story.author)
@@ -39,6 +38,17 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.commentsText, "0 comments")
         XCTAssertEqual(sut.createdAtText, "1 day ago")
         XCTAssertEqual(sut.urlText, "any-url.com")
+    }
+
+    func test_cell_dequeueCell() {
+        let sut = makeSUT(story: anyStoryDetail())
+        sut.loadViewIfNeeded()
+
+        sut.simulateStoryDetailViewVisible()
+        XCTAssertNotNil(sut.storyCellController?.cell)
+
+        sut.simulateStoryDetailViewNotVisible()
+        XCTAssertNil(sut.storyCellController?.cell, "Expected release cell when view is not visible")
     }
 
     // MARK: - Helpers
@@ -50,9 +60,9 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
 
     private func anyStoryDetail() -> StoryDetail {
         StoryDetail(
-            title: "a title",
-            text: "a text",
-            author: "an author",
+            title: "any title",
+            text: "any text",
+            author: "any author",
             score: 0,
             createdAt: Date(),
             totalComments: 0,

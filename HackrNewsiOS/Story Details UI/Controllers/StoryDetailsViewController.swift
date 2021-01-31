@@ -5,7 +5,7 @@
 import UIKit
 
 public class StoryDetailsViewController: UITableViewController {
-    private var storyCellController: StoryCellController?
+    private(set) var storyCellController: StoryCellController?
 
     convenience init(storyCellController: StoryCellController) {
         self.init()
@@ -29,10 +29,10 @@ public class StoryDetailsViewController: UITableViewController {
         storyCellController?.bodyText != nil ? 2 : 1
     }
 
-    override public func tableView(_: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
+    override public func tableView(_ tableView: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
         if index.section == 0 {
             if index.row == 0 {
-                return storyCellController!.view()
+                return storyCellController!.view(in: tableView)
             } else {
                 let cell = UITableViewCell()
                 cell.textLabel?.numberOfLines = 0
@@ -41,11 +41,17 @@ public class StoryDetailsViewController: UITableViewController {
                 return cell
             }
         } else {
-            return storyCellController!.view()
+            return storyCellController!.view(in: tableView)
         }
     }
 
     override public func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         section == 0 ? nil : "Comments"
+    }
+
+    override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath == .init(row: 0, section: 0) {
+            storyCellController?.releaseCellForReuse()
+        }
     }
 }
