@@ -55,5 +55,9 @@ extension StoryDetailsViewController {
         storyTextView?.textLabel?.text
     }
 
+    var detailViewIsReusable: Bool {
+        storyCellController?.cell == nil
+    }
+
     private var storyDetailSection: Int { 0 }
 }

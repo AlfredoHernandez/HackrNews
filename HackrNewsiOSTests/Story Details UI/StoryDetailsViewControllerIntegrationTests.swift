@@ -40,15 +40,15 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.urlText, "any-url.com")
     }
 
-    func test_cell_dequeueCell() {
+    func test_detailCell_isReusableWhenNotVisibleAnymore() {
         let sut = makeSUT(story: anyStoryDetail())
         sut.loadViewIfNeeded()
 
         sut.simulateStoryDetailViewVisible()
-        XCTAssertNotNil(sut.storyCellController?.cell)
+        XCTAssertFalse(sut.detailViewIsReusable)
 
         sut.simulateStoryDetailViewNotVisible()
-        XCTAssertNil(sut.storyCellController?.cell, "Expected release cell when view is not visible")
+        XCTAssertTrue(sut.detailViewIsReusable, "Expected release cell when view is not visible")
     }
 
     // MARK: - Helpers
