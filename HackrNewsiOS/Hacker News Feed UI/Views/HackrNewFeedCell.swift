@@ -25,7 +25,7 @@ public class HackrNewFeedCell: UITableViewCell {
             if newValue {
                 mainContainer.showAnimatedGradientSkeleton()
             } else {
-                mainContainer.hideSkeleton(transition: .crossDissolve(0.5))
+                mainContainer.hideSkeleton()
             }
         }
     }
