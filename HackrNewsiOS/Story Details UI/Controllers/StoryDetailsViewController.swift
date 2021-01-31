@@ -6,6 +6,9 @@ import UIKit
 
 public class StoryDetailsViewController: UITableViewController {
     private(set) var storyCellController: StoryCellController?
+    private var detailsSection: Int { 0 }
+    private var storyCell: IndexPath { IndexPath(row: 0, section: detailsSection) }
+    private var storyBodyCell: IndexPath { IndexPath(row: 1, section: detailsSection) }
 
     convenience init(storyCellController: StoryCellController) {
         self.init()
@@ -16,6 +19,7 @@ public class StoryDetailsViewController: UITableViewController {
         super.viewDidLoad()
         tableView.separatorStyle = .none
         tableView.register(StoryDetailCell.self, forCellReuseIdentifier: "StoryDetailCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         tableView.reloadData()
     }
 
@@ -30,17 +34,10 @@ public class StoryDetailsViewController: UITableViewController {
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
-        if index.section == 0 {
-            if index.row == 0 {
-                return storyCellController!.view(in: tableView)
-            } else {
-                let cell = UITableViewCell()
-                cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = storyCellController?.bodyText
-                cell.selectionStyle = .none
-                return cell
-            }
-        } else {
+        switch index {
+        case storyBodyCell:
+            return bodyCell(in: tableView)
+        default:
             return storyCellController!.view(in: tableView)
         }
     }
@@ -53,5 +50,13 @@ public class StoryDetailsViewController: UITableViewController {
         if indexPath == .init(row: 0, section: 0) {
             storyCellController?.releaseCellForReuse()
         }
+    }
+
+    private func bodyCell(in tableView: UITableView) -> UITableViewCell {
+        let cell: UITableViewCell = tableView.dequeueReusableCell()
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.text = storyCellController?.bodyText
+        cell.selectionStyle = .none
+        return cell
     }
 }
