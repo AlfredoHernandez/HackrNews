@@ -32,7 +32,6 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.titleText, story.title)
-        XCTAssertEqual(sut.text, story.text)
         XCTAssertEqual(sut.authorText, story.author)
         XCTAssertEqual(sut.scoreText, "10 points")
         XCTAssertEqual(sut.commentsText, "0 comments")

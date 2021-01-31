@@ -15,7 +15,6 @@ public final class StoryCellController {
     func view() -> UITableViewCell {
         let cell = StoryDetailCell()
         cell.titleLabel.text = viewModel.title
-        cell.bodyLabel.text = viewModel.text
         cell.authorLabel.text = viewModel.author
         cell.scoreLabel.text = viewModel.score
         cell.commentsLabel.text = viewModel.comments
@@ -23,4 +22,6 @@ public final class StoryCellController {
         cell.urlLabel.text = viewModel.displayURL
         return cell
     }
+
+    var bodyText: String? { viewModel.text }
 }

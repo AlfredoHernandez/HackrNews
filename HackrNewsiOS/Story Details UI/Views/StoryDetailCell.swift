@@ -6,7 +6,7 @@ import UIKit
 
 class StoryDetailCell: UITableViewCell {
     private lazy var mainContainer: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [headerContainer, titleLabel, separator, bodyLabel, urlLabel, footerContainer])
+        let view = UIStackView(arrangedSubviews: [headerContainer, titleLabel, urlLabel, footerContainer])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
         view.spacing = 4.0
@@ -49,21 +49,6 @@ class StoryDetailCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        return label
-    }()
-
-    private(set) lazy var separator: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
-        view.heightAnchor.constraint(equalToConstant: 2).isActive = true
-        return view
-    }()
-
-    private(set) lazy var bodyLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFont(forTextStyle: .body)
         return label
     }()
 

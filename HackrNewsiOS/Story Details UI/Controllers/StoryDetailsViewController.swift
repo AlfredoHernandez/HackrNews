@@ -2,7 +2,6 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
-import HackrNews
 import UIKit
 
 public class StoryDetailsViewController: UITableViewController {
@@ -20,15 +19,33 @@ public class StoryDetailsViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    override public func numberOfSections(in _: UITableView) -> Int {
-        1
+    override public func numberOfSections(in _: UITableView) -> Int { 2 }
+
+    override public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return storyCellController?.bodyText != nil ? 2 : 1
+        } else {
+            return 0
+        }
     }
 
-    override public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        1
+    override public func tableView(_: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
+        if index.section == 0 {
+            if index.row == 0 {
+                return storyCellController!.view()
+            } else {
+                let cell = UITableViewCell()
+                cell.textLabel?.numberOfLines = 0
+                cell.textLabel?.text = storyCellController?.bodyText
+                cell.selectionStyle = .none
+                return cell
+            }
+        } else {
+            return storyCellController!.view()
+        }
     }
 
-    override public func tableView(_: UITableView, cellForRowAt _: IndexPath) -> UITableViewCell {
-        storyCellController!.view()
+    override public func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
+        section == 0 ? nil : "Comments"
     }
 }
