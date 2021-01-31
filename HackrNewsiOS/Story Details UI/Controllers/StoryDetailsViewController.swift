@@ -22,11 +22,11 @@ public class StoryDetailsViewController: UITableViewController {
     override public func numberOfSections(in _: UITableView) -> Int { 2 }
 
     override public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return storyCellController?.bodyText != nil ? 2 : 1
-        } else {
-            return 0
-        }
+        section == 0 ? storyCells : 0
+    }
+
+    private var storyCells: Int {
+        storyCellController?.bodyText != nil ? 2 : 1
     }
 
     override public func tableView(_: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
