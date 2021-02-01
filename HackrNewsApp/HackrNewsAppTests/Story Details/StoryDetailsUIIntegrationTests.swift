@@ -9,7 +9,7 @@ import XCTest
 
 final class StoryDetailsUIIntegrationTests: XCTestCase {
     func test_controllerTopStories_hasTitle() {
-        let (sut, _) = makeSUT(story: anyStoryDetail())
+        let (sut, _) = makeSUT(story: makeStoryDetail())
 
         sut.loadViewIfNeeded()
 
@@ -17,7 +17,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
     }
 
     func test_commentsSection_hasTitle() {
-        let (sut, _) = makeSUT(story: anyStoryDetail())
+        let (sut, _) = makeSUT(story: makeStoryDetail())
 
         sut.loadViewIfNeeded()
 
@@ -26,31 +26,22 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
 
     func test_viewDidLoad_displaysStory() {
         let fixedDate = Date().adding(days: -1)
-        let story = StoryDetail(
+        let story = makeStoryDetail(
             title: "a title",
             text: "a text",
             author: "an author",
-            score: 10,
             createdAt: fixedDate,
-            totalComments: 0,
-            comments: [],
-            url: anyURL()
+            url: URL(string: "https://a-url.com")!
         )
         let (sut, _) = makeSUT(story: story)
 
         sut.loadViewIfNeeded()
 
-        XCTAssertEqual(sut.titleText, story.title)
-        XCTAssertEqual(sut.authorText, story.author)
-        XCTAssertEqual(sut.bodyText, story.text)
-        XCTAssertEqual(sut.scoreText, "10 points")
-        XCTAssertEqual(sut.commentsText, "0 comments")
-        XCTAssertEqual(sut.createdAtText, "1 day ago")
-        XCTAssertEqual(sut.urlText, "any-url.com")
+        assert(sut, isDisplaying: story)
     }
 
     func test_viewDidLoad_displaysStoryWithoutBodyContent() {
-        let (sut, _) = makeSUT(story: anyStoryDetail(withBody: false))
+        let (sut, _) = makeSUT(story: makeStoryDetail(text: nil))
 
         sut.loadViewIfNeeded()
 
@@ -58,7 +49,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
     }
 
     func test_detailCell_isReusableWhenNotVisibleAnymore() {
-        let (sut, _) = makeSUT(story: anyStoryDetail())
+        let (sut, _) = makeSUT(story: makeStoryDetail())
         sut.loadViewIfNeeded()
 
         sut.simulateStoryDetailViewVisible()
@@ -69,23 +60,14 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
     }
 
     func test_viewDidLoad_displaysMainComments() {
-        let story = StoryDetail(
-            title: "a title",
-            text: "a text",
-            author: "an author",
-            score: 10,
-            createdAt: Date(),
-            totalComments: 34,
-            comments: [1, 2, 3],
-            url: anyURL()
-        )
+        let story = makeStoryDetail(comments: [1, 2, 3])
         let (sut, loader) = makeSUT(story: story)
 
         sut.loadViewIfNeeded()
         XCTAssertEqual(sut.numberOfRenderedComments(), 3, "Expected to display 3 comments")
 
         let view = sut.simulateCommentViewVisible(at: 0)
-        XCTAssertEqual(view?.isLoadingContent, true)
+        XCTAssertEqual(view?.isLoadingContent, true, "Expected start loading content")
 
         loader.complete(with: StoryComment(
             id: 1,
@@ -96,7 +78,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
             createdAt: Date().adding(days: -1),
             type: "comment"
         ))
-        XCTAssertEqual(view?.isLoadingContent, false)
+        XCTAssertEqual(view?.isLoadingContent, false, "Expected stop loading content")
 
         XCTAssertNotNil(view, "Expected \(CommentCell.self) instance, got \(String(describing: view)) instead")
         XCTAssertEqual(view?.authorLabel.text, "a comment author")
@@ -118,8 +100,41 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         return (sut, loader)
     }
 
+    private func makeStoryDetail(
+        title: String = "title",
+        text: String? = "text",
+        author: String = "author",
+        createdAt _: Date = Date(),
+        comments: [Int] = [],
+        url: URL = anyURL()
+    ) -> StoryDetail {
+        StoryDetail(
+            title: title,
+            text: text,
+            author: author,
+            score: Int.random(in: 0 ... 100),
+            createdAt: Date(),
+            totalComments: Int.random(in: 0 ... 100),
+            comments: comments,
+            url: url
+        )
+    }
+
+    private func assert(_ sut: StoryDetailsViewController, isDisplaying story: StoryDetail) {
+        let viewModel = StoryDetailsPresenter.map(story)
+        XCTAssertEqual(sut.titleText, viewModel.title)
+        XCTAssertEqual(sut.authorText, viewModel.author)
+        XCTAssertEqual(sut.bodyText, viewModel.text)
+        XCTAssertEqual(sut.scoreText, viewModel.score)
+        XCTAssertEqual(sut.commentsText, viewModel.comments)
+        XCTAssertEqual(sut.createdAtText, viewModel.createdAt)
+        XCTAssertEqual(sut.urlText, viewModel.displayURL)
+    }
+
     private class CommentLoaderSpy: CommentLoader {
         var completions = [(CommentLoader.Result) -> Void]()
+
+        var loadCallCount: Int { completions.count }
 
         func load(completion: @escaping (CommentLoader.Result) -> Void) {
             completions.append(completion)
@@ -128,18 +143,5 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         func complete(with comment: StoryComment, at index: Int = 0) {
             completions[index](.success(comment))
         }
-    }
-
-    private func anyStoryDetail(withBody: Bool = true) -> StoryDetail {
-        StoryDetail(
-            title: "any title",
-            text: withBody ? "any text" : nil,
-            author: "any author",
-            score: 0,
-            createdAt: Date(),
-            totalComments: 0,
-            comments: [],
-            url: anyURL()
-        )
     }
 }
