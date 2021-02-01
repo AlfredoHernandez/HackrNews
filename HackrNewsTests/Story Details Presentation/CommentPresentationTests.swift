@@ -64,15 +64,13 @@ class CommentPresenter {
 
 final class CommentPresentationTests: XCTestCase {
     func test_init_doesNotSendMessagesToView() {
-        let view = CommentViewSpy()
-        _ = CommentPresenter(view: view, loadingView: view)
+        let (_, view) = makeSUT()
 
         XCTAssertTrue(view.messages.isEmpty, "Expected no view messages upon creation")
     }
 
     func test_didStartLoadingComment_displaysLoader() {
-        let view = CommentViewSpy()
-        let sut = CommentPresenter(view: view, loadingView: view)
+        let (sut, view) = makeSUT()
 
         sut.didStartLoadingComment()
 
@@ -80,10 +78,9 @@ final class CommentPresentationTests: XCTestCase {
     }
 
     func test_didFinishLoadingComment_hidesLoaderAndDisplaysComment() {
-        let view = CommentViewSpy()
         let calendar = Calendar(identifier: .gregorian)
         let locale: Locale = .current
-        let sut = CommentPresenter(view: view, loadingView: view, calendar: calendar, locale: locale)
+        let (sut, view) = makeSUT(calendar: calendar, locale: locale)
         let comment = StoryComment(
             id: 1,
             author: "an author",
@@ -103,6 +100,19 @@ final class CommentPresentationTests: XCTestCase {
     }
 
     // MARK: - Helpers
+
+    private func makeSUT(
+        calendar: Calendar = Calendar(identifier: .gregorian),
+        locale: Locale = .current,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (CommentPresenter, CommentViewSpy) {
+        let view = CommentViewSpy()
+        let sut = CommentPresenter(view: view, loadingView: view, calendar: calendar, locale: locale)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(view, file: file, line: line)
+        return (sut, view)
+    }
 
     private class CommentViewSpy: CommentView, CommentLoadingView {
         enum Message: Equatable {
