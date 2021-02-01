@@ -48,6 +48,14 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.urlText, "any-url.com")
     }
 
+    func test_viewDidLoad_displaysStoryWithoutBodyContent() {
+        let sut = makeSUT(story: anyStoryDetail(withBody: false))
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.bodyText, nil)
+    }
+
     func test_detailCell_isReusableWhenNotVisibleAnymore() {
         let sut = makeSUT(story: anyStoryDetail())
         sut.loadViewIfNeeded()
@@ -66,10 +74,10 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         return sut
     }
 
-    private func anyStoryDetail() -> StoryDetail {
+    private func anyStoryDetail(withBody: Bool = true) -> StoryDetail {
         StoryDetail(
             title: "any title",
-            text: "any text",
+            text: withBody ? "any text" : nil,
             author: "any author",
             score: 0,
             createdAt: Date(),
