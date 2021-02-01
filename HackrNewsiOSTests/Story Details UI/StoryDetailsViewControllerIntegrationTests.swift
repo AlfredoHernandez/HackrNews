@@ -83,6 +83,9 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.numberOfRenderedComments(), 3, "Expected to display 3 comments")
+
+        let view = sut.commentView(at: 0) as? CommentCell
+        XCTAssertNotNil(view, "Expected \(CommentCell.self) instance, got \(String(describing: view)) instead")
     }
 
     // MARK: - Helpers

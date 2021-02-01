@@ -10,7 +10,9 @@ public class StoryDetailsUIComposer {
         let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model))
         let controller = StoryDetailsViewController(storyCellController: storyCellController)
         controller.title = StoryDetailsPresenter.title
-        controller.display(model.comments)
+        controller.display(model.comments?.map { _ in
+            CommentCellController()
+        } ?? [])
         return controller
     }
 }

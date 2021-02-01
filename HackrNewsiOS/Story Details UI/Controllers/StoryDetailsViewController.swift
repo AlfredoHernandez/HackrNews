@@ -5,14 +5,21 @@
 import HackrNews
 import UIKit
 
-class CommentCellController {}
+class CommentCellController {
+    private(set) var cell: CommentCell?
+
+    func view(in tableView: UITableView) -> CommentCell {
+        cell = tableView.dequeueReusableCell()
+        return cell!
+    }
+}
 
 public class StoryDetailsViewController: UITableViewController {
     private(set) var storyCellController: StoryCellController
     private var detailsSection: Int { 0 }
     private var storyCell: IndexPath { IndexPath(row: 0, section: detailsSection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: detailsSection) }
-    private var comments = [Int]()
+    private var comments = [CommentCellController]()
 
     init(storyCellController: StoryCellController) {
         self.storyCellController = storyCellController
@@ -29,6 +36,7 @@ public class StoryDetailsViewController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.register(StoryDetailCell.self, forCellReuseIdentifier: "StoryDetailCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+        tableView.register(CommentCell.self, forCellReuseIdentifier: "CommentCell")
         tableView.reloadData()
     }
 
@@ -44,10 +52,12 @@ public class StoryDetailsViewController: UITableViewController {
 
     override public func tableView(_ tableView: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
         switch index {
+        case storyCell:
+            return storyCellController.view(in: tableView)
         case storyBodyCell:
             return bodyCell(in: tableView)
         default:
-            return storyCellController.view(in: tableView)
+            return comments[index.row].view(in: tableView)
         }
     }
 
@@ -61,8 +71,7 @@ public class StoryDetailsViewController: UITableViewController {
         }
     }
 
-    func display(_ comments: [Int]?) {
-        guard let comments = comments else { return }
+    func display(_ comments: [CommentCellController]) {
         self.comments = comments
     }
 
