@@ -75,8 +75,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             comments: model.comments ?? [],
             url: model.url
         )
-        let controller = StoryDetailsUIComposer.composeWith(model: storyDetail)
+        let controller = StoryDetailsUIComposer.composeWith(model: storyDetail, loader: commentLoader)
         (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
+    }
+
+    private func commentLoader(for comment: Int) -> CommentLoader {
+        RemoteLoader(
+            url: URL(string: "https://hacker-news.firebaseio.com/v0/item/\(comment).json")!,
+            client: httpClient,
+            mapper: StoryCommentMapper.map
+        )
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {

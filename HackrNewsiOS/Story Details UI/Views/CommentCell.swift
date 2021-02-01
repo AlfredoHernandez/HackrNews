@@ -25,6 +25,7 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.text = "Lorem ipsum"
         return label
     }()
 
@@ -33,6 +34,7 @@ class CommentCell: UITableViewCell {
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .secondaryLabel
+        label.text = "Lorem ipsum"
         return label
     }()
 
@@ -40,6 +42,7 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
         return label
     }()
 
@@ -61,6 +64,5 @@ class CommentCell: UITableViewCell {
             mainContainer.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             mainContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         ])
-        selectionStyle = .none
     }
 }

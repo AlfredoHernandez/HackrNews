@@ -8,7 +8,7 @@ import XCTest
 
 final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
     func test_controllerTopStories_hasTitle() {
-        let sut = makeSUT(story: anyStoryDetail())
+        let (sut, _) = makeSUT(story: anyStoryDetail())
 
         sut.loadViewIfNeeded()
 
@@ -16,7 +16,7 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
     }
 
     func test_commentsSection_hasTitle() {
-        let sut = makeSUT(story: anyStoryDetail())
+        let (sut, _) = makeSUT(story: anyStoryDetail())
 
         sut.loadViewIfNeeded()
 
@@ -35,7 +35,7 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
             comments: [],
             url: anyURL()
         )
-        let sut = makeSUT(story: story)
+        let (sut, _) = makeSUT(story: story)
 
         sut.loadViewIfNeeded()
 
@@ -49,7 +49,7 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
     }
 
     func test_viewDidLoad_displaysStoryWithoutBodyContent() {
-        let sut = makeSUT(story: anyStoryDetail(withBody: false))
+        let (sut, _) = makeSUT(story: anyStoryDetail(withBody: false))
 
         sut.loadViewIfNeeded()
 
@@ -57,7 +57,7 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
     }
 
     func test_detailCell_isReusableWhenNotVisibleAnymore() {
-        let sut = makeSUT(story: anyStoryDetail())
+        let (sut, _) = makeSUT(story: anyStoryDetail())
         sut.loadViewIfNeeded()
 
         sut.simulateStoryDetailViewVisible()
@@ -74,25 +74,55 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
             author: "an author",
             score: 10,
             createdAt: Date(),
-            totalComments: 3,
+            totalComments: 34,
             comments: [1, 2, 3],
             url: anyURL()
         )
-        let sut = makeSUT(story: story)
+        let (sut, loader) = makeSUT(story: story)
 
         sut.loadViewIfNeeded()
-
         XCTAssertEqual(sut.numberOfRenderedComments(), 3, "Expected to display 3 comments")
 
-        let view = sut.commentView(at: 0) as? CommentCell
+        let view = sut.simulateCommentViewVisible(at: 0)
+        loader.complete(with: StoryComment(
+            id: 1,
+            author: "a comment author",
+            comments: [],
+            parent: 0,
+            text: "a text comment",
+            createdAt: Date().adding(days: -1),
+            type: "comment"
+        ))
         XCTAssertNotNil(view, "Expected \(CommentCell.self) instance, got \(String(describing: view)) instead")
+        XCTAssertEqual(view?.authorLabel.text, "a comment author")
+        XCTAssertEqual(view?.createdAtLabel.text, "1 day ago")
+        XCTAssertEqual(view?.authorLabel.text, "a comment author")
     }
 
     // MARK: - Helpers
 
-    private func makeSUT(story: StoryDetail) -> StoryDetailsViewController {
-        let sut = StoryDetailsUIComposer.composeWith(model: story)
-        return sut
+    private func makeSUT(
+        story: StoryDetail,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (StoryDetailsViewController, CommentLoaderSpy) {
+        let loader = CommentLoaderSpy()
+        let sut = StoryDetailsUIComposer.composeWith(model: story, loader: { _ in loader })
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(loader, file: file, line: line)
+        return (sut, loader)
+    }
+
+    private class CommentLoaderSpy: CommentLoader {
+        var completions = [(CommentLoader.Result) -> Void]()
+
+        func load(completion: @escaping (CommentLoader.Result) -> Void) {
+            completions.append(completion)
+        }
+
+        func complete(with comment: StoryComment, at index: Int = 0) {
+            completions[index](.success(comment))
+        }
     }
 
     private func anyStoryDetail(withBody: Bool = true) -> StoryDetail {
@@ -106,5 +136,13 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
             comments: [],
             url: anyURL()
         )
+    }
+}
+
+private extension XCTestCase {
+    func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak!", file: file, line: line)
+        }
     }
 }

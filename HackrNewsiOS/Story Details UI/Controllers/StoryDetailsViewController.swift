@@ -5,13 +5,33 @@
 import HackrNews
 import UIKit
 
-class CommentCellController {
+public protocol CommentCellControllerDelegate {
+    func didRequestComment()
+}
+
+public class CommentCellController: CommentView, CommentLoadingView, CommentErrorView {
     private(set) var cell: CommentCell?
+    private let delegate: CommentCellControllerDelegate
+
+    public init(delegate: CommentCellControllerDelegate) {
+        self.delegate = delegate
+    }
 
     func view(in tableView: UITableView) -> CommentCell {
         cell = tableView.dequeueReusableCell()
+        delegate.didRequestComment()
         return cell!
     }
+
+    public func display(_ viewModel: CommentViewModel) {
+        cell?.authorLabel.text = viewModel.author
+        cell?.createdAtLabel.text = viewModel.createdAt
+        cell?.bodyLabel.text = viewModel.text
+    }
+
+    public func display(_: CommentLoadingViewModel) {}
+
+    public func display(_: CommentErrorViewModel) {}
 }
 
 public class StoryDetailsViewController: UITableViewController {
@@ -19,7 +39,11 @@ public class StoryDetailsViewController: UITableViewController {
     private var detailsSection: Int { 0 }
     private var storyCell: IndexPath { IndexPath(row: 0, section: detailsSection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: detailsSection) }
-    private var comments = [CommentCellController]()
+    private var comments = [CommentCellController]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     init(storyCellController: StoryCellController) {
         self.storyCellController = storyCellController
@@ -34,6 +58,7 @@ public class StoryDetailsViewController: UITableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(StoryDetailCell.self, forCellReuseIdentifier: "StoryDetailCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         tableView.register(CommentCell.self, forCellReuseIdentifier: "CommentCell")
