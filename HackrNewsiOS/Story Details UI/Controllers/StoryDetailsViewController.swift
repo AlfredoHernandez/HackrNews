@@ -59,7 +59,6 @@ public class StoryDetailsViewController: UITableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(StoryDetailCell.self, forCellReuseIdentifier: "StoryDetailCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")

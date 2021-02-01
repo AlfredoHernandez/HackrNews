@@ -28,6 +28,12 @@ public struct CommentViewModel {
     public let author: String
     public let text: String
     public let createdAt: String
+
+    public init(author: String, text: String, createdAt: String) {
+        self.author = author
+        self.text = text
+        self.createdAt = createdAt
+    }
 }
 
 public protocol CommentView {
