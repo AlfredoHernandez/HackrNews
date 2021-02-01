@@ -3,7 +3,8 @@
 //
 
 import HackrNews
-@testable import HackrNewsiOS
+@testable import HackrNewsApp
+import HackrNewsiOS
 import XCTest
 
 final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
@@ -136,13 +137,5 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
             comments: [],
             url: anyURL()
         )
-    }
-}
-
-private extension XCTestCase {
-    func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak!", file: file, line: line)
-        }
     }
 }

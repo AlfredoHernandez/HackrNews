@@ -4,7 +4,7 @@
 
 import UIKit
 
-class StoryDetailCell: UITableViewCell {
+public class StoryDetailCell: UITableViewCell {
     private lazy var mainContainer: UIStackView = {
         let view = UIStackView(arrangedSubviews: [headerContainer, titleLabel, urlLabel, footerContainer])
         view.translatesAutoresizingMaskIntoConstraints = false

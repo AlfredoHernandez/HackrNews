@@ -4,7 +4,7 @@
 
 import UIKit
 
-class CommentCell: UITableViewCell {
+public class CommentCell: UITableViewCell {
     private lazy var mainContainer: UIStackView = {
         let view = UIStackView(arrangedSubviews: [headerContainer, bodyLabel])
         view.translatesAutoresizingMaskIntoConstraints = false

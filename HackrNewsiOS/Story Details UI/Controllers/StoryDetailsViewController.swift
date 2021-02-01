@@ -45,7 +45,7 @@ public class StoryDetailsViewController: UITableViewController {
         }
     }
 
-    init(storyCellController: StoryCellController) {
+    public init(storyCellController: StoryCellController) {
         self.storyCellController = storyCellController
         super.init(nibName: nil, bundle: nil)
     }
@@ -96,7 +96,7 @@ public class StoryDetailsViewController: UITableViewController {
         }
     }
 
-    func display(_ comments: [CommentCellController]) {
+    public func display(_ comments: [CommentCellController]) {
         self.comments = comments
     }
 
