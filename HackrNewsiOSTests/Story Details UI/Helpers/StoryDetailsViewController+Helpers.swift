@@ -55,9 +55,15 @@ extension StoryDetailsViewController {
         storyTextView?.textLabel?.text
     }
 
+    var commentsTitle: String? {
+        tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: storyCommentsSection)
+    }
+
     var detailViewIsReusable: Bool {
-        storyCellController?.cell == nil
+        storyCellController.cell == nil
     }
 
     private var storyDetailSection: Int { 0 }
+
+    private var storyCommentsSection: Int { 1 }
 }

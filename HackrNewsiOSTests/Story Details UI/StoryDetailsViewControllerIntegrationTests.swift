@@ -15,6 +15,14 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.title, StoryDetailsPresenter.title)
     }
 
+    func test_commentsSection_hasTitle() {
+        let sut = makeSUT(story: anyStoryDetail())
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.commentsTitle, StoryDetailsPresenter.title)
+    }
+
     func test_viewDidLoad_displaysStory() {
         let fixedDate = Date().adding(days: -1)
         let story = StoryDetail(
