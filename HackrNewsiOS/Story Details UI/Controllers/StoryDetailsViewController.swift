@@ -29,7 +29,9 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
         cell?.bodyLabel.text = viewModel.text
     }
 
-    public func display(_: CommentLoadingViewModel) {}
+    public func display(_ viewModel: CommentLoadingViewModel) {
+        cell?.isLoadingContent = viewModel.isLoading
+    }
 
     public func display(_: CommentErrorViewModel) {}
 }

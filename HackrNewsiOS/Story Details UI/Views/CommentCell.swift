@@ -2,6 +2,7 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import SkeletonView
 import UIKit
 
 public class CommentCell: UITableViewCell {
@@ -11,6 +12,7 @@ public class CommentCell: UITableViewCell {
         view.axis = .vertical
         view.spacing = 4.0
         view.distribution = .fill
+        view.isSkeletonable = true
         return view
     }()
 
@@ -18,6 +20,7 @@ public class CommentCell: UITableViewCell {
         let view = UIStackView(arrangedSubviews: [authorLabel, createdAtLabel])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
+        view.isSkeletonable = true
         return view
     }()
 
@@ -26,6 +29,7 @@ public class CommentCell: UITableViewCell {
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.text = "Lorem ipsum"
+        label.isSkeletonable = true
         return label
     }()
 
@@ -35,6 +39,7 @@ public class CommentCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .secondaryLabel
         label.text = "Lorem ipsum"
+        label.isSkeletonable = true
         return label
     }()
 
@@ -43,6 +48,7 @@ public class CommentCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+        label.isSkeletonable = true
         return label
     }()
 
@@ -64,5 +70,15 @@ public class CommentCell: UITableViewCell {
             mainContainer.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             mainContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         ])
+    }
+
+    public var isLoadingContent: Bool = false {
+        willSet {
+            if newValue {
+                mainContainer.showAnimatedGradientSkeleton()
+            } else {
+                mainContainer.hideSkeleton()
+            }
+        }
     }
 }

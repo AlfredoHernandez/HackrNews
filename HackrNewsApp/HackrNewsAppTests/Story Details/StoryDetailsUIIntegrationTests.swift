@@ -85,6 +85,8 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.numberOfRenderedComments(), 3, "Expected to display 3 comments")
 
         let view = sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(view?.isLoadingContent, true)
+
         loader.complete(with: StoryComment(
             id: 1,
             author: "a comment author",
@@ -94,6 +96,8 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
             createdAt: Date().adding(days: -1),
             type: "comment"
         ))
+        XCTAssertEqual(view?.isLoadingContent, false)
+
         XCTAssertNotNil(view, "Expected \(CommentCell.self) instance, got \(String(describing: view)) instead")
         XCTAssertEqual(view?.authorLabel.text, "a comment author")
         XCTAssertEqual(view?.createdAtLabel.text, "1 day ago")
