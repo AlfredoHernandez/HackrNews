@@ -5,6 +5,15 @@
 import HackrNews
 import XCTest
 
+struct CommentErrorViewModel {
+    let error: String?
+    static let none = CommentErrorViewModel(error: nil)
+}
+
+protocol CommentErrorView {
+    func display(_ viewModel: CommentErrorViewModel)
+}
+
 struct CommentLoadingViewModel {
     let isLoading: Bool
 
@@ -31,27 +40,44 @@ class CommentPresenter {
     private let locale: Locale
     private let view: CommentView
     private let loadingView: CommentLoadingView
+    private let errorView: CommentErrorView
 
     init(
         view: CommentView,
         loadingView: CommentLoadingView,
+        errorView: CommentErrorView,
         calendar: Calendar = Calendar(identifier: .gregorian),
         locale: Locale = .current
     ) {
         self.view = view
         self.loadingView = loadingView
+        self.errorView = errorView
         self.calendar = calendar
         self.locale = locale
     }
 
+    let errorMessage =
+        NSLocalizedString(
+            "loading_comment_error_message",
+            tableName: "StoryDetails",
+            bundle: Bundle(for: StoryDetailsPresenter.self),
+            value: "",
+            comment: "Comment loading error message"
+        )
+
     func didStartLoadingComment() {
         loadingView.display(.loading)
+        errorView.display(.none)
     }
 
     func didFinishLoadingComment(with comment: StoryComment) {
         loadingView.display(.stoped)
-
         view.display(CommentViewModel(author: comment.author, text: comment.text, createdAt: formatDate(from: comment.createdAt)))
+    }
+
+    func didFinishLoadingComment(with _: Error) {
+        loadingView.display(.stoped)
+        errorView.display(CommentErrorViewModel(error: errorMessage))
     }
 
     private func formatDate(from date: Date, against: Date = Date()) -> String {
@@ -74,7 +100,7 @@ final class CommentPresentationTests: XCTestCase {
 
         sut.didStartLoadingComment()
 
-        XCTAssertEqual(view.messages, [.display(isLoading: true)])
+        XCTAssertEqual(view.messages, [.display(isLoading: true), .display(error: .none)])
     }
 
     func test_didFinishLoadingComment_hidesLoaderAndDisplaysComment() {
@@ -99,6 +125,14 @@ final class CommentPresentationTests: XCTestCase {
         )
     }
 
+    func test_didFinishLoadingCommentWithError_displaysErrorAndStopsLoadint() {
+        let (sut, view) = makeSUT()
+
+        sut.didFinishLoadingComment(with: anyNSError())
+
+        XCTAssertEqual(view.messages, [.display(isLoading: false), .display(error: localized("loading_comment_error_message"))])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -108,16 +142,27 @@ final class CommentPresentationTests: XCTestCase {
         line: UInt = #line
     ) -> (CommentPresenter, CommentViewSpy) {
         let view = CommentViewSpy()
-        let sut = CommentPresenter(view: view, loadingView: view, calendar: calendar, locale: locale)
+        let sut = CommentPresenter(view: view, loadingView: view, errorView: view, calendar: calendar, locale: locale)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(view, file: file, line: line)
         return (sut, view)
     }
 
-    private class CommentViewSpy: CommentView, CommentLoadingView {
+    private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
+        let table = "StoryDetails"
+        let bundle = Bundle(for: StoryDetailsPresenter.self)
+        let value = bundle.localizedString(forKey: key, value: nil, table: table)
+        if key == value {
+            XCTFail("Missing localized string for key \(key) in table \(table)", file: file, line: line)
+        }
+        return value
+    }
+
+    private class CommentViewSpy: CommentView, CommentLoadingView, CommentErrorView {
         enum Message: Equatable {
             case display(isLoading: Bool)
             case display(author: String, text: String, createdAt: String)
+            case display(error: String?)
         }
 
         var messages = [Message]()
@@ -128,6 +173,10 @@ final class CommentPresentationTests: XCTestCase {
 
         func display(_ viewModel: CommentViewModel) {
             messages.append(.display(author: viewModel.author, text: viewModel.text, createdAt: viewModel.createdAt))
+        }
+
+        func display(_ viewModel: CommentErrorViewModel) {
+            messages.append(.display(error: viewModel.error))
         }
     }
 }
