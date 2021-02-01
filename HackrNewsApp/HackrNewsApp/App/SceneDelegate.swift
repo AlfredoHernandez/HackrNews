@@ -36,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func configureWindow() {
         window?.rootViewController = tabBarController
+        UIBarButtonItem.appearance().tintColor = .hackrNews
         window?.makeKeyAndVisible()
     }
 
