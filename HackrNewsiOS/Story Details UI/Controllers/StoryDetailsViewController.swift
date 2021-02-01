@@ -5,11 +5,14 @@
 import HackrNews
 import UIKit
 
+class CommentCellController {}
+
 public class StoryDetailsViewController: UITableViewController {
     private(set) var storyCellController: StoryCellController
     private var detailsSection: Int { 0 }
     private var storyCell: IndexPath { IndexPath(row: 0, section: detailsSection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: detailsSection) }
+    private var comments = [Int]()
 
     init(storyCellController: StoryCellController) {
         self.storyCellController = storyCellController
@@ -32,7 +35,7 @@ public class StoryDetailsViewController: UITableViewController {
     override public func numberOfSections(in _: UITableView) -> Int { 2 }
 
     override public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? storyCells : 0
+        section == 0 ? storyCells : comments.count
     }
 
     private var storyCells: Int {
@@ -56,6 +59,11 @@ public class StoryDetailsViewController: UITableViewController {
         if indexPath == .init(row: 0, section: 0) {
             storyCellController.releaseCellForReuse()
         }
+    }
+
+    func display(_ comments: [Int]?) {
+        guard let comments = comments else { return }
+        self.comments = comments
     }
 
     private func bodyCell(in tableView: UITableView) -> UITableViewCell {

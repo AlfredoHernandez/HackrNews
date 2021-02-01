@@ -67,6 +67,24 @@ final class StoryDetailsViewControllerIntegrationTests: XCTestCase {
         XCTAssertTrue(sut.detailViewIsReusable, "Expected release cell when view is not visible")
     }
 
+    func test_viewDidLoad_displaysMainComments() {
+        let story = StoryDetail(
+            title: "a title",
+            text: "a text",
+            author: "an author",
+            score: 10,
+            createdAt: Date(),
+            totalComments: 3,
+            comments: [1, 2, 3],
+            url: anyURL()
+        )
+        let sut = makeSUT(story: story)
+
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.numberOfRenderedComments(), 3, "Expected to display 3 comments")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(story: StoryDetail) -> StoryDetailsViewController {

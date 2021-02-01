@@ -63,6 +63,10 @@ extension StoryDetailsViewController {
         storyCellController.cell == nil
     }
 
+    func numberOfRenderedComments() -> Int {
+        tableView.numberOfRows(inSection: storyCommentsSection)
+    }
+
     private var storyDetailSection: Int { 0 }
 
     private var storyCommentsSection: Int { 1 }
