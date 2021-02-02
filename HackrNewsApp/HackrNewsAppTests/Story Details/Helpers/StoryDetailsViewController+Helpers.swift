@@ -8,12 +8,12 @@ import UIKit
 extension StoryDetailsViewController {
     var storyDetailsView: StoryDetailCell? {
         let ds = tableView.dataSource
-        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: storyDetailSection)) as? StoryDetailCell
+        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: detailSection)) as? StoryDetailCell
     }
 
     var storyTextView: UITableViewCell? {
         let ds = tableView.dataSource
-        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: 1, section: storyDetailSection))
+        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: 1, section: detailSection))
     }
 
     @discardableResult
@@ -23,7 +23,7 @@ extension StoryDetailsViewController {
 
     func simulateStoryDetailViewNotVisible() {
         let delegate = tableView.delegate
-        delegate?.tableView?(tableView, didEndDisplaying: storyDetailsView!, forRowAt: IndexPath(row: 0, section: storyDetailSection))
+        delegate?.tableView?(tableView, didEndDisplaying: storyDetailsView!, forRowAt: IndexPath(row: 0, section: detailSection))
     }
 
     var titleText: String? {
@@ -55,7 +55,7 @@ extension StoryDetailsViewController {
     }
 
     var commentsTitle: String? {
-        tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: storyCommentsSection)
+        tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: commentsSection)
     }
 
     var detailViewIsReusable: Bool {
@@ -63,27 +63,33 @@ extension StoryDetailsViewController {
     }
 
     func numberOfRenderedComments() -> Int {
-        tableView.numberOfRows(inSection: storyCommentsSection)
+        tableView.numberOfRows(inSection: commentsSection)
     }
 
     func commentView(at row: Int = 0) -> UITableViewCell? {
         let ds = tableView.dataSource
-        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: row, section: storyCommentsSection))
+        return ds?.tableView(tableView, cellForRowAt: IndexPath(row: row, section: commentsSection))
     }
 
     @discardableResult
     func simulateCommentViewVisible(at row: Int = 0) -> CommentCell? {
-        guard numberOfRows(in: storyCommentsSection) > row else {
+        guard numberOfRows(in: commentsSection) > row else {
             return nil
         }
         return commentView(at: row) as? CommentCell
+    }
+
+    func simulateCommentViewIsNearVisible(at row: Int = 0) {
+        let ds = tableView.prefetchDataSource
+        let indexPath = IndexPath(row: row, section: commentsSection)
+        ds?.tableView(tableView, prefetchRowsAt: [indexPath])
     }
 
     func numberOfRows(in section: Int) -> Int {
         tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }
 
-    private var storyDetailSection: Int { 0 }
+    private var detailSection: Int { 0 }
 
-    private var storyCommentsSection: Int { 1 }
+    private var commentsSection: Int { 1 }
 }

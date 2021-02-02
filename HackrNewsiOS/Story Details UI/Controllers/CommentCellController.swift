@@ -23,6 +23,10 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
         return cell!
     }
 
+    func preload() {
+        delegate.didRequestComment()
+    }
+
     public func display(_ viewModel: CommentViewModel) {
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt

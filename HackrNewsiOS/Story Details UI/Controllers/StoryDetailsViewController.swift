@@ -5,7 +5,7 @@
 import HackrNews
 import UIKit
 
-public class StoryDetailsViewController: UITableViewController {
+public class StoryDetailsViewController: UITableViewController, UITableViewDataSourcePrefetching {
     private var detailsSection: Int { 0 }
     private var storyCell: IndexPath { IndexPath(row: 0, section: detailsSection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: detailsSection) }
@@ -32,6 +32,7 @@ public class StoryDetailsViewController: UITableViewController {
         tableView.register(StoryDetailCell.self, forCellReuseIdentifier: "StoryDetailCell")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         tableView.register(CommentCell.self, forCellReuseIdentifier: "CommentCell")
+        tableView.prefetchDataSource = self
         tableView.reloadData()
     }
 
@@ -68,6 +69,12 @@ public class StoryDetailsViewController: UITableViewController {
 
     public func display(_ comments: [CommentCellController]) {
         self.comments = comments
+    }
+
+    public func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            comments[indexPath.row].preload()
+        }
     }
 
     private func bodyCell(in tableView: UITableView) -> UITableViewCell {

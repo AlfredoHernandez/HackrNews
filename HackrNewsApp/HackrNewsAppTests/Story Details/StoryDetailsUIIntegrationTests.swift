@@ -125,40 +125,18 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [comment0, comment1], loader: loader)
     }
 
-    private func assertThat(
-        _ sut: StoryDetailsViewController,
-        isRendering comments: [StoryComment],
-        loader: CommentLoaderSpy,
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) {
-        guard sut.numberOfRenderedComments() == comments.count else {
-            return XCTFail("Expected \(comments.count) comments, got \(sut.numberOfRenderedComments()) instead.", file: file, line: line)
-        }
-        comments.enumerated().forEach { index, comment in
-            assertThat(sut, hasViewConfiguredFor: comment, loader: loader, at: index)
-        }
-    }
+    func test_commentView_preloadsCommentWhenIsNearVisible() {
+        let story = makeStoryDetail(comments: [1, 2])
+        let (sut, loader) = makeSUT(story: story)
 
-    private func assertThat(
-        _ sut: StoryDetailsViewController,
-        hasViewConfiguredFor comment: StoryComment,
-        loader: CommentLoaderSpy,
-        at index: Int,
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) {
-        let view = sut.commentView(at: 0) as? CommentCell
-        guard let cell = view else {
-            return XCTFail("Expected \(CommentCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
-        }
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 0)
 
-        loader.complete(with: comment, at: index)
+        sut.simulateCommentViewIsNearVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 1)
 
-        let viewModel = CommentPresenter.map(comment)
-        XCTAssertEqual(cell.authorLabel.text, viewModel.author, file: file, line: line)
-        XCTAssertEqual(cell.createdAtLabel.text, viewModel.createdAt, file: file, line: line)
-        XCTAssertEqual(cell.bodyLabel.text, viewModel.text, file: file, line: line)
+        sut.simulateCommentViewIsNearVisible(at: 1)
+        XCTAssertEqual(loader.loadCallCount, 2)
     }
 
     // MARK: - Helpers
@@ -216,6 +194,42 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.commentsText, viewModel.comments)
         XCTAssertEqual(sut.createdAtText, viewModel.createdAt)
         XCTAssertEqual(sut.urlText, viewModel.displayURL)
+    }
+
+    private func assertThat(
+        _ sut: StoryDetailsViewController,
+        isRendering comments: [StoryComment],
+        loader: CommentLoaderSpy,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        guard sut.numberOfRenderedComments() == comments.count else {
+            return XCTFail("Expected \(comments.count) comments, got \(sut.numberOfRenderedComments()) instead.", file: file, line: line)
+        }
+        comments.enumerated().forEach { index, comment in
+            assertThat(sut, hasViewConfiguredFor: comment, loader: loader, at: index)
+        }
+    }
+
+    private func assertThat(
+        _ sut: StoryDetailsViewController,
+        hasViewConfiguredFor comment: StoryComment,
+        loader: CommentLoaderSpy,
+        at index: Int,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let view = sut.commentView(at: 0) as? CommentCell
+        guard let cell = view else {
+            return XCTFail("Expected \(CommentCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
+        }
+
+        loader.complete(with: comment, at: index)
+
+        let viewModel = CommentPresenter.map(comment)
+        XCTAssertEqual(cell.authorLabel.text, viewModel.author, file: file, line: line)
+        XCTAssertEqual(cell.createdAtLabel.text, viewModel.createdAt, file: file, line: line)
+        XCTAssertEqual(cell.bodyLabel.text, viewModel.text, file: file, line: line)
     }
 
     private class CommentLoaderSpy: CommentLoader {
