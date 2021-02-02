@@ -89,10 +89,10 @@ public class StoryDetailCell: UITableViewCell {
     private func setupUI() {
         addSubview(mainContainer)
         NSLayoutConstraint.activate([
-            mainContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            mainContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            mainContainer.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            mainContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            mainContainer.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            mainContainer.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            mainContainer.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            mainContainer.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16),
         ])
         selectionStyle = .none
     }
