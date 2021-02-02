@@ -8,6 +8,7 @@ import HackrNewsiOS
 class CommentPresentationAdapter: CommentCellControllerDelegate {
     let loader: CommentLoader
     var presenter: CommentPresenter?
+    var task: CommentLoaderTask?
 
     init(loader: CommentLoader) {
         self.loader = loader
@@ -15,7 +16,7 @@ class CommentPresentationAdapter: CommentCellControllerDelegate {
 
     func didRequestComment() {
         presenter?.didStartLoadingComment()
-        loader.load { [weak self] result in
+        task = loader.load { [weak self] result in
             switch result {
             case let .success(comment):
                 self?.presenter?.didFinishLoadingComment(with: comment)
@@ -23,5 +24,9 @@ class CommentPresentationAdapter: CommentCellControllerDelegate {
                 self?.presenter?.didFinishLoadingComment(with: error)
             }
         }
+    }
+
+    func didCancelRequest() {
+        task?.cancel()
     }
 }

@@ -7,6 +7,7 @@ import UIKit
 
 public protocol CommentCellControllerDelegate {
     func didRequestComment()
+    func didCancelRequest()
 }
 
 public class CommentCellController: CommentView, CommentLoadingView, CommentErrorView {
@@ -25,6 +26,10 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
 
     func preload() {
         delegate.didRequestComment()
+    }
+
+    func cancel() {
+        delegate.didCancelRequest()
     }
 
     public func display(_ viewModel: CommentViewModel) {

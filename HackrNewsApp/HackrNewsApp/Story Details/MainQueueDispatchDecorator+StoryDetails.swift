@@ -5,7 +5,7 @@
 import HackrNews
 
 extension MainQueueDispatchDecorator: CommentLoader where T == CommentLoader {
-    func load(completion: @escaping (CommentLoader.Result) -> Void) {
+    func load(completion: @escaping (CommentLoader.Result) -> Void) -> CommentLoaderTask {
         decoratee.load { [weak self] result in
             self?.dispatch { completion(result) }
         }

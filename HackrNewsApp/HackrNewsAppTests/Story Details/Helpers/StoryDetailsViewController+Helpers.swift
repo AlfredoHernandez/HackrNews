@@ -85,6 +85,12 @@ extension StoryDetailsViewController {
         ds?.tableView(tableView, prefetchRowsAt: [indexPath])
     }
 
+    func simulateCommentViewIsNotNearVisible(at row: Int = 0) {
+        let ds = tableView.prefetchDataSource
+        let indexPath = IndexPath(row: row, section: commentsSection)
+        ds?.tableView?(tableView, cancelPrefetchingForRowsAt: [indexPath])
+    }
+
     func numberOfRows(in section: Int) -> Int {
         tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }

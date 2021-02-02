@@ -139,6 +139,20 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 2)
     }
 
+    func test_commentView_cancelsPreloadingCommentWhenIsNotNearVisibleAnymore() {
+        let story = makeStoryDetail(comments: [1])
+        let (sut, loader) = makeSUT(story: story)
+
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 0)
+
+        sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 1)
+
+        sut.simulateCommentViewIsNotNearVisible(at: 0)
+        XCTAssertEqual(loader.cancelledRequests, 1)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -235,10 +249,28 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
     private class CommentLoaderSpy: CommentLoader {
         var completions = [(CommentLoader.Result) -> Void]()
 
+        class WrappedTask: CommentLoaderTask {
+            private let completion: () -> Void
+
+            init(completion: @escaping () -> Void) {
+                self.completion = completion
+            }
+
+            func cancel() {
+                completion()
+            }
+        }
+
         var loadCallCount: Int { completions.count }
 
-        func load(completion: @escaping (CommentLoader.Result) -> Void) {
+        var cancelledRequests = 0
+
+        func load(completion: @escaping (CommentLoader.Result) -> Void) -> CommentLoaderTask {
             completions.append(completion)
+
+            return WrappedTask { [weak self] in
+                self?.cancelledRequests += 1
+            }
         }
 
         func complete(with comment: StoryComment, at index: Int = 0) {

@@ -77,6 +77,12 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         }
     }
 
+    public func tableView(_: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            comments[indexPath.row].cancel()
+        }
+    }
+
     private func bodyCell(in tableView: UITableView) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell()
         cell.textLabel?.numberOfLines = 0
