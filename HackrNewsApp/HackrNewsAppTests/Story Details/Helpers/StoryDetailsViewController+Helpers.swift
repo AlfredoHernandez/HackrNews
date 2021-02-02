@@ -91,6 +91,14 @@ extension StoryDetailsViewController {
         ds?.tableView?(tableView, cancelPrefetchingForRowsAt: [indexPath])
     }
 
+    func simulateCommentViewNotVisible(at row: Int = 0) -> CommentCell? {
+        let view = simulateCommentViewVisible()
+        let delegate = tableView.delegate
+        let indexPath = IndexPath(row: row, section: commentsSection)
+        delegate?.tableView?(tableView, didEndDisplaying: view!, forRowAt: indexPath)
+        return view
+    }
+
     func numberOfRows(in section: Int) -> Int {
         tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }
@@ -98,4 +106,14 @@ extension StoryDetailsViewController {
     private var detailSection: Int { 0 }
 
     private var commentsSection: Int { 1 }
+}
+
+extension CommentCell {
+    static var defaultAuthorText: String {
+        "Lorem ipsum"
+    }
+    
+    var authorText: String? {
+        authorLabel.text
+    }
 }

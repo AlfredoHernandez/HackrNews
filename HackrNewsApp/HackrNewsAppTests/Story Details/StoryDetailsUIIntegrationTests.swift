@@ -153,6 +153,17 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.cancelledRequests, 1)
     }
 
+    func test_commentView_doesNotRenderCommentWhenNotVisibleAnymore() {
+        let (sut, loader) = makeSUT(story: makeStoryDetail(comments: [1]))
+
+        sut.loadViewIfNeeded()
+
+        let view = sut.simulateCommentViewNotVisible()
+
+        loader.complete(with: makeStoryComment(), at: 0)
+        XCTAssertEqual(view?.authorText, CommentCell.defaultAuthorText, "Expected `\(CommentCell.defaultAuthorText)` default text in view")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(

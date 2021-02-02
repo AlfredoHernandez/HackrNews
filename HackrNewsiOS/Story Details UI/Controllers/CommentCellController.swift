@@ -29,6 +29,7 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     }
 
     func cancel() {
+        releaseCellForReuse()
         delegate.didCancelRequest()
     }
 
@@ -43,4 +44,8 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     }
 
     public func display(_: CommentErrorViewModel) {}
+    
+    private func releaseCellForReuse() {
+        cell = nil
+    }
 }

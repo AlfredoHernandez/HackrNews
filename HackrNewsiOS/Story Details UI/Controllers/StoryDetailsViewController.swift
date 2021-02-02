@@ -6,9 +6,10 @@ import HackrNews
 import UIKit
 
 public class StoryDetailsViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var detailsSection: Int { 0 }
-    private var storyCell: IndexPath { IndexPath(row: 0, section: detailsSection) }
-    private var storyBodyCell: IndexPath { IndexPath(row: 1, section: detailsSection) }
+    private let commentsSection = 1
+    private let storySection = 0
+    private var storyCell: IndexPath { IndexPath(row: 0, section: storySection) }
+    private var storyBodyCell: IndexPath { IndexPath(row: 1, section: storySection) }
     private(set) var storyCellController: StoryCellController
     private var comments = [CommentCellController]() {
         didSet {
@@ -33,6 +34,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         tableView.register(CommentCell.self, forCellReuseIdentifier: "CommentCell")
         tableView.prefetchDataSource = self
+        tableView.delegate = self
         tableView.reloadData()
     }
 
@@ -62,8 +64,13 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     }
 
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath == .init(row: 0, section: 0) {
+        switch indexPath.section {
+        case storySection:
             storyCellController.releaseCellForReuse()
+        case commentsSection:
+            comments[indexPath.row].cancel()
+        default:
+            break
         }
     }
 
