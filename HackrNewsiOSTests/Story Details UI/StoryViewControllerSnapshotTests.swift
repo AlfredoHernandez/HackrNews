@@ -129,4 +129,6 @@ private class CommentStub: CommentCellControllerDelegate {
     func didRequestComment() {
         controller?.display(viewModel)
     }
+
+    func didCancelRequest() {}
 }
