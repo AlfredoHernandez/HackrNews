@@ -66,13 +66,21 @@ extension StoryDetailsViewController {
         tableView.numberOfRows(inSection: storyCommentsSection)
     }
 
-    private func commentView(at row: Int = 0) -> UITableViewCell? {
+    func commentView(at row: Int = 0) -> UITableViewCell? {
         let ds = tableView.dataSource
         return ds?.tableView(tableView, cellForRowAt: IndexPath(row: row, section: storyCommentsSection))
     }
 
+    @discardableResult
     func simulateCommentViewVisible(at row: Int = 0) -> CommentCell? {
-        commentView(at: row) as? CommentCell
+        guard numberOfRows(in: storyCommentsSection) > row else {
+            return nil
+        }
+        return commentView(at: row) as? CommentCell
+    }
+
+    func numberOfRows(in section: Int) -> Int {
+        tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }
 
     private var storyDetailSection: Int { 0 }

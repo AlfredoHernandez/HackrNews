@@ -37,10 +37,10 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
 }
 
 public class StoryDetailsViewController: UITableViewController {
-    private(set) var storyCellController: StoryCellController
     private var detailsSection: Int { 0 }
     private var storyCell: IndexPath { IndexPath(row: 0, section: detailsSection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: detailsSection) }
+    private(set) var storyCellController: StoryCellController
     private var comments = [CommentCellController]() {
         didSet {
             tableView.reloadData()

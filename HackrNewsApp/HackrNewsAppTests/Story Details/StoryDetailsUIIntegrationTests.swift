@@ -59,17 +59,48 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertTrue(sut.detailViewIsReusable, "Expected release cell when view is not visible")
     }
 
-    func test_viewDidLoad_displaysMainComments() {
-        let story = makeStoryDetail(comments: [1, 2, 3])
-        let (sut, loader) = makeSUT(story: story)
+    func test_loadCommentActions_doesNotRequestCommentsFromLoader() {
+        let (sut, loader) = makeSUT(story: makeStoryDetail(comments: []))
 
         sut.loadViewIfNeeded()
-        XCTAssertEqual(sut.numberOfRenderedComments(), 3, "Expected to display 3 comments")
+        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before display comments")
 
-        let view = sut.simulateCommentViewVisible(at: 0)
-        XCTAssertEqual(view?.isLoadingContent, true, "Expected start loading content")
+        let view = sut.simulateCommentViewVisible()
+        XCTAssertNil(view, "Should not display a comment view")
+    }
 
-        loader.complete(with: StoryComment(
+    func test_loadCommentActions_requestsCommentFromLoader() {
+        let (sut, loader) = makeSUT(story: makeStoryDetail(comments: [1, 2, 3]))
+
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before display comments")
+
+        sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected a loding request after comment view is displayed")
+
+        sut.simulateCommentViewVisible(at: 1)
+        XCTAssertEqual(loader.loadCallCount, 2, "Expected a loding request after comment view is displayed")
+
+        sut.simulateCommentViewVisible(at: 2)
+        XCTAssertEqual(loader.loadCallCount, 3, "Expected a loding request after comment view is displayed")
+    }
+
+    func test_requestComments_displaysLoaderComments() {
+        let story = makeStoryDetail(comments: [1, 2])
+        let (sut, loader) = makeSUT(story: story)
+        sut.loadViewIfNeeded()
+
+        let view0 = sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(view0?.isLoadingContent, true, "Expected v0 start loading content")
+
+        loader.complete(with: makeStoryComment(), at: 0)
+        XCTAssertEqual(view0?.isLoadingContent, false, "Expected v0 stop loading content")
+    }
+
+    func test_viewDidLoad_displaysMainComments() {
+        let story = makeStoryDetail(comments: [1, 2])
+        let (sut, loader) = makeSUT(story: story)
+        let comment0 = StoryComment(
             id: 1,
             author: "a comment author",
             comments: [],
@@ -77,13 +108,57 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
             text: "a text comment",
             createdAt: Date().adding(days: -1),
             type: "comment"
-        ))
-        XCTAssertEqual(view?.isLoadingContent, false, "Expected stop loading content")
+        )
 
-        XCTAssertNotNil(view, "Expected \(CommentCell.self) instance, got \(String(describing: view)) instead")
-        XCTAssertEqual(view?.authorLabel.text, "a comment author")
-        XCTAssertEqual(view?.createdAtLabel.text, "1 day ago")
-        XCTAssertEqual(view?.authorLabel.text, "a comment author")
+        let comment1 = StoryComment(
+            id: 2,
+            author: "another comment author",
+            comments: [],
+            parent: 0,
+            text: "another text comment",
+            createdAt: Date().adding(days: -2),
+            type: "comment"
+        )
+
+        sut.loadViewIfNeeded()
+
+        assertThat(sut, isRendering: [comment0, comment1], loader: loader)
+    }
+
+    private func assertThat(
+        _ sut: StoryDetailsViewController,
+        isRendering comments: [StoryComment],
+        loader: CommentLoaderSpy,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        guard sut.numberOfRenderedComments() == comments.count else {
+            return XCTFail("Expected \(comments.count) comments, got \(sut.numberOfRenderedComments()) instead.", file: file, line: line)
+        }
+        comments.enumerated().forEach { index, comment in
+            assertThat(sut, hasViewConfiguredFor: comment, loader: loader, at: index)
+        }
+    }
+
+    private func assertThat(
+        _ sut: StoryDetailsViewController,
+        hasViewConfiguredFor comment: StoryComment,
+        loader: CommentLoaderSpy,
+        at index: Int,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let view = sut.commentView(at: 0) as? CommentCell
+        guard let cell = view else {
+            return XCTFail("Expected \(CommentCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
+        }
+
+        loader.complete(with: comment, at: index)
+
+        let viewModel = CommentPresenter.map(comment)
+        XCTAssertEqual(cell.authorLabel.text, viewModel.author, file: file, line: line)
+        XCTAssertEqual(cell.createdAtLabel.text, viewModel.createdAt, file: file, line: line)
+        XCTAssertEqual(cell.bodyLabel.text, viewModel.text, file: file, line: line)
     }
 
     // MARK: - Helpers
@@ -117,6 +192,18 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
             totalComments: Int.random(in: 0 ... 100),
             comments: comments,
             url: url
+        )
+    }
+
+    private func makeStoryComment() -> StoryComment {
+        StoryComment(
+            id: Int.random(in: 0 ... 100),
+            author: "author",
+            comments: [],
+            parent: 0,
+            text: "text",
+            createdAt: Date(),
+            type: "comment"
         )
     }
 
