@@ -4,7 +4,11 @@
 
 import Foundation
 
+public protocol CommentLoaderTask {
+    func cancel()
+}
+
 public protocol CommentLoader {
     typealias Result = Swift.Result<StoryComment, Swift.Error>
-    func load(completion: @escaping (Result) -> Void)
+    func load(completion: @escaping (Result) -> Void) -> CommentLoaderTask
 }
