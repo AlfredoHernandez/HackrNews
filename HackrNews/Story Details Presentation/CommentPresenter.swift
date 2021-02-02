@@ -41,8 +41,6 @@ public protocol CommentView {
 }
 
 public class CommentPresenter {
-    private let calendar: Calendar
-    private let locale: Locale
     private let view: CommentView
     private let loadingView: CommentLoadingView
     private let errorView: CommentErrorView
@@ -50,15 +48,11 @@ public class CommentPresenter {
     public init(
         view: CommentView,
         loadingView: CommentLoadingView,
-        errorView: CommentErrorView,
-        calendar: Calendar = Calendar(identifier: .gregorian),
-        locale: Locale = .current
+        errorView: CommentErrorView
     ) {
         self.view = view
         self.loadingView = loadingView
         self.errorView = errorView
-        self.calendar = calendar
-        self.locale = locale
     }
 
     let errorMessage =
@@ -75,9 +69,13 @@ public class CommentPresenter {
         errorView.display(.none)
     }
 
-    public func didFinishLoadingComment(with comment: StoryComment) {
+    public func didFinishLoadingComment(
+        with comment: StoryComment,
+        calendar: Calendar = Calendar(identifier: .gregorian),
+        locale: Locale = .current
+    ) {
         loadingView.display(.stoped)
-        view.display(CommentViewModel(author: comment.author, text: comment.text, createdAt: formatDate(from: comment.createdAt)))
+        view.display(Self.map(comment, calendar: calendar, locale: locale))
     }
 
     public func didFinishLoadingComment(with _: Error) {
@@ -85,10 +83,19 @@ public class CommentPresenter {
         errorView.display(CommentErrorViewModel(error: errorMessage))
     }
 
-    private func formatDate(from date: Date, against: Date = Date()) -> String {
+    public static func map(
+        _ comment: StoryComment,
+        against: Date = Date(),
+        calendar: Calendar = Calendar(identifier: .gregorian),
+        locale: Locale = .current
+    ) -> CommentViewModel {
         let formatter = RelativeDateTimeFormatter()
         formatter.calendar = calendar
         formatter.locale = locale
-        return formatter.localizedString(for: date, relativeTo: against)
+        return CommentViewModel(
+            author: comment.author,
+            text: comment.text,
+            createdAt: formatter.localizedString(for: comment.createdAt, relativeTo: against)
+        )
     }
 }

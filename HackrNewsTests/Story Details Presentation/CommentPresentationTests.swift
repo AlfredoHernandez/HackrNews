@@ -23,7 +23,7 @@ final class CommentPresentationTests: XCTestCase {
     func test_didFinishLoadingComment_hidesLoaderAndDisplaysComment() {
         let calendar = Calendar(identifier: .gregorian)
         let locale: Locale = .current
-        let (sut, view) = makeSUT(calendar: calendar, locale: locale)
+        let (sut, view) = makeSUT()
         let comment = StoryComment(
             id: 1,
             author: "an author",
@@ -34,7 +34,7 @@ final class CommentPresentationTests: XCTestCase {
             type: "comment"
         )
 
-        sut.didFinishLoadingComment(with: comment)
+        sut.didFinishLoadingComment(with: comment, calendar: calendar, locale: locale)
 
         XCTAssertEqual(
             view.messages,
@@ -53,13 +53,11 @@ final class CommentPresentationTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(
-        calendar: Calendar = Calendar(identifier: .gregorian),
-        locale: Locale = .current,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (CommentPresenter, CommentViewSpy) {
         let view = CommentViewSpy()
-        let sut = CommentPresenter(view: view, loadingView: view, errorView: view, calendar: calendar, locale: locale)
+        let sut = CommentPresenter(view: view, loadingView: view, errorView: view)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(view, file: file, line: line)
         return (sut, view)
