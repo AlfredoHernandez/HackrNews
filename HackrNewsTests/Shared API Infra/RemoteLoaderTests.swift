@@ -99,7 +99,7 @@ final class RemoteLoaderTests: XCTestCase {
         var capturedResults = [RemoteLoader<String>.Result]()
         _ = sut?.load { capturedResults.append($0) }
         sut = nil
-        client.complete(with: 200, data: makeItemsJSON([]))
+        client.complete(with: 200, data: Data())
 
         XCTAssertTrue(capturedResults.isEmpty)
     }
@@ -121,15 +121,6 @@ final class RemoteLoaderTests: XCTestCase {
 
     private func failure(_ error: RemoteLoader<String>.Error) -> RemoteLoader<String>.Result {
         .failure(error)
-    }
-
-    private func makeItem(id: Int) -> (model: HackrNew, json: Int) {
-        let item = HackrNew(id: id)
-        return (item, item.id)
-    }
-
-    private func makeItemsJSON(_ items: [Int]) -> Data {
-        try! JSONSerialization.data(withJSONObject: items)
     }
 
     private func expect(
