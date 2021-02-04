@@ -18,6 +18,7 @@ public class StoryDetailCell: UITableViewCell {
         let view = UIStackView(arrangedSubviews: [authorLabel, createdAtLabel])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
+        view.distribution = .equalCentering
         return view
     }()
 

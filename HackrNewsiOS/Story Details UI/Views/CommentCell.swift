@@ -20,6 +20,7 @@ public class CommentCell: UITableViewCell {
         let view = UIStackView(arrangedSubviews: [authorLabel, createdAtLabel])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
+        view.distribution = .equalCentering
         view.isSkeletonable = true
         return view
     }()
@@ -46,7 +47,7 @@ public class CommentCell: UITableViewCell {
 
     public private(set) lazy var bodyLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 3
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
         label.isSkeletonable = true
