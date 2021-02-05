@@ -36,7 +36,6 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         tableView.register(CommentCell.self, forCellReuseIdentifier: "CommentCell")
         tableView.prefetchDataSource = self
         tableView.delegate = self
-        tableView.reloadData()
     }
 
     override public func numberOfSections(in _: UITableView) -> Int { 2 }
