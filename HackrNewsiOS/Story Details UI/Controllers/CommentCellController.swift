@@ -13,6 +13,7 @@ public protocol CommentCellControllerDelegate {
 public class CommentCellController: CommentView, CommentLoadingView, CommentErrorView {
     private(set) var cell: CommentCell?
     private let delegate: CommentCellControllerDelegate
+    private var viewModel: CommentViewModel?
 
     public init(delegate: CommentCellControllerDelegate) {
         self.delegate = delegate
@@ -20,7 +21,12 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
 
     func view(in tableView: UITableView) -> CommentCell {
         cell = tableView.dequeueReusableCell()
-        delegate.didRequestComment()
+        if viewModel == nil {
+            delegate.didRequestComment()
+        } else {
+            cell?.isLoadingContent = false
+            display(viewModel!)
+        }
         return cell!
     }
 
@@ -34,6 +40,7 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     }
 
     public func display(_ viewModel: CommentViewModel) {
+        self.viewModel = viewModel
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
         cell?.bodyLabel.text = viewModel.text
