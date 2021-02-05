@@ -112,7 +112,7 @@ extension CommentCell {
     static var defaultAuthorText: String {
         "Lorem ipsum"
     }
-    
+
     var authorText: String? {
         authorLabel.text
     }
