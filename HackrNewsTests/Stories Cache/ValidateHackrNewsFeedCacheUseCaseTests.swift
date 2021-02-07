@@ -5,7 +5,7 @@
 import HackrNews
 import XCTest
 
-final class ValidateNewsCacheUseCaseTests: XCTestCase {
+final class ValidateHackrNewsFeedCacheUseCaseTests: XCTestCase {
     func test_init_doesNotDeleteCacheUponCreation() {
         let (_, store) = makeSUT()
 
@@ -31,7 +31,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
     }
 
     func test_validateCache_doesNotDeleteNonExpiredCache() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let nonExpiredTimestamp = fixedCurrentDate.minusCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT()
@@ -43,7 +43,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
     }
 
     func test_validateCache_deletesCacheOnCacheExpiration() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let expirationTimestamp = fixedCurrentDate.minusCacheMaxAge()
         let (sut, store) = makeSUT()
@@ -55,7 +55,7 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
     }
 
     func test_validateCache_deletesCacheOnExpiredCache() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let expiredTimestamp = fixedCurrentDate.minusCacheMaxAge().adding(days: -1)
         let (sut, store) = makeSUT()
@@ -67,8 +67,8 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
     }
 
     func test_validateCache_doesNotDeleteInvalidCacheAfterSUTInstanceHasBeenDeallocated() {
-        let store = LiveHackrNewsStoreSpy()
-        var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
+        let store = HackrNewsFeedStoreSpy()
+        var sut: LocalHackrNewsFeedLoader? = LocalHackrNewsFeedLoader(store: store, currentDate: Date.init)
 
         sut?.validateCache()
         sut = nil
@@ -83,9 +83,9 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
         currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: LocalLiveHackrNewsLoader, store: LiveHackrNewsStoreSpy) {
-        let store = LiveHackrNewsStoreSpy()
-        let sut = LocalLiveHackrNewsLoader(store: store, currentDate: currentDate)
+    ) -> (sut: LocalHackrNewsFeedLoader, store: HackrNewsFeedStoreSpy) {
+        let store = HackrNewsFeedStoreSpy()
+        let sut = LocalHackrNewsFeedLoader(store: store, currentDate: currentDate)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
@@ -93,9 +93,9 @@ final class ValidateNewsCacheUseCaseTests: XCTestCase {
 
     // MARK: - Shared helpers
 
-    private func anyLiveHackrNews() -> (models: [HackrNew], local: [LocalLiveHackrNew]) {
+    private func uniqueHackrNews() -> (models: [HackrNew], local: [LocalHackrNew]) {
         let models = [HackrNew(id: 1), HackrNew(id: 2), HackrNew(id: 3)]
-        let locals = models.map { LocalLiveHackrNew(id: $0.id) }
+        let locals = models.map { LocalHackrNew(id: $0.id) }
         return (models, locals)
     }
 }

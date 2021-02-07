@@ -5,12 +5,12 @@
 import HackrNews
 import XCTest
 
-class CodableHackrNewsStore {
+class CodableHackrNewsFeedStore {
     private struct Cache: Codable {
         let news: [CodableNew]
         let timestamp: Date
 
-        var localNews: [LocalLiveHackrNew] {
+        var localNews: [LocalHackrNew] {
             news.map(\.local)
         }
     }
@@ -18,12 +18,12 @@ class CodableHackrNewsStore {
     private struct CodableNew: Codable {
         private let id: Int
 
-        init(_ localLiveHackrNew: LocalLiveHackrNew) {
-            id = localLiveHackrNew.id
+        init(_ localHackrNew: LocalHackrNew) {
+            id = localHackrNew.id
         }
 
-        var local: LocalLiveHackrNew {
-            LocalLiveHackrNew(id: id)
+        var local: LocalHackrNew {
+            LocalHackrNew(id: id)
         }
     }
 
@@ -33,7 +33,7 @@ class CodableHackrNewsStore {
         storeUrl = storeURL
     }
 
-    func retrieve(completion: @escaping LiveHackrNewsStore.RetrievalCompletion) {
+    func retrieve(completion: @escaping HackrNewsFeedStore.RetrievalCompletion) {
         guard let data = try? Data(contentsOf: storeUrl) else {
             return completion(.empty)
         }
@@ -42,7 +42,7 @@ class CodableHackrNewsStore {
         completion(.found(news: decoded.localNews, timestamp: decoded.timestamp))
     }
 
-    func insertCacheNews(_ news: [LocalLiveHackrNew], with timestamp: Date, completion: @escaping LiveHackrNewsStore.InsertionCompletion) {
+    func insertCacheNews(_ news: [LocalHackrNew], with timestamp: Date, completion: @escaping HackrNewsFeedStore.InsertionCompletion) {
         let encoder = JSONEncoder()
         let cache = Cache(news: news.map(CodableNew.init), timestamp: timestamp)
         let encoded = try! encoder.encode(cache)
@@ -51,7 +51,7 @@ class CodableHackrNewsStore {
     }
 }
 
-final class CodableHackrNewsStoreTests: XCTestCase {
+final class CodableHackrNewsFeedStoreTests: XCTestCase {
     override func setUp() {
         super.setUp()
         setupEmptyStoreState()
@@ -103,7 +103,7 @@ final class CodableHackrNewsStoreTests: XCTestCase {
     func test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues() {
         let sut = makeSUT()
         let exp = expectation(description: "Wait for result")
-        let news = [LocalLiveHackrNew(id: 1), LocalLiveHackrNew(id: 2), LocalLiveHackrNew(id: 3)]
+        let news = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
         let timestap = Date()
 
         sut.insertCacheNews(news, with: timestap) { insertionError in
@@ -125,8 +125,8 @@ final class CodableHackrNewsStoreTests: XCTestCase {
 
     // MARK: Helpers
 
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableHackrNewsStore {
-        let sut = CodableHackrNewsStore(storeURL: testSpecificStoreURL())
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableHackrNewsFeedStore {
+        let sut = CodableHackrNewsFeedStore(storeURL: testSpecificStoreURL())
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }

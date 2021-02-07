@@ -15,7 +15,7 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
 
-        sut.save(anyLiveHackrNews().models) { _ in }
+        sut.save(uniqueHackrNews().models) { _ in }
 
         XCTAssertEqual(store.receivedMessages, [.deletion])
     }
@@ -23,7 +23,7 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
 
-        sut.save(anyLiveHackrNews().models) { _ in }
+        sut.save(uniqueHackrNews().models) { _ in }
         store.completeDeletion(with: anyNSError())
 
         XCTAssertEqual(store.receivedMessages, [.deletion])
@@ -32,12 +32,12 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
     func test_save_requestsCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
         let (sut, store) = makeSUT(currentDate: { timestamp })
-        let liveHackrNews = anyLiveHackrNews()
+        let hackrNews = uniqueHackrNews()
 
-        sut.save(liveHackrNews.models) { _ in }
+        sut.save(hackrNews.models) { _ in }
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.receivedMessages, [.deletion, .insertion(liveHackrNews.local, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deletion, .insertion(hackrNews.local, timestamp)])
     }
 
     func test_save_failsOnDeletionError() {
@@ -69,11 +69,11 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
     }
 
     func test_save_doesNotDeliversDelitionErrorAfterSUTInstanceHasBeenDeallocated() {
-        let store = LiveHackrNewsStoreSpy()
-        var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
-        var receivedResults = [LocalLiveHackrNewsLoader.SaveResult]()
+        let store = HackrNewsFeedStoreSpy()
+        var sut: LocalHackrNewsFeedLoader? = LocalHackrNewsFeedLoader(store: store, currentDate: Date.init)
+        var receivedResults = [LocalHackrNewsFeedLoader.SaveResult]()
 
-        sut?.save(anyLiveHackrNews().models, completion: { result in
+        sut?.save(uniqueHackrNews().models, completion: { result in
             receivedResults.append(result)
         })
         sut = nil
@@ -84,11 +84,11 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
     }
 
     func test_save_doesNotDeliversInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
-        let store = LiveHackrNewsStoreSpy()
-        var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
+        let store = HackrNewsFeedStoreSpy()
+        var sut: LocalHackrNewsFeedLoader? = LocalHackrNewsFeedLoader(store: store, currentDate: Date.init)
         var receivedResults = [Error?]()
 
-        sut?.save(anyLiveHackrNews().models, completion: { result in
+        sut?.save(uniqueHackrNews().models, completion: { result in
             receivedResults.append(result)
         })
         store.completeDeletionSuccessfully()
@@ -104,22 +104,22 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
         currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: LocalLiveHackrNewsLoader, store: LiveHackrNewsStoreSpy) {
-        let store = LiveHackrNewsStoreSpy()
-        let sut = LocalLiveHackrNewsLoader(store: store, currentDate: currentDate)
+    ) -> (sut: LocalHackrNewsFeedLoader, store: HackrNewsFeedStoreSpy) {
+        let store = HackrNewsFeedStoreSpy()
+        let sut = LocalHackrNewsFeedLoader(store: store, currentDate: currentDate)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
     }
 
-    private func anyLiveHackrNews() -> (models: [HackrNew], local: [LocalLiveHackrNew]) {
+    private func uniqueHackrNews() -> (models: [HackrNew], local: [LocalHackrNew]) {
         let models = [HackrNew(id: 1), HackrNew(id: 2), HackrNew(id: 3)]
-        let locals = models.map { LocalLiveHackrNew(id: $0.id) }
+        let locals = models.map { LocalHackrNew(id: $0.id) }
         return (models, locals)
     }
 
     private func expect(
-        _ sut: LocalLiveHackrNewsLoader,
+        _ sut: LocalHackrNewsFeedLoader,
         toCompleteWithError expectedError: NSError?,
         when action: () -> Void,
         file: StaticString = #filePath,
@@ -128,7 +128,7 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
         var receivedError: Error?
         let exp = expectation(description: "Wait for save command")
 
-        sut.save(anyLiveHackrNews().models) { error in
+        sut.save(uniqueHackrNews().models) { error in
             receivedError = error
             exp.fulfill()
         }

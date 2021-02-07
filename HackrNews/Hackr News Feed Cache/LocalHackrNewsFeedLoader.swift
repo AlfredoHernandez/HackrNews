@@ -4,11 +4,11 @@
 
 import Foundation
 
-public class LocalLiveHackrNewsLoader {
-    private let store: LiveHackrNewsStore
+public class LocalHackrNewsFeedLoader {
+    private let store: HackrNewsFeedStore
     private let currentDate: () -> Date
 
-    public init(store: LiveHackrNewsStore, currentDate: @escaping () -> Date) {
+    public init(store: HackrNewsFeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
     }
@@ -16,7 +16,7 @@ public class LocalLiveHackrNewsLoader {
 
 // MARK: - Save Cache
 
-public extension LocalLiveHackrNewsLoader {
+public extension LocalHackrNewsFeedLoader {
     typealias SaveResult = Error?
 
     func save(_ news: [HackrNew], completion: @escaping (SaveResult) -> Void) {
@@ -37,7 +37,7 @@ public extension LocalLiveHackrNewsLoader {
 
 // MARK: - Load Cache
 
-extension LocalLiveHackrNewsLoader: HackrNewsFeedLoader {
+extension LocalHackrNewsFeedLoader: HackrNewsFeedLoader {
     public typealias LoadResult = HackrNewsFeedLoader.Result
 
     public func load(completion: @escaping (LoadResult) -> Void) {
@@ -57,7 +57,7 @@ extension LocalLiveHackrNewsLoader: HackrNewsFeedLoader {
 
 // MARK: - Cache validation
 
-public extension LocalLiveHackrNewsLoader {
+public extension LocalHackrNewsFeedLoader {
     func validateCache() {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
@@ -74,12 +74,12 @@ public extension LocalLiveHackrNewsLoader {
 }
 
 extension Array where Element == HackrNew {
-    func toLocal() -> [LocalLiveHackrNew] {
-        map { LocalLiveHackrNew(id: $0.id) }
+    func toLocal() -> [LocalHackrNew] {
+        map { LocalHackrNew(id: $0.id) }
     }
 }
 
-extension Array where Element == LocalLiveHackrNew {
+extension Array where Element == LocalHackrNew {
     func toModels() -> [HackrNew] {
         map { HackrNew(id: $0.id) }
     }

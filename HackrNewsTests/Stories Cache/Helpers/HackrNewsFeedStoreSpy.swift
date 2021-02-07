@@ -1,11 +1,11 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import Foundation
 import HackrNews
 
-class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
+class HackrNewsFeedStoreSpy: HackrNewsFeedStore {
     private(set) var deletionRequests = [DeletionCompletion]()
     private(set) var insertionRequests = [InsertionCompletion]()
     private(set) var retrievalRequests = [RetrievalCompletion]()
@@ -13,7 +13,7 @@ class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
 
     enum ReceivedMessage: Equatable {
         case deletion
-        case insertion([LocalLiveHackrNew], Date)
+        case insertion([LocalHackrNew], Date)
         case retrieve
     }
 
@@ -22,7 +22,7 @@ class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
         receivedMessages.append(.deletion)
     }
 
-    func insertCacheNews(_ news: [LocalLiveHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
+    func insertCacheNews(_ news: [LocalHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
         insertionRequests.append(completion)
         receivedMessages.append(.insertion(news, timestamp))
     }
@@ -56,7 +56,7 @@ class LiveHackrNewsStoreSpy: LiveHackrNewsStore {
         retrievalRequests[index](.empty)
     }
 
-    func completeRetrieval(with news: [LocalLiveHackrNew], timestamp: Date, at index: Int = 0) {
+    func completeRetrieval(with news: [LocalHackrNew], timestamp: Date, at index: Int = 0) {
         retrievalRequests[index](.found(news: news, timestamp: timestamp))
     }
 }
