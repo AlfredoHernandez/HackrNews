@@ -11,6 +11,7 @@
 		3808B30225C0EBCC00632213 /* StoryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3808B30125C0EBCC00632213 /* StoryDetail.swift */; };
 		3808B30725C0F09400632213 /* StoryCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3808B30625C0F09400632213 /* StoryCellController.swift */; };
 		3822A00625D0693A000DB41F /* UIViewController+LargeTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3822A00525D0693A000DB41F /* UIViewController+LargeTitle.swift */; };
+		3822A01325D086BE000DB41F /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 3822A01225D086BE000DB41F /* SwiftSoup */; };
 		3843687225C1E661002396A6 /* StoryDetailsPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3843687125C1E661002396A6 /* StoryDetailsPresentationTests.swift */; };
 		3843687F25C1E7E5002396A6 /* StoryDetailsLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3843687E25C1E7E5002396A6 /* StoryDetailsLocalizationTests.swift */; };
 		3843688B25C1ECDD002396A6 /* StoryDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3843688A25C1ECDD002396A6 /* StoryDetailsPresenter.swift */; };
@@ -239,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3822A01325D086BE000DB41F /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,6 +749,9 @@
 			dependencies = (
 			);
 			name = HackrNews;
+			packageProductDependencies = (
+				3822A01225D086BE000DB41F /* SwiftSoup */,
+			);
 			productName = HackrNews;
 			productReference = 38D392672582C55300FCAF70 /* HackrNews.framework */;
 			productType = "com.apple.product-type.framework";
@@ -806,6 +811,7 @@
 			mainGroup = 38D3925D2582C55300FCAF70;
 			packageReferences = (
 				388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */,
+				3822A01125D086BE000DB41F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 38D392682582C55300FCAF70 /* Products */;
 			projectDirPath = "";
@@ -1380,6 +1386,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3822A01125D086BE000DB41F /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.2;
+			};
+		};
 		388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
@@ -1391,6 +1405,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3822A01225D086BE000DB41F /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3822A01125D086BE000DB41F /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
 		388C5B0A2599559D00045DB9 /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */;

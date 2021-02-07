@@ -3,6 +3,7 @@
 //
 
 import HackrNews
+import SwiftSoup
 import UIKit
 
 public protocol CommentCellControllerDelegate {
@@ -36,7 +37,12 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     public func display(_ viewModel: CommentViewModel) {
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
-        cell?.bodyLabel.text = viewModel.text
+        do {
+            let html = try SwiftSoup.parse(viewModel.text)
+            cell?.bodyLabel.text = try html.text()
+        } catch {
+            cell?.bodyLabel.text = viewModel.text
+        }
     }
 
     public func display(_ viewModel: CommentLoadingViewModel) {
