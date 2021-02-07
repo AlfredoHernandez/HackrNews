@@ -9,11 +9,12 @@ import XCTest
 
 final class StoryDetailsUIIntegrationTests: XCTestCase {
     func test_controllerTopStories_hasTitle() {
-        let (sut, _) = makeSUT(story: makeStoryDetail())
+        let story = makeStoryDetail()
+        let (sut, _) = makeSUT(story: story)
 
         sut.loadViewIfNeeded()
 
-        XCTAssertEqual(sut.title, StoryDetailsPresenter.title)
+        XCTAssertEqual(sut.title, story.title)
     }
 
     func test_commentsSection_hasTitle() {
