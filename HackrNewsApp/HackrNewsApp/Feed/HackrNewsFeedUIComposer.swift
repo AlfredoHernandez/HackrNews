@@ -13,7 +13,7 @@ final class HackrNewsFeedUIComposer {
         contentType: ContentType,
         hackrNewsFeedloader: HackrNewsFeedLoader,
         hackrStoryLoader: @escaping (Int) -> HackrStoryLoader,
-        didSelectStory: @escaping (URL) -> Void,
+        didSelectStory: @escaping (Story) -> Void,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> HackrNewsFeedViewController {

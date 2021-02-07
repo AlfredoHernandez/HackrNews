@@ -9,6 +9,7 @@ final class StoryPresentationAdapter: HackrNewFeedCellControllerDelegate {
     private let model: HackrNew
     private let loader: HackrStoryLoader
     private var task: HackrStoryLoaderTask?
+    var storyResult: (() -> Story)?
 
     var presenter: StoryPresenter?
 
@@ -22,6 +23,7 @@ final class StoryPresentationAdapter: HackrNewFeedCellControllerDelegate {
         task = loader.load { [weak self] result in
             switch result {
             case let .success(story):
+                self?.storyResult = { story }
                 self?.presenter?.didFinishLoadingStory(story: story)
             case let .failure(error):
                 self?.presenter?.didFinishLoading(with: error)

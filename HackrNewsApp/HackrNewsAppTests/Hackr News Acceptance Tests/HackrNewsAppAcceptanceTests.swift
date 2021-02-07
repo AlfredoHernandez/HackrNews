@@ -4,7 +4,7 @@
 
 import HackrNews
 @testable import HackrNewsApp
-import HackrNewsiOS
+@testable import HackrNewsiOS
 import SafariServices
 import XCTest
 
@@ -30,15 +30,12 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertEqual(stories.numberOfRenderedHackrNewsFeedViews(), 0)
     }
 
-    func test_onSelectStory_displaysStoryUrlInSafari() {
-        let stories = launch(httpClient: .online(response))
-        stories.simulateStoryViewVisible(at: 0)
+    func test_onSelectStory_displaysStoryDetails() {
+        let storyDetails = showStoryDetailsForFirstStory()
+        let view = storyDetails?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? StoryDetailCell
 
-        stories.simulateTapOnStory(at: 0)
-        RunLoop.current.run(until: Date())
-
-        let safariViewController = stories.navigationController?.presentedViewController
-        XCTAssertTrue(safariViewController is SFSafariViewController)
+        XCTAssertEqual(view?.titleLabel.text, "Welcome to HackrNewsApp")
+        XCTAssertEqual(view?.authorLabel.text, "AlfredoHernandez")
     }
 
     func test_onLaunchandTapNewStories_displaysRemoteStoriesWhenCustomesHasConnectivity() {
@@ -67,5 +64,23 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
 
         let tabBarController = sut.window?.rootViewController as! UITabBarController
         return tabBarController.firstViewController
+    }
+
+    private func showStoryDetailsForFirstStory(file: StaticString = #filePath, line: UInt = #line) -> StoryDetailsViewController? {
+        let stories = launch(httpClient: .online(response))
+        stories.simulateStoryViewVisible(at: 0)
+
+        stories.simulateTapOnStory(at: 0)
+        RunLoop.current.run(until: Date())
+
+        let controller = stories.navigationController?.topViewController
+        let storyDetails = controller as? StoryDetailsViewController
+        XCTAssertNotNil(
+            storyDetails,
+            "Expected a \(String(describing: StoryDetailsViewController.self)) controller, got \(String(describing: storyDetails))",
+            file: file,
+            line: line
+        )
+        return storyDetails
     }
 }

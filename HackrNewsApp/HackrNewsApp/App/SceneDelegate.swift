@@ -36,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func configureWindow() {
         window?.rootViewController = tabBarController
+        UIBarButtonItem.appearance().tintColor = .hackrNews
         window?.makeKeyAndVisible()
     }
 
@@ -53,7 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 contentType: contentType,
                 hackrNewsFeedloader: hackrNewsFeedloader,
                 hackrStoryLoader: hackrStoryLoader,
-                didSelectStory: openOnSafari
+                didSelectStory: details
             )
         )
     }
@@ -62,6 +63,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let controller = SFSafariViewController(url: url)
         controller.preferredControlTintColor = UIColor.hackrNews
         tabBarController.present(controller, animated: true)
+    }
+
+    private func details(with model: Story) {
+        let storyDetail = StoryDetail(
+            title: model.title ?? "",
+            text: model.text,
+            author: model.author,
+            score: model.score ?? 0,
+            createdAt: model.createdAt,
+            totalComments: model.totalComments ?? 0,
+            comments: model.comments ?? [],
+            url: model.url
+        )
+        let controller = StoryDetailsUIComposer.composeWith(model: storyDetail, loader: commentLoader)
+        (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
+    }
+
+    private func commentLoader(for comment: Int) -> CommentLoader {
+        RemoteLoader(
+            url: URL(string: "https://hacker-news.firebaseio.com/v0/item/\(comment).json")!,
+            client: httpClient,
+            mapper: StoryCommentMapper.map
+        )
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {

@@ -19,8 +19,7 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
     }
 
     override public func viewDidLoad() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
+        setLargeTitleDisplayMode(.always)
         tableView.prefetchDataSource = self
         tableView.register(
             UINib(nibName: "HackrNewFeedCell", bundle: Bundle(for: HackrNewFeedCell.self)),

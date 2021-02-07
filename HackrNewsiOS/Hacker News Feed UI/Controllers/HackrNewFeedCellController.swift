@@ -12,10 +12,10 @@ public protocol HackrNewFeedCellControllerDelegate {
 
 public final class HackrNewFeedCellController: StoryView, StoryLoadingView, StoryErrorView {
     private let delegate: HackrNewFeedCellControllerDelegate
-    private let didSelectStory: (URL) -> Void
+    private let didSelectStory: () -> Void
     private var cell: HackrNewFeedCell?
 
-    public init(delegate: HackrNewFeedCellControllerDelegate, didSelectStory: @escaping (URL) -> Void) {
+    public init(delegate: HackrNewFeedCellControllerDelegate, didSelectStory: @escaping () -> Void) {
         self.delegate = delegate
         self.didSelectStory = didSelectStory
     }
@@ -60,8 +60,7 @@ public final class HackrNewFeedCellController: StoryView, StoryLoadingView, Stor
     }
 
     func didSelect() {
-        guard let url = cell?.url else { return }
-        didSelectStory(url)
+        didSelectStory()
     }
 
     private func releaseCellForReuse() {

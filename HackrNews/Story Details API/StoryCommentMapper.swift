@@ -8,7 +8,7 @@ public enum StoryCommentMapper {
     struct Root: Decodable {
         let id: Int
         let by: String
-        let kids: [Int]
+        let kids: [Int]?
         let parent: Int
         let text: String
         let time: Date
@@ -28,7 +28,7 @@ public enum StoryCommentMapper {
         return StoryComment(
             id: item.id,
             author: item.by,
-            comments: item.kids,
+            comments: item.kids ?? [],
             parent: item.parent,
             text: item.text,
             createdAt: item.time,

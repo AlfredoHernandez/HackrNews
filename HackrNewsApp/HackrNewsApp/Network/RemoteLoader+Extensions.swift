@@ -16,7 +16,7 @@ extension RemoteLoader: HackrNewsFeedLoader where Resource == [HackrNew] {
 // MARK: - Hackr Story Loader
 
 extension RemoteLoader: HackrStoryLoader where Resource == Story {
-    class TaskWrapper: HackrStoryLoaderTask {
+    private class TaskWrapper: HackrStoryLoaderTask {
         private let task: HTTPClientTask
 
         init(task: HTTPClientTask) {
