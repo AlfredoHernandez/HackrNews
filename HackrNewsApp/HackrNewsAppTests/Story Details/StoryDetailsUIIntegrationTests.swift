@@ -244,7 +244,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        let view = sut.commentView(at: 0) as? CommentCell
+        let view = sut.commentView(at: index) as? CommentCell
         guard let cell = view else {
             return XCTFail("Expected \(CommentCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
         }

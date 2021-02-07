@@ -14,6 +14,7 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     private(set) var cell: CommentCell?
     private let delegate: CommentCellControllerDelegate
     private var viewModel: CommentViewModel?
+    private var tableView: UITableView?
 
     public init(delegate: CommentCellControllerDelegate) {
         self.delegate = delegate
@@ -21,16 +22,22 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
 
     func view(in tableView: UITableView) -> CommentCell {
         cell = tableView.dequeueReusableCell()
-        if viewModel == nil {
-            delegate.didRequestComment()
-        } else {
+        self.tableView = tableView
+        // simulate cache
+        if let viewModel = viewModel {
             cell?.isLoadingContent = false
-            display(viewModel!)
+            // update without animation when using cached data
+            updateCell(with: viewModel)
+        } else {
+            delegate.didRequestComment()
         }
         return cell!
     }
 
     func preload() {
+        // simulate cache -
+        // shouldn't preload if data is available
+        guard viewModel == nil else { return }
         delegate.didRequestComment()
     }
 
@@ -41,6 +48,14 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
 
     public func display(_ viewModel: CommentViewModel) {
         self.viewModel = viewModel
+        // update animated when new data comes
+        // to recalculate cell height
+        tableView?.beginUpdates()
+        updateCell(with: viewModel)
+        tableView?.endUpdates()
+    }
+
+    private func updateCell(with viewModel: CommentViewModel) {
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
         cell?.bodyLabel.text = viewModel.text
@@ -51,8 +66,9 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     }
 
     public func display(_: CommentErrorViewModel) {}
-    
+
     private func releaseCellForReuse() {
         cell = nil
+        tableView = nil
     }
 }
