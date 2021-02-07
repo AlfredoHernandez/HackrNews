@@ -37,12 +37,7 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     public func display(_ viewModel: CommentViewModel) {
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
-        do {
-            let html = try SwiftSoup.parse(viewModel.text)
-            cell?.bodyLabel.text = try html.text()
-        } catch {
-            cell?.bodyLabel.text = viewModel.text
-        }
+        cell?.bodyLabel.text = parse(content: viewModel.text)
     }
 
     public func display(_ viewModel: CommentLoadingViewModel) {
@@ -53,5 +48,17 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
 
     private func releaseCellForReuse() {
         cell = nil
+    }
+
+    private func parse(content: String) -> String {
+        let paragraphIdentifier = "[P]"
+        do {
+            let html = try SwiftSoup.parse(content)
+            _ = try html.select("p").before(paragraphIdentifier)
+            let body = try html.text()
+            return body.replacingOccurrences(of: "\(paragraphIdentifier) ", with: "\n\n")
+        } catch {
+            return content
+        }
     }
 }
