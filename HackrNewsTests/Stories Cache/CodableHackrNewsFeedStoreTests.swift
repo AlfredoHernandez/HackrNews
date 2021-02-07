@@ -7,15 +7,15 @@ import XCTest
 
 class CodableHackrNewsFeedStore {
     private struct Cache: Codable {
-        let news: [CodableNew]
+        let news: [CodableHackrNew]
         let timestamp: Date
 
-        var localNews: [LocalHackrNew] {
+        var localFeed: [LocalHackrNew] {
             news.map(\.local)
         }
     }
 
-    private struct CodableNew: Codable {
+    private struct CodableHackrNew: Codable {
         private let id: Int
 
         init(_ localHackrNew: LocalHackrNew) {
@@ -39,12 +39,12 @@ class CodableHackrNewsFeedStore {
         }
         let decoder = JSONDecoder()
         let decoded = try! decoder.decode(Cache.self, from: data)
-        completion(.found(news: decoded.localNews, timestamp: decoded.timestamp))
+        completion(.found(news: decoded.localFeed, timestamp: decoded.timestamp))
     }
 
     func insertCacheNews(_ news: [LocalHackrNew], with timestamp: Date, completion: @escaping HackrNewsFeedStore.InsertionCompletion) {
         let encoder = JSONEncoder()
-        let cache = Cache(news: news.map(CodableNew.init), timestamp: timestamp)
+        let cache = Cache(news: news.map(CodableHackrNew.init), timestamp: timestamp)
         let encoded = try! encoder.encode(cache)
         try! encoded.write(to: storeUrl)
         completion(nil)
