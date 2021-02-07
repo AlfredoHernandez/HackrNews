@@ -12,41 +12,30 @@
 
 ## About Hackr/News
 
-A simple iOS client for Y Combinator's Hacker News.
+Hackr/News is a **Y Combinator's** Hacker News reading app for iOS.
 
-## App Architecture
+## How to build?
 
-### Core modules
+1. Clone this repo into your Mac.
+2. Open the `HackrNewsApp.xcworkspace` file in Xcode.
+3. Run the `HackerNewsApp` in your favorite iOS simulator.
 
-The core `Hackr News Feature` and API's modules are platform agnostic, so they can be reused.
+### HackrNews Code Metrics
 
-##### MVC 
+[Project Code Metrics](./Metrics.md)
 
-We started with a simple MVC approach, delegating responsabilities for refreshing, displaying cell information and managing cell controllers to its own components.
+## Snapshot Tests
 
-![App Architecture MVC Diagram](./assets/hackr-news-diagram-mvc.png)
+**Please make sure use an `iPhone 12 Mini` simulator to run the snapshot tests. Otherwise tests will fail.**
 
-You can check the diff [here](https://github.com/AlfredoHernandez/HackrNews/pull/6)
+## Screenshots
 
-##### MVVM 
+### iOS
 
-In this approach we create a new platform agnostic `Stories Presentation` module, so they now can be reused by any platform. 
+![Dark Mode](./assets/dark_mode.png)
 
-![App Architecture MVVM Diagram](./assets/hackr-news-diagram-mvvm.png)
+![Light Mode](./assets/light_mode.png)
 
-You can check the diff [here](https://github.com/AlfredoHernandez/HackrNews/pull/8)
+### More docs
 
-## UX goals for the `New Stories` UI experience
-
-- [X] Load stories automatically when view is presented
-- [X] Allow customer to manually reload stories (pull to refresh)
-- [X] Show a loading indicator while loading stories
-
-### Stories loading experience
-
-- [X] Render all loaded stories items (Title, Author, score, created at, total comments, url)
-- [X] Load story when is near to be visible (on screen)
-- [X] Cancel load story when is out of screen
-- [X] Show a loading indicator while loading story (shimmer)
-- [X] Option to retry load story in download error
-- [X] Preload when story view is near visible
+- [App architecture](./App_Architecture.md)

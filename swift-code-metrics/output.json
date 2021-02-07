@@ -1,0 +1,904 @@
+{
+    "non-test-frameworks": [
+        {
+            "HackrNews": {
+                "loc": 474,
+                "noc": 60,
+                "poc": 11.236,
+                "n_a": 11,
+                "n_c": 19,
+                "nom": 29,
+                "not": 0,
+                "noi": 0,
+                "analysis": "The code is under commented. Highly stable component (hard to change, responsible and independent). ",
+                "dependencies": [],
+                "submodules": {
+                    "HackrNews": {
+                        "n_of_files": 20,
+                        "metric": {
+                            "loc": 474,
+                            "noc": 60,
+                            "n_a": 11,
+                            "n_c": 19,
+                            "nom": 29,
+                            "not": 0,
+                            "poc": 11.236
+                        },
+                        "submodules": [
+                            {
+                                "HackrNews": {
+                                    "n_of_files": 20,
+                                    "metric": {
+                                        "loc": 474,
+                                        "noc": 60,
+                                        "n_a": 11,
+                                        "n_c": 19,
+                                        "nom": 29,
+                                        "not": 0,
+                                        "poc": 11.236
+                                    },
+                                    "submodules": [
+                                        {
+                                            "Hackr News Feed Presentation": {
+                                                "n_of_files": 8,
+                                                "metric": {
+                                                    "loc": 226,
+                                                    "noc": 24,
+                                                    "n_a": 6,
+                                                    "n_c": 8,
+                                                    "nom": 14,
+                                                    "not": 0,
+                                                    "poc": 9.6
+                                                },
+                                                "submodules": [
+                                                    {
+                                                        "Hacker News Feed": {
+                                                            "n_of_files": 7,
+                                                            "metric": {
+                                                                "loc": 89,
+                                                                "noc": 21,
+                                                                "n_a": 3,
+                                                                "n_c": 4,
+                                                                "nom": 6,
+                                                                "not": 0,
+                                                                "poc": 19.091
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    },
+                                                    {
+                                                        "Story": {
+                                                            "n_of_files": 1,
+                                                            "metric": {
+                                                                "loc": 137,
+                                                                "noc": 3,
+                                                                "n_a": 3,
+                                                                "n_c": 4,
+                                                                "nom": 8,
+                                                                "not": 0,
+                                                                "poc": 2.143
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "Hackr News Feed API": {
+                                                "n_of_files": 3,
+                                                "metric": {
+                                                    "loc": 58,
+                                                    "noc": 9,
+                                                    "n_a": 0,
+                                                    "n_c": 2,
+                                                    "nom": 2,
+                                                    "not": 0,
+                                                    "poc": 13.433
+                                                },
+                                                "submodules": [
+                                                    {
+                                                        "Helpers": {
+                                                            "n_of_files": 1,
+                                                            "metric": {
+                                                                "loc": 7,
+                                                                "noc": 3,
+                                                                "n_a": 0,
+                                                                "n_c": 0,
+                                                                "nom": 0,
+                                                                "not": 0,
+                                                                "poc": 30.0
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "Hacker News Feature": {
+                                                "n_of_files": 4,
+                                                "metric": {
+                                                    "loc": 53,
+                                                    "noc": 12,
+                                                    "n_a": 3,
+                                                    "n_c": 2,
+                                                    "nom": 3,
+                                                    "not": 0,
+                                                    "poc": 18.462
+                                                },
+                                                "submodules": []
+                                            }
+                                        },
+                                        {
+                                            "Story Comment API": {
+                                                "n_of_files": 1,
+                                                "metric": {
+                                                    "loc": 31,
+                                                    "noc": 3,
+                                                    "n_a": 0,
+                                                    "n_c": 1,
+                                                    "nom": 1,
+                                                    "not": 0,
+                                                    "poc": 8.824
+                                                },
+                                                "submodules": []
+                                            }
+                                        },
+                                        {
+                                            "Shared API": {
+                                                "n_of_files": 2,
+                                                "metric": {
+                                                    "loc": 58,
+                                                    "noc": 6,
+                                                    "n_a": 2,
+                                                    "n_c": 2,
+                                                    "nom": 7,
+                                                    "not": 0,
+                                                    "poc": 9.375
+                                                },
+                                                "submodules": []
+                                            }
+                                        },
+                                        {
+                                            "Story Comment Feature": {
+                                                "n_of_files": 1,
+                                                "metric": {
+                                                    "loc": 19,
+                                                    "noc": 3,
+                                                    "n_a": 0,
+                                                    "n_c": 1,
+                                                    "nom": 0,
+                                                    "not": 0,
+                                                    "poc": 13.636
+                                                },
+                                                "submodules": []
+                                            }
+                                        },
+                                        {
+                                            "Shared API Infra": {
+                                                "n_of_files": 1,
+                                                "metric": {
+                                                    "loc": 29,
+                                                    "noc": 3,
+                                                    "n_a": 0,
+                                                    "n_c": 3,
+                                                    "nom": 2,
+                                                    "not": 0,
+                                                    "poc": 9.375
+                                                },
+                                                "submodules": []
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "fan_in": 11,
+                "fan_out": 0,
+                "i": 0.0,
+                "a": 0.579,
+                "d_3": 0.421
+            }
+        },
+        {
+            "HackrNewsApp": {
+                "loc": 330,
+                "noc": 46,
+                "poc": 12.234,
+                "n_a": 0,
+                "n_c": 9,
+                "nom": 26,
+                "not": 0,
+                "noi": 13,
+                "analysis": "The code is under commented. Highly unstable component (lack of dependents, easy to change, irresponsible) Low abstract component, few interfaces. ",
+                "dependencies": [
+                    "HackrNews(8)",
+                    "HackrNewsiOS(5)"
+                ],
+                "submodules": {
+                    "HackrNewsApp": {
+                        "n_of_files": 14,
+                        "metric": {
+                            "loc": 330,
+                            "noc": 46,
+                            "n_a": 0,
+                            "n_c": 9,
+                            "nom": 26,
+                            "not": 0,
+                            "poc": 12.234
+                        },
+                        "submodules": [
+                            {
+                                "HackrNewsApp": {
+                                    "n_of_files": 14,
+                                    "metric": {
+                                        "loc": 330,
+                                        "noc": 46,
+                                        "n_a": 0,
+                                        "n_c": 9,
+                                        "nom": 26,
+                                        "not": 0,
+                                        "poc": 12.234
+                                    },
+                                    "submodules": [
+                                        {
+                                            "HackrNewsApp": {
+                                                "n_of_files": 14,
+                                                "metric": {
+                                                    "loc": 330,
+                                                    "noc": 46,
+                                                    "n_a": 0,
+                                                    "n_c": 9,
+                                                    "nom": 26,
+                                                    "not": 0,
+                                                    "poc": 12.234
+                                                },
+                                                "submodules": [
+                                                    {
+                                                        "App": {
+                                                            "n_of_files": 2,
+                                                            "metric": {
+                                                                "loc": 59,
+                                                                "noc": 6,
+                                                                "n_a": 0,
+                                                                "n_c": 2,
+                                                                "nom": 6,
+                                                                "not": 0,
+                                                                "poc": 9.231
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    },
+                                                    {
+                                                        "Network": {
+                                                            "n_of_files": 1,
+                                                            "metric": {
+                                                                "loc": 21,
+                                                                "noc": 5,
+                                                                "n_a": 0,
+                                                                "n_c": 1,
+                                                                "nom": 3,
+                                                                "not": 0,
+                                                                "poc": 19.231
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    },
+                                                    {
+                                                        "Common": {
+                                                            "n_of_files": 5,
+                                                            "metric": {
+                                                                "loc": 72,
+                                                                "noc": 15,
+                                                                "n_a": 0,
+                                                                "n_c": 2,
+                                                                "nom": 3,
+                                                                "not": 0,
+                                                                "poc": 17.241
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    },
+                                                    {
+                                                        "Feed": {
+                                                            "n_of_files": 6,
+                                                            "metric": {
+                                                                "loc": 178,
+                                                                "noc": 20,
+                                                                "n_a": 0,
+                                                                "n_c": 4,
+                                                                "nom": 14,
+                                                                "not": 0,
+                                                                "poc": 10.101
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "fan_in": 0,
+                "fan_out": 13,
+                "i": 1.0,
+                "a": 0.0,
+                "d_3": 0.0
+            }
+        },
+        {
+            "HackrNewsiOS": {
+                "loc": 185,
+                "noc": 16,
+                "poc": 7.96,
+                "n_a": 2,
+                "n_c": 4,
+                "nom": 27,
+                "not": 0,
+                "noi": 4,
+                "analysis": "The code is under commented. Zone of Pain. Highly stable and concrete component - rigid, hard to extend (not abstract). This component should not be volatile (e.g. a stable foundation library such as Strings).",
+                "dependencies": [
+                    "HackrNews(3)",
+                    "SkeletonView(1)"
+                ],
+                "submodules": {
+                    "HackrNewsiOS": {
+                        "n_of_files": 5,
+                        "metric": {
+                            "loc": 185,
+                            "noc": 16,
+                            "n_a": 2,
+                            "n_c": 4,
+                            "nom": 27,
+                            "not": 0,
+                            "poc": 7.96
+                        },
+                        "submodules": [
+                            {
+                                "HackrNewsiOS": {
+                                    "n_of_files": 5,
+                                    "metric": {
+                                        "loc": 185,
+                                        "noc": 16,
+                                        "n_a": 2,
+                                        "n_c": 4,
+                                        "nom": 27,
+                                        "not": 0,
+                                        "poc": 7.96
+                                    },
+                                    "submodules": [
+                                        {
+                                            "Theme": {
+                                                "n_of_files": 1,
+                                                "metric": {
+                                                    "loc": 6,
+                                                    "noc": 3,
+                                                    "n_a": 0,
+                                                    "n_c": 0,
+                                                    "nom": 0,
+                                                    "not": 0,
+                                                    "poc": 33.333
+                                                },
+                                                "submodules": []
+                                            }
+                                        },
+                                        {
+                                            "Hacker News Feed UI": {
+                                                "n_of_files": 4,
+                                                "metric": {
+                                                    "loc": 179,
+                                                    "noc": 13,
+                                                    "n_a": 2,
+                                                    "n_c": 4,
+                                                    "nom": 27,
+                                                    "not": 0,
+                                                    "poc": 6.771
+                                                },
+                                                "submodules": [
+                                                    {
+                                                        "Controllers": {
+                                                            "n_of_files": 3,
+                                                            "metric": {
+                                                                "loc": 149,
+                                                                "noc": 10,
+                                                                "n_a": 2,
+                                                                "n_c": 3,
+                                                                "nom": 26,
+                                                                "not": 0,
+                                                                "poc": 6.289
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    },
+                                                    {
+                                                        "Views": {
+                                                            "n_of_files": 1,
+                                                            "metric": {
+                                                                "loc": 30,
+                                                                "noc": 3,
+                                                                "n_a": 0,
+                                                                "n_c": 1,
+                                                                "nom": 1,
+                                                                "not": 0,
+                                                                "poc": 9.091
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "fan_in": 5,
+                "fan_out": 4,
+                "i": 0.444,
+                "a": 0.5,
+                "d_3": 0.056
+            }
+        }
+    ],
+    "tests-frameworks": [
+        {
+            "HackrNewsApp_Test": {
+                "loc": 805,
+                "noc": 44,
+                "poc": 5.183,
+                "n_a": 0,
+                "n_c": 8,
+                "nom": 69,
+                "not": 31,
+                "noi": 17,
+                "analysis": "The code is under commented. ",
+                "dependencies": [
+                    "HackrNewsApp(4)",
+                    "HackrNewsiOS(7)",
+                    "HackrNews(6)"
+                ],
+                "submodules": {
+                    "HackrNewsApp_Test": {
+                        "n_of_files": 13,
+                        "metric": {
+                            "loc": 805,
+                            "noc": 44,
+                            "n_a": 0,
+                            "n_c": 8,
+                            "nom": 69,
+                            "not": 31,
+                            "poc": 5.183
+                        },
+                        "submodules": [
+                            {
+                                "HackrNewsApp": {
+                                    "n_of_files": 13,
+                                    "metric": {
+                                        "loc": 805,
+                                        "noc": 44,
+                                        "n_a": 0,
+                                        "n_c": 8,
+                                        "nom": 69,
+                                        "not": 31,
+                                        "poc": 5.183
+                                    },
+                                    "submodules": [
+                                        {
+                                            "HackrNewsAppTests": {
+                                                "n_of_files": 13,
+                                                "metric": {
+                                                    "loc": 805,
+                                                    "noc": 44,
+                                                    "n_a": 0,
+                                                    "n_c": 8,
+                                                    "nom": 69,
+                                                    "not": 31,
+                                                    "poc": 5.183
+                                                },
+                                                "submodules": [
+                                                    {
+                                                        "Live Hackr News": {
+                                                            "n_of_files": 6,
+                                                            "metric": {
+                                                                "loc": 591,
+                                                                "noc": 22,
+                                                                "n_a": 0,
+                                                                "n_c": 3,
+                                                                "nom": 42,
+                                                                "not": 20,
+                                                                "poc": 3.589
+                                                            },
+                                                            "submodules": [
+                                                                {
+                                                                    "Helpers": {
+                                                                        "n_of_files": 5,
+                                                                        "metric": {
+                                                                            "loc": 201,
+                                                                            "noc": 16,
+                                                                            "n_a": 0,
+                                                                            "n_c": 2,
+                                                                            "nom": 18,
+                                                                            "not": 0,
+                                                                            "poc": 7.373
+                                                                        },
+                                                                        "submodules": []
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "Helpers": {
+                                                            "n_of_files": 2,
+                                                            "metric": {
+                                                                "loc": 28,
+                                                                "noc": 6,
+                                                                "n_a": 0,
+                                                                "n_c": 0,
+                                                                "nom": 4,
+                                                                "not": 0,
+                                                                "poc": 17.647
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    },
+                                                    {
+                                                        "Hackr News Acceptance Tests": {
+                                                            "n_of_files": 3,
+                                                            "metric": {
+                                                                "loc": 127,
+                                                                "noc": 10,
+                                                                "n_a": 0,
+                                                                "n_c": 3,
+                                                                "nom": 16,
+                                                                "not": 4,
+                                                                "poc": 7.299
+                                                            },
+                                                            "submodules": [
+                                                                {
+                                                                    "Helpers": {
+                                                                        "n_of_files": 2,
+                                                                        "metric": {
+                                                                            "loc": 79,
+                                                                            "noc": 6,
+                                                                            "n_a": 0,
+                                                                            "n_c": 2,
+                                                                            "nom": 11,
+                                                                            "not": 0,
+                                                                            "poc": 7.059
+                                                                        },
+                                                                        "submodules": []
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "HackrNewsTests_Test": {
+                "loc": 780,
+                "noc": 55,
+                "poc": 6.587,
+                "n_a": 0,
+                "n_c": 19,
+                "nom": 87,
+                "not": 39,
+                "noi": 10,
+                "analysis": "The code is under commented. ",
+                "dependencies": [
+                    "HackrNews(10)"
+                ],
+                "submodules": {
+                    "HackrNewsTests_Test": {
+                        "n_of_files": 15,
+                        "metric": {
+                            "loc": 780,
+                            "noc": 55,
+                            "n_a": 0,
+                            "n_c": 19,
+                            "nom": 87,
+                            "not": 39,
+                            "poc": 6.587
+                        },
+                        "submodules": [
+                            {
+                                "HackrNewsTests": {
+                                    "n_of_files": 15,
+                                    "metric": {
+                                        "loc": 780,
+                                        "noc": 55,
+                                        "n_a": 0,
+                                        "n_c": 19,
+                                        "nom": 87,
+                                        "not": 39,
+                                        "poc": 6.587
+                                    },
+                                    "submodules": [
+                                        {
+                                            "Story Comment API": {
+                                                "n_of_files": 1,
+                                                "metric": {
+                                                    "loc": 61,
+                                                    "noc": 6,
+                                                    "n_a": 0,
+                                                    "n_c": 1,
+                                                    "nom": 5,
+                                                    "not": 3,
+                                                    "poc": 8.955
+                                                },
+                                                "submodules": []
+                                            }
+                                        },
+                                        {
+                                            "Live Hackr News API": {
+                                                "n_of_files": 3,
+                                                "metric": {
+                                                    "loc": 131,
+                                                    "noc": 11,
+                                                    "n_a": 0,
+                                                    "n_c": 4,
+                                                    "nom": 15,
+                                                    "not": 7,
+                                                    "poc": 7.746
+                                                },
+                                                "submodules": [
+                                                    {
+                                                        "Helpers": {
+                                                            "n_of_files": 1,
+                                                            "metric": {
+                                                                "loc": 31,
+                                                                "noc": 3,
+                                                                "n_a": 0,
+                                                                "n_c": 2,
+                                                                "nom": 4,
+                                                                "not": 0,
+                                                                "poc": 8.824
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "Live Hackr News Presentation": {
+                                                "n_of_files": 5,
+                                                "metric": {
+                                                    "loc": 224,
+                                                    "noc": 18,
+                                                    "n_a": 0,
+                                                    "n_c": 8,
+                                                    "nom": 25,
+                                                    "not": 14,
+                                                    "poc": 7.438
+                                                },
+                                                "submodules": [
+                                                    {
+                                                        "Live Hackr News": {
+                                                            "n_of_files": 2,
+                                                            "metric": {
+                                                                "loc": 76,
+                                                                "noc": 7,
+                                                                "n_a": 0,
+                                                                "n_c": 3,
+                                                                "nom": 13,
+                                                                "not": 8,
+                                                                "poc": 8.434
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    },
+                                                    {
+                                                        "Story": {
+                                                            "n_of_files": 2,
+                                                            "metric": {
+                                                                "loc": 130,
+                                                                "noc": 7,
+                                                                "n_a": 0,
+                                                                "n_c": 3,
+                                                                "nom": 10,
+                                                                "not": 5,
+                                                                "poc": 5.109
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "Shared API Infra": {
+                                                "n_of_files": 3,
+                                                "metric": {
+                                                    "loc": 289,
+                                                    "noc": 11,
+                                                    "n_a": 0,
+                                                    "n_c": 6,
+                                                    "nom": 34,
+                                                    "not": 15,
+                                                    "poc": 3.667
+                                                },
+                                                "submodules": [
+                                                    {
+                                                        "Helpers": {
+                                                            "n_of_files": 1,
+                                                            "metric": {
+                                                                "loc": 46,
+                                                                "noc": 3,
+                                                                "n_a": 0,
+                                                                "n_c": 4,
+                                                                "nom": 7,
+                                                                "not": 0,
+                                                                "poc": 6.122
+                                                            },
+                                                            "submodules": []
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "Helpers": {
+                                                "n_of_files": 3,
+                                                "metric": {
+                                                    "loc": 75,
+                                                    "noc": 9,
+                                                    "n_a": 0,
+                                                    "n_c": 0,
+                                                    "nom": 8,
+                                                    "not": 0,
+                                                    "poc": 10.714
+                                                },
+                                                "submodules": []
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "HackrNewsiOSTests_Test": {
+                "loc": 280,
+                "noc": 14,
+                "poc": 4.762,
+                "n_a": 0,
+                "n_c": 6,
+                "nom": 23,
+                "not": 5,
+                "noi": 4,
+                "analysis": "The code is under commented. ",
+                "dependencies": [
+                    "HackrNews(2)",
+                    "HackrNewsiOS(2)"
+                ],
+                "submodules": {
+                    "HackrNewsiOSTests_Test": {
+                        "n_of_files": 4,
+                        "metric": {
+                            "loc": 280,
+                            "noc": 14,
+                            "n_a": 0,
+                            "n_c": 6,
+                            "nom": 23,
+                            "not": 5,
+                            "poc": 4.762
+                        },
+                        "submodules": [
+                            {
+                                "HackrNewsiOSTests": {
+                                    "n_of_files": 4,
+                                    "metric": {
+                                        "loc": 280,
+                                        "noc": 14,
+                                        "n_a": 0,
+                                        "n_c": 6,
+                                        "nom": 23,
+                                        "not": 5,
+                                        "poc": 4.762
+                                    },
+                                    "submodules": [
+                                        {
+                                            "Helpers": {
+                                                "n_of_files": 2,
+                                                "metric": {
+                                                    "loc": 101,
+                                                    "noc": 6,
+                                                    "n_a": 0,
+                                                    "n_c": 2,
+                                                    "nom": 7,
+                                                    "not": 0,
+                                                    "poc": 5.607
+                                                },
+                                                "submodules": []
+                                            }
+                                        },
+                                        {
+                                            "Hackr News Feed UI": {
+                                                "n_of_files": 1,
+                                                "metric": {
+                                                    "loc": 119,
+                                                    "noc": 4,
+                                                    "n_a": 0,
+                                                    "n_c": 2,
+                                                    "nom": 9,
+                                                    "not": 3,
+                                                    "poc": 3.252
+                                                },
+                                                "submodules": []
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "shared": {
+        "loc": 0,
+        "noc": 0,
+        "n_a": 0,
+        "n_c": 0,
+        "nom": 0,
+        "not": 0,
+        "poc": 0.0,
+        "noi": 0
+    },
+    "aggregate": {
+        "non-test-frameworks": {
+            "loc": 989,
+            "noc": 122,
+            "n_a": 13,
+            "n_c": 32,
+            "nom": 82,
+            "not": 0,
+            "poc": 10.981,
+            "noi": 17
+        },
+        "tests-frameworks": {
+            "loc": 1865,
+            "noc": 113,
+            "n_a": 0,
+            "n_c": 33,
+            "nom": 179,
+            "not": 75,
+            "poc": 5.713,
+            "noi": 31
+        },
+        "total": {
+            "loc": 2854,
+            "noc": 235,
+            "n_a": 13,
+            "n_c": 65,
+            "nom": 261,
+            "not": 75,
+            "poc": 7.608,
+            "noi": 48
+        }
+    }
+}

@@ -12,6 +12,11 @@ extension XCTestCase {
         do {
             try FileManager.default.createDirectory(at: snapshotURL.deletingLastPathComponent(), withIntermediateDirectories: true)
             try snapshotData?.write(to: snapshotURL)
+            XCTFail(
+                "Snapshot recorded at /snapshots directory. To verify your view, use assert(snapshot:named:) method.",
+                file: file,
+                line: line
+            )
         } catch {
             XCTFail("Failed to record snapshot with error: \(error)", file: file, line: line)
         }

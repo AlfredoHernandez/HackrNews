@@ -4,14 +4,15 @@
 
 import HackrNews
 @testable import HackrNewsApp
-import HackrNewsiOS
+@testable import HackrNewsiOS
 import SafariServices
 import XCTest
 
 final class HackrNewsAppAcceptanceTests: XCTestCase {
     func test_onLaunch_displaysRemoteStoriesWhenCustomerHasConnectivity() {
         let stories = launch(httpClient: .online(response))
-        XCTAssertEqual(stories.numberOfRenderedLiveHackrNewsViews(), 5)
+
+        XCTAssertEqual(stories.numberOfRenderedHackrNewsFeedViews(), 5)
 
         let view0 = stories.simulateStoryViewVisible(at: 0)
         let view1 = stories.simulateStoryViewVisible(at: 1)
@@ -26,31 +27,60 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     func test_onLaunch_doesNotDisplayRemoteStoriesWhenCustomerHasNotConnectivity() {
         let stories = launch(httpClient: .offline)
 
-        XCTAssertEqual(stories.numberOfRenderedLiveHackrNewsViews(), 0)
+        XCTAssertEqual(stories.numberOfRenderedHackrNewsFeedViews(), 0)
     }
 
-    func test_onSelectStory_displaysStoryUrlInSafari() {
-        let stories = launch(httpClient: .online(response))
-        stories.simulateStoryViewVisible(at: 0)
+    func test_onSelectStory_displaysStoryDetails() {
+        let storyDetails = showStoryDetailsForFirstStory()
+        let view = storyDetails?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? StoryDetailCell
 
-        stories.simulateTapOnStory(at: 0)
-        RunLoop.current.run(until: Date())
+        XCTAssertEqual(view?.titleLabel.text, "Welcome to HackrNewsApp")
+        XCTAssertEqual(view?.authorLabel.text, "AlfredoHernandez")
+    }
 
-        let safariViewController = stories.navigationController?.presentedViewController
-        XCTAssertTrue(safariViewController is SFSafariViewController)
+    func test_onLaunchandTapNewStories_displaysRemoteStoriesWhenCustomesHasConnectivity() {
+        let app = launch(httpClient: .online(response))
+
+        let topStories = app.simulateTapOnTopStories()
+        XCTAssertNotNil(topStories, "Expected a `\(HackrNewsFeedViewController.self)` to display new stories")
+        XCTAssertEqual(topStories.title, HackrNewsFeedPresenter.topStoriesTitle)
+
+        let newStories = app.simulateTapOnNewStories()
+        XCTAssertNotNil(newStories, "Expected a `\(HackrNewsFeedViewController.self)` to display new stories")
+        XCTAssertEqual(newStories.title, HackrNewsFeedPresenter.newStoriesTitle)
+
+        let bestStories = app.simulateTapOnBestStories()
+        XCTAssertNotNil(bestStories, "Expected a `\(HackrNewsFeedViewController.self)` to display new stories")
+        XCTAssertEqual(bestStories.title, HackrNewsFeedPresenter.bestStoriesTitle)
     }
 
     // MARK: - Helpers
 
-    private func launch(httpClient: HTTPClientStub = .offline) -> LiveHackrNewsViewController {
+    private func launch(httpClient: HTTPClientStub = .offline) -> HackrNewsFeedViewController {
         let sut = SceneDelegate(httpClient: httpClient)
         sut.window = UIWindow()
 
         sut.configureWindow()
 
         let tabBarController = sut.window?.rootViewController as! UITabBarController
-        let navigationController = tabBarController.viewControllers?.first as! UINavigationController
-        let storiesViewController = navigationController.topViewController as! LiveHackrNewsViewController
-        return storiesViewController
+        return tabBarController.firstViewController
+    }
+
+    private func showStoryDetailsForFirstStory(file: StaticString = #filePath, line: UInt = #line) -> StoryDetailsViewController? {
+        let stories = launch(httpClient: .online(response))
+        stories.simulateStoryViewVisible(at: 0)
+
+        stories.simulateTapOnStory(at: 0)
+        RunLoop.current.run(until: Date())
+
+        let controller = stories.navigationController?.topViewController
+        let storyDetails = controller as? StoryDetailsViewController
+        XCTAssertNotNil(
+            storyDetails,
+            "Expected a \(String(describing: StoryDetailsViewController.self)) controller, got \(String(describing: storyDetails))",
+            file: file,
+            line: line
+        )
+        return storyDetails
     }
 }

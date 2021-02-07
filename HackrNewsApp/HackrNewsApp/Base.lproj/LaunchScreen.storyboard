@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -16,17 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hackr/News" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KBh-yQ-BOC">
-                                <rect key="frame" x="26.5" y="414" width="361" height="68"/>
-                                <fontDescription key="fontDescription" name="CourierNewPS-BoldMT" family="Courier New" pointSize="60"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Hackr News Letters" translatesAutoresizingMaskIntoConstraints="NO" id="Ixq-ZH-dCB">
+                                <rect key="frame" x="32" y="76" width="350" height="754"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="KBh-yQ-BOC" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="1sp-sU-QSa"/>
-                            <constraint firstItem="KBh-yQ-BOC" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="KpG-5w-KKx"/>
+                            <constraint firstItem="Ixq-ZH-dCB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="4Ij-w3-pLN"/>
+                            <constraint firstItem="Ixq-ZH-dCB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="32" id="Dht-Mh-iWN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ixq-ZH-dCB" secondAttribute="trailing" constant="32" id="Q7j-l0-kPR"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ixq-ZH-dCB" secondAttribute="bottom" constant="32" id="UAR-DT-Jr3"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -36,6 +37,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Hackr News Letters" width="386" height="217"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
