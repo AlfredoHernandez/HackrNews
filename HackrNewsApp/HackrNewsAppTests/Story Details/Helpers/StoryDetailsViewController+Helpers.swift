@@ -91,6 +91,7 @@ extension StoryDetailsViewController {
         ds?.tableView?(tableView, cancelPrefetchingForRowsAt: [indexPath])
     }
 
+    @discardableResult
     func simulateCommentViewNotVisible(at row: Int = 0) -> CommentCell? {
         let view = simulateCommentViewVisible()
         let delegate = tableView.delegate

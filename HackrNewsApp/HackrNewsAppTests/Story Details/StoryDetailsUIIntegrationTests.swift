@@ -85,6 +85,27 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3, "Expected a loding request after comment view is displayed")
     }
 
+    func test_loadComment_doesNotLoadCommentUntilPreviousRequestCompletes() {
+        let (sut, loader) = makeSUT(story: makeStoryDetail(comments: [1, 2, 3]))
+
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before display comments")
+
+        sut.simulateCommentViewIsNearVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected a loding request after comment view is near visible")
+
+        sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected no more loding requests after previous request")
+
+        loader.complete(with: makeStoryComment(), at: 0)
+        sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 2, "Expected another loading request")
+
+        sut.simulateCommentViewNotVisible(at: 0)
+        sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 3, "Expected another loading request after cancelling previous request")
+    }
+
     func test_requestComments_displaysLoaderComments() {
         let story = makeStoryDetail(comments: [1, 2])
         let (sut, loader) = makeSUT(story: story)
