@@ -29,6 +29,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        setLargeTitleDisplayMode(.never)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.register(StoryDetailCell.self, forCellReuseIdentifier: "StoryDetailCell")
