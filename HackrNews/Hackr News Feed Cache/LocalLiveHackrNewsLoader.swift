@@ -19,7 +19,7 @@ public class LocalLiveHackrNewsLoader {
 public extension LocalLiveHackrNewsLoader {
     typealias SaveResult = Error?
 
-    func save(_ news: [LiveHackrNew], completion: @escaping (SaveResult) -> Void) {
+    func save(_ news: [HackrNew], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedNews { [weak self] deletionError in
             guard let self = self else { return }
             guard deletionError == nil else { return completion(deletionError) }
@@ -27,7 +27,7 @@ public extension LocalLiveHackrNewsLoader {
         }
     }
 
-    private func cache(_ news: [LiveHackrNew], with completion: @escaping (SaveResult) -> Void) {
+    private func cache(_ news: [HackrNew], with completion: @escaping (SaveResult) -> Void) {
         store.insertCacheNews(news.toLocal(), with: currentDate()) { [weak self] insertionError in
             guard self != nil else { return }
             completion(insertionError)
@@ -37,8 +37,8 @@ public extension LocalLiveHackrNewsLoader {
 
 // MARK: - Load Cache
 
-extension LocalLiveHackrNewsLoader: LiveHackrNewsLoader {
-    public typealias LoadResult = LiveHackrNewsLoader.Result
+extension LocalLiveHackrNewsLoader: HackrNewsFeedLoader {
+    public typealias LoadResult = HackrNewsFeedLoader.Result
 
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
@@ -73,14 +73,14 @@ public extension LocalLiveHackrNewsLoader {
     }
 }
 
-extension Array where Element == LiveHackrNew {
+extension Array where Element == HackrNew {
     func toLocal() -> [LocalLiveHackrNew] {
         map { LocalLiveHackrNew(id: $0.id) }
     }
 }
 
 extension Array where Element == LocalLiveHackrNew {
-    func toModels() -> [LiveHackrNew] {
-        map { LiveHackrNew(id: $0.id) }
+    func toModels() -> [HackrNew] {
+        map { HackrNew(id: $0.id) }
     }
 }

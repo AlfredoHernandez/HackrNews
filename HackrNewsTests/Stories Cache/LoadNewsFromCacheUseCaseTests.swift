@@ -180,8 +180,8 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
 
     // MARK: - Shared helpers
 
-    private func anyLiveHackrNews() -> (models: [LiveHackrNew], local: [LocalLiveHackrNew]) {
-        let models = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+    private func anyLiveHackrNews() -> (models: [HackrNew], local: [LocalLiveHackrNew]) {
+        let models = [HackrNew(id: 1), HackrNew(id: 2), HackrNew(id: 3)]
         let locals = models.map { LocalLiveHackrNew(id: $0.id) }
         return (models, locals)
     }

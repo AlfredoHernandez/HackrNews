@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import HackrNews
@@ -112,8 +112,8 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
         return (sut, store)
     }
 
-    private func anyLiveHackrNews() -> (models: [LiveHackrNew], local: [LocalLiveHackrNew]) {
-        let models = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
+    private func anyLiveHackrNews() -> (models: [HackrNew], local: [LocalLiveHackrNew]) {
+        let models = [HackrNew(id: 1), HackrNew(id: 2), HackrNew(id: 3)]
         let locals = models.map { LocalLiveHackrNew(id: $0.id) }
         return (models, locals)
     }
