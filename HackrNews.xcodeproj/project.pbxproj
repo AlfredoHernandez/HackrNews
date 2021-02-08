@@ -50,6 +50,7 @@
 		38882CBB259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */; };
 		388C5B0B2599559D00045DB9 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 388C5B0A2599559D00045DB9 /* SkeletonView */; };
 		38A4BFF625C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */; };
+		38AA7E6225D0CAA600389982 /* CodableHackrNewsFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AA7E6125D0CAA600389982 /* CodableHackrNewsFeedStore.swift */; };
 		38AFE4A125C0C40D0026610D /* StoryDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AFE4A025C0C40D0026610D /* StoryDetailsViewController.swift */; };
 		38AFE4A825C0C7E40026610D /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D392A82582DABB00FCAF70 /* Shared.swift */; };
 		38B0054C259108CC00FA0D4A /* HackrNewsFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B0054B259108CC00FA0D4A /* HackrNewsFeedLoader.swift */; };
@@ -179,6 +180,7 @@
 		3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoader.swift; sourceTree = "<group>"; };
 		38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeaksTracking.swift"; sourceTree = "<group>"; };
 		38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
+		38AA7E6125D0CAA600389982 /* CodableHackrNewsFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHackrNewsFeedStore.swift; sourceTree = "<group>"; };
 		38AFE4A025C0C40D0026610D /* StoryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsViewController.swift; sourceTree = "<group>"; };
 		38B0054B259108CC00FA0D4A /* HackrNewsFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedLoader.swift; sourceTree = "<group>"; };
 		38B00553259108DD00FA0D4A /* HackrStoryLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoader.swift; sourceTree = "<group>"; };
@@ -690,6 +692,7 @@
 				38F2AE92259BC88200DFB287 /* LocalHackrNewsFeedLoader.swift */,
 				38F2AE9C259BD2F300DFB287 /* LocalHackrNew.swift */,
 				3860F8D625D09F930044025B /* CachePolicy.swift */,
+				38AA7E6125D0CAA600389982 /* CodableHackrNewsFeedStore.swift */,
 			);
 			path = "Hackr News Feed Cache";
 			sourceTree = "<group>";
@@ -977,6 +980,7 @@
 				38D3932A258318BE00FCAF70 /* HackrNewsFeedLoadingView.swift in Sources */,
 				38E3D05C258C2B2700469872 /* StoryPresenter.swift in Sources */,
 				3860F8CE25D09F1E0044025B /* HackrNewsFeedStore.swift in Sources */,
+				38AA7E6225D0CAA600389982 /* CodableHackrNewsFeedStore.swift in Sources */,
 				3860F8CA25D09F1B0044025B /* LocalHackrNewsFeedLoader.swift in Sources */,
 				38D392E42582F76B00FCAF70 /* HackrNewsFeedMapper.swift in Sources */,
 				38D3932E258318D300FCAF70 /* HackrNewsFeedViewModel.swift in Sources */,
