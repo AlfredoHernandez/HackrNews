@@ -57,6 +57,18 @@ class CodableHackrNewsFeedStore {
             completion(error)
         }
     }
+
+    func deleteCachedNews(completion: @escaping HackrNewsFeedStore.DeletionCompletion) {
+        do {
+            guard FileManager.default.fileExists(atPath: storeUrl.path) else {
+                return completion(.none)
+            }
+            try FileManager.default.removeItem(at: storeUrl)
+            completion(.none)
+        } catch {
+            completion(error)
+        }
+    }
 }
 
 final class CodableHackrNewsFeedStoreTests: XCTestCase {
@@ -146,6 +158,33 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
     }
 
+    func test_delete_hasNoSideEffectsOnEmptyCache() {
+        let sut = makeSUT()
+
+        let deletionError = deleteCache(from: sut)
+
+        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+    }
+
+    func test_delete_emptiesPreviousInsertedCache() {
+        let sut = makeSUT()
+        let feed = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
+        let timestamp = Date()
+
+        insert(cache: (feed: feed, timestamp: timestamp), to: sut)
+        let deletionError = deleteCache(from: sut)
+
+        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+    }
+
+    func test_delete_deliversErrorOnDeletionError() {
+        let sut = makeSUT(storeURL: noDeletePermissionURL())
+
+        let deletionError = deleteCache(from: sut)
+
+        XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
+    }
+
     // MARK: Helpers
 
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableHackrNewsFeedStore {
@@ -159,6 +198,13 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
             for: .cachesDirectory,
             in: .userDomainMask
         ).first!.appendingPathComponent("\(type(of: self)).store")
+    }
+
+    private func noDeletePermissionURL() -> URL {
+        FileManager.default.urls(
+            for: .cachesDirectory,
+            in: .systemDomainMask
+        ).first!
     }
 
     @discardableResult
@@ -178,6 +224,19 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
 
         return error
+    }
+
+    private func deleteCache(from sut: CodableHackrNewsFeedStore) -> Error? {
+        var deletionError: Error?
+        let exp = expectation(description: "Wait for deletion completion")
+
+        sut.deleteCachedNews { receivedError in
+            deletionError = receivedError
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 1.0)
+        return deletionError
     }
 
     private func expect(
