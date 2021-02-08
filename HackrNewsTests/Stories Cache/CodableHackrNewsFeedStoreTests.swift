@@ -5,7 +5,7 @@
 import HackrNews
 import XCTest
 
-class CodableHackrNewsFeedStore {
+class CodableHackrNewsFeedStore: HackrNewsFeedStore {
     private struct Cache: Codable {
         let news: [CodableHackrNew]
         let timestamp: Date
@@ -33,7 +33,7 @@ class CodableHackrNewsFeedStore {
         storeUrl = storeURL
     }
 
-    func retrieve(completion: @escaping HackrNewsFeedStore.RetrievalCompletion) {
+    func retrieve(completion: @escaping RetrievalCompletion) {
         guard let data = try? Data(contentsOf: storeUrl) else {
             return completion(.empty)
         }
@@ -46,7 +46,7 @@ class CodableHackrNewsFeedStore {
         }
     }
 
-    func insertCacheNews(_ news: [LocalHackrNew], with timestamp: Date, completion: @escaping HackrNewsFeedStore.InsertionCompletion) {
+    func insertCacheNews(_ news: [LocalHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
         do {
             let encoder = JSONEncoder()
             let cache = Cache(news: news.map(CodableHackrNew.init), timestamp: timestamp)
@@ -58,7 +58,7 @@ class CodableHackrNewsFeedStore {
         }
     }
 
-    func deleteCachedNews(completion: @escaping HackrNewsFeedStore.DeletionCompletion) {
+    func deleteCachedNews(completion: @escaping DeletionCompletion) {
         do {
             guard FileManager.default.fileExists(atPath: storeUrl.path) else {
                 return completion(.none)
