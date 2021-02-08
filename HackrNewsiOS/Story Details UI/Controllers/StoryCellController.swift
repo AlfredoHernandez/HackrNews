@@ -8,9 +8,11 @@ import UIKit
 public final class StoryCellController {
     private(set) var cell: StoryDetailCell?
     private let viewModel: StoryDetailViewModel
+    private let didSelect: (() -> Void)?
 
-    public init(viewModel: StoryDetailViewModel) {
+    public init(viewModel: StoryDetailViewModel, didSelect: (() -> Void)? = nil) {
         self.viewModel = viewModel
+        self.didSelect = didSelect
     }
 
     func view(in tableView: UITableView) -> UITableViewCell {
@@ -28,5 +30,9 @@ public final class StoryCellController {
 
     func releaseCellForReuse() {
         cell = nil
+    }
+
+    func selection() {
+        didSelect?()
     }
 }

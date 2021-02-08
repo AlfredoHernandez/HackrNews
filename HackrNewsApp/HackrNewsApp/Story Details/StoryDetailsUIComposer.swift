@@ -11,8 +11,8 @@ class StoryDetailsUIComposer {
         didSelectStory: @escaping () -> Void,
         loader: (Int) -> CommentLoader
     ) -> StoryDetailsViewController {
-        let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model))
-        let controller = StoryDetailsViewController(storyCellController: storyCellController, didSelectStory: didSelectStory)
+        let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model), didSelect: didSelectStory)
+        let controller = StoryDetailsViewController(storyCellController: storyCellController)
         controller.title = model.title
         controller.display(model.comments?.map { [loader] comment in
             let adapter = CommentPresentationAdapter(loader: MainQueueDispatchDecorator(loader(comment)))
