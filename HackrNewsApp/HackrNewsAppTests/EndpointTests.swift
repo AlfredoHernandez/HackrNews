@@ -5,7 +5,7 @@
 @testable import HackrNewsApp
 import XCTest
 
-class LHNEndpointTests: XCTestCase {
+class EndpointTests: XCTestCase {
     func test_baseUrl_isCorrect() {
         XCTAssertEqual(Endpoint.baseUrl.absoluteString, "https://hacker-news.firebaseio.com")
     }

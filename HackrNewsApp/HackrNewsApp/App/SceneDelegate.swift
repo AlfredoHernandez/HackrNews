@@ -85,7 +85,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func commentLoader(for comment: Int) -> CommentLoader {
         RemoteLoader(
-            url: URL(string: "https://hacker-news.firebaseio.com/v0/item/\(comment).json")!,
+            url: Endpoint.item(comment).url(baseUrl),
             client: httpClient,
             mapper: StoryCommentMapper.map
         )
