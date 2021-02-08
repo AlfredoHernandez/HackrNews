@@ -118,6 +118,36 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
     }
 
+    func test_storeSideEffects_runsSerially() {
+        let sut = makeSUT()
+        var completedOperationsInOrder = [XCTestExpectation]()
+
+        let exp1 = expectation(description: "Operation 1")
+        sut.insertCacheNews(uniqueFeed(), with: Date()) { _ in
+            completedOperationsInOrder.append(exp1)
+            exp1.fulfill()
+        }
+
+        let exp2 = expectation(description: "Operation 2")
+        sut.deleteCachedNews { _ in
+            completedOperationsInOrder.append(exp2)
+            exp2.fulfill()
+        }
+
+        let exp3 = expectation(description: "Operation 3")
+        sut.insertCacheNews(uniqueFeed(), with: Date()) { _ in
+            completedOperationsInOrder.append(exp3)
+            exp3.fulfill()
+        }
+
+        waitForExpectations(timeout: 1.0)
+        XCTAssertEqual(
+            completedOperationsInOrder,
+            [exp1, exp2, exp3],
+            "Expected side-effects to run serially but operation finished in wrong order"
+        )
+    }
+
     // MARK: Helpers
 
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> HackrNewsFeedStore {
