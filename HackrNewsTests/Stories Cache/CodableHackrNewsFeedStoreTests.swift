@@ -187,7 +187,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
 
     // MARK: Helpers
 
-    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableHackrNewsFeedStore {
+    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> HackrNewsFeedStore {
         let sut = CodableHackrNewsFeedStore(storeURL: storeURL ?? testSpecificStoreURL())
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
@@ -210,7 +210,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
     @discardableResult
     private func insert(
         cache: (feed: [LocalHackrNew], timestamp: Date),
-        to sut: CodableHackrNewsFeedStore,
+        to sut: HackrNewsFeedStore,
         file _: StaticString = #filePath,
         line _: UInt = #line
     ) -> Error? {
@@ -226,7 +226,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         return error
     }
 
-    private func deleteCache(from sut: CodableHackrNewsFeedStore) -> Error? {
+    private func deleteCache(from sut: HackrNewsFeedStore) -> Error? {
         var deletionError: Error?
         let exp = expectation(description: "Wait for deletion completion")
 
@@ -240,7 +240,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
     }
 
     private func expect(
-        _ sut: CodableHackrNewsFeedStore,
+        _ sut: HackrNewsFeedStore,
         retrieves expectedResult: RetrieveCachedFeedResult,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -270,7 +270,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
     }
 
     private func expect(
-        _ sut: CodableHackrNewsFeedStore,
+        _ sut: HackrNewsFeedStore,
         retrievesTwice expectedResult: RetrieveCachedFeedResult,
         file _: StaticString = #filePath,
         line _: UInt = #line
