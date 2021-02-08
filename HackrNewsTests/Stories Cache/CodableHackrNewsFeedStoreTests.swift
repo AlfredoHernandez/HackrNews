@@ -116,6 +116,21 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         expect(sut, retrievesTwice: .failure(anyNSError()))
     }
 
+    func test_insert_overridesPreviouslyInsertedCacheValues() {
+        let sut = makeSUT()
+        let uniqueFeed = [LocalHackrNew(id: 1), LocalHackrNew(id: 2),LocalHackrNew(id: 3)]
+        
+        let firstInsertionError = insert(cache: (feed: uniqueFeed, timestamp: Date()), to: sut)
+        XCTAssertNil(firstInsertionError, "Expected to insert cache successfully")
+        
+        let latestFeed = [LocalHackrNew(id: 4), LocalHackrNew(id: 5),LocalHackrNew(id: 6)]
+        let latestTimestamp = Date()
+        let latestInsertionError = insert(cache: (latestFeed, latestTimestamp), to: sut)
+        XCTAssertNil(latestInsertionError, "Expected to override cache successfully")
+        
+        expect(sut, retrieves: .found(news: latestFeed, timestamp: latestTimestamp))
+    }
+    
     // MARK: Helpers
 
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableHackrNewsFeedStore {
@@ -131,19 +146,24 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         ).first!.appendingPathComponent("\(type(of: self)).store")
     }
 
+    @discardableResult
     private func insert(
         cache: (feed: [LocalHackrNew], timestamp: Date),
         to sut: CodableHackrNewsFeedStore,
         file _: StaticString = #filePath,
         line _: UInt = #line
-    ) {
+    ) -> Error? {
         let exp = expectation(description: "Wait for cache insertion")
-
+        var error: Error?
+        
         sut.insertCacheNews(cache.feed, with: cache.timestamp) { insertionError in
             XCTAssertNil(insertionError, "Expected news to be inserted successfully")
+            error = insertionError
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
+        
+        return error
     }
 
     private func expect(
