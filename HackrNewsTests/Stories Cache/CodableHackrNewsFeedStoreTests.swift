@@ -37,9 +37,13 @@ class CodableHackrNewsFeedStore {
         guard let data = try? Data(contentsOf: storeUrl) else {
             return completion(.empty)
         }
-        let decoder = JSONDecoder()
-        let decoded = try! decoder.decode(Cache.self, from: data)
-        completion(.found(news: decoded.localFeed, timestamp: decoded.timestamp))
+        do {
+            let decoder = JSONDecoder()
+            let decoded = try decoder.decode(Cache.self, from: data)
+            completion(.found(news: decoded.localFeed, timestamp: decoded.timestamp))
+        } catch {
+            completion(.failure(error))
+        }
     }
 
     func insertCacheNews(_ news: [LocalHackrNew], with timestamp: Date, completion: @escaping HackrNewsFeedStore.InsertionCompletion) {
@@ -94,6 +98,14 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         expect(sut, retrievesTwice: .found(news: news, timestamp: timestamp))
     }
 
+    func test_retrieve_deliversErrorOnRetrievalError() {
+        let sut = makeSUT()
+
+        try! "invalid data".write(to: testSpecificStoreURL(), atomically: false, encoding: .utf8)
+
+        expect(sut, retrieves: .failure(anyNSError()))
+    }
+
     // MARK: Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableHackrNewsFeedStore {
@@ -139,6 +151,8 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
             case let (.found(news: retrievedNews, timestamp: retrievedTimestamp), .found(news: expectedNews, timestamp: expectedTimestamp)):
                 XCTAssertEqual(retrievedNews, expectedNews, file: file, line: line)
                 XCTAssertEqual(retrievedTimestamp, expectedTimestamp, file: file, line: line)
+            case (.failure, .failure):
+                break
             default:
                 XCTFail(
                     "Expected \(expectedResult), got \(retrievedResult) instead.",
