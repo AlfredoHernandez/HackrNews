@@ -26,6 +26,12 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
         }
     }
 
+    private let queue = DispatchQueue(
+        label: "com.alfredohdz.HackrNews.store-\(CodableHackrNewsFeedStore.self)Queue",
+        qos: .userInitiated,
+        attributes: .concurrent
+    )
+
     private let storeUrl: URL
 
     public init(storeURL: URL) {
@@ -33,39 +39,48 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
     }
 
     public func retrieve(completion: @escaping RetrievalCompletion) {
-        guard let data = try? Data(contentsOf: storeUrl) else {
-            return completion(.empty)
-        }
-        do {
-            let decoder = JSONDecoder()
-            let decoded = try decoder.decode(Cache.self, from: data)
-            completion(.found(news: decoded.localFeed, timestamp: decoded.timestamp))
-        } catch {
-            completion(.failure(error))
+        let storeUrl = self.storeUrl
+        queue.async {
+            guard let data = try? Data(contentsOf: storeUrl) else {
+                return completion(.empty)
+            }
+            do {
+                let decoder = JSONDecoder()
+                let decoded = try decoder.decode(Cache.self, from: data)
+                completion(.found(news: decoded.localFeed, timestamp: decoded.timestamp))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
 
     public func insertCacheNews(_ news: [LocalHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
-        do {
-            let encoder = JSONEncoder()
-            let cache = Cache(news: news.map(CodableHackrNew.init), timestamp: timestamp)
-            let encoded = try encoder.encode(cache)
-            try encoded.write(to: storeUrl)
-            completion(nil)
-        } catch {
-            completion(error)
+        let storeUrl = self.storeUrl
+        queue.async(flags: .barrier) {
+            do {
+                let encoder = JSONEncoder()
+                let cache = Cache(news: news.map(CodableHackrNew.init), timestamp: timestamp)
+                let encoded = try encoder.encode(cache)
+                try encoded.write(to: storeUrl)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
         }
     }
 
     public func deleteCachedNews(completion: @escaping DeletionCompletion) {
-        do {
-            guard FileManager.default.fileExists(atPath: storeUrl.path) else {
-                return completion(.none)
+        let storeUrl = self.storeUrl
+        queue.async(flags: .barrier) {
+            do {
+                guard FileManager.default.fileExists(atPath: storeUrl.path) else {
+                    return completion(.none)
+                }
+                try FileManager.default.removeItem(at: storeUrl)
+                completion(.none)
+            } catch {
+                completion(error)
             }
-            try FileManager.default.removeItem(at: storeUrl)
-            completion(.none)
-        } catch {
-            completion(error)
         }
     }
 }
