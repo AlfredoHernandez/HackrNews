@@ -30,22 +30,22 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
 
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
         let sut = makeSUT()
-        let news = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
+        let feed = uniqueFeed()
         let timestamp = Date()
 
-        insert(cache: (news, timestamp), to: sut)
+        insert(cache: (feed, timestamp), to: sut)
 
-        expect(sut, retrieves: .found(news: news, timestamp: timestamp))
+        expect(sut, retrieves: .found(news: feed, timestamp: timestamp))
     }
 
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
-        let news = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
+        let feed = uniqueFeed()
         let timestamp = Date()
 
-        insert(cache: (news, timestamp), to: sut)
+        insert(cache: (feed, timestamp), to: sut)
 
-        expect(sut, retrievesTwice: .found(news: news, timestamp: timestamp))
+        expect(sut, retrievesTwice: .found(news: feed, timestamp: timestamp))
     }
 
     func test_retrieve_deliversErrorOnRetrievalError() {
@@ -68,9 +68,8 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
 
     func test_insert_overridesPreviouslyInsertedCacheValues() {
         let sut = makeSUT()
-        let uniqueFeed = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
 
-        let firstInsertionError = insert(cache: (feed: uniqueFeed, timestamp: Date()), to: sut)
+        let firstInsertionError = insert(cache: (feed: uniqueFeed(), timestamp: Date()), to: sut)
         XCTAssertNil(firstInsertionError, "Expected to insert cache successfully")
 
         let latestFeed = [LocalHackrNew(id: 4), LocalHackrNew(id: 5), LocalHackrNew(id: 6)]
@@ -84,7 +83,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
     func test_insert_deliversErrorOnInsertionError() {
         let invalidStoreUrl = URL(string: "invalid://store-url")!
         let sut = makeSUT(storeURL: invalidStoreUrl)
-        let feed = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
+        let feed = uniqueFeed()
         let timestamp = Date()
 
         let insertionError = insert(cache: (feed: feed, timestamp: timestamp), to: sut)
@@ -102,7 +101,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
 
     func test_delete_emptiesPreviousInsertedCache() {
         let sut = makeSUT()
-        let feed = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
+        let feed = uniqueFeed()
         let timestamp = Date()
 
         insert(cache: (feed: feed, timestamp: timestamp), to: sut)
@@ -211,6 +210,10 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
     ) {
         expect(sut, retrieves: expectedResult)
         expect(sut, retrieves: expectedResult)
+    }
+
+    private func uniqueFeed() -> [LocalHackrNew] {
+        [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
     }
 
     private func deleteStoreArtifacts() -> Void? {
