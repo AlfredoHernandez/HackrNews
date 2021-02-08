@@ -32,10 +32,19 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
 
     func test_onSelectStory_displaysStoryDetails() {
         let storyDetails = showStoryDetailsForFirstStory()
-        let view = storyDetails?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? StoryDetailCell
+        let view = storyDetails?.simulateStoryDetailViewVisible()
 
         XCTAssertEqual(view?.titleLabel.text, "Welcome to HackrNewsApp")
         XCTAssertEqual(view?.authorLabel.text, "AlfredoHernandez")
+    }
+
+    func test_onSelectStoryDetails_opensSafariWithURL() {
+        let storyDetails = showStoryDetailsForFirstStory()
+        storyDetails?.simulateStoryDetailViewVisible()
+
+        storyDetails?.simulateTapOnStoryDetailsView()
+
+        XCTAssertNotNil(storyDetails?.presentedViewController as? SFSafariViewController)
     }
 
     func test_onLaunchandTapNewStories_displaysRemoteStoriesWhenCustomesHasConnectivity() {

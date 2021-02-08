@@ -6,6 +6,7 @@ import HackrNews
 import UIKit
 
 public class StoryDetailsViewController: UITableViewController, UITableViewDataSourcePrefetching {
+    private let didSelectStory: () -> Void
     private let commentsSection = 1
     private let storySection = 0
     private var storyCell: IndexPath { IndexPath(row: 0, section: storySection) }
@@ -17,8 +18,9 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         }
     }
 
-    public init(storyCellController: StoryCellController) {
+    public init(storyCellController: StoryCellController, didSelectStory: @escaping (() -> Void)) {
         self.storyCellController = storyCellController
+        self.didSelectStory = didSelectStory
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -62,6 +64,12 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
 
     override public func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         section == 0 ? nil : StoryDetailsPresenter.title
+    }
+
+    override public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath == storyCell {
+            didSelectStory()
+        }
     }
 
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {

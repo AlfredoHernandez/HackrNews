@@ -17,7 +17,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "27 years ago",
             displayURL: "getdropbox.com"
         ))
-        let sut = StoryDetailsViewController(storyCellController: cell)
+        let sut = StoryDetailsViewController(storyCellController: cell, didSelectStory: {})
 
         sut.loadViewIfNeeded()
 
@@ -44,7 +44,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "27 years ago",
             displayURL: "getdropbox.com"
         ))
-        let sut = StoryDetailsViewController(storyCellController: cell)
+        let sut = StoryDetailsViewController(storyCellController: cell, didSelectStory: {})
 
         sut.loadViewIfNeeded()
 
@@ -62,7 +62,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "30 minutes ago",
             displayURL: nil
         ))
-        let sut = StoryDetailsViewController(storyCellController: cell)
+        let sut = StoryDetailsViewController(storyCellController: cell, didSelectStory: {})
 
         sut.loadViewIfNeeded()
 
@@ -80,7 +80,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "30 minutes ago",
             displayURL: nil
         ))
-        let sut = StoryDetailsViewController(storyCellController: cell)
+        let sut = StoryDetailsViewController(storyCellController: cell, didSelectStory: {})
 
         sut.loadViewIfNeeded()
 
@@ -98,7 +98,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "30 minutes ago",
             displayURL: nil
         ))
-        let sut = StoryDetailsViewController(storyCellController: cell)
+        let sut = StoryDetailsViewController(storyCellController: cell, didSelectStory: {})
 
         sut.loadViewIfNeeded()
 

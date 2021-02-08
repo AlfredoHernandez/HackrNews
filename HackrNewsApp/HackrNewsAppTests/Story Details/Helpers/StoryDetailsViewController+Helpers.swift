@@ -100,6 +100,22 @@ extension StoryDetailsViewController {
         return view
     }
 
+    func simulateTapOnStoryDetailsView(at row: Int = 0) {
+        let delegate = tableView.delegate
+        let indexPath = IndexPath(row: row, section: detailSection)
+        delegate?.tableView?(tableView, didSelectRowAt: indexPath)
+    }
+
+    func simulateTapOnStoryDetailsBodyView() {
+        simulateTapOnStoryDetailsView(at: 1)
+    }
+
+    func simulateTapOnCommentView(at row: Int = 0) {
+        let delegate = tableView.delegate
+        let indexPath = IndexPath(row: row, section: commentsSection)
+        delegate?.tableView?(tableView, didSelectRowAt: indexPath)
+    }
+
     func numberOfRows(in section: Int) -> Int {
         tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }

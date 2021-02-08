@@ -186,15 +186,33 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(view?.authorText, CommentCell.defaultAuthorText, "Expected `\(CommentCell.defaultAuthorText)` default text in view")
     }
 
+    func test_storyDetails_triggersSelection() {
+        var storySelected = 0
+        let (sut, _) = makeSUT(story: makeStoryDetail(), didSelectStory: {
+            storySelected += 1
+        })
+        sut.loadViewIfNeeded()
+
+        sut.simulateTapOnStoryDetailsView()
+        XCTAssertEqual(storySelected, 1, "Expected to trigger story selection on tap story")
+
+        sut.simulateTapOnStoryDetailsBodyView()
+        XCTAssertEqual(storySelected, 1, "Expected to not trigger story selection on tap story body")
+
+        sut.simulateTapOnCommentView()
+        XCTAssertEqual(storySelected, 1, "Expected to not trigger story selection on tap any comment")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
         story: StoryDetail,
+        didSelectStory: @escaping (() -> Void) = {},
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (StoryDetailsViewController, CommentLoaderSpy) {
         let loader = CommentLoaderSpy()
-        let sut = StoryDetailsUIComposer.composeWith(model: story, loader: { _ in loader })
+        let sut = StoryDetailsUIComposer.composeWith(model: story, didSelectStory: didSelectStory, loader: { _ in loader })
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)

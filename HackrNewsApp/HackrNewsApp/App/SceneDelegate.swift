@@ -76,7 +76,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             comments: model.comments ?? [],
             url: model.url
         )
-        let controller = StoryDetailsUIComposer.composeWith(model: storyDetail, loader: commentLoader)
+        let controller = StoryDetailsUIComposer.composeWith(model: storyDetail, didSelectStory: { [weak self] in
+            guard let url = model.url else { return }
+            self?.openOnSafari(with: url)
+        }, loader: commentLoader)
         (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
     }
 
