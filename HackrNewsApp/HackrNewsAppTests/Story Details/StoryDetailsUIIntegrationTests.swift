@@ -175,6 +175,20 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.cancelledRequests, 1)
     }
 
+    func test_loadComment_cancelsLoadingCommentWhenViewNotVisibleAnymore() {
+        let story = makeStoryDetail(comments: [1])
+        let (sut, loader) = makeSUT(story: story)
+
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 0)
+
+        sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected to request comment loading when comment view is visible")
+
+        sut.simulateCommentViewNotVisible(at: 0)
+        XCTAssertEqual(loader.cancelledRequests, 1, "Expected to cancell comment loading request after view is not visible")
+    }
+
     func test_commentView_doesNotRenderCommentWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT(story: makeStoryDetail(comments: [1]))
 
