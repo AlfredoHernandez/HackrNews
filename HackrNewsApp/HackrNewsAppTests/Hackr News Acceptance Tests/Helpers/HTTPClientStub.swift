@@ -39,7 +39,7 @@ private func makeData(for url: URL) -> Data {
     if url.absoluteString.contains("https://hacker-news.firebaseio.com/v0/item/") {
         return makeStoryData()
     } else {
-        return makeLiveHackrNewsData()
+        return makeHackrNewsFeedData()
     }
 }
 
@@ -52,11 +52,12 @@ private func makeStoryData() -> Data {
         "score": 100,
         "time": 1175714200,
         "title": "Welcome to HackrNewsApp",
+        "text": "Hello, World!",
         "type": "story",
         "url": "http://alfredohdz.com/HackrNews",
     ])
 }
 
-private func makeLiveHackrNewsData() -> Data {
+private func makeHackrNewsFeedData() -> Data {
     try! JSONSerialization.data(withJSONObject: [1, 2, 3, 4, 5])
 }

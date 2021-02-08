@@ -37,8 +37,8 @@ final class SceneDelegateTests: XCTestCase {
 
         let firstController = firstNavController?.topViewController
         XCTAssertNotNil(
-            firstController as? LiveHackrNewsViewController,
-            "Expected a `LiveHackrNewsViewController` as first item on tab bar, got \(String(describing: firstController))"
+            firstController as? HackrNewsFeedViewController,
+            "Expected a `\(String(describing: HackrNewsFeedViewController.self))` as first item on tab bar, got \(String(describing: firstController))"
         )
     }
 }

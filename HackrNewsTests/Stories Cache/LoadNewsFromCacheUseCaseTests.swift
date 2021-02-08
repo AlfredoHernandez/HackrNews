@@ -38,7 +38,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_deliversCachedNewsOnNonExpiredCache() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let nonExpiredTimestamp = fixedCurrentDate.minusCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
@@ -49,7 +49,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_deliversNoNewsOnExpiredCache() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let expiredTimestamp = fixedCurrentDate.minusCacheMaxAge().adding(seconds: -1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
@@ -60,7 +60,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_deliversNoNewsOnCacheExpiration() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let expirationTimestamp = fixedCurrentDate.minusCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
@@ -91,7 +91,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_hasNoSideEffectsOnNonExpiredCache() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let nonExpiredTimestamp = fixedCurrentDate.minusCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT()
@@ -103,7 +103,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_hasNoSideEffectCacheOnCacheExpiration() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let expirationTimestamp = fixedCurrentDate.minusCacheMaxAge()
         let (sut, store) = makeSUT()
@@ -115,7 +115,7 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_hasNoSideEffectsOnExpiredCache() {
-        let news = anyLiveHackrNews()
+        let news = uniqueHackrNews()
         let fixedCurrentDate = Date()
         let expiredTimestamp = fixedCurrentDate.minusCacheMaxAge().adding(days: -1)
         let (sut, store) = makeSUT()
@@ -127,9 +127,9 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
-        let store = LiveHackrNewsStoreSpy()
-        var sut: LocalLiveHackrNewsLoader? = LocalLiveHackrNewsLoader(store: store, currentDate: Date.init)
-        var receivedResults = [LocalLiveHackrNewsLoader.LoadResult]()
+        let store = HackrNewsFeedStoreSpy()
+        var sut: LocalHackrNewsFeedLoader? = LocalHackrNewsFeedLoader(store: store, currentDate: Date.init)
+        var receivedResults = [LocalHackrNewsFeedLoader.LoadResult]()
 
         sut?.load { receivedResults.append($0) }
         sut = nil
@@ -144,17 +144,17 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
         currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: LocalLiveHackrNewsLoader, store: LiveHackrNewsStoreSpy) {
-        let store = LiveHackrNewsStoreSpy()
-        let sut = LocalLiveHackrNewsLoader(store: store, currentDate: currentDate)
+    ) -> (sut: LocalHackrNewsFeedLoader, store: HackrNewsFeedStoreSpy) {
+        let store = HackrNewsFeedStoreSpy()
+        let sut = LocalHackrNewsFeedLoader(store: store, currentDate: currentDate)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
     }
 
     private func expect(
-        _ sut: LocalLiveHackrNewsLoader,
-        toCompleteWith expectedResult: LocalLiveHackrNewsLoader.LoadResult,
+        _ sut: LocalHackrNewsFeedLoader,
+        toCompleteWith expectedResult: LocalHackrNewsFeedLoader.LoadResult,
         when action: () -> Void,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -180,9 +180,9 @@ final class LoadNewsFromCacheUseCaseTests: XCTestCase {
 
     // MARK: - Shared helpers
 
-    private func anyLiveHackrNews() -> (models: [LiveHackrNew], local: [LocalLiveHackrNew]) {
-        let models = [LiveHackrNew(id: 1), LiveHackrNew(id: 2), LiveHackrNew(id: 3)]
-        let locals = models.map { LocalLiveHackrNew(id: $0.id) }
+    private func uniqueHackrNews() -> (models: [HackrNew], local: [LocalHackrNew]) {
+        let models = [HackrNew(id: 1), HackrNew(id: 2), HackrNew(id: 3)]
+        let locals = models.map { LocalHackrNew(id: $0.id) }
         return (models, locals)
     }
 }
