@@ -77,7 +77,7 @@ final class StoryCommentMapperTests: XCTestCase {
         let json = [
             "id": id,
             "by": author,
-            "kids": comments,
+            "kids": comments as Any,
             "parent": parent,
             "text": text,
             "time": createdAt.posix,
