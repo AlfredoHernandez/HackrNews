@@ -74,7 +74,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         expect(sut, retrievesTwice: .empty)
     }
 
-    func test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues() {
+    func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
         let sut = makeSUT()
         let news = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
         let timestamp = Date()
