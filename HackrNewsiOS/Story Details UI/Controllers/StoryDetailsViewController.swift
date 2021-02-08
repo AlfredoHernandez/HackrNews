@@ -64,6 +64,12 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         section == 0 ? nil : StoryDetailsPresenter.title
     }
 
+    override public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath == storyCell {
+            storyCellController.selection()
+        }
+    }
+
     override public func tableView(_: UITableView, didEndDisplaying _: UITableViewCell, forRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case storySection:

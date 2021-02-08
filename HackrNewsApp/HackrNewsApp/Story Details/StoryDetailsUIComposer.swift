@@ -6,8 +6,12 @@ import HackrNews
 import HackrNewsiOS
 
 class StoryDetailsUIComposer {
-    public static func composeWith(model: StoryDetail, loader: (Int) -> CommentLoader) -> StoryDetailsViewController {
-        let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model))
+    public static func composeWith(
+        model: StoryDetail,
+        didSelectStory: @escaping () -> Void,
+        loader: (Int) -> CommentLoader
+    ) -> StoryDetailsViewController {
+        let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model), didSelect: didSelectStory)
         let controller = StoryDetailsViewController(storyCellController: storyCellController)
         controller.title = model.title
         controller.display(model.comments?.map { [loader] comment in
