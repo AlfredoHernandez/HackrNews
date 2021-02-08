@@ -70,67 +70,28 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
 
     func test_retrieve_hasNoSideEffects() {
         let sut = makeSUT()
-        let exp = expectation(description: "Wait for result")
 
-        sut.retrieve { firstResult in
-            sut.retrieve { secondResult in
-                switch (firstResult, secondResult) {
-                case (.empty, .empty):
-                    break
-                default:
-                    XCTFail(
-                        "Expected retrieving twice from empty cache to deliver same empty result, but got \(firstResult)m \(secondResult) instead."
-                    )
-                }
-                exp.fulfill()
-            }
-        }
-
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, retrievesTwice: .empty)
     }
 
     func test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues() {
         let sut = makeSUT()
-        let exp = expectation(description: "Wait for result")
         let news = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
-        let timestap = Date()
+        let timestamp = Date()
 
-        sut.insertCacheNews(news, with: timestap) { insertionError in
-            XCTAssertNil(insertionError, "Expected news to be inserted successfully")
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        insert(cache: (news, timestamp), to: sut)
 
-        expect(sut, retrieves: .found(news: news, timestamp: timestap))
+        expect(sut, retrieves: .found(news: news, timestamp: timestamp))
     }
 
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
-        let exp = expectation(description: "Wait for result")
         let news = [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
         let timestamp = Date()
 
-        sut.insertCacheNews(news, with: timestamp) { insertionError in
-            XCTAssertNil(insertionError, "Expected news to be inserted successfully")
-            sut.retrieve { firstResult in
-                sut.retrieve { secondResult in
-                    switch (firstResult, firstResult) {
-                    case let (.found(news: firstNews, timestamp: firstTimestamp), .found(news: secondNews, timestamp: secondTimestamp)):
-                        XCTAssertEqual(firstNews, news)
-                        XCTAssertEqual(firstTimestamp, timestamp)
+        insert(cache: (news, timestamp), to: sut)
 
-                        XCTAssertEqual(secondNews, news)
-                        XCTAssertEqual(secondTimestamp, timestamp)
-                    default:
-                        XCTFail(
-                            "Expected retrieving twice from non empty cache to deliver same result with feed \(news) and timestamp \(timestamp), got \(firstResult) and \(secondResult) instead."
-                        )
-                    }
-                    exp.fulfill()
-                }
-            }
-        }
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, retrievesTwice: .found(news: news, timestamp: timestamp))
     }
 
     // MARK: Helpers
@@ -148,11 +109,26 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         ).first!.appendingPathComponent("\(type(of: self)).store")
     }
 
+    private func insert(
+        cache: (feed: [LocalHackrNew], timestamp: Date),
+        to sut: CodableHackrNewsFeedStore,
+        file _: StaticString = #filePath,
+        line _: UInt = #line
+    ) {
+        let exp = expectation(description: "Wait for cache insertion")
+
+        sut.insertCacheNews(cache.feed, with: cache.timestamp) { insertionError in
+            XCTAssertNil(insertionError, "Expected news to be inserted successfully")
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+
     private func expect(
         _ sut: CodableHackrNewsFeedStore,
         retrieves expectedResult: RetrieveCachedFeedResult,
-        file _: StaticString = #filePath,
-        line _: UInt = #line
+        file: StaticString = #filePath,
+        line: UInt = #line
     ) {
         let exp = expectation(description: "Wait for cache retrieval")
 
@@ -161,17 +137,29 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
             case (.empty, .empty):
                 break
             case let (.found(news: retrievedNews, timestamp: retrievedTimestamp), .found(news: expectedNews, timestamp: expectedTimestamp)):
-                XCTAssertEqual(retrievedNews, expectedNews)
-                XCTAssertEqual(retrievedTimestamp, expectedTimestamp)
+                XCTAssertEqual(retrievedNews, expectedNews, file: file, line: line)
+                XCTAssertEqual(retrievedTimestamp, expectedTimestamp, file: file, line: line)
             default:
                 XCTFail(
-                    "Expected \(expectedResult), got \(retrievedResult) instead."
+                    "Expected \(expectedResult), got \(retrievedResult) instead.",
+                    file: file,
+                    line: line
                 )
             }
             exp.fulfill()
         }
 
         wait(for: [exp], timeout: 1.0)
+    }
+
+    private func expect(
+        _ sut: CodableHackrNewsFeedStore,
+        retrievesTwice expectedResult: RetrieveCachedFeedResult,
+        file _: StaticString = #filePath,
+        line _: UInt = #line
+    ) {
+        expect(sut, retrieves: expectedResult)
+        expect(sut, retrieves: expectedResult)
     }
 
     private func deleteStoreArtifacts() -> Void? {
