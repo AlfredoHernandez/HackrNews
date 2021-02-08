@@ -26,7 +26,12 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
         }
     }
 
-    private let queue = DispatchQueue(label: "com.alfredohdz.HackrNews.store-\(CodableHackrNewsFeedStore.self)Queue", qos: .userInitiated)
+    private let queue = DispatchQueue(
+        label: "com.alfredohdz.HackrNews.store-\(CodableHackrNewsFeedStore.self)Queue",
+        qos: .userInitiated,
+        attributes: .concurrent
+    )
+
     private let storeUrl: URL
 
     public init(storeURL: URL) {
@@ -51,7 +56,7 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
 
     public func insertCacheNews(_ news: [LocalHackrNew], with timestamp: Date, completion: @escaping InsertionCompletion) {
         let storeUrl = self.storeUrl
-        queue.async {
+        queue.async(flags: .barrier) {
             do {
                 let encoder = JSONEncoder()
                 let cache = Cache(news: news.map(CodableHackrNew.init), timestamp: timestamp)
@@ -66,7 +71,7 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
 
     public func deleteCachedNews(completion: @escaping DeletionCompletion) {
         let storeUrl = self.storeUrl
-        queue.async {
+        queue.async(flags: .barrier) {
             do {
                 guard FileManager.default.fileExists(atPath: storeUrl.path) else {
                     return completion(.none)
