@@ -5,7 +5,7 @@
 import SwiftSoup
 import UIKit
 
-public class BodyCommentCellController {
+public class StoryBodyCellController {
     let body: String
     var cell: UITableViewCell?
 

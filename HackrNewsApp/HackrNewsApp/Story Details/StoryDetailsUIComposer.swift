@@ -12,8 +12,8 @@ class StoryDetailsUIComposer {
         loader: (Int) -> CommentLoader
     ) -> StoryDetailsViewController {
         let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model), didSelect: didSelectStory)
-        var bodyTextController: BodyCommentCellController?
-        if let body = model.text { bodyTextController = BodyCommentCellController(body: body) }
+        var bodyTextController: StoryBodyCellController?
+        if let body = model.text { bodyTextController = StoryBodyCellController(body: body) }
         let controller = StoryDetailsViewController(
             storyCellController: storyCellController,
             bodyCommentCellController: bodyTextController

@@ -110,9 +110,9 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
 
     private func makeSUT(viewModel: StoryDetailViewModel) -> StoryDetailsViewController {
         let cell = StoryCellController(viewModel: viewModel)
-        var storyText: BodyCommentCellController?
+        var storyText: StoryBodyCellController?
         if let body = viewModel.text {
-            storyText = BodyCommentCellController(body: body)
+            storyText = StoryBodyCellController(body: body)
         }
         let sut = StoryDetailsViewController(storyCellController: cell, bodyCommentCellController: storyText)
         return sut

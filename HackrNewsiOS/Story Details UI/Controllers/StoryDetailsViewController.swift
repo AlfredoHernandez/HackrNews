@@ -11,14 +11,14 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     private var storyCell: IndexPath { IndexPath(row: 0, section: storySection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: storySection) }
     private(set) var storyCellController: StoryCellController
-    private let bodyCommentCellController: BodyCommentCellController?
+    private let bodyCommentCellController: StoryBodyCellController?
     private var comments = [CommentCellController]() {
         didSet {
             tableView.reloadData()
         }
     }
 
-    public init(storyCellController: StoryCellController, bodyCommentCellController: BodyCommentCellController?) {
+    public init(storyCellController: StoryCellController, bodyCommentCellController: StoryBodyCellController?) {
         self.storyCellController = storyCellController
         self.bodyCommentCellController = bodyCommentCellController
         super.init(nibName: nil, bundle: nil)
