@@ -53,10 +53,10 @@ class HackrNewsFeedStoreSpy: HackrNewsFeedStore {
     }
 
     func completeRetrievalWithEmptyCache(at index: Int = 0) {
-        retrievalRequests[index](.success(.empty))
+        retrievalRequests[index](.success(.none))
     }
 
     func completeRetrieval(with news: [LocalHackrNew], timestamp: Date, at index: Int = 0) {
-        retrievalRequests[index](.success(.found(news: news, timestamp: timestamp)))
+        retrievalRequests[index](.success(CachedFeed(feed: news, timestamp: timestamp)))
     }
 }

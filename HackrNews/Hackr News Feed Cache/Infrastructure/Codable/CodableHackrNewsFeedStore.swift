@@ -42,12 +42,12 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
         let storeUrl = self.storeUrl
         queue.async {
             guard let data = try? Data(contentsOf: storeUrl) else {
-                return completion(.success(.empty))
+                return completion(.success(.none))
             }
             do {
                 let decoder = JSONDecoder()
                 let decoded = try decoder.decode(Cache.self, from: data)
-                completion(.success(.found(news: decoded.localFeed, timestamp: decoded.timestamp)))
+                completion(.success(CachedFeed(feed: decoded.localFeed, timestamp: decoded.timestamp)))
             } catch {
                 completion(.failure(error))
             }

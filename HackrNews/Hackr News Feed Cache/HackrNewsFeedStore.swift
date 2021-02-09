@@ -4,9 +4,14 @@
 
 import Foundation
 
-public enum CachedFeed {
-    case empty
-    case found(news: [LocalHackrNew], timestamp: Date)
+public struct CachedFeed {
+    public let feed: [LocalHackrNew]
+    public let timestamp: Date
+
+    public init(feed: [LocalHackrNew], timestamp: Date) {
+        self.feed = feed
+        self.timestamp = timestamp
+    }
 }
 
 public protocol HackrNewsFeedStore {
@@ -14,7 +19,7 @@ public protocol HackrNewsFeedStore {
 
     typealias InsertionCompletion = (Error?) -> Void
 
-    typealias RetrievalResult = Swift.Result<CachedFeed, Error>
+    typealias RetrievalResult = Swift.Result<CachedFeed?, Error>
     typealias RetrievalCompletion = (RetrievalResult) -> Void
 
     /// Completion handler can be invoked in any thread.

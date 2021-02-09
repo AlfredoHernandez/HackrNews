@@ -7,11 +7,11 @@ import XCTest
 
 extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
     func assertThatRetrieveDeliversEmptyOnEmptyCache(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
-        expect(sut, retrieves: .success(.empty), file: file, line: line)
+        expect(sut, retrieves: .success(.none), file: file, line: line)
     }
 
     func assertThatRetrieveHasNoSideEffects(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
-        expect(sut, retrievesTwice: .success(.empty), file: file, line: line)
+        expect(sut, retrievesTwice: .success(.none), file: file, line: line)
     }
 
     func assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(
@@ -23,7 +23,7 @@ extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
         let timestamp = Date()
 
         insert(cache: (feed, timestamp), to: sut, file: file, line: line)
-        expect(sut, retrieves: .success(.found(news: feed, timestamp: timestamp)), file: file, line: line)
+        expect(sut, retrieves: .success(CachedFeed(feed: feed, timestamp: timestamp)), file: file, line: line)
     }
 
     func assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
@@ -31,7 +31,7 @@ extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
         let timestamp = Date()
 
         insert(cache: (feed, timestamp), to: sut, file: file, line: line)
-        expect(sut, retrievesTwice: .success(.found(news: feed, timestamp: timestamp)), file: file, line: line)
+        expect(sut, retrievesTwice: .success(CachedFeed(feed: feed, timestamp: timestamp)), file: file, line: line)
     }
 
     func assertThatRetrieveDeliversFailureOnRetrievalError(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
@@ -50,7 +50,7 @@ extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
 
     func assertThatInsertHasNoSideEffectsOnInsertionError(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
         insert(cache: (feed: uniqueFeed(), timestamp: Date()), to: sut, file: file, line: line)
-        expect(sut, retrieves: .success(.empty), file: file, line: line)
+        expect(sut, retrieves: .success(.none), file: file, line: line)
     }
 
     func assertThatInsertOverridesPreviouslyInsertedCacheValues(
@@ -64,19 +64,19 @@ extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
         let latestTimestamp = Date()
 
         insert(cache: (latestFeed, latestTimestamp), to: sut, file: file, line: line)
-        expect(sut, retrieves: .success(.found(news: latestFeed, timestamp: latestTimestamp)), file: file, line: line)
+        expect(sut, retrieves: .success(CachedFeed(feed: latestFeed, timestamp: latestTimestamp)), file: file, line: line)
     }
 
     func assertThatDeleteHasNoSideEffectsOnEmptyCache(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
         deleteCache(from: sut, file: file, line: line)
-        expect(sut, retrieves: .success(.empty), file: file, line: line)
+        expect(sut, retrieves: .success(.none), file: file, line: line)
     }
 
     func assertThatDeleteEmptiesPreviousInsertedCache(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
         insert(cache: (feed: uniqueFeed(), timestamp: Date()), to: sut, file: file, line: line)
         deleteCache(from: sut, file: file, line: line)
 
-        expect(sut, retrieves: .success(.empty), file: file, line: line)
+        expect(sut, retrieves: .success(.none), file: file, line: line)
     }
 
     func assertThatDeleteDeliversErrorOnDeletionError(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
@@ -86,7 +86,7 @@ extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
 
     func assertThatDeletehasNoSideEffectsOnDeletionError(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
         deleteCache(from: sut, file: file, line: line)
-        expect(sut, retrieves: .success(.empty), file: file, line: line)
+        expect(sut, retrieves: .success(.none), file: file, line: line)
     }
 
     func assertThatStoreSideEffectsRunsSerially(on sut: HackrNewsFeedStore, file: StaticString = #filePath, line: UInt = #line) {
@@ -163,14 +163,14 @@ extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
 
         sut.retrieve { retrievedResult in
             switch (expectedResult, retrievedResult) {
-            case (.success(.empty), .success(.empty)):
+            case (.success(.none), .success(.none)):
                 break
             case let (
-                .success(.found(news: retrievedNews, timestamp: retrievedTimestamp)),
-                .success(.found(news: expectedNews, timestamp: expectedTimestamp))
+                .success(.some(retrievedCache)),
+                .success(.some(expectedCache))
             ):
-                XCTAssertEqual(retrievedNews, expectedNews, file: file, line: line)
-                XCTAssertEqual(retrievedTimestamp, expectedTimestamp, file: file, line: line)
+                XCTAssertEqual(retrievedCache.feed, expectedCache.feed, file: file, line: line)
+                XCTAssertEqual(retrievedCache.timestamp, expectedCache.timestamp, file: file, line: line)
             case (.failure, .failure):
                 break
             default:
