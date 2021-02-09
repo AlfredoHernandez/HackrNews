@@ -22,42 +22,34 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase, FailableHackrNewsFeedSto
     func test_retrieve_deliversEmptyOnEmptyCache() {
         let sut = makeSUT()
 
-        expect(sut, retrieves: .empty)
+        assertThatRetrieveDeliversEmptyOnEmptyCache(on: sut)
     }
 
     func test_retrieve_hasNoSideEffects() {
         let sut = makeSUT()
 
-        expect(sut, retrievesTwice: .empty)
+        assertThatRetrieveHasNoSideEffects(on: sut)
     }
 
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
         let sut = makeSUT()
-        let feed = uniqueFeed()
-        let timestamp = Date()
 
-        insert(cache: (feed, timestamp), to: sut)
-
-        expect(sut, retrieves: .found(news: feed, timestamp: timestamp))
+        assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
     }
 
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
-        let feed = uniqueFeed()
-        let timestamp = Date()
 
-        insert(cache: (feed, timestamp), to: sut)
-
-        expect(sut, retrievesTwice: .found(news: feed, timestamp: timestamp))
+        assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut)
     }
 
-    func test_retrieve_deliversErrorOnRetrievalError() {
+    func test_retrieve_deliversFailureOnRetrievalError() {
         let storeURL = testSpecificStoreURL()
         let sut = makeSUT(storeURL: storeURL)
 
         try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
 
-        expect(sut, retrieves: .failure(anyNSError()))
+        assertThatRetrieveDeliversFailureOnRetrievalError(on: sut)
     }
 
     func test_retrieve_hasNoSideEffectsOnFailure() {
@@ -66,107 +58,56 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase, FailableHackrNewsFeedSto
 
         try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
 
-        expect(sut, retrievesTwice: .failure(anyNSError()))
+        assertThatRetrievehasNoSideEffectsOnFailure(on: sut)
     }
 
     func test_insert_overridesPreviouslyInsertedCacheValues() {
         let sut = makeSUT()
 
-        let firstInsertionError = insert(cache: (feed: uniqueFeed(), timestamp: Date()), to: sut)
-        XCTAssertNil(firstInsertionError, "Expected to insert cache successfully")
-
-        let latestFeed = [LocalHackrNew(id: 4), LocalHackrNew(id: 5), LocalHackrNew(id: 6)]
-        let latestTimestamp = Date()
-        let latestInsertionError = insert(cache: (latestFeed, latestTimestamp), to: sut)
-        XCTAssertNil(latestInsertionError, "Expected to override cache successfully")
-
-        expect(sut, retrieves: .found(news: latestFeed, timestamp: latestTimestamp))
+        assertThatInsertOverridesPreviouslyInsertedCacheValues(on: sut)
     }
 
     func test_insert_deliversErrorOnInsertionError() {
         let invalidStoreUrl = URL(string: "invalid://store-url")!
         let sut = makeSUT(storeURL: invalidStoreUrl)
-        let feed = uniqueFeed()
-        let timestamp = Date()
 
-        let insertionError = insert(cache: (feed: feed, timestamp: timestamp), to: sut)
-
-        XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
+        assertThatInsertDeliversErrorOnInsertionError(on: sut)
     }
 
     func test_insert_hasNoSideEffectsOnInsertionError() {
         let invalidStoreUrl = URL(string: "invalid://store-url")!
         let sut = makeSUT(storeURL: invalidStoreUrl)
-        let feed = uniqueFeed()
-        let timestamp = Date()
 
-        insert(cache: (feed: feed, timestamp: timestamp), to: sut)
-        expect(sut, retrieves: .empty)
+        assertThatInsertHasNoSideEffectsOnInsertionError(on: sut)
     }
 
     func test_delete_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
 
-        let deletionError = deleteCache(from: sut)
-
-        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+        assertThatDeleteHasNoSideEffectsOnEmptyCache(on: sut)
     }
 
     func test_delete_emptiesPreviousInsertedCache() {
         let sut = makeSUT()
-        let feed = uniqueFeed()
-        let timestamp = Date()
-
-        insert(cache: (feed: feed, timestamp: timestamp), to: sut)
-        let deletionError = deleteCache(from: sut)
-
-        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+        assertThatDeleteEmptiesPreviousInsertedCache(on: sut)
     }
 
     func test_delete_deliversErrorOnDeletionError() {
         let sut = makeSUT(storeURL: noDeletePermissionURL())
 
-        let deletionError = deleteCache(from: sut)
-
-        XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
+        assertThatDeleteDeliversErrorOnDeletionError(on: sut)
     }
 
     func test_delete_hasNoSideEffectsOnDeletionError() {
         let sut = makeSUT(storeURL: noDeletePermissionURL())
 
-        deleteCache(from: sut)
-
-        expect(sut, retrieves: .empty)
+        assertThatDeletehasNoSideEffectsOnDeletionError(on: sut)
     }
 
     func test_storeSideEffects_runsSerially() {
         let sut = makeSUT()
-        var completedOperationsInOrder = [XCTestExpectation]()
 
-        let exp1 = expectation(description: "Operation 1")
-        sut.insertCacheNews(uniqueFeed(), with: Date()) { _ in
-            completedOperationsInOrder.append(exp1)
-            exp1.fulfill()
-        }
-
-        let exp2 = expectation(description: "Operation 2")
-        sut.deleteCachedNews { _ in
-            completedOperationsInOrder.append(exp2)
-            exp2.fulfill()
-        }
-
-        let exp3 = expectation(description: "Operation 3")
-        sut.insertCacheNews(uniqueFeed(), with: Date()) { _ in
-            completedOperationsInOrder.append(exp3)
-            exp3.fulfill()
-        }
-
-        waitForExpectations(timeout: 1.0)
-        XCTAssertEqual(
-            completedOperationsInOrder,
-            [exp1, exp2, exp3],
-            "Expected side-effects to run serially but operation finished in wrong order"
-        )
+        assertThatStoreSideEffectsRunsSerially(on: sut)
     }
 
     // MARK: Helpers
@@ -189,10 +130,6 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase, FailableHackrNewsFeedSto
             for: .cachesDirectory,
             in: .systemDomainMask
         ).first!
-    }
-
-    private func uniqueFeed() -> [LocalHackrNew] {
-        [LocalHackrNew(id: 1), LocalHackrNew(id: 2), LocalHackrNew(id: 3)]
     }
 
     private func deleteStoreArtifacts() -> Void? {

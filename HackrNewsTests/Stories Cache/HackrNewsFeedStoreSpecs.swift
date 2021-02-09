@@ -16,7 +16,7 @@ protocol HackrNewsFeedStoreSpecs {
 }
 
 protocol FailableRetrieveHackrNewsFeedStoreSpecs: HackrNewsFeedStoreSpecs {
-    func test_retrieve_deliversErrorOnRetrievalError()
+    func test_retrieve_deliversFailureOnRetrievalError()
     func test_retrieve_hasNoSideEffectsOnFailure()
 }
 
