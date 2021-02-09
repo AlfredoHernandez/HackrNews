@@ -42,12 +42,12 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
         let storeUrl = self.storeUrl
         queue.async {
             guard let data = try? Data(contentsOf: storeUrl) else {
-                return completion(.empty)
+                return completion(.success(.none))
             }
             do {
                 let decoder = JSONDecoder()
                 let decoded = try decoder.decode(Cache.self, from: data)
-                completion(.found(news: decoded.localFeed, timestamp: decoded.timestamp))
+                completion(.success(CachedFeed(feed: decoded.localFeed, timestamp: decoded.timestamp)))
             } catch {
                 completion(.failure(error))
             }
@@ -62,9 +62,9 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
                 let cache = Cache(news: news.map(CodableHackrNew.init), timestamp: timestamp)
                 let encoded = try encoder.encode(cache)
                 try encoded.write(to: storeUrl)
-                completion(nil)
+                completion(.success(()))
             } catch {
-                completion(error)
+                completion(.failure(error))
             }
         }
     }
@@ -74,12 +74,12 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
         queue.async(flags: .barrier) {
             do {
                 guard FileManager.default.fileExists(atPath: storeUrl.path) else {
-                    return completion(.none)
+                    return completion(.success(()))
                 }
                 try FileManager.default.removeItem(at: storeUrl)
-                completion(.none)
+                completion(.success(()))
             } catch {
-                completion(error)
+                completion(.failure(error))
             }
         }
     }

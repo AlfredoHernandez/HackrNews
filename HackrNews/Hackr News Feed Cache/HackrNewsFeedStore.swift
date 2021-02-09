@@ -4,16 +4,25 @@
 
 import Foundation
 
-public enum RetrieveCachedFeedResult {
-    case empty
-    case found(news: [LocalHackrNew], timestamp: Date)
-    case failure(Error)
+public struct CachedFeed {
+    public let feed: [LocalHackrNew]
+    public let timestamp: Date
+
+    public init(feed: [LocalHackrNew], timestamp: Date) {
+        self.feed = feed
+        self.timestamp = timestamp
+    }
 }
 
 public protocol HackrNewsFeedStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
-    typealias RetrievalCompletion = (RetrieveCachedFeedResult) -> Void
+    typealias DeletionResult = Swift.Result<Void, Error>
+    typealias DeletionCompletion = (DeletionResult) -> Void
+
+    typealias InsertionResult = Swift.Result<Void, Error>
+    typealias InsertionCompletion = (InsertionResult) -> Void
+
+    typealias RetrievalResult = Swift.Result<CachedFeed?, Error>
+    typealias RetrievalCompletion = (RetrievalResult) -> Void
 
     /// Completion handler can be invoked in any thread.
     /// Clients are responsible to dispatch to appropriate threads, if needed.
