@@ -11,14 +11,14 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     private var storyCell: IndexPath { IndexPath(row: 0, section: storySection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: storySection) }
     private(set) var storyCellController: StoryCellController
-    private let bodyCommentCellController: BodyCommentCellController
+    private let bodyCommentCellController: BodyCommentCellController?
     private var comments = [CommentCellController]() {
         didSet {
             tableView.reloadData()
         }
     }
 
-    public init(storyCellController: StoryCellController, bodyCommentCellController: BodyCommentCellController) {
+    public init(storyCellController: StoryCellController, bodyCommentCellController: BodyCommentCellController?) {
         self.storyCellController = storyCellController
         self.bodyCommentCellController = bodyCommentCellController
         super.init(nibName: nil, bundle: nil)
@@ -48,7 +48,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     }
 
     private var storyCells: Int {
-        bodyCommentCellController.body != nil ? 2 : 1
+        bodyCommentCellController != nil ? 2 : 1
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
@@ -56,7 +56,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         case storyCell:
             return storyCellController.view(in: tableView)
         case storyBodyCell:
-            return bodyCommentCellController.view(in: tableView)
+            return bodyCommentCellController!.view(in: tableView)
         default:
             return comments[index.row].view(in: tableView)
         }

@@ -446,8 +446,8 @@
 			children = (
 				38AFE4A025C0C40D0026610D /* StoryDetailsViewController.swift */,
 				3808B30625C0F09400632213 /* StoryCellController.swift */,
-				38D71CC525C8D1DD00AB8DD1 /* CommentCellController.swift */,
 				38C5660025D340AC00C43726 /* BodyCommentCellController.swift */,
+				38D71CC525C8D1DD00AB8DD1 /* CommentCellController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

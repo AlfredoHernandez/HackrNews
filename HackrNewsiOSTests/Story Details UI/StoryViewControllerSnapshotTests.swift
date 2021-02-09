@@ -17,9 +17,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "27 years ago",
             displayURL: "getdropbox.com"
         )
-        let cell = StoryCellController(viewModel: viewModel)
-        let bodyComment = BodyCommentCellController(body: viewModel.text)
-        let sut = StoryDetailsViewController(storyCellController: cell, bodyCommentCellController: bodyComment)
+        let sut = makeSUT(viewModel: viewModel)
 
         sut.loadViewIfNeeded()
 
@@ -46,9 +44,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "27 years ago",
             displayURL: "getdropbox.com"
         )
-        let cell = StoryCellController(viewModel: viewModel)
-        let bodyComment = BodyCommentCellController(body: viewModel.text)
-        let sut = StoryDetailsViewController(storyCellController: cell, bodyCommentCellController: bodyComment)
+        let sut = makeSUT(viewModel: viewModel)
 
         sut.loadViewIfNeeded()
 
@@ -66,9 +62,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "30 minutes ago",
             displayURL: nil
         )
-        let cell = StoryCellController(viewModel: viewModel)
-        let bodyComment = BodyCommentCellController(body: viewModel.text)
-        let sut = StoryDetailsViewController(storyCellController: cell, bodyCommentCellController: bodyComment)
+        let sut = makeSUT(viewModel: viewModel)
 
         sut.loadViewIfNeeded()
 
@@ -86,9 +80,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "30 minutes ago",
             displayURL: nil
         )
-        let cell = StoryCellController(viewModel: viewModel)
-        let bodyComment = BodyCommentCellController(body: viewModel.text)
-        let sut = StoryDetailsViewController(storyCellController: cell, bodyCommentCellController: bodyComment)
+        let sut = makeSUT(viewModel: viewModel)
 
         sut.loadViewIfNeeded()
 
@@ -106,14 +98,21 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             createdAt: "30 minutes ago",
             displayURL: nil
         )
-        let cell = StoryCellController(viewModel: viewModel)
-        let bodyComment = BodyCommentCellController(body: viewModel.text)
-        let sut = StoryDetailsViewController(storyCellController: cell, bodyCommentCellController: bodyComment)
+        let sut = makeSUT(viewModel: viewModel)
 
         sut.loadViewIfNeeded()
 
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "poll_story_details_light")
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "poll_story_details_dark")
+    }
+
+    // MARK: - Helpers
+
+    private func makeSUT(viewModel: StoryDetailViewModel) -> StoryDetailsViewController {
+        let cell = StoryCellController(viewModel: viewModel)
+        let bodyComment = viewModel.text != nil ? BodyCommentCellController(body: viewModel.text) : nil
+        let sut = StoryDetailsViewController(storyCellController: cell, bodyCommentCellController: bodyComment)
+        return sut
     }
 }
 

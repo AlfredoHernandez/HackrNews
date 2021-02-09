@@ -33,4 +33,8 @@ public struct StoryDetail {
         self.comments = comments
         self.url = url
     }
+
+    public var hasBody: Bool {
+        text != nil
+    }
 }

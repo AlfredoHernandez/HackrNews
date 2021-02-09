@@ -12,7 +12,7 @@ class StoryDetailsUIComposer {
         loader: (Int) -> CommentLoader
     ) -> StoryDetailsViewController {
         let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model), didSelect: didSelectStory)
-        let bodyCommentCellController = BodyCommentCellController(body: model.text)
+        let bodyCommentCellController: BodyCommentCellController? = model.hasBody ? BodyCommentCellController(body: model.text) : nil
         let controller = StoryDetailsViewController(
             storyCellController: storyCellController,
             bodyCommentCellController: bodyCommentCellController
