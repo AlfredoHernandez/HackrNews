@@ -11,14 +11,16 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     private var storyCell: IndexPath { IndexPath(row: 0, section: storySection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: storySection) }
     private(set) var storyCellController: StoryCellController
+    private let bodyCommentCellController: BodyCommentCellController
     private var comments = [CommentCellController]() {
         didSet {
             tableView.reloadData()
         }
     }
 
-    public init(storyCellController: StoryCellController) {
+    public init(storyCellController: StoryCellController, bodyCommentCellController: BodyCommentCellController) {
         self.storyCellController = storyCellController
+        self.bodyCommentCellController = bodyCommentCellController
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -46,7 +48,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     }
 
     private var storyCells: Int {
-        storyCellController.bodyText != nil ? 2 : 1
+        bodyCommentCellController.body != nil ? 2 : 1
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
@@ -54,7 +56,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         case storyCell:
             return storyCellController.view(in: tableView)
         case storyBodyCell:
-            return bodyCell(in: tableView)
+            return bodyCommentCellController.view(in: tableView)
         default:
             return comments[index.row].view(in: tableView)
         }
@@ -111,13 +113,5 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         if validateCommentInRange(at: indexPath) {
             commentController(forRowAt: indexPath).cancel()
         }
-    }
-
-    private func bodyCell(in tableView: UITableView) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell()
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = storyCellController.bodyText
-        cell.selectionStyle = .none
-        return cell
     }
 }
