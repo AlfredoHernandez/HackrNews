@@ -86,7 +86,7 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
     func test_save_doesNotDeliversInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
         let store = HackrNewsFeedStoreSpy()
         var sut: LocalHackrNewsFeedLoader? = LocalHackrNewsFeedLoader(store: store, currentDate: Date.init)
-        var receivedResults = [Error?]()
+        var receivedResults = [LocalHackrNewsFeedLoader.SaveResult]()
 
         sut?.save(uniqueHackrNews().models, completion: { result in
             receivedResults.append(result)
@@ -128,8 +128,13 @@ final class CacheHackrNewsUseCaseTests: XCTestCase {
         var receivedError: Error?
         let exp = expectation(description: "Wait for save command")
 
-        sut.save(uniqueHackrNews().models) { error in
-            receivedError = error
+        sut.save(uniqueHackrNews().models) { result in
+            switch result {
+            case .success:
+                break
+            case let .failure(error):
+                receivedError = error
+            }
             exp.fulfill()
         }
 

@@ -62,9 +62,9 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
                 let cache = Cache(news: news.map(CodableHackrNew.init), timestamp: timestamp)
                 let encoded = try encoder.encode(cache)
                 try encoded.write(to: storeUrl)
-                completion(nil)
+                completion(.success(()))
             } catch {
-                completion(error)
+                completion(.failure(error))
             }
         }
     }
@@ -74,12 +74,12 @@ public class CodableHackrNewsFeedStore: HackrNewsFeedStore {
         queue.async(flags: .barrier) {
             do {
                 guard FileManager.default.fileExists(atPath: storeUrl.path) else {
-                    return completion(.none)
+                    return completion(.success(()))
                 }
                 try FileManager.default.removeItem(at: storeUrl)
-                completion(.none)
+                completion(.success(()))
             } catch {
-                completion(error)
+                completion(.failure(error))
             }
         }
     }

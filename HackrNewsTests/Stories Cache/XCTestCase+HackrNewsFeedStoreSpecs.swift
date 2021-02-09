@@ -128,15 +128,20 @@ extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
         line _: UInt = #line
     ) -> Error? {
         let exp = expectation(description: "Wait for cache insertion")
-        var error: Error?
+        var insertionError: Error?
 
-        sut.insertCacheNews(cache.feed, with: cache.timestamp) { insertionError in
-            error = insertionError
+        sut.insertCacheNews(cache.feed, with: cache.timestamp) { insertionResult in
+            switch insertionResult {
+            case .success:
+                break
+            case let .failure(error):
+                insertionError = error
+            }
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
 
-        return error
+        return insertionError
     }
 
     @discardableResult
@@ -144,8 +149,13 @@ extension HackrNewsFeedStoreSpecs where Self: XCTestCase {
         var deletionError: Error?
         let exp = expectation(description: "Wait for deletion completion")
 
-        sut.deleteCachedNews { receivedError in
-            deletionError = receivedError
+        sut.deleteCachedNews { deletionResult in
+            switch deletionResult {
+            case .success:
+                break
+            case let .failure(error):
+                deletionError = error
+            }
             exp.fulfill()
         }
 

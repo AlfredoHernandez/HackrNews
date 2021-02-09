@@ -15,9 +15,11 @@ public struct CachedFeed {
 }
 
 public protocol HackrNewsFeedStore {
-    typealias DeletionCompletion = (Error?) -> Void
+    typealias DeletionResult = Swift.Result<Void, Error>
+    typealias DeletionCompletion = (DeletionResult) -> Void
 
-    typealias InsertionCompletion = (Error?) -> Void
+    typealias InsertionResult = Swift.Result<Void, Error>
+    typealias InsertionCompletion = (InsertionResult) -> Void
 
     typealias RetrievalResult = Swift.Result<CachedFeed?, Error>
     typealias RetrievalCompletion = (RetrievalResult) -> Void

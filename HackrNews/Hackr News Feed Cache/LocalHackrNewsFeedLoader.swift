@@ -17,13 +17,17 @@ public class LocalHackrNewsFeedLoader {
 // MARK: - Save Cache
 
 public extension LocalHackrNewsFeedLoader {
-    typealias SaveResult = Error?
+    typealias SaveResult = Result<Void, Error>
 
     func save(_ news: [HackrNew], completion: @escaping (SaveResult) -> Void) {
-        store.deleteCachedNews { [weak self] deletionError in
+        store.deleteCachedNews { [weak self] result in
             guard let self = self else { return }
-            guard deletionError == nil else { return completion(deletionError) }
-            self.cache(news, with: completion)
+            switch result {
+            case .success:
+                self.cache(news, with: completion)
+            case let .failure(error):
+                completion(.failure(error))
+            }
         }
     }
 
