@@ -11,14 +11,16 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     private var storyCell: IndexPath { IndexPath(row: 0, section: storySection) }
     private var storyBodyCell: IndexPath { IndexPath(row: 1, section: storySection) }
     private(set) var storyCellController: StoryCellController
+    private let bodyCommentCellController: StoryBodyCellController?
     private var comments = [CommentCellController]() {
         didSet {
             tableView.reloadData()
         }
     }
 
-    public init(storyCellController: StoryCellController) {
+    public init(storyCellController: StoryCellController, bodyCommentCellController: StoryBodyCellController?) {
         self.storyCellController = storyCellController
+        self.bodyCommentCellController = bodyCommentCellController
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -46,7 +48,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     }
 
     private var storyCells: Int {
-        storyCellController.bodyText != nil ? 2 : 1
+        bodyCommentCellController != nil ? 2 : 1
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt index: IndexPath) -> UITableViewCell {
@@ -54,7 +56,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         case storyCell:
             return storyCellController.view(in: tableView)
         case storyBodyCell:
-            return bodyCell(in: tableView)
+            return bodyCommentCellController!.view(in: tableView)
         default:
             return comments[index.row].view(in: tableView)
         }
@@ -75,7 +77,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         case storySection:
             storyCellController.releaseCellForReuse()
         case commentsSection:
-            cancelComment(at: indexPath)
+            cancelCellControllerLoad(at: indexPath)
         default:
             break
         }
@@ -86,34 +88,30 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     }
 
     public func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach { indexPath in
-            if areValidComments(at: indexPath) {
-                comments[indexPath.row].preload()
-            }
-        }
+        indexPaths.forEach(preloadCellController)
     }
 
     public func tableView(_: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach { indexPath in
-            cancelComment(at: indexPath)
-        }
+        indexPaths.forEach(cancelCellControllerLoad)
     }
 
-    private func areValidComments(at indexPath: IndexPath) -> Bool {
+    private func validateCommentInRange(at indexPath: IndexPath) -> Bool {
         (indexPath.section == commentsSection) && (comments.count > 0)
     }
 
-    private func cancelComment(at indexPath: IndexPath) {
-        if areValidComments(at: indexPath) {
-            comments[indexPath.row].cancel()
+    private func commentController(forRowAt indexPath: IndexPath) -> CommentCellController {
+        comments[indexPath.row]
+    }
+
+    private func preloadCellController(at indexPath: IndexPath) {
+        if validateCommentInRange(at: indexPath) {
+            commentController(forRowAt: indexPath).preload()
         }
     }
 
-    private func bodyCell(in tableView: UITableView) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell()
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = storyCellController.bodyText
-        cell.selectionStyle = .none
-        return cell
+    private func cancelCellControllerLoad(at indexPath: IndexPath) {
+        if validateCommentInRange(at: indexPath) {
+            commentController(forRowAt: indexPath).cancel()
+        }
     }
 }

@@ -12,6 +12,9 @@ extension StoryDetailsViewController {
     }
 
     var storyTextView: UITableViewCell? {
+        guard numberOfRows(in: detailSection) == 2 else {
+            return nil
+        }
         let ds = tableView.dataSource
         return ds?.tableView(tableView, cellForRowAt: IndexPath(row: 1, section: detailSection))
     }
