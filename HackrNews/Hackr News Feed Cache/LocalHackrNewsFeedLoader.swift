@@ -44,11 +44,11 @@ extension LocalHackrNewsFeedLoader: HackrNewsFeedLoader {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case let .found(news: news, timestamp: timestamp) where CachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .success(.found(news: news, timestamp: timestamp)) where CachePolicy.validate(timestamp, against: self.currentDate()):
                 completion(.success(news.toModels()))
             case let .failure(error):
                 completion(.failure(error))
-            case .found, .empty:
+            case .success(.found), .success(.empty):
                 completion(.success([]))
             }
         }
@@ -62,11 +62,11 @@ public extension LocalHackrNewsFeedLoader {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case let .found(_, timestamp: timestamp) where !CachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .success(.found(_, timestamp: timestamp)) where !CachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedNews { _ in }
             case .failure:
                 self.store.deleteCachedNews { _ in }
-            case .empty, .found:
+            case .success(.found), .success(.empty):
                 break
             }
         }
