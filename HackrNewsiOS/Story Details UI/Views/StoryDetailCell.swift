@@ -10,7 +10,7 @@ public class StoryDetailCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
         view.spacing = 4.0
-        view.distribution = .fill
+        // view.distribution = .fill
         return view
     }()
 
@@ -18,7 +18,9 @@ public class StoryDetailCell: UITableViewCell {
         let view = UIStackView(arrangedSubviews: [authorLabel, createdAtLabel])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
-        view.distribution = .equalCentering
+        view.alignment = .center
+        view.distribution = .fillEqually
+        view.spacing = 8.0
         return view
     }()
 
@@ -26,7 +28,8 @@ public class StoryDetailCell: UITableViewCell {
         let view = UIStackView(arrangedSubviews: [scoreLabel, commentsLabel])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
-        view.alignment = .leading
+        view.alignment = .center
+        view.distribution = .fill
         view.spacing = 8.0
         return view
     }()
@@ -43,6 +46,7 @@ public class StoryDetailCell: UITableViewCell {
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .secondaryLabel
+        label.textAlignment = .right
         return label
     }()
 
@@ -63,17 +67,19 @@ public class StoryDetailCell: UITableViewCell {
 
     public private(set) lazy var scoreLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .secondaryLabel
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
 
     public private(set) lazy var commentsLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .secondaryLabel
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
