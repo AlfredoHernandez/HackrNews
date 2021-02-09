@@ -75,7 +75,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         case storySection:
             storyCellController.releaseCellForReuse()
         case commentsSection:
-            comments[indexPath.row].cancel()
+            cancelComment(at: indexPath)
         default:
             break
         }
@@ -87,7 +87,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
 
     public func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            if indexPath.section == commentsSection, comments.count > 0 {
+            if areValidComments(at: indexPath) {
                 comments[indexPath.row].preload()
             }
         }
@@ -95,9 +95,17 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
 
     public func tableView(_: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            if indexPath.section == commentsSection, comments.count > 0 {
-                comments[indexPath.row].cancel()
-            }
+            cancelComment(at: indexPath)
+        }
+    }
+
+    private func areValidComments(at indexPath: IndexPath) -> Bool {
+        (indexPath.section == commentsSection) && (comments.count > 0)
+    }
+
+    private func cancelComment(at indexPath: IndexPath) {
+        if areValidComments(at: indexPath) {
+            comments[indexPath.row].cancel()
         }
     }
 
