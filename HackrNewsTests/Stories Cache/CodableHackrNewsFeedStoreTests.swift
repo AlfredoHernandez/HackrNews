@@ -5,6 +5,32 @@
 import HackrNews
 import XCTest
 
+protocol HackrNewsFeedStoreSpecs {
+    func test_retrieve_deliversEmptyOnEmptyCache()
+    func test_retrieve_hasNoSideEffects()
+    func test_retrieve_deliversFoundValuesOnNonEmptyCache()
+    func test_retrieve_hasNoSideEffectsOnNonEmptyCache()
+    func test_insert_overridesPreviouslyInsertedCacheValues()
+    func test_delete_hasNoSideEffectsOnEmptyCache()
+    func test_delete_emptiesPreviousInsertedCache()
+    func test_storeSideEffects_runsSerially()
+}
+
+protocol FailableRetrieveHackrNewsFeedStoreSpecs {
+    func test_retrieve_deliversErrorOnRetrievalError()
+    func test_retrieve_hasNoSideEffectsOnFailure()
+}
+
+protocol FailableInsertHackrNewsFeedStoreSpecs {
+    func test_insert_deliversErrorOnInsertionError()
+    func test_insert_hasNoSideEffectsOnInsertionError()
+}
+
+protocol FailableDeleteHackrNewsFeedStoreSpecs {
+    func test_delete_deliversErrorOnDeletionError()
+    func test_delete_hasNoSideEffectsOnDeletionError()
+}
+
 final class CodableHackrNewsFeedStoreTests: XCTestCase {
     override func setUp() {
         super.setUp()
@@ -91,6 +117,16 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
     }
 
+    func test_insert_hasNoSideEffectsOnInsertionError() {
+        let invalidStoreUrl = URL(string: "invalid://store-url")!
+        let sut = makeSUT(storeURL: invalidStoreUrl)
+        let feed = uniqueFeed()
+        let timestamp = Date()
+
+        insert(cache: (feed: feed, timestamp: timestamp), to: sut)
+        expect(sut, retrieves: .empty)
+    }
+
     func test_delete_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
 
@@ -116,6 +152,14 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         let deletionError = deleteCache(from: sut)
 
         XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
+    }
+
+    func test_delete_hasNoSideEffectsOnDeletionError() {
+        let sut = makeSUT(storeURL: noDeletePermissionURL())
+
+        deleteCache(from: sut)
+
+        expect(sut, retrieves: .empty)
     }
 
     func test_storeSideEffects_runsSerially() {
@@ -189,6 +233,7 @@ final class CodableHackrNewsFeedStoreTests: XCTestCase {
         return error
     }
 
+    @discardableResult
     private func deleteCache(from sut: HackrNewsFeedStore) -> Error? {
         var deletionError: Error?
         let exp = expectation(description: "Wait for deletion completion")
