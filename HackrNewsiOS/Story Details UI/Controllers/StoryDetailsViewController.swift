@@ -75,7 +75,7 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
         case storySection:
             storyCellController.releaseCellForReuse()
         case commentsSection:
-            cancelComment(at: indexPath)
+            cancelCellControllerLoad(at: indexPath)
         default:
             break
         }
@@ -86,26 +86,30 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
     }
 
     public func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach { indexPath in
-            if areValidComments(at: indexPath) {
-                comments[indexPath.row].preload()
-            }
-        }
+        indexPaths.forEach(preloadCellController)
     }
 
     public func tableView(_: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach { indexPath in
-            cancelComment(at: indexPath)
-        }
+        indexPaths.forEach(cancelCellControllerLoad)
     }
 
-    private func areValidComments(at indexPath: IndexPath) -> Bool {
+    private func validateCommentInRange(at indexPath: IndexPath) -> Bool {
         (indexPath.section == commentsSection) && (comments.count > 0)
     }
 
-    private func cancelComment(at indexPath: IndexPath) {
-        if areValidComments(at: indexPath) {
-            comments[indexPath.row].cancel()
+    private func commentController(forRowAt indexPath: IndexPath) -> CommentCellController {
+        comments[indexPath.row]
+    }
+
+    private func preloadCellController(at indexPath: IndexPath) {
+        if validateCommentInRange(at: indexPath) {
+            commentController(forRowAt: indexPath).preload()
+        }
+    }
+
+    private func cancelCellControllerLoad(at indexPath: IndexPath) {
+        if validateCommentInRange(at: indexPath) {
+            commentController(forRowAt: indexPath).cancel()
         }
     }
 
