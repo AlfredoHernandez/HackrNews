@@ -12,10 +12,11 @@ class StoryDetailsUIComposer {
         loader: (Int) -> CommentLoader
     ) -> StoryDetailsViewController {
         let storyCellController = StoryCellController(viewModel: StoryDetailsPresenter.map(model), didSelect: didSelectStory)
-        let bodyCommentCellController: BodyCommentCellController? = model.hasBody ? BodyCommentCellController(body: model.text) : nil
+        var bodyTextController: BodyCommentCellController?
+        if let body = model.text { bodyTextController = BodyCommentCellController(body: body) }
         let controller = StoryDetailsViewController(
             storyCellController: storyCellController,
-            bodyCommentCellController: bodyCommentCellController
+            bodyCommentCellController: bodyTextController
         )
         controller.title = model.title
         controller.display(model.comments?.map { [loader] comment in
