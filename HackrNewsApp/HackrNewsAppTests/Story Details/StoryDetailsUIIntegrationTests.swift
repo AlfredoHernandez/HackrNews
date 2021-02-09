@@ -161,6 +161,16 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 2)
     }
 
+    func test_storyHasNotComments_preventsPreloadComment() {
+        let story = makeStoryDetail(comments: [])
+        let (sut, loader) = makeSUT(story: story)
+
+        sut.loadViewIfNeeded()
+
+        sut.simulateCommentViewIsNearVisible(at: 0)
+        XCTAssertEqual(loader.loadCallCount, 0)
+    }
+
     func test_commentView_cancelsPreloadingCommentWhenIsNotNearVisibleAnymore() {
         let story = makeStoryDetail(comments: [1])
         let (sut, loader) = makeSUT(story: story)
@@ -173,6 +183,16 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
 
         sut.simulateCommentViewIsNotNearVisible(at: 0)
         XCTAssertEqual(loader.cancelledRequests, 1)
+    }
+
+    func test_storyHasNotComments_preventsCancelComment() {
+        let story = makeStoryDetail(comments: [])
+        let (sut, loader) = makeSUT(story: story)
+
+        sut.loadViewIfNeeded()
+
+        sut.simulateCommentViewIsNotNearVisible(at: 0)
+        XCTAssertEqual(loader.cancelledRequests, 0)
     }
 
     func test_loadComment_cancelsLoadingCommentWhenViewNotVisibleAnymore() {
