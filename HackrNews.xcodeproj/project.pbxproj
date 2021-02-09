@@ -354,9 +354,9 @@
 		3860F8B525D09E880044025B /* Stories Cache */ = {
 			isa = PBXGroup;
 			children = (
+				38C565E825D31C9900C43726 /* Infrastructure */,
 				3860F8B925D09E880044025B /* Helpers */,
 				38C565D525D30E9800C43726 /* HackrNewsFeedStoreSpecs.swift */,
-				3860F8B625D09E880044025B /* CodableHackrNewsFeedStoreTests.swift */,
 				3860F8B725D09E880044025B /* ValidateHackrNewsFeedCacheUseCaseTests.swift */,
 				3860F8B825D09E880044025B /* CacheHackrNewsUseCaseTests.swift */,
 				3860F8BB25D09E880044025B /* LoadNewsFromCacheUseCaseTests.swift */,
@@ -484,6 +484,38 @@
 				38B00581259117AC00FA0D4A /* HTTPClientSpy.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		38C565E725D31C6A00C43726 /* Codable */ = {
+			isa = PBXGroup;
+			children = (
+				3860F8B625D09E880044025B /* CodableHackrNewsFeedStoreTests.swift */,
+			);
+			path = Codable;
+			sourceTree = "<group>";
+		};
+		38C565E825D31C9900C43726 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				38C565E725D31C6A00C43726 /* Codable */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		38C565EF25D31CB400C43726 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				38C565F025D31CBC00C43726 /* Codable */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		38C565F025D31CBC00C43726 /* Codable */ = {
+			isa = PBXGroup;
+			children = (
+				38AA7E6125D0CAA600389982 /* CodableHackrNewsFeedStore.swift */,
+			);
+			path = Codable;
 			sourceTree = "<group>";
 		};
 		38C916D12588619B001C5DE2 /* Hacker News Feed UI */ = {
@@ -697,11 +729,11 @@
 		38F2AE91259BC86F00DFB287 /* Hackr News Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				38C565EF25D31CB400C43726 /* Infrastructure */,
 				38F2AE97259BC89200DFB287 /* HackrNewsFeedStore.swift */,
 				38F2AE92259BC88200DFB287 /* LocalHackrNewsFeedLoader.swift */,
 				38F2AE9C259BD2F300DFB287 /* LocalHackrNew.swift */,
 				3860F8D625D09F930044025B /* CachePolicy.swift */,
-				38AA7E6125D0CAA600389982 /* CodableHackrNewsFeedStore.swift */,
 			);
 			path = "Hackr News Feed Cache";
 			sourceTree = "<group>";
