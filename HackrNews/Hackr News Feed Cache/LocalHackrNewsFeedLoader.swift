@@ -17,13 +17,17 @@ public class LocalHackrNewsFeedLoader {
 // MARK: - Save Cache
 
 public extension LocalHackrNewsFeedLoader {
-    typealias SaveResult = Error?
+    typealias SaveResult = Result<Void, Error>
 
     func save(_ news: [HackrNew], completion: @escaping (SaveResult) -> Void) {
-        store.deleteCachedNews { [weak self] deletionError in
+        store.deleteCachedNews { [weak self] result in
             guard let self = self else { return }
-            guard deletionError == nil else { return completion(deletionError) }
-            self.cache(news, with: completion)
+            switch result {
+            case .success:
+                self.cache(news, with: completion)
+            case let .failure(error):
+                completion(.failure(error))
+            }
         }
     }
 
@@ -44,11 +48,11 @@ extension LocalHackrNewsFeedLoader: HackrNewsFeedLoader {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case let .found(news: news, timestamp: timestamp) where CachePolicy.validate(timestamp, against: self.currentDate()):
-                completion(.success(news.toModels()))
+            case let .success(.some(cache)) where CachePolicy.validate(cache.timestamp, against: self.currentDate()):
+                completion(.success(cache.feed.toModels()))
             case let .failure(error):
                 completion(.failure(error))
-            case .found, .empty:
+            case .success(.some), .success(.none):
                 completion(.success([]))
             }
         }
@@ -62,11 +66,11 @@ public extension LocalHackrNewsFeedLoader {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case let .found(_, timestamp: timestamp) where !CachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .success(.some(cache)) where !CachePolicy.validate(cache.timestamp, against: self.currentDate()):
                 self.store.deleteCachedNews { _ in }
             case .failure:
                 self.store.deleteCachedNews { _ in }
-            case .empty, .found:
+            case .success(.some), .success(.none):
                 break
             }
         }

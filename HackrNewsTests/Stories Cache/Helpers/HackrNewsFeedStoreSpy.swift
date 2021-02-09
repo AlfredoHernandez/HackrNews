@@ -28,19 +28,19 @@ class HackrNewsFeedStoreSpy: HackrNewsFeedStore {
     }
 
     func completeDeletion(with error: Error, at index: Int = 0) {
-        deletionRequests[index](error)
+        deletionRequests[index](.failure(error))
     }
 
     func completeDeletionSuccessfully(at index: Int = 0) {
-        deletionRequests[index](.none)
+        deletionRequests[index](.success(()))
     }
 
     func completeInsertion(with error: Error, at index: Int = 0) {
-        insertionRequests[index](error)
+        insertionRequests[index](.failure(error))
     }
 
     func completeInsertionSuccessfully(at index: Int = 0) {
-        insertionRequests[index](.none)
+        insertionRequests[index](.success(()))
     }
 
     func retrieve(completion: @escaping RetrievalCompletion) {
@@ -53,10 +53,10 @@ class HackrNewsFeedStoreSpy: HackrNewsFeedStore {
     }
 
     func completeRetrievalWithEmptyCache(at index: Int = 0) {
-        retrievalRequests[index](.empty)
+        retrievalRequests[index](.success(.none))
     }
 
     func completeRetrieval(with news: [LocalHackrNew], timestamp: Date, at index: Int = 0) {
-        retrievalRequests[index](.found(news: news, timestamp: timestamp))
+        retrievalRequests[index](.success(CachedFeed(feed: news, timestamp: timestamp)))
     }
 }
