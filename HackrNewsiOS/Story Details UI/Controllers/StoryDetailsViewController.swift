@@ -87,13 +87,17 @@ public class StoryDetailsViewController: UITableViewController, UITableViewDataS
 
     public func tableView(_: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            comments[indexPath.row].preload()
+            if indexPath.section == commentsSection, comments.count > 0 {
+                comments[indexPath.row].preload()
+            }
         }
     }
 
     public func tableView(_: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            comments[indexPath.row].cancel()
+            if indexPath.section == commentsSection, comments.count > 0 {
+                comments[indexPath.row].cancel()
+            }
         }
     }
 
