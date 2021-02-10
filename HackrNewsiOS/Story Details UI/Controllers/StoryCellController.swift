@@ -26,8 +26,6 @@ public final class StoryCellController {
         return cell!
     }
 
-    var bodyText: String? { viewModel.text }
-
     func releaseCellForReuse() {
         cell = nil
     }

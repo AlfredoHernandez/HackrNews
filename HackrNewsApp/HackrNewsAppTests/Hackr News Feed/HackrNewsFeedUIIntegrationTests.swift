@@ -218,10 +218,10 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(view?.middleContainerView?.isSkeletonable, true, "Expected middleContainerView to be skeletonable")
         XCTAssertEqual(view?.storyUserInfoView?.isSkeletonable, true, "Expected storyUserInfoView to be skeletonable")
         XCTAssertEqual(view?.titleView?.isSkeletonable, true, "Expected titleView to be skeletonable")
-        XCTAssertEqual(view?.authorView?.isSkeletonable, true, "Expected authorView to be skeletonable")
-        XCTAssertEqual(view?.scoreView?.isSkeletonable, true, "Expected scoreView to be skeletonable")
-        XCTAssertEqual(view?.createdAtView?.isSkeletonable, true, "Expected createdAtView to be skeletonable")
-        XCTAssertEqual(view?.commentsView?.isSkeletonable, true, "Expected commentsView to be skeletonable")
+        XCTAssertEqual(view?.authorView?.isSkeletonable, false, "Expected authorView to be skeletonable")
+        XCTAssertEqual(view?.scoreView?.isSkeletonable, false, "Expected scoreView to be skeletonable")
+        XCTAssertEqual(view?.createdAtView?.isSkeletonable, false, "Expected createdAtView to be skeletonable")
+        XCTAssertEqual(view?.commentsView?.isSkeletonable, false, "Expected commentsView to be skeletonable")
     }
 
     func test_storyViewRetryButton_isVisibleOnStoryLoadedWithErrorAndHidesContainer() {
