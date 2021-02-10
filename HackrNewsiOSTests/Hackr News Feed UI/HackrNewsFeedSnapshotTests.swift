@@ -57,6 +57,15 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
                 date: "Nov 3, 2020",
                 displayURL: "a.com"
             ),
+            StoryStub(
+                id: 5,
+                title: "Et quasi architecto beatae vitae",
+                author: "user_name",
+                comments: "1 comment",
+                score: "4 points",
+                date: "Nov 9, 2021",
+                displayURL: nil
+            ),
         ]))
 
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "stories_light")

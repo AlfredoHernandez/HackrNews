@@ -72,6 +72,7 @@ public class CommentCell: UITableViewCell {
             mainContainer.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             mainContainer.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16),
         ])
+        selectionStyle = .none
     }
 
     public var isLoadingContent: Bool = false {
