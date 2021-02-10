@@ -39,3 +39,11 @@ Hackr/News is a **Y Combinator's** Hacker News reading app for iOS.
 ### More docs
 
 - [App architecture](./App_Architecture.md)
+
+---
+<p align="center">
+  <b>By J. Alfredo Hernández Alarcón</b><br>
+  <a href="http://alfredohdz.com">Website</a> |
+  <a href="https://twitter.com/_ZtuX_">Twitter</a> |
+  <a href="https://github.com/AlfredoHernandez">GitHub</a>
+</p>
