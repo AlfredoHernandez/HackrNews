@@ -28,11 +28,12 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.refreshControl = refreshController?.view
-        fixNavigationBarSize()
+        fixNavigationBarSize(afterRefresh: false)
         refreshController?.refresh()
     }
 
     public func display(_ cellControllers: [HackrNewFeedCellController]) {
+        fixNavigationBarSize(afterRefresh: true)
         tableModel = cellControllers
     }
 
@@ -70,9 +71,10 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
         cellController(forRowAt: indexPath).cancelLoad()
     }
 
-    private func fixNavigationBarSize() {
+    private func fixNavigationBarSize(afterRefresh: Bool) {
         let top = tableView.adjustedContentInset.top
-        let totalTop = (refreshControl?.frame.maxY ?? 0.0) + top
+        let topSize = (refreshControl?.frame.maxY ?? 0.0) + top
+        let totalTop = afterRefresh ? topSize + 100 : topSize
         tableView.setContentOffset(CGPoint(x: 0, y: -totalTop), animated: true)
     }
 }
