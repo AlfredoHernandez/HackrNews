@@ -48,7 +48,7 @@ private func makeStoryData() -> Data {
         "by": "AlfredoHernandez",
         "descendants": 1,
         "id": 1,
-        "kids": [2],
+        "kids": makeComments(),
         "score": 100,
         "time": 1175714200,
         "title": "Welcome to HackrNewsApp",
@@ -60,4 +60,8 @@ private func makeStoryData() -> Data {
 
 private func makeHackrNewsFeedData() -> Data {
     try! JSONSerialization.data(withJSONObject: [1, 2, 3, 4, 5])
+}
+
+private func makeComments() -> [Int] {
+    [1, 2, 3, 4, 5]
 }

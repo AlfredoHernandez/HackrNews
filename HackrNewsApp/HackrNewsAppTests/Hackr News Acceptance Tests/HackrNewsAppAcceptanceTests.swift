@@ -38,6 +38,12 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertEqual(view?.authorLabel.text, "AlfredoHernandez")
     }
 
+    func test_onSelectStory_displaysStoryComments() {
+        let storyDetails = showStoryDetailsForFirstStory()
+
+        XCTAssertEqual(storyDetails?.numberOfRenderedComments(), 5)
+    }
+
     func test_onSelectStoryDetails_opensSafariWithURL() {
         let storyDetails = showStoryDetailsForFirstStory()
         storyDetails?.simulateStoryDetailViewVisible()
