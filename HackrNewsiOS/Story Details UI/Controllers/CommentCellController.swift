@@ -11,7 +11,7 @@ public protocol CommentCellControllerDelegate {
     func didCancelRequest()
 }
 
-public class CommentCellController: CommentView, CommentLoadingView, CommentErrorView {
+public class CommentCellController: NSObject, CommentView, CommentLoadingView, CommentErrorView {
     private(set) var cell: CommentCell?
     private let delegate: CommentCellControllerDelegate
     private var viewModel: CommentViewModel?
@@ -23,16 +23,21 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
 
     func view(in tableView: UITableView) -> CommentCell {
         cell = tableView.dequeueReusableCell()
-        self.tableView = tableView
+        self.tableView = tableView        
         // simulate cache
         if let viewModel = viewModel {
             cell?.isLoadingContent = false
             // update without animation when using cached data
             updateCell(with: viewModel)
         } else {
-            delegate.didRequestComment()
+            didStartCommentRequest()
         }
+        cell?.retryButton.addTarget(self, action: #selector(didStartCommentRequest), for: .touchUpInside)
         return cell!
+    }
+
+    @objc private func didStartCommentRequest() {
+        delegate.didRequestComment()
     }
 
     func preload() {
@@ -70,7 +75,9 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
         cell?.isLoadingContent = viewModel.isLoading
     }
 
-    public func display(_: CommentErrorViewModel) {}
+    public func display(_ viewModel: CommentErrorViewModel) {
+        cell?.errorContentView.isHidden = viewModel.error == nil
+    }
 
     private func releaseCellForReuse() {
         cell = nil

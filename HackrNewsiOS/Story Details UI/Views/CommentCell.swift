@@ -54,6 +54,24 @@ public class CommentCell: UITableViewCell {
         return label
     }()
 
+    public private(set) lazy var retryButton: UIButton = {
+        let button = UIButton()
+        button.isSkeletonable = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("↻", for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        button.setTitleColor(.hackrNews, for: .normal)
+        return button
+    }()
+
+    public private(set) lazy var errorContentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        return view
+    }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -65,12 +83,28 @@ public class CommentCell: UITableViewCell {
     }
 
     private func setupUI() {
-        addSubview(mainContainer)
+        contentView.addSubview(mainContainer)
         NSLayoutConstraint.activate([
-            mainContainer.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            mainContainer.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            mainContainer.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            mainContainer.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            mainContainer.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            mainContainer.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            mainContainer.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
+            mainContainer.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+        ])
+
+        contentView.addSubview(errorContentView)
+        NSLayoutConstraint.activate([
+            errorContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            errorContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            errorContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            errorContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        ])
+
+        errorContentView.addSubview(retryButton)
+        NSLayoutConstraint.activate([
+            retryButton.leadingAnchor.constraint(equalTo: errorContentView.leadingAnchor),
+            retryButton.trailingAnchor.constraint(equalTo: errorContentView.trailingAnchor),
+            retryButton.topAnchor.constraint(equalTo: errorContentView.topAnchor),
+            retryButton.bottomAnchor.constraint(equalTo: errorContentView.bottomAnchor),
         ])
         selectionStyle = .none
     }
