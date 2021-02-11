@@ -22,6 +22,9 @@ public final class HackrNewFeedCellController: StoryView, StoryLoadingView, Stor
 
     func view(in tableView: UITableView) -> UITableViewCell {
         cell = tableView.dequeueReusableCell(withIdentifier: "HackrNewFeedCell") as? HackrNewFeedCell
+        cell?.onRetry = { [weak self] in
+            self?.delegate.didRequestStory()
+        }
         delegate.didRequestStory()
         return cell!
     }
@@ -49,14 +52,11 @@ public final class HackrNewFeedCellController: StoryView, StoryLoadingView, Stor
         cell?.scoreLabel.text = viewModel.score
         cell?.createdAtLabel.text = viewModel.date
         cell?.retryLoadStoryButton.isHidden = true
-        cell?.onRetry = { [weak self] in
-            self?.delegate.didRequestStory()
-        }
     }
 
     public func display(_ viewModel: StoryErrorViewModel) {
-        cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
-        cell?.mainContainer.isHidden = !(viewModel.message == nil)
+        cell?.retryLoadStoryButton.isHidden = (viewModel.error == nil)
+        cell?.mainContainer.isHidden = !(viewModel.error == nil)
     }
 
     func didSelect() {

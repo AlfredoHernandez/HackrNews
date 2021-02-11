@@ -134,7 +134,7 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
                 displayURL: displayURL
             )
             if error != nil {
-                errorViewModel = StoryErrorViewModel(message: "any error message")
+                errorViewModel = StoryErrorViewModel(error: "any error message")
             }
         }
 
