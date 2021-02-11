@@ -127,13 +127,3 @@ extension StoryDetailsViewController {
 
     private var commentsSection: Int { 1 }
 }
-
-extension CommentCell {
-    static var defaultAuthorText: String {
-        "Lorem ipsum"
-    }
-
-    var authorText: String? {
-        authorLabel.text
-    }
-}

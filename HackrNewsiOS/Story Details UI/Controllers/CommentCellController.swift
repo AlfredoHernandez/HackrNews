@@ -40,7 +40,7 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
         if let text = viewModel.text {
             cell?.bodyLabel.text = parse(content: text)
         } else {
-            cell?.bodyLabel.isHidden = true
+            cell?.bodyLabel.text = nil
         }
     }
 
