@@ -33,6 +33,7 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
                 text: "Sed ut perspiciatis unde omnis <p>iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis <p><pre>et quasi architecto beatae vitae dicta sunt explicabo</pre>.</p><br/><p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt</p>",
                 createdAt: "1 year ago"
             ),
+            CommentStub(errorMessage: "This is a\nmultiline error message"),
         ])
 
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "story_details_light")
@@ -138,13 +139,23 @@ private extension StoryDetailsViewController {
 private class CommentStub: CommentCellControllerDelegate {
     weak var controller: CommentCellController?
     let viewModel: CommentViewModel
+    private var errorMessage: String?
+
+    init(errorMessage: String) {
+        self.errorMessage = errorMessage
+        viewModel = CommentViewModel(author: "", text: "", createdAt: "")
+    }
 
     init(author: String, text: String?, createdAt: String) {
         viewModel = CommentViewModel(author: author, text: text, createdAt: createdAt)
     }
 
     func didRequestComment() {
-        controller?.display(viewModel)
+        guard let error = errorMessage else {
+            controller?.display(viewModel)
+            return
+        }
+        controller?.display(CommentErrorViewModel(error: error))
     }
 
     func didCancelRequest() {}

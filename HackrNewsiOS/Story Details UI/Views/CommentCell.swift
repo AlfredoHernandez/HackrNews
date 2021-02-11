@@ -7,7 +7,7 @@ import UIKit
 
 public class CommentCell: UITableViewCell {
     private lazy var mainContainer: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [headerContainer, bodyLabel])
+        let view = UIStackView(arrangedSubviews: [headerContainer, bodyLabel, retryButton])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
         view.spacing = 4.0
@@ -52,6 +52,17 @@ public class CommentCell: UITableViewCell {
         label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
         label.isSkeletonable = true
         return label
+    }()
+
+    private(set) lazy var retryButton: UIButton = {
+        let button = UIButton()
+        button.isSkeletonable = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("↻", for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        button.setTitleColor(.hackrNews, for: .normal)
+        button.isHidden = true
+        return button
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
