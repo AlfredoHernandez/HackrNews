@@ -26,6 +26,7 @@ final class CommentPresentationTests: XCTestCase {
         let (sut, view) = makeSUT()
         let comment = StoryComment(
             id: 1,
+            deleted: false,
             author: "an author",
             comments: [],
             parent: 0,
@@ -33,12 +34,44 @@ final class CommentPresentationTests: XCTestCase {
             createdAt: Date().adding(min: -1),
             type: "comment"
         )
-
         sut.didFinishLoadingComment(with: comment, calendar: calendar, locale: locale)
 
         XCTAssertEqual(
             view.messages,
-            [.display(isLoading: false), .display(author: "an author", text: "a text", createdAt: "1 minute ago")]
+            [
+                .display(isLoading: false),
+                .display(author: "an author", text: "a text", createdAt: "1 minute ago"),
+            ]
+        )
+    }
+
+    func test_didFinishLoadingDeletedComment_hidesLoaderAndDisplaysComment() {
+        let calendar = Calendar(identifier: .gregorian)
+        let locale: Locale = .current
+        let (sut, view) = makeSUT()
+        let deletedComment = StoryComment(
+            id: 1,
+            deleted: true,
+            author: nil,
+            comments: [],
+            parent: 0,
+            text: nil,
+            createdAt: Date().adding(min: -5),
+            type: "comment"
+        )
+
+        sut.didFinishLoadingComment(with: deletedComment, calendar: calendar, locale: locale)
+
+        XCTAssertEqual(
+            view.messages,
+            [
+                .display(isLoading: false),
+                .display(
+                    author: localized("story_details_comment_deleted"),
+                    text: nil,
+                    createdAt: "5 minutes ago"
+                ),
+            ]
         )
     }
 
@@ -76,7 +109,7 @@ final class CommentPresentationTests: XCTestCase {
     private class CommentViewSpy: CommentView, CommentLoadingView, CommentErrorView {
         enum Message: Equatable {
             case display(isLoading: Bool)
-            case display(author: String, text: String, createdAt: String)
+            case display(author: String, text: String?, createdAt: String)
             case display(error: String?)
         }
 

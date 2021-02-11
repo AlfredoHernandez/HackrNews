@@ -25,7 +25,7 @@ final class StoryCommentMapperTests: XCTestCase {
         }
     }
 
-    func tests_map_deliversStoryCommentOn200HTTPResponseWithJSONItems() throws {
+    func tests_map_deliversStoryCommentOn200HTTPResponse() throws {
         // Sunday, 24 January 2021 00:00:00 GMT-06:00
         let fixedDate = (
             date: Date(timeIntervalSince1970: 1611468000000),
@@ -39,7 +39,16 @@ final class StoryCommentMapperTests: XCTestCase {
         XCTAssertEqual(result, item.model)
     }
 
-    func tests_map_deliversStoryCommentWithoutChildCommentsOn200HTTPResponseWithJSONItems() throws {
+    func tests_map_deliversDeletedStoryCommentOn200HTTPResponse() throws {
+        let item = makeItem(deleted: true, text: nil)
+        let json = makeItemJSON(item.json)
+
+        let result = try StoryCommentMapper.map(data: json, response: HTTPURLResponse(statusCode: 200))
+
+        XCTAssertEqual(result, item.model)
+    }
+
+    func tests_map_deliversStoryCommentWithoutChildCommentsOn200HTTPResponse() throws {
         // Sunday, 24 January 2021 00:00:00 GMT-06:00
         let fixedDate = (
             date: Date(timeIntervalSince1970: 1611468000000),
@@ -56,17 +65,19 @@ final class StoryCommentMapperTests: XCTestCase {
     // MARK: Tests helpers
 
     private func makeItem(
+        deleted: Bool? = nil,
         id: Int = 1,
-        author: String = "author",
+        author: String? = nil,
         comments: [Int]? = nil,
         parent: Int = 0,
-        text: String = "text",
+        text: String? = nil,
         createdAt: (date: Date, posix: Double) = (date: Date(timeIntervalSince1970: 1611468000000), posix: Double(1611468000000)),
         type: String = "comment"
     ) -> (model: StoryComment, json: [String: Any]) {
         // Used fixed date: Sunday, 24 January 2021 00:00:00 GMT-06:00
         let item = StoryComment(
             id: id,
+            deleted: deleted ?? false,
             author: author,
             comments: comments ?? [],
             parent: parent,
@@ -74,15 +85,17 @@ final class StoryCommentMapperTests: XCTestCase {
             createdAt: createdAt.date,
             type: type
         )
-        let json = [
+        let tempJson: [String: Any?] = [
             "id": id,
+            "deleted": deleted,
             "by": author,
-            "kids": comments as Any,
+            "kids": comments,
             "parent": parent,
             "text": text,
             "time": createdAt.posix,
             "type": type,
-        ].compactMapValues { $0 }
+        ]
+        let json = tempJson.compactMapValues { $0 }
         return (item, json)
     }
 

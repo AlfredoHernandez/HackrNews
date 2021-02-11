@@ -59,7 +59,11 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     private func updateCell(with viewModel: CommentViewModel) {
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
-        cell?.bodyLabel.text = parse(content: viewModel.text)
+        if let text = viewModel.text {
+            cell?.bodyLabel.text = parse(content: text)
+        } else {
+            cell?.bodyLabel.text = nil
+        }
     }
 
     public func display(_ viewModel: CommentLoadingViewModel) {

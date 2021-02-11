@@ -7,10 +7,11 @@ import Foundation
 public enum StoryCommentMapper {
     struct Root: Decodable {
         let id: Int
-        let by: String
+        let deleted: Bool?
+        let by: String?
         let kids: [Int]?
         let parent: Int
-        let text: String
+        let text: String?
         let time: Date
         let type: String
     }
@@ -27,6 +28,7 @@ public enum StoryCommentMapper {
         }
         return StoryComment(
             id: item.id,
+            deleted: item.deleted ?? false,
             author: item.by,
             comments: item.kids ?? [],
             parent: item.parent,

@@ -124,6 +124,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT(story: story)
         let comment0 = StoryComment(
             id: 1,
+            deleted: false,
             author: "a comment author",
             comments: [],
             parent: 0,
@@ -134,10 +135,11 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
 
         let comment1 = StoryComment(
             id: 2,
-            author: "another comment author",
+            deleted: true,
+            author: nil,
             comments: [],
             parent: 0,
-            text: "another text comment",
+            text: nil,
             createdAt: Date().adding(days: -2),
             type: "comment"
         )
@@ -275,6 +277,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
     private func makeStoryComment() -> StoryComment {
         StoryComment(
             id: Int.random(in: 0 ... 100),
+            deleted: false,
             author: "author",
             comments: [],
             parent: 0,
@@ -306,7 +309,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
             return XCTFail("Expected \(comments.count) comments, got \(sut.numberOfRenderedComments()) instead.", file: file, line: line)
         }
         comments.enumerated().forEach { index, comment in
-            assertThat(sut, hasViewConfiguredFor: comment, loader: loader, at: index)
+            assertThat(sut, hasViewConfiguredFor: comment, loader: loader, at: index, file: file, line: line)
         }
     }
 
@@ -319,16 +322,16 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         line: UInt = #line
     ) {
         let view = sut.commentView(at: index) as? CommentCell
-        guard let cell = view else {
+        guard let commentView = view else {
             return XCTFail("Expected \(CommentCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
         }
 
         loader.complete(with: comment, at: index)
 
         let viewModel = CommentPresenter.map(comment)
-        XCTAssertEqual(cell.authorLabel.text, viewModel.author, file: file, line: line)
-        XCTAssertEqual(cell.createdAtLabel.text, viewModel.createdAt, file: file, line: line)
-        XCTAssertEqual(cell.bodyLabel.text, viewModel.text, file: file, line: line)
+        XCTAssertEqual(commentView.authorText, viewModel.author, file: file, line: line)
+        XCTAssertEqual(commentView.createdAtText, viewModel.createdAt, file: file, line: line)
+        XCTAssertEqual(commentView.bodyText, viewModel.text, file: file, line: line)
     }
 
     private class CommentLoaderSpy: CommentLoader {
