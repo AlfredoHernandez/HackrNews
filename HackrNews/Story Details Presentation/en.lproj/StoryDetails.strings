@@ -2,3 +2,4 @@
 "story_details_score" = "%d points";
 "story_details_comments" = "%d comments";
 "loading_comment_error_message" = "Couldn't connect with server";
+"story_details_comment_deleted" = "[This comment has been deleted]";
