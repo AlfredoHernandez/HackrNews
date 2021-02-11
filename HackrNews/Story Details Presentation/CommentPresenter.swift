@@ -7,6 +7,10 @@ import Foundation
 public struct CommentErrorViewModel {
     public let error: String?
     static let none = CommentErrorViewModel(error: nil)
+
+    public init(error: String?) {
+        self.error = error
+    }
 }
 
 public protocol CommentErrorView {
