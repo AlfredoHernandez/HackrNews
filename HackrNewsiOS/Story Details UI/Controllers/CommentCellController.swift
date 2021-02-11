@@ -54,14 +54,7 @@ public class CommentCellController: NSObject, CommentView, CommentLoadingView, C
     }
 
     public func display(_ viewModel: CommentErrorViewModel) {
-        if let _ = viewModel.error {
-            cell?.authorLabel.text = nil
-            cell?.createdAtLabel.text = nil
-            cell?.bodyLabel.text = nil
-            cell?.retryButton.isHidden = false
-        } else {
-            cell?.retryButton.isHidden = true
-        }
+        cell?.errorContentView.isHidden = viewModel.error == nil
     }
 
     private func releaseCellForReuse() {

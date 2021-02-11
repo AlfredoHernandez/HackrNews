@@ -363,9 +363,6 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
     }
 
     private func expect(failingLoadedViewFor view: CommentCell?) {
-        XCTAssertNil(view?.createdAtText, "Expected no `created at` text to display")
-        XCTAssertNil(view?.authorText, "Expected no `author` text to display")
-        XCTAssertNil(view?.bodyText, "Expected no `body` text to display")
         XCTAssertEqual(view?.isDisplayingRetryIndicator, true, "Expected to display retry indicator")
     }
 

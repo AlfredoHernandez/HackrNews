@@ -22,7 +22,7 @@ extension CommentCell {
     }
 
     var isDisplayingRetryIndicator: Bool {
-        !retryButton.isHidden
+        !errorContentView.isHidden
     }
 
     func simulateTapOnRetry() {
