@@ -6,8 +6,6 @@ import SkeletonView
 import UIKit
 
 public class HackrNewFeedCell: UITableViewCell {
-    public var url: URL?
-
     public private(set) lazy var mainContainer: UIStackView = {
         let view = UIStackView(arrangedSubviews: [titleLabel, urlLabel, middleContainer, footerContainer])
         view.translatesAutoresizingMaskIntoConstraints = false
