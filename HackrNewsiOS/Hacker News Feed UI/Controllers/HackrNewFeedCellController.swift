@@ -41,7 +41,6 @@ public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoading
     }
 
     public func display(_ viewModel: StoryViewModel) {
-        cell?.id = viewModel.newId
         cell?.url = viewModel.url
         cell?.titleLabel.text = viewModel.title
         cell?.urlLabel.text = viewModel.displayURL

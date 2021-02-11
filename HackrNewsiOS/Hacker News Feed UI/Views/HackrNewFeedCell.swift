@@ -6,7 +6,6 @@ import SkeletonView
 import UIKit
 
 public class HackrNewFeedCell: UITableViewCell {
-    public var id: Int = 0
     public var url: URL?
 
     public private(set) lazy var mainContainer: UIStackView = {

@@ -6,8 +6,6 @@ import HackrNewsiOS
 import UIKit
 
 extension HackrNewFeedCell {
-    var cellId: Int { id }
-
     var isShowingLoadingIndicator: Bool { isLoadingContent }
 
     var containerView: UIView? {
