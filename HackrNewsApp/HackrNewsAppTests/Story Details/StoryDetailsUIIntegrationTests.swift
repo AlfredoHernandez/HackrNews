@@ -107,7 +107,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3, "Expected another loading request after cancelling previous request")
     }
 
-    func test_requestComments_displaysLoaderComments() {
+    func test_requestComments_displaysLoadedComments() {
         let story = makeStoryDetail(comments: [1, 2])
         let (sut, loader) = makeSUT(story: story)
         sut.loadViewIfNeeded()
@@ -117,6 +117,24 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
 
         loader.complete(with: makeStoryComment(), at: 0)
         XCTAssertEqual(view0?.isLoadingContent, false, "Expected v0 stop loading content")
+    }
+
+    func test_requestComments_displaysCommentAfterFailingRequestComment() {
+        let story = makeStoryDetail(comments: [1])
+        let (sut, loader) = makeSUT(story: story)
+        sut.loadViewIfNeeded()
+
+        let comment = sut.simulateCommentViewVisible(at: 0)
+        XCTAssertEqual(comment?.isLoadingContent, true, "Expected comment view start loading content")
+
+        loader.complete(with: anyNSError(), at: 0)
+        expect(failingLoadedViewFor: comment)
+
+        let anyComment = makeStoryComment()
+        comment?.simulateTapOnRetry()
+        loader.complete(with: anyComment, at: 1)
+
+        assertThat(view: comment, isConfiguredWith: anyComment, at: 0)
     }
 
     func test_viewDidLoad_displaysMainComments() {
@@ -327,11 +345,28 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         }
 
         loader.complete(with: comment, at: index)
+        assertThat(view: commentView, isConfiguredWith: comment, at: index)
+    }
 
+    private func assertThat(
+        view: CommentCell?,
+        isConfiguredWith comment: StoryComment,
+        at _: Int,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
         let viewModel = CommentPresenter.map(comment)
-        XCTAssertEqual(commentView.authorText, viewModel.author, file: file, line: line)
-        XCTAssertEqual(commentView.createdAtText, viewModel.createdAt, file: file, line: line)
-        XCTAssertEqual(commentView.bodyText, viewModel.text, file: file, line: line)
+        XCTAssertEqual(view?.authorText, viewModel.author, file: file, line: line)
+        XCTAssertEqual(view?.createdAtText, viewModel.createdAt, file: file, line: line)
+        XCTAssertEqual(view?.bodyText, viewModel.text, file: file, line: line)
+        XCTAssertEqual(view?.isDisplayingRetryIndicator, false, "Expected to not display retry indicator", file: file, line: line)
+    }
+
+    private func expect(failingLoadedViewFor view: CommentCell?) {
+        XCTAssertNil(view?.createdAtText, "Expected no `created at` text to display")
+        XCTAssertNil(view?.authorText, "Expected no `author` text to display")
+        XCTAssertNil(view?.bodyText, "Expected no `body` text to display")
+        XCTAssertEqual(view?.isDisplayingRetryIndicator, true, "Expected to display retry indicator")
     }
 
     private class CommentLoaderSpy: CommentLoader {
@@ -363,6 +398,10 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
 
         func complete(with comment: StoryComment, at index: Int = 0) {
             completions[index](.success(comment))
+        }
+
+        func complete(with error: Error, at index: Int = 0) {
+            completions[index](.failure(error))
         }
     }
 }

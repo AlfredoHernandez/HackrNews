@@ -20,4 +20,12 @@ extension CommentCell {
     var bodyText: String? {
         bodyLabel.text
     }
+
+    var isDisplayingRetryIndicator: Bool {
+        !retryButton.isHidden
+    }
+
+    func simulateTapOnRetry() {
+        retryButton.simulateTap()
+    }
 }

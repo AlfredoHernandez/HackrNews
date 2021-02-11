@@ -54,7 +54,7 @@ public class CommentCell: UITableViewCell {
         return label
     }()
 
-    private(set) lazy var retryButton: UIButton = {
+    public private(set) lazy var retryButton: UIButton = {
         let button = UIButton()
         button.isSkeletonable = false
         button.translatesAutoresizingMaskIntoConstraints = false

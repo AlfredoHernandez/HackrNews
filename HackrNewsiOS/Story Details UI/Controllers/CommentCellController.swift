@@ -11,7 +11,7 @@ public protocol CommentCellControllerDelegate {
     func didCancelRequest()
 }
 
-public class CommentCellController: CommentView, CommentLoadingView, CommentErrorView {
+public class CommentCellController: NSObject, CommentView, CommentLoadingView, CommentErrorView {
     private(set) var cell: CommentCell?
     private let delegate: CommentCellControllerDelegate
 
@@ -21,8 +21,13 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
 
     func view(in tableView: UITableView) -> CommentCell {
         cell = tableView.dequeueReusableCell()
-        delegate.didRequestComment()
+        cell?.retryButton.addTarget(self, action: #selector(didStartCommentRequest), for: .touchUpInside)
+        didStartCommentRequest()
         return cell!
+    }
+
+    @objc private func didStartCommentRequest() {
+        delegate.didRequestComment()
     }
 
     func preload() {
@@ -54,6 +59,8 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
             cell?.createdAtLabel.text = nil
             cell?.bodyLabel.text = nil
             cell?.retryButton.isHidden = false
+        } else {
+            cell?.retryButton.isHidden = true
         }
     }
 
