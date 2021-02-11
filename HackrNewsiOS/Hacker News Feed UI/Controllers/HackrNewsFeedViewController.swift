@@ -21,10 +21,7 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
     override public func viewDidLoad() {
         setLargeTitleDisplayMode(.always)
         tableView.prefetchDataSource = self
-        tableView.register(
-            UINib(nibName: "HackrNewFeedCell", bundle: Bundle(for: HackrNewFeedCell.self)),
-            forCellReuseIdentifier: "HackrNewFeedCell"
-        )
+        tableView.register(HackrNewFeedCell.self, forCellReuseIdentifier: "HackrNewFeedCell")
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.refreshControl = refreshController?.view

@@ -10,7 +10,7 @@ public protocol HackrNewFeedCellControllerDelegate {
     func didCancelRequest()
 }
 
-public final class HackrNewFeedCellController: StoryView, StoryLoadingView, StoryErrorView {
+public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoadingView, StoryErrorView {
     private let delegate: HackrNewFeedCellControllerDelegate
     private let didSelectStory: () -> Void
     private var cell: HackrNewFeedCell?
@@ -21,8 +21,9 @@ public final class HackrNewFeedCellController: StoryView, StoryLoadingView, Stor
     }
 
     func view(in tableView: UITableView) -> UITableViewCell {
-        cell = tableView.dequeueReusableCell(withIdentifier: "HackrNewFeedCell") as? HackrNewFeedCell
-        delegate.didRequestStory()
+        cell = tableView.dequeueReusableCell()
+        cell?.retryLoadStoryButton.addTarget(self, action: #selector(loadComment), for: .touchUpInside)
+        loadComment()
         return cell!
     }
 
@@ -40,27 +41,24 @@ public final class HackrNewFeedCellController: StoryView, StoryLoadingView, Stor
     }
 
     public func display(_ viewModel: StoryViewModel) {
-        cell?.id = viewModel.newId
-        cell?.url = viewModel.url
         cell?.titleLabel.text = viewModel.title
         cell?.urlLabel.text = viewModel.displayURL
         cell?.authorLabel.text = viewModel.author
         cell?.commentsLabel.text = viewModel.comments
         cell?.scoreLabel.text = viewModel.score
         cell?.createdAtLabel.text = viewModel.date
-        cell?.retryLoadStoryButton.isHidden = true
-        cell?.onRetry = { [weak self] in
-            self?.delegate.didRequestStory()
-        }
     }
 
     public func display(_ viewModel: StoryErrorViewModel) {
-        cell?.retryLoadStoryButton.isHidden = (viewModel.message == nil)
-        cell?.mainContainer.isHidden = !(viewModel.message == nil)
+        cell?.errorContentView.isHidden = viewModel.error == nil
     }
 
     func didSelect() {
         didSelectStory()
+    }
+
+    @objc private func loadComment() {
+        delegate.didRequestStory()
     }
 
     private func releaseCellForReuse() {

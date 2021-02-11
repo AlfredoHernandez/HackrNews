@@ -214,14 +214,13 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let view = sut.simulateStoryViewVisible(at: 0)
 
         XCTAssertEqual(view?.containerView?.isSkeletonable, true, "Expected containerView to be skeletonable")
-        XCTAssertEqual(view?.leftContainerView?.isSkeletonable, true, "Expected leftContainerView to be skeletonable")
         XCTAssertEqual(view?.middleContainerView?.isSkeletonable, true, "Expected middleContainerView to be skeletonable")
         XCTAssertEqual(view?.storyUserInfoView?.isSkeletonable, true, "Expected storyUserInfoView to be skeletonable")
         XCTAssertEqual(view?.titleView?.isSkeletonable, true, "Expected titleView to be skeletonable")
-        XCTAssertEqual(view?.authorView?.isSkeletonable, false, "Expected authorView to be skeletonable")
-        XCTAssertEqual(view?.scoreView?.isSkeletonable, false, "Expected scoreView to be skeletonable")
-        XCTAssertEqual(view?.createdAtView?.isSkeletonable, false, "Expected createdAtView to be skeletonable")
-        XCTAssertEqual(view?.commentsView?.isSkeletonable, false, "Expected commentsView to be skeletonable")
+        XCTAssertEqual(view?.authorView?.isSkeletonable, true, "Expected authorView to be skeletonable")
+        XCTAssertEqual(view?.scoreView?.isSkeletonable, true, "Expected scoreView to be skeletonable")
+        XCTAssertEqual(view?.createdAtView?.isSkeletonable, true, "Expected createdAtView to be skeletonable")
+        XCTAssertEqual(view?.commentsView?.isSkeletonable, true, "Expected commentsView to be skeletonable")
     }
 
     func test_storyViewRetryButton_isVisibleOnStoryLoadedWithErrorAndHidesContainer() {
@@ -234,15 +233,11 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
 
         loader.completeStoryLoading(at: 0)
         XCTAssertEqual(view0?.isShowingRetryAction, false)
-        XCTAssertEqual(view0?.isShowingStoryContainer, true)
         XCTAssertEqual(view1?.isShowingRetryAction, false)
-        XCTAssertEqual(view1?.isShowingStoryContainer, true)
 
         loader.completeStoryLoadingWithError(at: 1)
         XCTAssertEqual(view0?.isShowingRetryAction, false)
-        XCTAssertEqual(view0?.isShowingStoryContainer, true)
         XCTAssertEqual(view1?.isShowingRetryAction, true)
-        XCTAssertEqual(view1?.isShowingStoryContainer, false)
     }
 
     func test_storyRetryAction_retriesStoryLoad() {
@@ -260,10 +255,10 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         loader.completeStoryLoadingWithError(at: 1)
         XCTAssertEqual(loader.storiesRequestsCallCount, 2, "Expected no more loadings when completes with error")
 
-        view0?.simulateRetryAction()
+        view0?.simulateTapOnRetryIndicator()
         XCTAssertEqual(loader.storiesRequestsCallCount, 3, "Expected one more url after first tap retry action")
 
-        view1?.simulateRetryAction()
+        view1?.simulateTapOnRetryIndicator()
         XCTAssertEqual(loader.storiesRequestsCallCount, 4, "Expected another url after second tap retry action")
     }
 

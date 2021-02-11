@@ -41,6 +41,9 @@ public protocol StoryView {
 
 public struct StoryLoadingViewModel {
     public let isLoading: Bool
+
+    static let loading = StoryLoadingViewModel(isLoading: true)
+    static let stoped = StoryLoadingViewModel(isLoading: false)
 }
 
 public protocol StoryLoadingView {
@@ -48,11 +51,13 @@ public protocol StoryLoadingView {
 }
 
 public struct StoryErrorViewModel {
-    public let message: String?
+    public let error: String?
 
-    public init(message: String?) {
-        self.message = message
+    public init(error: String?) {
+        self.error = error
     }
+
+    static let none = StoryErrorViewModel(error: nil)
 }
 
 public protocol StoryErrorView {
@@ -109,30 +114,20 @@ public final class StoryPresenter {
         self.calendar = calendar
     }
 
-    public func didStartLoadingStory(from new: HackrNew) {
-        loadingView.display(StoryLoadingViewModel(isLoading: true))
-        view.display(StoryViewModel(
-            newId: new.id,
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-            author: "Loading author...",
-            comments: "Loading comments...",
-            score: "Score",
-            date: "Loading date...",
-            url: nil,
-            displayURL: "Loading url..."
-        ))
-        errorView.display(StoryErrorViewModel(message: nil))
+    public func didStartLoadingStory(from _: HackrNew) {
+        loadingView.display(.loading)
+        errorView.display(.none)
     }
 
     public func didFinishLoadingStory(story: Story) {
-        loadingView.display(StoryLoadingViewModel(isLoading: false))
+        loadingView.display(.stoped)
         view.display(map(story: story))
-        errorView.display(StoryErrorViewModel(message: nil))
+        errorView.display(.none)
     }
 
     public func didFinishLoading(with _: Error) {
         loadingView.display(StoryLoadingViewModel(isLoading: false))
-        errorView.display(StoryErrorViewModel(message: errorMessage))
+        errorView.display(StoryErrorViewModel(error: errorMessage))
     }
 
     private func format(from date: Date) -> String? {
