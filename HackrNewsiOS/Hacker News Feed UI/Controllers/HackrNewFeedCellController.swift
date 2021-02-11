@@ -10,7 +10,7 @@ public protocol HackrNewFeedCellControllerDelegate {
     func didCancelRequest()
 }
 
-public final class HackrNewFeedCellController: StoryView, StoryLoadingView, StoryErrorView {
+public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoadingView, StoryErrorView {
     private let delegate: HackrNewFeedCellControllerDelegate
     private let didSelectStory: () -> Void
     private var cell: HackrNewFeedCell?
@@ -21,11 +21,9 @@ public final class HackrNewFeedCellController: StoryView, StoryLoadingView, Stor
     }
 
     func view(in tableView: UITableView) -> UITableViewCell {
-        cell = tableView.dequeueReusableCell(withIdentifier: "HackrNewFeedCell") as? HackrNewFeedCell
-        cell?.onRetry = { [weak self] in
-            self?.delegate.didRequestStory()
-        }
-        delegate.didRequestStory()
+        cell = tableView.dequeueReusableCell()
+        cell?.retryLoadStoryButton.addTarget(self, action: #selector(loadComment), for: .touchUpInside)
+        loadComment()
         return cell!
     }
 
@@ -51,16 +49,18 @@ public final class HackrNewFeedCellController: StoryView, StoryLoadingView, Stor
         cell?.commentsLabel.text = viewModel.comments
         cell?.scoreLabel.text = viewModel.score
         cell?.createdAtLabel.text = viewModel.date
-        cell?.retryLoadStoryButton.isHidden = true
     }
 
     public func display(_ viewModel: StoryErrorViewModel) {
-        cell?.retryLoadStoryButton.isHidden = (viewModel.error == nil)
-        cell?.mainContainer.isHidden = !(viewModel.error == nil)
+        cell?.errorContentView.isHidden = viewModel.error == nil
     }
 
     func didSelect() {
         didSelectStory()
+    }
+
+    @objc private func loadComment() {
+        delegate.didRequestStory()
     }
 
     private func releaseCellForReuse() {
