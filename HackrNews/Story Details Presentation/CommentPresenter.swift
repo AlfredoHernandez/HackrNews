@@ -64,6 +64,15 @@ public class CommentPresenter {
             comment: "Comment loading error message"
         )
 
+    static let commentDeleted =
+        NSLocalizedString(
+            "story_details_comment_deleted",
+            tableName: "StoryDetails",
+            bundle: Bundle(for: StoryDetailsPresenter.self),
+            value: "",
+            comment: "Comment deleted message"
+        )
+
     public func didStartLoadingComment() {
         loadingView.display(.loading)
         errorView.display(.none)
@@ -93,8 +102,8 @@ public class CommentPresenter {
         formatter.calendar = calendar
         formatter.locale = locale
         return CommentViewModel(
-            author: comment.author,
-            text: comment.text,
+            author: comment.author ?? commentDeleted,
+            text: comment.text ?? "",
             createdAt: formatter.localizedString(for: comment.createdAt, relativeTo: against)
         )
     }

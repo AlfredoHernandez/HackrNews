@@ -124,6 +124,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT(story: story)
         let comment0 = StoryComment(
             id: 1,
+            deleted: false,
             author: "a comment author",
             comments: [],
             parent: 0,
@@ -134,6 +135,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
 
         let comment1 = StoryComment(
             id: 2,
+            deleted: false,
             author: "another comment author",
             comments: [],
             parent: 0,
@@ -275,6 +277,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
     private func makeStoryComment() -> StoryComment {
         StoryComment(
             id: Int.random(in: 0 ... 100),
+            deleted: false,
             author: "author",
             comments: [],
             parent: 0,

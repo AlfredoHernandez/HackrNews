@@ -6,15 +6,17 @@ import Foundation
 
 public struct StoryComment: Equatable {
     public let id: Int
-    public let author: String
+    public let deleted: Bool
+    public let author: String?
     public let comments: [Int]
     public let parent: Int
-    public let text: String
+    public let text: String?
     public let createdAt: Date
     public let type: String
 
-    public init(id: Int, author: String, comments: [Int], parent: Int, text: String, createdAt: Date, type: String) {
+    public init(id: Int, deleted: Bool, author: String?, comments: [Int], parent: Int, text: String?, createdAt: Date, type: String) {
         self.id = id
+        self.deleted = deleted
         self.author = author
         self.comments = comments
         self.parent = parent

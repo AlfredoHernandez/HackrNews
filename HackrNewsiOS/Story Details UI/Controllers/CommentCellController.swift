@@ -35,6 +35,7 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     }
 
     public func display(_ viewModel: CommentViewModel) {
+        print(viewModel)
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
         cell?.bodyLabel.text = parse(content: viewModel.text)
