@@ -7,38 +7,6 @@ import HackrNews
 import XCTest
 
 final class StoryViewControllerSnapshotTests: XCTestCase {
-    func test_details_storyWithOneLineTitle() {
-        let viewModel = StoryDetailViewModel(
-            title: "Lorem ipsum dolor sit amet",
-            text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.<p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> Nemo enim ipsam voluptatem quia voluptas sit <pre>aspernatur aut odit aut fugit</pre>, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-            author: "an_author",
-            score: "1023 points",
-            comments: "0 comments",
-            createdAt: "3 minutes ago",
-            displayURL: "alfredohdz.com"
-        )
-        let sut = makeSUT(viewModel: viewModel)
-
-        sut.loadViewIfNeeded()
-
-        sut.display([
-            CommentStub(author: "alfredo", text: "This is a single line comment", createdAt: "2 minutes ago"),
-            CommentStub(
-                author: CommentPresenter.commentDeleted,
-                text: nil,
-                createdAt: "3 years ago"
-            ),
-            CommentStub(
-                author: "john_doe",
-                text: "Sed ut perspiciatis unde omnis <p>iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis <p><pre>et quasi architecto beatae vitae dicta sunt explicabo</pre>.</p><br/><p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt</p>",
-                createdAt: "1 year ago"
-            ),
-        ])
-
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "story_one_line_title_details_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "story_one_line_title_details_dark")
-    }
-
     func test_details_storyWithMultilineTitle() {
         let viewModel = StoryDetailViewModel(
             title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
