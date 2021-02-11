@@ -10,7 +10,6 @@ public class StoryDetailCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
         view.spacing = 4.0
-        // view.distribution = .fill
         return view
     }()
 

@@ -24,14 +24,14 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
         sut.display([
             CommentStub(author: "alfredo", text: "This is a single line comment", createdAt: "2 minutes ago"),
             CommentStub(
-                author: "john_doe",
-                text: "Sed ut perspiciatis unde omnis <p>iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis <p><pre>et quasi architecto beatae vitae dicta sunt explicabo</pre>.</p><br/><p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt</p>",
-                createdAt: "1 year ago"
-            ),
-            CommentStub(
                 author: CommentPresenter.commentDeleted,
                 text: nil,
                 createdAt: "3 years ago"
+            ),
+            CommentStub(
+                author: "john_doe",
+                text: "Sed ut perspiciatis unde omnis <p>iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis <p><pre>et quasi architecto beatae vitae dicta sunt explicabo</pre>.</p><br/><p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt</p>",
+                createdAt: "1 year ago"
             ),
         ])
 
@@ -55,6 +55,11 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
 
         sut.display([
             CommentStub(author: "alfredo", text: "This is a single line comment", createdAt: "2 minutes ago"),
+            CommentStub(
+                author: CommentPresenter.commentDeleted,
+                text: nil,
+                createdAt: "3 years ago"
+            ),
             CommentStub(
                 author: "john_doe",
                 text: "Sed ut perspiciatis unde omnis <p>iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis <p><pre>et quasi architecto beatae vitae dicta sunt explicabo</pre>.</p><br/><p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt</p>",
