@@ -12,9 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private let baseUrl = Endpoint.baseUrl
 
     private lazy var httpClient: HTTPClient = {
-        let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 0.5
-        return URLSessionHTTPClient(session: URLSession(configuration: config))
+        URLSessionHTTPClient(session: URLSession(configuration: .default))
     }()
 
     convenience init(httpClient: HTTPClient) {
