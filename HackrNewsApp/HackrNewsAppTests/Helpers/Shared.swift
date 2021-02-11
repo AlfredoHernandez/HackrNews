@@ -17,3 +17,7 @@ extension Date {
         calendar.date(byAdding: .minute, value: min, to: self)!
     }
 }
+
+func anyNSError() -> NSError {
+    NSError(domain: "", code: 0, userInfo: nil)
+}
