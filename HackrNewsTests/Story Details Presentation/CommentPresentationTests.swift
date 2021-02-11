@@ -68,7 +68,7 @@ final class CommentPresentationTests: XCTestCase {
                 .display(isLoading: false),
                 .display(
                     author: localized("story_details_comment_deleted"),
-                    text: "",
+                    text: nil,
                     createdAt: "5 minutes ago"
                 ),
             ]
@@ -109,7 +109,7 @@ final class CommentPresentationTests: XCTestCase {
     private class CommentViewSpy: CommentView, CommentLoadingView, CommentErrorView {
         enum Message: Equatable {
             case display(isLoading: Bool)
-            case display(author: String, text: String, createdAt: String)
+            case display(author: String, text: String?, createdAt: String)
             case display(error: String?)
         }
 

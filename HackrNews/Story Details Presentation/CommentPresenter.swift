@@ -26,10 +26,10 @@ public protocol CommentLoadingView {
 
 public struct CommentViewModel {
     public let author: String
-    public let text: String
+    public let text: String?
     public let createdAt: String
 
-    public init(author: String, text: String, createdAt: String) {
+    public init(author: String, text: String?, createdAt: String) {
         self.author = author
         self.text = text
         self.createdAt = createdAt
@@ -64,7 +64,7 @@ public class CommentPresenter {
             comment: "Comment loading error message"
         )
 
-    static let commentDeleted =
+    public static let commentDeleted =
         NSLocalizedString(
             "story_details_comment_deleted",
             tableName: "StoryDetails",
@@ -103,7 +103,7 @@ public class CommentPresenter {
         formatter.locale = locale
         return CommentViewModel(
             author: comment.author ?? commentDeleted,
-            text: comment.text ?? "",
+            text: comment.text,
             createdAt: formatter.localizedString(for: comment.createdAt, relativeTo: against)
         )
     }

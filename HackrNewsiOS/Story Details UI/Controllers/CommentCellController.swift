@@ -35,10 +35,13 @@ public class CommentCellController: CommentView, CommentLoadingView, CommentErro
     }
 
     public func display(_ viewModel: CommentViewModel) {
-        print(viewModel)
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
-        cell?.bodyLabel.text = parse(content: viewModel.text)
+        if let text = viewModel.text {
+            cell?.bodyLabel.text = parse(content: text)
+        } else {
+            cell?.bodyLabel.isHidden = true
+        }
     }
 
     public func display(_ viewModel: CommentLoadingViewModel) {
