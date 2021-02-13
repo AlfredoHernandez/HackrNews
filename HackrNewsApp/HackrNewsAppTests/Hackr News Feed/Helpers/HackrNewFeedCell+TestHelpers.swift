@@ -6,24 +6,18 @@ import HackrNewsiOS
 import UIKit
 
 extension HackrNewFeedCell {
-    var cellId: Int { id }
-
     var isShowingLoadingIndicator: Bool { isLoadingContent }
 
     var containerView: UIView? {
         mainContainer
     }
 
-    var leftContainerView: UIView? {
-        leftContainer
-    }
-
     var middleContainerView: UIView? {
-        storyInfoContainer
+        middleContainer
     }
 
     var storyUserInfoView: UIView? {
-        storyUserInfoContainer
+        footerContainer
     }
 
     var titleView: UILabel? {
@@ -71,14 +65,10 @@ extension HackrNewFeedCell {
     }
 
     var isShowingRetryAction: Bool {
-        !retryLoadStoryButton.isHidden
+        !errorContentView.isHidden
     }
 
-    var isShowingStoryContainer: Bool {
-        !mainContainer.isHidden
-    }
-
-    func simulateRetryAction() {
+    func simulateTapOnRetryIndicator() {
         retryLoadStoryButton.simulateTap()
     }
 }

@@ -18,16 +18,7 @@ final class StoryPresentationTests: XCTestCase {
 
         sut.didStartLoadingStory(from: new)
 
-        XCTAssertEqual(view.messages, [.display(isLoading: true), .display(
-            id: new.id,
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-            author: "Loading author...",
-            comments: "Loading comments...",
-            score: "Score",
-            date: "Loading date...",
-            url: nil,
-            displayURL: "Loading url..."
-        ), .display(errorMessage: .none)])
+        XCTAssertEqual(view.messages, [.display(isLoading: true), .display(errorMessage: .none)])
     }
 
     func test_didFinishLoadingStory_displaysStoryAndStopsLoading() {
@@ -140,7 +131,7 @@ final class StoryPresentationTests: XCTestCase {
         }
 
         func display(_ viewModel: StoryErrorViewModel) {
-            messages.append(.display(errorMessage: viewModel.message))
+            messages.append(.display(errorMessage: viewModel.error))
         }
     }
 }
