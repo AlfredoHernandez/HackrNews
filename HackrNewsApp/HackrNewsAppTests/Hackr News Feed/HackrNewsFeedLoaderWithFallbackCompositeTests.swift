@@ -42,6 +42,12 @@ final class HackrNewsFeedLoaderWithFallbackCompositeTests: XCTestCase {
         expect(sut, toCompleteWith: .success(fallbackResult))
     }
 
+    func test_load_deliversErrorOnFallbackLoaderFailure() {
+        let sut = makeSUT(primaryResult: .failure(anyNSError()), fallbackResult: .failure(anyNSError()))
+
+        expect(sut, toCompleteWith: .failure(anyNSError()))
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
