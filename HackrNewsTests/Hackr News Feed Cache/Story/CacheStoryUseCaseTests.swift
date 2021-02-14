@@ -5,27 +5,48 @@
 import HackrNews
 import XCTest
 
-class LocalHackrStoryLoader {
+protocol HackrStoryCache {
+    typealias SaveResult = Result<Void, Error>
+    func save(_ story: Story, completion: @escaping (SaveResult) -> Void)
+}
+
+class LocalHackrStoryLoader: HackrStoryCache {
     private let store: HackrStoryStoreSpy
 
     init(store: HackrStoryStoreSpy) {
         self.store = store
     }
 
-    func save(_ story: Story) {
-        store.delete(story)
+    func save(_ story: Story, completion: @escaping (SaveResult) -> Void) {
+        store.delete(story) { deletionResult in
+            switch deletionResult {
+            case let .failure(error):
+                completion(.failure(error))
+            default:
+                break
+            }
+        }
     }
 }
 
 class HackrStoryStoreSpy {
+    typealias DeletionResult = Swift.Result<Void, Error>
+    typealias DeletionCompletion = (DeletionResult) -> Void
+
     enum Message: Equatable {
         case deletion(Story)
     }
 
     private(set) var receivedMessages = [Message]()
+    private(set) var deletionCompletions = [DeletionCompletion]()
 
-    func delete(_ story: Story) {
+    func delete(_ story: Story, completion: @escaping (DeletionResult) -> Void) {
+        deletionCompletions.append(completion)
         receivedMessages.append(.deletion(story))
+    }
+
+    func completeDeletion(with error: Error, at index: Int = 0) {
+        deletionCompletions[index](.failure(error))
     }
 }
 
@@ -38,22 +59,25 @@ class CacheStoryUseCaseTests: XCTestCase {
 
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
-        let story = Story(
-            id: 1,
-            title: "a story",
-            text: "a text",
-            author: "an author",
-            score: 0,
-            createdAt: Date(),
-            totalComments: 1,
-            comments: [1],
-            type: "story",
-            url: anyURL()
-        )
+        let story = Story.any
 
-        sut.save(story)
+        sut.save(story) { _ in }
 
         XCTAssertEqual(store.receivedMessages, [.deletion(story)], "Expected to delete \(story)")
+    }
+
+    func test_save_doesNotRequestCacheInsertionOnDeletionError() {
+        let (sut, store) = makeSUT()
+        let story = Story.any
+        let exp = expectation(description: "Wait for cache deletion")
+
+        sut.save(story) { _ in
+            exp.fulfill()
+        }
+        store.completeDeletion(with: anyNSError())
+
+        wait(for: [exp], timeout: 1.0)
+        XCTAssertEqual(store.receivedMessages, [.deletion(story)])
     }
 
     // MARK: - Helpers
@@ -65,4 +89,19 @@ class CacheStoryUseCaseTests: XCTestCase {
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
     }
+}
+
+extension Story {
+    static var any = Story(
+        id: Int.random(in: 0 ... 100),
+        title: "a title",
+        text: "a text",
+        author: "a username",
+        score: 0,
+        createdAt: Date(),
+        totalComments: 0,
+        comments: [],
+        type: "story",
+        url: URL(string: "https://any-url.com")!
+    )
 }
