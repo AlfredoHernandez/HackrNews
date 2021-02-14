@@ -23,7 +23,14 @@ class LocalHackrStoryLoader: HackrStoryCache {
         store.delete(story) { [unowned self] deletionResult in
             switch deletionResult {
             case .success:
-                store.insert(story: story, with: self.timestamp())
+                store.insert(story: story, with: self.timestamp(), completion: { insertionResult in
+                    switch insertionResult {
+                    case let .failure(error):
+                        completion(.failure(error))
+                    default:
+                        break
+                    }
+                })
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -35,6 +42,9 @@ class HackrStoryStoreSpy {
     typealias DeletionResult = Swift.Result<Void, Error>
     typealias DeletionCompletion = (DeletionResult) -> Void
 
+    typealias InsertionResult = Swift.Result<Void, Error>
+    typealias InsertionCompletion = (InsertionResult) -> Void
+
     enum Message: Equatable {
         case deletion(Story)
         case insertion(Story, Date)
@@ -43,7 +53,7 @@ class HackrStoryStoreSpy {
     private(set) var receivedMessages = [Message]()
     private(set) var deletionCompletions = [DeletionCompletion]()
 
-    func delete(_ story: Story, completion: @escaping (DeletionResult) -> Void) {
+    func delete(_ story: Story, completion: @escaping DeletionCompletion) {
         deletionCompletions.append(completion)
         receivedMessages.append(.deletion(story))
     }
@@ -56,8 +66,15 @@ class HackrStoryStoreSpy {
         deletionCompletions[index](.success(()))
     }
 
-    func insert(story: Story, with timestamp: Date) {
+    private(set) var insertionCompletions = [InsertionCompletion]()
+
+    func insert(story: Story, with timestamp: Date, completion: @escaping InsertionCompletion) {
+        insertionCompletions.append(completion)
         receivedMessages.append(.insertion(story, timestamp))
+    }
+
+    func completeInsertion(with error: Error, at index: Int = 0) {
+        insertionCompletions[index](.failure(error))
     }
 }
 
@@ -98,6 +115,24 @@ class CacheStoryUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.deletion(story), .insertion(story, timestamp)])
     }
 
+    func test_save_failsOnDeletionError() {
+        let (sut, store) = makeSUT()
+
+        expect(sut, toCompleteWithError: anyNSError()) {
+            store.completeDeletion(with: anyNSError())
+        }
+    }
+
+    func test_save_failsOnInsertionError() {
+        let (sut, store) = makeSUT()
+        let insertionError = anyNSError()
+
+        expect(sut, toCompleteWithError: insertionError, when: {
+            store.completeDeletionSuccessfully()
+            store.completeInsertion(with: insertionError)
+        })
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -110,6 +145,32 @@ class CacheStoryUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
+    }
+
+    private func expect(
+        _ sut: LocalHackrStoryLoader,
+        toCompleteWithError expectedError: NSError?,
+        when action: () -> Void,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        var receivedError: Error?
+        let exp = expectation(description: "Wait for save command")
+
+        sut.save(Story.any) { result in
+            switch result {
+            case .success:
+                break
+            case let .failure(error):
+                receivedError = error
+            }
+            exp.fulfill()
+        }
+
+        action()
+        wait(for: [exp], timeout: 1.0)
+
+        XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
 }
 
