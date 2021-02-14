@@ -12,18 +12,20 @@ protocol HackrStoryCache {
 
 class LocalHackrStoryLoader: HackrStoryCache {
     private let store: HackrStoryStoreSpy
+    private let timestamp: () -> Date
 
-    init(store: HackrStoryStoreSpy) {
+    init(store: HackrStoryStoreSpy, timestamp: @escaping () -> Date) {
         self.store = store
+        self.timestamp = timestamp
     }
 
     func save(_ story: Story, completion: @escaping (SaveResult) -> Void) {
-        store.delete(story) { deletionResult in
+        store.delete(story) { [unowned self] deletionResult in
             switch deletionResult {
+            case .success:
+                store.insert(story: story, with: self.timestamp())
             case let .failure(error):
                 completion(.failure(error))
-            default:
-                break
             }
         }
     }
@@ -35,6 +37,7 @@ class HackrStoryStoreSpy {
 
     enum Message: Equatable {
         case deletion(Story)
+        case insertion(Story, Date)
     }
 
     private(set) var receivedMessages = [Message]()
@@ -47,6 +50,14 @@ class HackrStoryStoreSpy {
 
     func completeDeletion(with error: Error, at index: Int = 0) {
         deletionCompletions[index](.failure(error))
+    }
+
+    func completeDeletionSuccessfully(at index: Int = 0) {
+        deletionCompletions[index](.success(()))
+    }
+
+    func insert(story: Story, with timestamp: Date) {
+        receivedMessages.append(.insertion(story, timestamp))
     }
 }
 
@@ -69,22 +80,33 @@ class CacheStoryUseCaseTests: XCTestCase {
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
         let story = Story.any
-        let exp = expectation(description: "Wait for cache deletion")
 
-        sut.save(story) { _ in
-            exp.fulfill()
-        }
+        sut.save(story) { _ in }
         store.completeDeletion(with: anyNSError())
 
-        wait(for: [exp], timeout: 1.0)
         XCTAssertEqual(store.receivedMessages, [.deletion(story)])
+    }
+
+    func test_save_requestsCacheInsertionWithTimestampOnSuccessfulDeletion() {
+        let timestamp = Date()
+        let (sut, store) = makeSUT(timestamp: { timestamp })
+        let story = Story.any
+
+        sut.save(story) { _ in }
+        store.completeDeletionSuccessfully()
+
+        XCTAssertEqual(store.receivedMessages, [.deletion(story), .insertion(story, timestamp)])
     }
 
     // MARK: - Helpers
 
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (LocalHackrStoryLoader, HackrStoryStoreSpy) {
+    private func makeSUT(
+        timestamp: @escaping () -> Date = Date.init,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (LocalHackrStoryLoader, HackrStoryStoreSpy) {
         let store = HackrStoryStoreSpy()
-        let sut = LocalHackrStoryLoader(store: store)
+        let sut = LocalHackrStoryLoader(store: store, timestamp: timestamp)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
