@@ -7,13 +7,22 @@ import XCTest
 
 class HackrNewsFeedLoaderWithFallbackComposite: HackrNewsFeedLoader {
     private let primary: HackrNewsFeedLoader
+    private let fallback: HackrNewsFeedLoader
 
-    init(primary: HackrNewsFeedLoader, fallback _: HackrNewsFeedLoader) {
+    init(primary: HackrNewsFeedLoader, fallback: HackrNewsFeedLoader) {
         self.primary = primary
+        self.fallback = fallback
     }
 
     func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
-        primary.load(completion: completion)
+        primary.load { [unowned self] result in
+            switch result {
+            case let .success(feed):
+                completion(.success(feed))
+            case .failure:
+                self.fallback.load(completion: completion)
+            }
+        }
     }
 }
 
@@ -31,7 +40,28 @@ final class HackrNewsFeedLoaderWithFallbackCompositeTests: XCTestCase {
             case let .success(receivedFeed):
                 XCTAssertEqual(receivedFeed, primaryResult)
             default:
-                break
+                XCTFail("Expected success result with feed \(primaryResult), but got \(receivedResult) instead")
+            }
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 1)
+    }
+
+    func test_load_deliversFallbackFeedOnPrimaryLoaderFailure() {
+        let fallbackResult = uniqueFeed()
+        let primary = LoaderStub(.failure(anyNSError()))
+        let fallback = LoaderStub(.success(fallbackResult))
+        let sut = HackrNewsFeedLoaderWithFallbackComposite(primary: primary, fallback: fallback)
+
+        let exp = expectation(description: "Wait loader for completion")
+
+        sut.load { receivedResult in
+            switch receivedResult {
+            case let .success(receivedFeed):
+                XCTAssertEqual(receivedFeed, fallbackResult)
+            default:
+                XCTFail("Expected \(fallbackResult), but got \(receivedResult) instead")
             }
             exp.fulfill()
         }
