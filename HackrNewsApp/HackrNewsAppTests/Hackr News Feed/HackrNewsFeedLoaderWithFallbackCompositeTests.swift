@@ -15,12 +15,12 @@ class HackrNewsFeedLoaderWithFallbackComposite: HackrNewsFeedLoader {
     }
 
     func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
-        primary.load { [unowned self] result in
+        primary.load { [weak self] result in
             switch result {
             case let .success(feed):
                 completion(.success(feed))
             case .failure:
-                self.fallback.load(completion: completion)
+                self?.fallback.load(completion: completion)
             }
         }
     }
@@ -68,19 +68,25 @@ final class HackrNewsFeedLoaderWithFallbackCompositeTests: XCTestCase {
     private func expect(
         _ sut: HackrNewsFeedLoaderWithFallbackComposite,
         toCompleteWith expectedResult: HackrNewsFeedLoader.Result,
-        file _: StaticString = #filePath,
-        line _: UInt = #line
+        file: StaticString = #filePath,
+        line: UInt = #line
     ) {
         let exp = expectation(description: "Wait loader for completion")
 
         sut.load { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedFeed), .success(expectedFeed)):
-                XCTAssertEqual(receivedFeed, expectedFeed, "Expected to complete with \(expectedFeed), but got \(receivedFeed) instead")
+                XCTAssertEqual(
+                    receivedFeed,
+                    expectedFeed,
+                    "Expected to complete with \(expectedFeed), but got \(receivedFeed) instead",
+                    file: file,
+                    line: line
+                )
             case let (.failure(receivedError), .failure(expectedError)):
-                XCTAssertEqual(receivedError as NSError, expectedError as NSError)
+                XCTAssertEqual(receivedError as NSError, expectedError as NSError, file: file, line: line)
             default:
-                XCTFail("Expected \(expectedResult), but got \(receivedResult) instead")
+                XCTFail("Expected \(expectedResult), but got \(receivedResult) instead", file: file, line: line)
             }
             exp.fulfill()
         }
