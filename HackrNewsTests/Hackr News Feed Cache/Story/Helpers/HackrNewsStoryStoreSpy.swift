@@ -9,6 +9,7 @@ class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
     enum Message: Equatable {
         case deletion(Story)
         case insertion(Story, Date)
+        case retrieve
     }
 
     private(set) var receivedMessages = [Message]()
@@ -40,5 +41,9 @@ class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
 
     func completeInsertionSuccessfully(at index: Int = 0) {
         insertionCompletions[index](.success(()))
+    }
+
+    func retrieve() {
+        receivedMessages.append(.retrieve)
     }
 }

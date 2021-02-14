@@ -41,3 +41,9 @@ extension LocalHackrStoryLoader: HackrStoryCache {
         }
     }
 }
+
+public extension LocalHackrStoryLoader {
+    func load(completion _: @escaping (HackrStoryLoader.Result) -> Void) {
+        store.retrieve()
+    }
+}
