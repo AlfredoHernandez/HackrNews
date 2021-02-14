@@ -3,31 +3,8 @@
 //
 
 import HackrNews
+@testable import HackrNewsApp
 import XCTest
-
-protocol HackrNewsFeedCache {
-    typealias SaveResult = Result<Void, Error>
-    func save(_ news: [HackrNew], completion: @escaping (SaveResult) -> Void)
-}
-
-class HackrNewsFeedLoaderCacheDecorator: HackrNewsFeedLoader {
-    private let decoratee: HackrNewsFeedLoader
-    private let cache: HackrNewsFeedCache
-
-    init(decoratee: HackrNewsFeedLoader, cache: HackrNewsFeedCache) {
-        self.decoratee = decoratee
-        self.cache = cache
-    }
-
-    func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
-        decoratee.load { [weak self] result in
-            completion(result.map { feed in
-                self?.cache.save(feed, completion: { _ in })
-                return feed
-            })
-        }
-    }
-}
 
 final class HackrNewsFeedLoaderCacheDecoratorTests: XCTestCase {
     func test_load_deliversFeedOnLoaderSuccess() {
