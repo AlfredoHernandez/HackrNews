@@ -30,46 +30,57 @@ final class HackrNewsFeedLoaderWithFallbackCompositeTests: XCTestCase {
     func test_load_deliversPrimaryFeedOnPrimaryLoaderSuccess() {
         let primaryResult = uniqueFeed()
         let fallbackResult = uniqueFeed()
-        let primary = LoaderStub(.success(primaryResult))
-        let fallback = LoaderStub(.success(fallbackResult))
-        let sut = HackrNewsFeedLoaderWithFallbackComposite(primary: primary, fallback: fallback)
-        let exp = expectation(description: "Wait loader for completion")
+        let sut = makeSUT(primaryResult: .success(primaryResult), fallbackResult: .success(fallbackResult))
 
-        sut.load { receivedResult in
-            switch receivedResult {
-            case let .success(receivedFeed):
-                XCTAssertEqual(receivedFeed, primaryResult)
-            default:
-                XCTFail("Expected success result with feed \(primaryResult), but got \(receivedResult) instead")
-            }
-            exp.fulfill()
-        }
-
-        wait(for: [exp], timeout: 1)
+        expect(sut, toCompleteWith: .success(primaryResult))
     }
 
     func test_load_deliversFallbackFeedOnPrimaryLoaderFailure() {
         let fallbackResult = uniqueFeed()
-        let primary = LoaderStub(.failure(anyNSError()))
-        let fallback = LoaderStub(.success(fallbackResult))
-        let sut = HackrNewsFeedLoaderWithFallbackComposite(primary: primary, fallback: fallback)
+        let sut = makeSUT(primaryResult: .failure(anyNSError()), fallbackResult: .success(fallbackResult))
 
+        expect(sut, toCompleteWith: .success(fallbackResult))
+    }
+
+    // MARK: - Helpers
+
+    private func makeSUT(
+        primaryResult: HackrNewsFeedLoader.Result,
+        fallbackResult: HackrNewsFeedLoader.Result,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> HackrNewsFeedLoaderWithFallbackComposite {
+        let primaryLoader = LoaderStub(primaryResult)
+        let fallbackLoader = LoaderStub(fallbackResult)
+        let sut = HackrNewsFeedLoaderWithFallbackComposite(primary: primaryLoader, fallback: fallbackLoader)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(primaryLoader, file: file, line: line)
+        trackForMemoryLeaks(fallbackLoader, file: file, line: line)
+        return sut
+    }
+
+    private func expect(
+        _ sut: HackrNewsFeedLoaderWithFallbackComposite,
+        toCompleteWith expectedResult: HackrNewsFeedLoader.Result,
+        file _: StaticString = #filePath,
+        line _: UInt = #line
+    ) {
         let exp = expectation(description: "Wait loader for completion")
 
         sut.load { receivedResult in
-            switch receivedResult {
-            case let .success(receivedFeed):
-                XCTAssertEqual(receivedFeed, fallbackResult)
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedFeed), .success(expectedFeed)):
+                XCTAssertEqual(receivedFeed, expectedFeed, "Expected to complete with \(expectedFeed), but got \(receivedFeed) instead")
+            case let (.failure(receivedError), .failure(expectedError)):
+                XCTAssertEqual(receivedError as NSError, expectedError as NSError)
             default:
-                XCTFail("Expected \(fallbackResult), but got \(receivedResult) instead")
+                XCTFail("Expected \(expectedResult), but got \(receivedResult) instead")
             }
             exp.fulfill()
         }
 
         wait(for: [exp], timeout: 1)
     }
-
-    // MARK: - Helpers
 
     private func uniqueFeed() -> [HackrNew] {
         [HackrNew(id: Int.random(in: 0 ... 100)), HackrNew(id: Int.random(in: 0 ... 100)), HackrNew(id: Int.random(in: 0 ... 100))]
