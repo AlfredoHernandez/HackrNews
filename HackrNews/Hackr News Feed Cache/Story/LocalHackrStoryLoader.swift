@@ -43,7 +43,14 @@ extension LocalHackrStoryLoader: HackrStoryCache {
 }
 
 public extension LocalHackrStoryLoader {
-    func load(completion _: @escaping (HackrStoryLoader.Result) -> Void) {
-        store.retrieve()
+    typealias LoadResult = HackrStoryLoader.Result
+
+    func load(completion: @escaping (LoadResult) -> Void) {
+        store.retrieve { retrievalResult in
+            _ = retrievalResult.mapError { error -> Error in
+                completion(.failure(error))
+                return error
+            }
+        }
     }
 }

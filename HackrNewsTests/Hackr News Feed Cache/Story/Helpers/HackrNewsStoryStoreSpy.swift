@@ -43,7 +43,14 @@ class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
         insertionCompletions[index](.success(()))
     }
 
-    func retrieve() {
+    private(set) var retrievalCompletions = [RetrievalCompletion]()
+
+    func retrieve(completion: @escaping RetrievalCompletion) {
+        retrievalCompletions.append(completion)
         receivedMessages.append(.retrieve)
+    }
+
+    func completeRetrieval(with error: Error, at index: Int = 0) {
+        retrievalCompletions[index](.failure(error))
     }
 }
