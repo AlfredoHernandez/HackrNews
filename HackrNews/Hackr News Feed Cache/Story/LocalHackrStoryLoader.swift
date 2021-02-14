@@ -45,11 +45,19 @@ extension LocalHackrStoryLoader: HackrStoryCache {
 public extension LocalHackrStoryLoader {
     typealias LoadResult = HackrStoryLoader.Result
 
+    enum Error: Swift.Error {
+        case storyNotFound
+    }
+
     func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { retrievalResult in
-            _ = retrievalResult.mapError { error -> Error in
+            switch retrievalResult {
+            case let .success(story):
+                if story == nil {
+                    completion(.failure(Error.storyNotFound))
+                }
+            case let .failure(error):
                 completion(.failure(error))
-                return error
             }
         }
     }

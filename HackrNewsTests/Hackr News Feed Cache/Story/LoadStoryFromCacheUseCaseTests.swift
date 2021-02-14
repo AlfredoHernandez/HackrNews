@@ -29,6 +29,14 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         })
     }
 
+    func test_load_retrievesStoryNotFoundErrorOnNonStoryCached() {
+        let (sut, store) = makeSUT()
+
+        expect(sut, toCompleteWith: failure(.storyNotFound), when: {
+            store.completeRetrievalWithEmptyCache()
+        })
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -41,6 +49,10 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
+    }
+
+    private func failure(_ error: LocalHackrStoryLoader.Error) -> LocalHackrStoryLoader.LoadResult {
+        .failure(error)
     }
 
     private func expect(
