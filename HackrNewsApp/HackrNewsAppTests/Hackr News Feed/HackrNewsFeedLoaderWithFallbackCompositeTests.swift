@@ -36,8 +36,8 @@ final class HackrNewsFeedLoaderWithFallbackCompositeTests: XCTestCase {
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> HackrNewsFeedLoaderWithFallbackComposite {
-        let primaryLoader = LoaderStub(primaryResult)
-        let fallbackLoader = LoaderStub(fallbackResult)
+        let primaryLoader = FeedLoaderStub(primaryResult)
+        let fallbackLoader = FeedLoaderStub(fallbackResult)
         let sut = HackrNewsFeedLoaderWithFallbackComposite(primary: primaryLoader, fallback: fallbackLoader)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(primaryLoader, file: file, line: line)
@@ -72,21 +72,5 @@ final class HackrNewsFeedLoaderWithFallbackCompositeTests: XCTestCase {
         }
 
         wait(for: [exp], timeout: 1)
-    }
-
-    private func uniqueFeed() -> [HackrNew] {
-        [HackrNew(id: Int.random(in: 0 ... 100)), HackrNew(id: Int.random(in: 0 ... 100)), HackrNew(id: Int.random(in: 0 ... 100))]
-    }
-
-    private class LoaderStub: HackrNewsFeedLoader {
-        private let result: HackrNewsFeedLoader.Result
-
-        init(_ result: HackrNewsFeedLoader.Result) {
-            self.result = result
-        }
-
-        func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
-            completion(result)
-        }
     }
 }

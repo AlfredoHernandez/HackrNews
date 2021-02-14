@@ -54,18 +54,6 @@ final class HackrNewsFeedLoaderCacheDecoratorTests: XCTestCase {
         return sut
     }
 
-    private class FeedLoaderStub: HackrNewsFeedLoader {
-        private let result: HackrNewsFeedLoader.Result
-
-        init(_ result: HackrNewsFeedLoader.Result) {
-            self.result = result
-        }
-
-        func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
-            completion(result)
-        }
-    }
-
     private class CacheSpy: HackrNewsFeedCache {
         enum Message: Equatable {
             case save([HackrNew])
@@ -98,9 +86,5 @@ final class HackrNewsFeedLoaderCacheDecoratorTests: XCTestCase {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
-    }
-
-    private func uniqueFeed() -> [HackrNew] {
-        [HackrNew(id: Int.random(in: 0 ... 100)), HackrNew(id: Int.random(in: 0 ... 100)), HackrNew(id: Int.random(in: 0 ... 100))]
     }
 }
