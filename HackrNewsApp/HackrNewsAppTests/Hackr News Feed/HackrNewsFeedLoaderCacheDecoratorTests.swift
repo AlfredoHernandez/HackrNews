@@ -21,13 +21,10 @@ class HackrNewsFeedLoaderCacheDecorator: HackrNewsFeedLoader {
 
     func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
         decoratee.load { [weak self] result in
-            switch result {
-            case let .success(feed):
-                self?.cache.save(feed) { _ in }
-                completion(.success(feed))
-            default:
-                completion(result)
-            }
+            completion(result.map { feed in
+                self?.cache.save(feed, completion: { _ in })
+                return feed
+            })
         }
     }
 }
