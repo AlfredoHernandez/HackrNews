@@ -69,6 +69,32 @@ class CacheStoryUseCaseTests: XCTestCase {
         })
     }
 
+    func test_save_doesNotDeliversDeletionErrorAfterSUTInstanceHasBeenDeallocated() {
+        let timestamp = Date()
+        let store = HackrNewsStoryStoreSpy()
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, timestamp: { timestamp })
+        var receivedResults = [LocalHackrStoryLoader.SaveResult]()
+
+        sut?.save(Story.any) { receivedResults.append($0) }
+        sut = nil
+        store.completeDeletion(with: anyNSError())
+
+        XCTAssertTrue(receivedResults.isEmpty)
+    }
+
+    func test_save_doesNotDeliversInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
+        let store = HackrNewsStoryStoreSpy()
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, timestamp: Date.init)
+        var receivedResults = [LocalHackrStoryLoader.SaveResult]()
+
+        sut?.save(Story.any) { receivedResults.append($0) }
+        store.completeDeletionSuccessfully()
+        sut = nil
+        store.completeInsertion(with: anyNSError())
+
+        XCTAssertTrue(receivedResults.isEmpty)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
