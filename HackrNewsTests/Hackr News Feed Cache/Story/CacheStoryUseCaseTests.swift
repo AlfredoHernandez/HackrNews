@@ -25,10 +25,10 @@ class LocalHackrStoryLoader: HackrStoryCache {
             case .success:
                 store.insert(story: story, with: self.timestamp(), completion: { insertionResult in
                     switch insertionResult {
+                    case .success:
+                        completion(.success(()))
                     case let .failure(error):
                         completion(.failure(error))
-                    default:
-                        break
                     }
                 })
             case let .failure(error):
@@ -75,6 +75,10 @@ class HackrStoryStoreSpy {
 
     func completeInsertion(with error: Error, at index: Int = 0) {
         insertionCompletions[index](.failure(error))
+    }
+
+    func completeInsertionSuccessfully(at index: Int = 0) {
+        insertionCompletions[index](.success(()))
     }
 }
 
@@ -130,6 +134,15 @@ class CacheStoryUseCaseTests: XCTestCase {
         expect(sut, toCompleteWithError: insertionError, when: {
             store.completeDeletionSuccessfully()
             store.completeInsertion(with: insertionError)
+        })
+    }
+
+    func test_save_succeedsOnSuccessfulInsertion() {
+        let (sut, store) = makeSUT()
+
+        expect(sut, toCompleteWithError: .none, when: {
+            store.completeDeletionSuccessfully()
+            store.completeInsertionSuccessfully()
         })
     }
 
