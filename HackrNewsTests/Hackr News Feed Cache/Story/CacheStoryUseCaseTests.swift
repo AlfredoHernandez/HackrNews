@@ -5,87 +5,6 @@
 import HackrNews
 import XCTest
 
-protocol HackrStoryCache {
-    typealias SaveResult = Result<Void, Error>
-    func save(_ story: Story, completion: @escaping (SaveResult) -> Void)
-}
-
-class LocalHackrStoryLoader: HackrStoryCache {
-    private let store: HackrStoryStoreSpy
-    private let timestamp: () -> Date
-
-    init(store: HackrStoryStoreSpy, timestamp: @escaping () -> Date) {
-        self.store = store
-        self.timestamp = timestamp
-    }
-
-    func save(_ story: Story, completion: @escaping (SaveResult) -> Void) {
-        store.delete(story) { [unowned self] deletionResult in
-            switch deletionResult {
-            case .success:
-                self.cache(story, with: completion)
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    private func cache(_ story: Story, with completion: @escaping (SaveResult) -> Void) {
-        store.insert(story: story, with: timestamp()) { insertionResult in
-            switch insertionResult {
-            case .success:
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-}
-
-class HackrStoryStoreSpy {
-    typealias DeletionResult = Swift.Result<Void, Error>
-    typealias DeletionCompletion = (DeletionResult) -> Void
-
-    typealias InsertionResult = Swift.Result<Void, Error>
-    typealias InsertionCompletion = (InsertionResult) -> Void
-
-    enum Message: Equatable {
-        case deletion(Story)
-        case insertion(Story, Date)
-    }
-
-    private(set) var receivedMessages = [Message]()
-    private(set) var deletionCompletions = [DeletionCompletion]()
-
-    func delete(_ story: Story, completion: @escaping DeletionCompletion) {
-        deletionCompletions.append(completion)
-        receivedMessages.append(.deletion(story))
-    }
-
-    func completeDeletion(with error: Error, at index: Int = 0) {
-        deletionCompletions[index](.failure(error))
-    }
-
-    func completeDeletionSuccessfully(at index: Int = 0) {
-        deletionCompletions[index](.success(()))
-    }
-
-    private(set) var insertionCompletions = [InsertionCompletion]()
-
-    func insert(story: Story, with timestamp: Date, completion: @escaping InsertionCompletion) {
-        insertionCompletions.append(completion)
-        receivedMessages.append(.insertion(story, timestamp))
-    }
-
-    func completeInsertion(with error: Error, at index: Int = 0) {
-        insertionCompletions[index](.failure(error))
-    }
-
-    func completeInsertionSuccessfully(at index: Int = 0) {
-        insertionCompletions[index](.success(()))
-    }
-}
-
 class CacheStoryUseCaseTests: XCTestCase {
     func test_init_doesNotDeleteCacheUponCreation() {
         let (_, store) = makeSUT()
@@ -156,8 +75,8 @@ class CacheStoryUseCaseTests: XCTestCase {
         timestamp: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (LocalHackrStoryLoader, HackrStoryStoreSpy) {
-        let store = HackrStoryStoreSpy()
+    ) -> (LocalHackrStoryLoader, HackrNewsStoryStoreSpy) {
+        let store = HackrNewsStoryStoreSpy()
         let sut = LocalHackrStoryLoader(store: store, timestamp: timestamp)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
@@ -189,19 +108,4 @@ class CacheStoryUseCaseTests: XCTestCase {
 
         XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
-}
-
-extension Story {
-    static var any = Story(
-        id: Int.random(in: 0 ... 100),
-        title: "a title",
-        text: "a text",
-        author: "a username",
-        score: 0,
-        createdAt: Date(),
-        totalComments: 0,
-        comments: [],
-        type: "story",
-        url: URL(string: "https://any-url.com")!
-    )
 }
