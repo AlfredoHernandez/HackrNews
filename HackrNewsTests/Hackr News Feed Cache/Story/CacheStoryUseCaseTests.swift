@@ -23,14 +23,18 @@ class LocalHackrStoryLoader: HackrStoryCache {
         store.delete(story) { [unowned self] deletionResult in
             switch deletionResult {
             case .success:
-                store.insert(story: story, with: self.timestamp(), completion: { insertionResult in
-                    switch insertionResult {
-                    case .success:
-                        completion(.success(()))
-                    case let .failure(error):
-                        completion(.failure(error))
-                    }
-                })
+                self.cache(story, with: completion)
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private func cache(_ story: Story, with completion: @escaping (SaveResult) -> Void) {
+        store.insert(story: story, with: timestamp()) { insertionResult in
+            switch insertionResult {
+            case .success:
+                completion(.success(()))
             case let .failure(error):
                 completion(.failure(error))
             }
