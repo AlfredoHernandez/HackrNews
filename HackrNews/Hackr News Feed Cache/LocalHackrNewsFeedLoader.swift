@@ -16,10 +16,10 @@ public class LocalHackrNewsFeedLoader {
 
 // MARK: - Save Cache
 
-public extension LocalHackrNewsFeedLoader {
-    typealias SaveResult = Result<Void, Error>
+extension LocalHackrNewsFeedLoader: HackrNewsFeedCache {
+    public typealias SaveResult = HackrNewsFeedCache.SaveResult
 
-    func save(_ news: [HackrNew], completion: @escaping (SaveResult) -> Void) {
+    public func save(_ news: [HackrNew], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedNews { [weak self] result in
             guard let self = self else { return }
             switch result {
