@@ -16,7 +16,7 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         let id = anyID
 
-        sut.load(id: id) { _ in }
+        _ = sut.load(id: id) { _ in }
 
         XCTAssertEqual(store.receivedMessages, [.retrieve(storyID: id)])
     }
@@ -47,6 +47,22 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         })
     }
 
+    func test_load_doesNotDeliverResultAfterCancellingTask() {
+        let (sut, store) = makeSUT()
+        let anyHackrNew = HackrNew(id: 1)
+        let story = Story.uniqueStory()
+        var receivedResults = [LocalHackrStoryLoader.LoadResult]()
+
+        let task = sut.load(id: anyHackrNew.id) { result in
+            receivedResults.append(result)
+        }
+        task.cancel()
+
+        store.completeRetrieval(with: story.local)
+
+        XCTAssertTrue(receivedResults.isEmpty, "Expected no results after cancelling task")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -74,7 +90,7 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     ) {
         let exp = expectation(description: "Wait for load completion")
 
-        sut.load(id: anyID) { receivedResult in
+        _ = sut.load(id: anyID) { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedNews), .success(expectedNews)):
                 XCTAssertEqual(receivedNews, expectedNews, file: file, line: line)

@@ -53,17 +53,39 @@ public extension LocalHackrStoryLoader {
         case storyNotFound
     }
 
-    func load(id: Int, completion: @escaping (LoadResult) -> Void) {
+    class LoadStoryTask: HackrStoryLoaderTask {
+        var completion: ((LoadResult) -> Void)?
+
+        init(completion: @escaping (LoadResult) -> Void) {
+            self.completion = completion
+        }
+
+        public func cancel() {
+            preventFurtherCompletions()
+        }
+
+        func complete(with result: LoadResult) {
+            completion?(result)
+        }
+
+        private func preventFurtherCompletions() {
+            completion = nil
+        }
+    }
+
+    func load(id: Int, completion: @escaping (LoadResult) -> Void) -> HackrStoryLoaderTask {
+        let task = LoadStoryTask(completion: completion)
         store.retrieve(storyID: id) { retrievalResult in
             switch retrievalResult {
             case let .success(.some(story)):
-                completion(.success(story.toModel()))
+                task.complete(with: .success(story.toModel()))
             case let .failure(error):
-                completion(.failure(error))
+                task.complete(with: .failure(error))
             case .success:
-                completion(.failure(Error.storyNotFound))
+                task.complete(with: .failure(Error.storyNotFound))
             }
         }
+        return task
     }
 }
 
