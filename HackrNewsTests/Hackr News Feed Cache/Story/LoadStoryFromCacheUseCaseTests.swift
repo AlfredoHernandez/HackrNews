@@ -65,7 +65,7 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
 
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let store = HackrNewsStoryStoreSpy()
-        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, timestamp: Date.init)
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
         let story = Story.uniqueStory()
 
         var receivedResults = [LocalHackrStoryLoader.LoadResult]()
@@ -81,12 +81,11 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(
-        timestamp: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (LocalHackrStoryLoader, HackrNewsStoryStoreSpy) {
         let store = HackrNewsStoryStoreSpy()
-        let sut = LocalHackrStoryLoader(store: store, timestamp: timestamp)
+        let sut = LocalHackrStoryLoader(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)

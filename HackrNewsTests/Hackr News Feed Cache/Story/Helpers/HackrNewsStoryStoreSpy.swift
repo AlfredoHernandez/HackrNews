@@ -8,7 +8,7 @@ import HackrNews
 class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
     enum Message: Equatable {
         case deletion(LocalStory)
-        case insertion(LocalStory, Date)
+        case insertion(LocalStory)
         case retrieve(storyID: Int)
     }
 
@@ -30,9 +30,9 @@ class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
 
     private(set) var insertionCompletions = [InsertionCompletion]()
 
-    func insert(story: LocalStory, with timestamp: Date, completion: @escaping InsertionCompletion) {
+    func insert(story: LocalStory, completion: @escaping InsertionCompletion) {
         insertionCompletions.append(completion)
-        receivedMessages.append(.insertion(story, timestamp))
+        receivedMessages.append(.insertion(story))
     }
 
     func completeInsertion(with error: Error, at index: Int = 0) {

@@ -6,11 +6,9 @@ import Foundation
 
 public class LocalHackrStoryLoader {
     private let store: HackrNewsStoryStore
-    private let timestamp: () -> Date
 
-    public init(store: HackrNewsStoryStore, timestamp: @escaping () -> Date) {
+    public init(store: HackrNewsStoryStore) {
         self.store = store
-        self.timestamp = timestamp
     }
 }
 
@@ -32,7 +30,7 @@ extension LocalHackrStoryLoader: HackrStoryCache {
     }
 
     private func cache(_ story: Story, with completion: @escaping (SaveResult) -> Void) {
-        store.insert(story: story.toLocal(), with: timestamp()) { [weak self] insertionResult in
+        store.insert(story: story.toLocal()) { [weak self] insertionResult in
             guard self != nil else { return }
             switch insertionResult {
             case .success:
