@@ -53,9 +53,10 @@ public extension LocalHackrStoryLoader {
         store.retrieve { retrievalResult in
             switch retrievalResult {
             case let .success(story):
-                if story == nil {
-                    completion(.failure(Error.storyNotFound))
+                guard let story = story else {
+                    return completion(.failure(Error.storyNotFound))
                 }
+                completion(.success(story.toModel()))
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -66,6 +67,23 @@ public extension LocalHackrStoryLoader {
 public extension Story {
     func toLocal() -> LocalStory {
         LocalStory(
+            id: id,
+            title: title,
+            text: text,
+            author: author,
+            score: score,
+            createdAt: createdAt,
+            totalComments: totalComments,
+            comments: comments,
+            type: type,
+            url: url
+        )
+    }
+}
+
+public extension LocalStory {
+    func toModel() -> Story {
+        Story(
             id: id,
             title: title,
             text: text,
