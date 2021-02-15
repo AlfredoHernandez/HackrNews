@@ -7,7 +7,6 @@ import Foundation
 public class LocalHackrStoryLoader {
     private let store: HackrNewsStoryStore
     private let timestamp: () -> Date
-    private let maxCacheAgeInDays = 7
 
     public init(store: HackrNewsStoryStore, timestamp: @escaping () -> Date) {
         self.store = store
@@ -52,19 +51,15 @@ public extension LocalHackrStoryLoader {
 
     enum Error: Swift.Error {
         case storyNotFound
-        case expiredStory
     }
 
     func load(id: Int, completion: @escaping (LoadResult) -> Void) {
-        store.retrieve(storyID: id) { [unowned self] retrievalResult in
+        store.retrieve(storyID: id) { retrievalResult in
             switch retrievalResult {
-            case let .success(.some(cache))
-                where CachePolicy.validate(cache.timestamp, against: self.timestamp(), maxCacheAgeInDays: self.maxCacheAgeInDays):
-                completion(.success(cache.story.toModel()))
+            case let .success(.some(story)):
+                completion(.success(story.toModel()))
             case let .failure(error):
                 completion(.failure(error))
-            case .success(.some(_)):
-                completion(.failure(Error.expiredStory))
             case .success:
                 completion(.failure(Error.storyNotFound))
             }

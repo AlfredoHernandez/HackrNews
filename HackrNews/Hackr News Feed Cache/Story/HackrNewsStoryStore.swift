@@ -4,16 +4,6 @@
 
 import Foundation
 
-public struct CachedStory {
-    public let story: LocalStory
-    public let timestamp: Date
-
-    public init(story: LocalStory, timestamp: Date) {
-        self.story = story
-        self.timestamp = timestamp
-    }
-}
-
 public protocol HackrNewsStoryStore {
     typealias DeletionResult = Swift.Result<Void, Error>
     typealias DeletionCompletion = (DeletionResult) -> Void
@@ -21,7 +11,7 @@ public protocol HackrNewsStoryStore {
     typealias InsertionResult = Swift.Result<Void, Error>
     typealias InsertionCompletion = (InsertionResult) -> Void
 
-    typealias RetrievalResult = Swift.Result<CachedStory?, Error>
+    typealias RetrievalResult = Swift.Result<LocalStory?, Error>
     typealias RetrievalCompletion = (RetrievalResult) -> Void
 
     func delete(_ story: LocalStory, completion: @escaping DeletionCompletion)
