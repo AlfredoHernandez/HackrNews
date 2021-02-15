@@ -435,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				38C565EF25D31CB400C43726 /* Infrastructure */,
+				3860F8D625D09F930044025B /* CachePolicy.swift */,
 				38F2AE97259BC89200DFB287 /* HackrNewsFeedStore.swift */,
 				38F2AE92259BC88200DFB287 /* LocalHackrNewsFeedLoader.swift */,
 				38F2AE9C259BD2F300DFB287 /* LocalHackrNew.swift */,
@@ -798,7 +799,6 @@
 		38F2AE91259BC86F00DFB287 /* Hackr News Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
-				3860F8D625D09F930044025B /* CachePolicy.swift */,
 				38791F3925D9C60700581EF7 /* Feed */,
 				38791F4625D9DB4400581EF7 /* Story */,
 			);
