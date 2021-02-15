@@ -4,6 +4,16 @@
 
 import Foundation
 
+struct StoryCachePolicy {
+    private static let calendar = Calendar(identifier: .gregorian)
+    private static var maxCacheAgeInDays: Int { 7 }
+
+    static func validate(_ timestamp: Date, against date: Date) -> Bool {
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
+        return date < maxCacheAge
+    }
+}
+
 public class LocalHackrStoryLoader {
     private let store: HackrNewsStoryStore
     private let timestamp: () -> Date
@@ -47,18 +57,20 @@ public extension LocalHackrStoryLoader {
 
     enum Error: Swift.Error {
         case storyNotFound
+        case expiredStory
     }
 
     func load(completion: @escaping (LoadResult) -> Void) {
-        store.retrieve { retrievalResult in
+        store.retrieve { [unowned self] retrievalResult in
             switch retrievalResult {
-            case let .success(story):
-                guard let story = story else {
-                    return completion(.failure(Error.storyNotFound))
-                }
-                completion(.success(story.toModel()))
+            case let .success(.some(cache)) where StoryCachePolicy.validate(cache.timestamp, against: self.timestamp()):
+                completion(.success(cache.story.toModel()))
             case let .failure(error):
                 completion(.failure(error))
+            case .success(.some(_)):
+                completion(.failure(Error.expiredStory))
+            case .success:
+                completion(.failure(Error.storyNotFound))
             }
         }
     }

@@ -48,6 +48,28 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         })
     }
 
+    func test_load_deliversExpiredStoryOnExpiredCache() {
+        let (sut, store) = makeSUT()
+        let story = Story.uniqueStory()
+        let fixedCurrentDate = Date()
+        let expiredTimestamp = fixedCurrentDate.minusStoryCacheMaxAge().adding(seconds: -1)
+
+        expect(sut, toCompleteWith: failure(.expiredStory), when: {
+            store.completeRetrieval(with: story.local, timestamp: expiredTimestamp)
+        })
+    }
+
+    func test_load_deliversExpiredStoryOnCacheExpiration() {
+        let (sut, store) = makeSUT()
+        let story = Story.uniqueStory()
+        let fixedCurrentDate = Date()
+        let expirationTimestamp = fixedCurrentDate.minusStoryCacheMaxAge()
+
+        expect(sut, toCompleteWith: failure(.expiredStory), when: {
+            store.completeRetrieval(with: story.local, timestamp: expirationTimestamp)
+        })
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(

@@ -58,7 +58,7 @@ class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
         retrievalCompletions[index](.success(nil))
     }
 
-    func completeRetrieval(with story: LocalStory, timestamp _: Date, at index: Int = 0) {
-        retrievalCompletions[index](.success(story))
+    func completeRetrieval(with story: LocalStory, timestamp: Date, at index: Int = 0) {
+        retrievalCompletions[index](.success(CachedStory(story: story, timestamp: timestamp)))
     }
 }
