@@ -20,7 +20,7 @@ final class StoryPresentationAdapter: HackrNewFeedCellControllerDelegate {
 
     func didRequestStory() {
         presenter?.didStartLoadingStory(from: model)
-        task = loader.load { [weak self] result in
+        task = loader.load(id: model.id) { [weak self] result in
             switch result {
             case let .success(story):
                 self?.storyResult = { story }
