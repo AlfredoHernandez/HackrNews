@@ -10,5 +10,5 @@ public protocol HackrStoryLoaderTask {
 
 public protocol HackrStoryLoader {
     typealias Result = Swift.Result<Story, Swift.Error>
-    func load(completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask
+    func load(id: Int, completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask
 }
