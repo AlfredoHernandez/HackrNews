@@ -14,10 +14,11 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
 
     func test_load_requestsCacheRetrieval() {
         let (sut, store) = makeSUT()
+        let id = anyID
 
-        sut.load { _ in }
+        sut.load(id: id) { _ in }
 
-        XCTAssertEqual(store.receivedMessages, [.retrieve])
+        XCTAssertEqual(store.receivedMessages, [.retrieve(storyID: id)])
     }
 
     func test_load_failsOnRetrievalError() {
@@ -97,7 +98,7 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     ) {
         let exp = expectation(description: "Wait for load completion")
 
-        sut.load { receivedResult in
+        sut.load(id: anyID) { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedNews), .success(expectedNews)):
                 XCTAssertEqual(receivedNews, expectedNews, file: file, line: line)
@@ -112,5 +113,9 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         action()
 
         wait(for: [exp], timeout: 1.0)
+    }
+
+    private var anyID: Int {
+        Int.random(in: 0 ... 100)
     }
 }

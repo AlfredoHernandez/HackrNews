@@ -26,5 +26,5 @@ public protocol HackrNewsStoryStore {
 
     func delete(_ story: LocalStory, completion: @escaping DeletionCompletion)
     func insert(story: LocalStory, with timestamp: Date, completion: @escaping InsertionCompletion)
-    func retrieve(completion: @escaping RetrievalCompletion)
+    func retrieve(storyID: Int, completion: @escaping RetrievalCompletion)
 }

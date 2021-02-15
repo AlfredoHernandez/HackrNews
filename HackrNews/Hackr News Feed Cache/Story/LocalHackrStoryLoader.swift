@@ -55,8 +55,8 @@ public extension LocalHackrStoryLoader {
         case expiredStory
     }
 
-    func load(completion: @escaping (LoadResult) -> Void) {
-        store.retrieve { [unowned self] retrievalResult in
+    func load(id: Int, completion: @escaping (LoadResult) -> Void) {
+        store.retrieve(storyID: id) { [unowned self] retrievalResult in
             switch retrievalResult {
             case let .success(.some(cache))
                 where CachePolicy.validate(cache.timestamp, against: self.timestamp(), maxCacheAgeInDays: self.maxCacheAgeInDays):
