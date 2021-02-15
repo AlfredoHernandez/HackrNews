@@ -4,25 +4,18 @@
 
 import Foundation
 
-struct StoryCachePolicy {
-    private static let calendar = Calendar(identifier: .gregorian)
-    private static var maxCacheAgeInDays: Int { 7 }
-
-    static func validate(_ timestamp: Date, against date: Date) -> Bool {
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false }
-        return date < maxCacheAge
-    }
-}
-
 public class LocalHackrStoryLoader {
     private let store: HackrNewsStoryStore
     private let timestamp: () -> Date
+    private let maxCacheAgeInDays = 7
 
     public init(store: HackrNewsStoryStore, timestamp: @escaping () -> Date) {
         self.store = store
         self.timestamp = timestamp
     }
 }
+
+// MARK: - Save Cache
 
 extension LocalHackrStoryLoader: HackrStoryCache {
     public typealias SaveResult = HackrStoryCache.SaveResult
@@ -52,6 +45,8 @@ extension LocalHackrStoryLoader: HackrStoryCache {
     }
 }
 
+// MARK: - Load Cache
+
 public extension LocalHackrStoryLoader {
     typealias LoadResult = HackrStoryLoader.Result
 
@@ -63,7 +58,8 @@ public extension LocalHackrStoryLoader {
     func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [unowned self] retrievalResult in
             switch retrievalResult {
-            case let .success(.some(cache)) where StoryCachePolicy.validate(cache.timestamp, against: self.timestamp()):
+            case let .success(.some(cache))
+                where CachePolicy.validate(cache.timestamp, against: self.timestamp(), maxCacheAgeInDays: self.maxCacheAgeInDays):
                 completion(.success(cache.story.toModel()))
             case let .failure(error):
                 completion(.failure(error))

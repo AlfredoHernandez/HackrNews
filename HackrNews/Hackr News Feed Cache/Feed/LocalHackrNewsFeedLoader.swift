@@ -8,6 +8,8 @@ public class LocalHackrNewsFeedLoader {
     private let store: HackrNewsFeedStore
     private let currentDate: () -> Date
 
+    private let maxCacheAgeInDays = 1
+
     public init(store: HackrNewsFeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
@@ -48,7 +50,8 @@ extension LocalHackrNewsFeedLoader: HackrNewsFeedLoader {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case let .success(.some(cache)) where CachePolicy.validate(cache.timestamp, against: self.currentDate()):
+            case let .success(.some(cache))
+                where CachePolicy.validate(cache.timestamp, against: self.currentDate(), maxCacheAgeInDays: self.maxCacheAgeInDays):
                 completion(.success(cache.feed.toModels()))
             case let .failure(error):
                 completion(.failure(error))
@@ -66,7 +69,8 @@ public extension LocalHackrNewsFeedLoader {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case let .success(.some(cache)) where !CachePolicy.validate(cache.timestamp, against: self.currentDate()):
+            case let .success(.some(cache))
+                where !CachePolicy.validate(cache.timestamp, against: self.currentDate(), maxCacheAgeInDays: self.maxCacheAgeInDays):
                 self.store.deleteCachedNews { _ in }
             case .failure:
                 self.store.deleteCachedNews { _ in }
