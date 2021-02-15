@@ -14,8 +14,8 @@ extension MainQueueDispatchDecorator: HackrNewsFeedLoader where T == HackrNewsFe
 }
 
 extension MainQueueDispatchDecorator: HackrStoryLoader where T == HackrStoryLoader {
-    func load(completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
-        decoratee.load { [weak self] result in
+    func load(id: Int, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
+        decoratee.load(id: id) { [weak self] result in
             self?.dispatch { completion(result) }
         }
     }

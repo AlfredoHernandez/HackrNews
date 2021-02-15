@@ -37,7 +37,7 @@ extension HackrNewsFeedUIIntegrationTests {
             }
         }
 
-        func load(completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
+        func load(id _: Int, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
             storiesRequests.append(completion)
             return TaskSpy { [weak self] in self?.cancelledStoryUrls += 1 }
         }

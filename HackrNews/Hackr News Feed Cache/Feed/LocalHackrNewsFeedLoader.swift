@@ -8,6 +8,8 @@ public class LocalHackrNewsFeedLoader {
     private let store: HackrNewsFeedStore
     private let currentDate: () -> Date
 
+    private let maxCacheAgeInDays = 1
+
     public init(store: HackrNewsFeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate

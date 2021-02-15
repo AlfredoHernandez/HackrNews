@@ -18,4 +18,10 @@ extension Story {
         type: "story",
         url: URL(string: "https://any-url.com")!
     )
+
+    static func uniqueStory() -> (model: Story, local: LocalStory) {
+        let story = Story.any
+        let local = story.toLocal()
+        return (story, local)
+    }
 }

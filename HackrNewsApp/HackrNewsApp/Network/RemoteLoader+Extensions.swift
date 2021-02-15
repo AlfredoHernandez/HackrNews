@@ -28,7 +28,7 @@ extension RemoteLoader: HackrStoryLoader where Resource == Story {
         }
     }
 
-    public func load(completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask {
+    public func load(id _: Int, completion: @escaping (Result) -> Void) -> HackrStoryLoaderTask {
         TaskWrapper(task: load(completion: completion))
     }
 }

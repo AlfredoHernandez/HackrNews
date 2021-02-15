@@ -14,32 +14,31 @@ class CacheStoryUseCaseTests: XCTestCase {
 
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
-        let story = Story.any
+        let story = Story.uniqueStory()
 
-        sut.save(story) { _ in }
+        sut.save(story.model) { _ in }
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story)], "Expected to delete \(story)")
+        XCTAssertEqual(store.receivedMessages, [.deletion(story.local)], "Expected to delete \(story)")
     }
 
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
-        let story = Story.any
+        let story = Story.uniqueStory()
 
-        sut.save(story) { _ in }
+        sut.save(story.model) { _ in }
         store.completeDeletion(with: anyNSError())
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(story.local)])
     }
 
-    func test_save_requestsCacheInsertionWithTimestampOnSuccessfulDeletion() {
-        let timestamp = Date()
-        let (sut, store) = makeSUT(timestamp: { timestamp })
-        let story = Story.any
+    func test_save_requestsCacheInsertionOnSuccessfulDeletion() {
+        let (sut, store) = makeSUT()
+        let story = Story.uniqueStory()
 
-        sut.save(story) { _ in }
+        sut.save(story.model) { _ in }
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story), .insertion(story, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(story.local), .insertion(story.local)])
     }
 
     func test_save_failsOnDeletionError() {
@@ -70,9 +69,8 @@ class CacheStoryUseCaseTests: XCTestCase {
     }
 
     func test_save_doesNotDeliversDeletionErrorAfterSUTInstanceHasBeenDeallocated() {
-        let timestamp = Date()
         let store = HackrNewsStoryStoreSpy()
-        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, timestamp: { timestamp })
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
         var receivedResults = [LocalHackrStoryLoader.SaveResult]()
 
         sut?.save(Story.any) { receivedResults.append($0) }
@@ -84,7 +82,7 @@ class CacheStoryUseCaseTests: XCTestCase {
 
     func test_save_doesNotDeliversInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
         let store = HackrNewsStoryStoreSpy()
-        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, timestamp: Date.init)
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
         var receivedResults = [LocalHackrStoryLoader.SaveResult]()
 
         sut?.save(Story.any) { receivedResults.append($0) }
@@ -98,12 +96,11 @@ class CacheStoryUseCaseTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(
-        timestamp: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (LocalHackrStoryLoader, HackrNewsStoryStoreSpy) {
         let store = HackrNewsStoryStoreSpy()
-        let sut = LocalHackrStoryLoader(store: store, timestamp: timestamp)
+        let sut = LocalHackrStoryLoader(store: store)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
