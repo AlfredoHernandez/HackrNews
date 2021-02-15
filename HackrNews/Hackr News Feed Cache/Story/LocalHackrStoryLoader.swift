@@ -75,7 +75,8 @@ public extension LocalHackrStoryLoader {
 
     func load(id: Int, completion: @escaping (LoadResult) -> Void) -> HackrStoryLoaderTask {
         let task = LoadStoryTask(completion: completion)
-        store.retrieve(storyID: id) { retrievalResult in
+        store.retrieve(storyID: id) { [weak self] retrievalResult in
+            guard self != nil else { return }
             switch retrievalResult {
             case let .success(.some(story)):
                 task.complete(with: .success(story.toModel()))

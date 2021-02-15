@@ -63,6 +63,21 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         XCTAssertTrue(receivedResults.isEmpty, "Expected no results after cancelling task")
     }
 
+    func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+        let store = HackrNewsStoryStoreSpy()
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, timestamp: Date.init)
+        let story = Story.uniqueStory()
+
+        var receivedResults = [LocalHackrStoryLoader.LoadResult]()
+        _ = sut?.load(id: anyID, completion: { receivedResults.append($0) })
+
+        sut = nil
+        store.completeRetrieval(with: story.local)
+        store.completeRetrieval(with: anyNSError())
+
+        XCTAssertTrue(receivedResults.isEmpty, "Expected not received results but got \(receivedResults) instead")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
