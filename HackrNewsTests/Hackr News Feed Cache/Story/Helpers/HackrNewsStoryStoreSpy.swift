@@ -7,15 +7,15 @@ import HackrNews
 
 class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
     enum Message: Equatable {
-        case deletion(Story)
-        case insertion(Story, Date)
+        case deletion(LocalStory)
+        case insertion(LocalStory, Date)
         case retrieve
     }
 
     private(set) var receivedMessages = [Message]()
     private(set) var deletionCompletions = [DeletionCompletion]()
 
-    func delete(_ story: Story, completion: @escaping DeletionCompletion) {
+    func delete(_ story: LocalStory, completion: @escaping DeletionCompletion) {
         deletionCompletions.append(completion)
         receivedMessages.append(.deletion(story))
     }
@@ -30,7 +30,7 @@ class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
 
     private(set) var insertionCompletions = [InsertionCompletion]()
 
-    func insert(story: Story, with timestamp: Date, completion: @escaping InsertionCompletion) {
+    func insert(story: LocalStory, with timestamp: Date, completion: @escaping InsertionCompletion) {
         insertionCompletions.append(completion)
         receivedMessages.append(.insertion(story, timestamp))
     }

@@ -14,32 +14,32 @@ class CacheStoryUseCaseTests: XCTestCase {
 
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
-        let story = Story.any
+        let story = Story.uniqueStory()
 
-        sut.save(story) { _ in }
+        sut.save(story.model) { _ in }
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story)], "Expected to delete \(story)")
+        XCTAssertEqual(store.receivedMessages, [.deletion(story.local)], "Expected to delete \(story)")
     }
 
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
-        let story = Story.any
+        let story = Story.uniqueStory()
 
-        sut.save(story) { _ in }
+        sut.save(story.model) { _ in }
         store.completeDeletion(with: anyNSError())
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(story.local)])
     }
 
     func test_save_requestsCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
         let (sut, store) = makeSUT(timestamp: { timestamp })
-        let story = Story.any
+        let story = Story.uniqueStory()
 
-        sut.save(story) { _ in }
+        sut.save(story.model) { _ in }
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story), .insertion(story, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(story.local), .insertion(story.local, timestamp)])
     }
 
     func test_save_failsOnDeletionError() {
