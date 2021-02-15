@@ -67,13 +67,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func details(with model: Story) {
         let storyDetail = StoryDetail(
-            title: model.title ?? "",
+            title: model.title,
             text: model.text,
             author: model.author,
-            score: model.score ?? 0,
+            score: model.score,
             createdAt: model.createdAt,
-            totalComments: model.totalComments ?? 0,
-            comments: model.comments ?? [],
+            totalComments: model.totalComments,
+            comments: model.comments,
             url: model.url
         )
         let controller = StoryDetailsUIComposer.composeWith(model: storyDetail, didSelectStory: { [weak self] in
