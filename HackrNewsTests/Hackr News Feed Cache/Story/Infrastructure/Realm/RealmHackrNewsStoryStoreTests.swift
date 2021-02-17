@@ -88,6 +88,16 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         XCTAssertNil(insertionError, "Expected to insert cache successfully")
     }
 
+    func test_insert_deliversErrorOnInsertionError() {
+        let sut = makeSUT()
+        let story = Story.unique()
+
+        insert(sut, story: story.local)
+
+        let insertionError = insert(sut, story: story.local)
+        XCTAssertNotNil(insertionError, "Expected to not insert duplicated story in cache")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> RealmHackrNewsStoryStore {
