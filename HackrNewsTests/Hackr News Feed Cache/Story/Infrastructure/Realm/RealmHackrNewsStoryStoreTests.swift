@@ -29,18 +29,17 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         let sut = makeSUT()
         let story = Story.any
 
-        let exp = expectation(description: "Wait for insertion")
-        sut.insert(story: story.toLocal()) { result in
-            switch result {
-            case .success:
-                break
-            case let .failure(error):
-                XCTFail("Expected to insert given values, but got \(error) instead.")
-            }
-            exp.fulfill()
-        }
+        insert(sut, story: story.toLocal())
+        expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
+    }
 
-        wait(for: [exp], timeout: 1.0)
+    func test_retrieve_deliversFoundStoryHasNoSideEffects() {
+        let sut = makeSUT()
+        let story = Story.any
+
+        insert(sut, story: story.toLocal())
+
+        expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
         expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
     }
 
@@ -78,5 +77,18 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
+    }
+
+    @discardableResult
+    private func insert(_ sut: RealmHackrNewsStoryStore, story: LocalStory) -> Error? {
+        let exp = expectation(description: "Wait for insertion")
+        var insertionError: Error?
+
+        sut.insert(story: story) { result in
+            if case let Result.failure(error) = result { insertionError = error }
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+        return insertionError
     }
 }
