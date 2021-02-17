@@ -25,6 +25,14 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         expect(sut, withId: anyID(), toRetrieve: .success(.none))
     }
 
+    func test_retrieve_deliversNotFoundStoryOnNonEmptyCache() {
+        let sut = makeSUT()
+        let story = Story.any
+
+        insert(sut, story: story.toLocal())
+        expect(sut, withId: story.id + 1, toRetrieve: .success(.none))
+    }
+
     func test_retrieve_deliversFoundStoryOnNonEmptyCache() {
         let sut = makeSUT()
         let story = Story.any
