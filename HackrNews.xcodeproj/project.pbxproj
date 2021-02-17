@@ -53,6 +53,8 @@
 		38791F7925DA080800581EF7 /* LocalStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38791F7825DA080800581EF7 /* LocalStory.swift */; };
 		3881444525DC2DBC00213473 /* RealmHackrNewsStoryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881444425DC2DBC00213473 /* RealmHackrNewsStoryStoreTests.swift */; };
 		3881444E25DC2F1D00213473 /* RealmHackrNewsStoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881444D25DC2F1D00213473 /* RealmHackrNewsStoryStore.swift */; };
+		3881445725DC355100213473 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3881445625DC355100213473 /* Realm */; };
+		3881445925DC355100213473 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3881445825DC355100213473 /* RealmSwift */; };
 		3882E58925BE09FD00CE62E0 /* StoryCommentMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E58825BE09FD00CE62E0 /* StoryCommentMapperTests.swift */; };
 		3882E59625BE0BEC00CE62E0 /* StoryCommentMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E59525BE0BEC00CE62E0 /* StoryCommentMapper.swift */; };
 		3882E5A225BE11B800CE62E0 /* StoryComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5A125BE11B800CE62E0 /* StoryComment.swift */; };
@@ -288,6 +290,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3881445925DC355100213473 /* RealmSwift in Frameworks */,
+				3881445725DC355100213473 /* Realm in Frameworks */,
 				3822A01325D086BE000DB41F /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -943,6 +947,8 @@
 			name = HackrNews;
 			packageProductDependencies = (
 				3822A01225D086BE000DB41F /* SwiftSoup */,
+				3881445625DC355100213473 /* Realm */,
+				3881445825DC355100213473 /* RealmSwift */,
 			);
 			productName = HackrNews;
 			productReference = 38D392672582C55300FCAF70 /* HackrNews.framework */;
@@ -1004,6 +1010,7 @@
 			packageReferences = (
 				388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				3822A01125D086BE000DB41F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				3881445525DC355100213473 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
 			productRefGroup = 38D392682582C55300FCAF70 /* Products */;
 			projectDirPath = "";
@@ -1610,6 +1617,14 @@
 				minimumVersion = 2.3.2;
 			};
 		};
+		3881445525DC355100213473 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.6.0;
+			};
+		};
 		388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
@@ -1625,6 +1640,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3822A01125D086BE000DB41F /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		3881445625DC355100213473 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3881445525DC355100213473 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		3881445825DC355100213473 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3881445525DC355100213473 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
 		};
 		388C5B0A2599559D00045DB9 /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;
