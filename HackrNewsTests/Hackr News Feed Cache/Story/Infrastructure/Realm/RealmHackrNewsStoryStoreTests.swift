@@ -33,6 +33,25 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
     }
 
+    func test_retrieve_deliversFoundStoryWithoutAllPropertiesOnNonEmptyCache() {
+        let sut = makeSUT()
+        let story = Story(
+            id: 1,
+            title: nil,
+            text: nil,
+            author: "an author",
+            score: nil,
+            createdAt: Date(),
+            totalComments: nil,
+            comments: nil,
+            type: "any",
+            url: nil
+        )
+
+        insert(sut, story: story.toLocal())
+        expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
+    }
+
     func test_retrieve_deliversFoundStoryHasNoSideEffects() {
         let sut = makeSUT()
         let story = Story.any
