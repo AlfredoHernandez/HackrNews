@@ -27,18 +27,18 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
 
     func test_retrieve_deliversNotFoundStoryOnNonEmptyCache() {
         let sut = makeSUT()
-        let story = Story.any
+        let story = Story.unique()
 
-        insert(sut, story: story.toLocal())
-        expect(sut, withId: story.id + 1, toRetrieve: .success(.none))
+        insert(sut, story: story.local)
+        expect(sut, withId: story.model.id + 1, toRetrieve: .success(.none))
     }
 
     func test_retrieve_deliversFoundStoryOnNonEmptyCache() {
         let sut = makeSUT()
-        let story = Story.any
+        let story = Story.unique()
 
-        insert(sut, story: story.toLocal())
-        expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
+        insert(sut, story: story.local)
+        expect(sut, withId: story.model.id, toRetrieve: .success(story.local))
     }
 
     func test_retrieve_deliversFoundStoryWithoutAllPropertiesOnNonEmptyCache() {
@@ -62,12 +62,30 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
 
     func test_retrieve_deliversFoundStoryHasNoSideEffects() {
         let sut = makeSUT()
-        let story = Story.any
+        let story = Story.unique()
 
-        insert(sut, story: story.toLocal())
+        insert(sut, story: story.local)
 
-        expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
-        expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
+        expect(sut, withId: story.model.id, toRetrieve: .success(story.local))
+        expect(sut, withId: story.model.id, toRetrieve: .success(story.local))
+    }
+
+    func test_insert_deliversNoErrorOnEmptyCache() {
+        let sut = makeSUT()
+        let story = Story.unique()
+
+        let insertionError = insert(sut, story: story.local)
+        XCTAssertNil(insertionError, "Expected to insert cache successfully")
+    }
+
+    func test_insert_deliversNoErrorOnNonEmptyCache() {
+        let sut = makeSUT()
+        let story = Story.unique()
+
+        insert(sut, story: Story.unique().local)
+
+        let insertionError = insert(sut, story: story.local)
+        XCTAssertNil(insertionError, "Expected to insert cache successfully")
     }
 
     // MARK: - Helpers

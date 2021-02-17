@@ -5,13 +5,7 @@
 import Foundation
 import RealmSwift
 
-public final class RealmHackrNewsStoryStore {
-    public typealias RetrievalResult = Swift.Result<LocalStory?, Error>
-    public typealias RetrievalCompletion = (RetrievalResult) -> Void
-
-    public typealias InsertionResult = Swift.Result<Void, Error>
-    public typealias InsertionCompletion = (InsertionResult) -> Void
-
+public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
     private let realm: Realm
 
     public init() {
@@ -36,4 +30,6 @@ public final class RealmHackrNewsStoryStore {
             completion(.failure(error))
         }
     }
+
+    public func delete(_: LocalStory, completion _: @escaping DeletionCompletion) {}
 }
