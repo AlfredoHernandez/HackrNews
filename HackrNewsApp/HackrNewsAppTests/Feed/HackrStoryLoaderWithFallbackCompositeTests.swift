@@ -101,8 +101,6 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         return (sut, primary, fallback)
     }
 
-    private func anyID() -> Int { Int.random(in: 0 ... 100) }
-
     private func expect(
         _ sut: HackrStoryLoaderWithFallbackComposite,
         completesWith expectedResult: HackrStoryLoader.Result,
