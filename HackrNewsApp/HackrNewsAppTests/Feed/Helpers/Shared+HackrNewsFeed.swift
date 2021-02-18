@@ -7,3 +7,5 @@ import HackrNews
 func uniqueFeed() -> [HackrNew] {
     [HackrNew(id: Int.random(in: 0 ... 100)), HackrNew(id: Int.random(in: 0 ... 100)), HackrNew(id: Int.random(in: 0 ... 100))]
 }
+
+func anyID() -> Int { Int.random(in: 0 ... 100) }
