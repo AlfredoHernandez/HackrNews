@@ -32,6 +32,14 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
         XCTAssertEqual(loader.loadedStories, [id])
     }
 
+    func test_load_failsOnLoaderFailure() {
+        let (sut, loader, _) = makeSUT()
+
+        expect(sut, toCompleteWith: .failure(anyNSError()), when: {
+            loader.completes(with: anyNSError())
+        })
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -45,6 +53,25 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(cache, file: file, line: line)
         return (sut, loader, cache)
+    }
+
+    private func expect(
+        _ sut: HackrStoryLoaderCacheDecorator,
+        toCompleteWith expectedResult: HackrStoryLoader.Result,
+        when _: () -> Void,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        _ = sut.load(id: anyID()) { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedStory), .success(expectedStory)):
+                XCTAssertEqual(receivedStory, expectedStory, "Expected \(expectedStory) but got \(receivedStory)", file: file, line: line)
+            case let (.failure(receivedError as NSError), .failure(expectedError as NSError)):
+                XCTAssertEqual(receivedError, expectedError, "Expected \(expectedError) but got \(receivedError)", file: file, line: line)
+            default:
+                XCTFail("Expected \(expectedResult), but got \(receivedResult) instead", file: file, line: line)
+            }
+        }
     }
 
     private class HackrStoryCacheSpy: HackrStoryCache {
