@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3844E34F25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E34E25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift */; };
+		3844E35225DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35125DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift */; };
+		3844E35825DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */; };
+		3844E35B25DF1D640030F9BB /* HackrStoryLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */; };
+		3844E35E25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35D25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift */; };
 		384B7BC025B4BD2800270EAC /* UITabBarController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */; };
 		384B7BD225B4D8C900270EAC /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD125B4D8C900270EAC /* ContentType.swift */; };
 		384B7BD625B4D91800270EAC /* StoryViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */; };
@@ -82,6 +87,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3844E34E25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
+		3844E35125DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
+		3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderCacheDecoratorTests.swift; sourceTree = "<group>"; };
+		3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderSpy.swift; sourceTree = "<group>"; };
+		3844E35D25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderCacheDecorator.swift; sourceTree = "<group>"; };
 		384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Events.swift"; sourceTree = "<group>"; };
 		384B7BD125B4D8C900270EAC /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
 		384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewAdapter.swift; sourceTree = "<group>"; };
@@ -164,6 +174,8 @@
 				38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift */,
 				38791EE925D9B42B00581EF7 /* HackrNewsFeedLoaderWithFallbackComposite.swift */,
 				38791EF325D9BB0A00581EF7 /* HackrNewsFeedLoaderCacheDecorator.swift */,
+				3844E35125DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift */,
+				3844E35D25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -186,15 +198,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		38882C84259A92FD00A4D2D4 /* Hackr News Feed */ = {
+		38882C84259A92FD00A4D2D4 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
 				38882C85259A930800A4D2D4 /* Helpers */,
 				38882C94259A934C00A4D2D4 /* HackrNewsFeedUIIntegrationTests.swift */,
 				38791EE625D9A37200581EF7 /* HackrNewsFeedLoaderWithFallbackCompositeTests.swift */,
 				38791EEC25D9B53F00581EF7 /* HackrNewsFeedLoaderCacheDecoratorTests.swift */,
+				3844E34E25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift */,
+				3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */,
 			);
-			path = "Hackr News Feed";
+			path = Feed;
 			sourceTree = "<group>";
 		};
 		38882C85259A930800A4D2D4 /* Helpers */ = {
@@ -207,6 +221,7 @@
 				38882C86259A932A00A4D2D4 /* Story+Any.swift */,
 				38882C88259A932A00A4D2D4 /* HackerNewsFeedLoaderSpy.swift */,
 				38791EFF25D9BD1200581EF7 /* FeedLoaderStub.swift */,
+				3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -307,7 +322,7 @@
 			children = (
 				38882C9F259A940600A4D2D4 /* Helpers */,
 				38882CC3259A976D00A4D2D4 /* Hackr News Acceptance Tests */,
-				38882C84259A92FD00A4D2D4 /* Hackr News Feed */,
+				38882C84259A92FD00A4D2D4 /* Feed */,
 				38D71CA825C8A9D800AB8DD1 /* Story Details */,
 				388C5B0F2599676800045DB9 /* EndpointTests.swift */,
 				3864BFDC25951EB700FBAA13 /* SceneDelegateTests.swift */,
@@ -437,6 +452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38D71CBF25C8AD7600AB8DD1 /* WeakRefVirtualProxy+Comment.swift in Sources */,
+				3844E35225DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift in Sources */,
 				384B7BD925B4D95400270EAC /* StoryPresentationAdapter.swift in Sources */,
 				38882C75259A928D00A4D2D4 /* Icons.swift in Sources */,
 				384B7BDD25B4D9B200270EAC /* HackrNewsFeedPresentationAdapter.swift in Sources */,
@@ -454,6 +470,7 @@
 				38F6807B259033C8002ED53A /* SceneDelegate.swift in Sources */,
 				38D71CA225C8A99100AB8DD1 /* StoryDetailsUIComposer.swift in Sources */,
 				38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift in Sources */,
+				3844E35E25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift in Sources */,
 				38FED3B425BE4AFA007FFA8C /* WeakRefVirtualProxy.swift in Sources */,
 				388C5B142599680500045DB9 /* Endpoint.swift in Sources */,
 			);
@@ -463,6 +480,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3844E35825DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift in Sources */,
 				387A850125D4C87600D579C4 /* CommentCell+Helpers.swift in Sources */,
 				38791F0025D9BD1200581EF7 /* FeedLoaderStub.swift in Sources */,
 				38791EE725D9A37200581EF7 /* HackrNewsFeedLoaderWithFallbackCompositeTests.swift in Sources */,
@@ -473,11 +491,13 @@
 				388C5B102599676800045DB9 /* EndpointTests.swift in Sources */,
 				38882CC5259A979600A4D2D4 /* HackrNewsAppAcceptanceTests.swift in Sources */,
 				384B7BC025B4BD2800270EAC /* UITabBarController+Events.swift in Sources */,
+				3844E34F25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift in Sources */,
 				38882CA1259A941100A4D2D4 /* UIControl+TestHelpers.swift in Sources */,
 				38D71CB225C8AA9800AB8DD1 /* StoryDetailsViewController+Helpers.swift in Sources */,
 				38791EED25D9B53F00581EF7 /* HackrNewsFeedLoaderCacheDecoratorTests.swift in Sources */,
 				38882C8B259A932A00A4D2D4 /* Story+Any.swift in Sources */,
 				38D71CB825C8AAEB00AB8DD1 /* Shared.swift in Sources */,
+				3844E35B25DF1D640030F9BB /* HackrStoryLoaderSpy.swift in Sources */,
 				38D71CAA25C8A9F000AB8DD1 /* StoryDetailsUIIntegrationTests.swift in Sources */,
 				38882CAA259A944200A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */,
 				38882C8E259A932A00A4D2D4 /* HackrNewsFeedViewControllerTests+Assertions.swift in Sources */,
