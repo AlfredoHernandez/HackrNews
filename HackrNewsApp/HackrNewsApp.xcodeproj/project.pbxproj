@@ -191,7 +191,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		38882C84259A92FD00A4D2D4 /* Hackr News Feed */ = {
+		38882C84259A92FD00A4D2D4 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
 				38882C85259A930800A4D2D4 /* Helpers */,
@@ -200,7 +200,7 @@
 				38791EEC25D9B53F00581EF7 /* HackrNewsFeedLoaderCacheDecoratorTests.swift */,
 				3844E34E25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift */,
 			);
-			path = "Hackr News Feed";
+			path = Feed;
 			sourceTree = "<group>";
 		};
 		38882C85259A930800A4D2D4 /* Helpers */ = {
@@ -313,7 +313,7 @@
 			children = (
 				38882C9F259A940600A4D2D4 /* Helpers */,
 				38882CC3259A976D00A4D2D4 /* Hackr News Acceptance Tests */,
-				38882C84259A92FD00A4D2D4 /* Hackr News Feed */,
+				38882C84259A92FD00A4D2D4 /* Feed */,
 				38D71CA825C8A9D800AB8DD1 /* Story Details */,
 				388C5B0F2599676800045DB9 /* EndpointTests.swift */,
 				3864BFDC25951EB700FBAA13 /* SceneDelegateTests.swift */,
