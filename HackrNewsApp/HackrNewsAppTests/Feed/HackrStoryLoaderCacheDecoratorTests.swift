@@ -51,6 +51,15 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
         })
     }
 
+    func test_load_deliversAStoryOnLoaderSuccess() {
+        let (sut, loader, _) = makeSUT()
+        let story = Story.unique().model
+
+        expect(sut, toCompleteWith: .success(story), when: {
+            loader.completes(with: story)
+        })
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
