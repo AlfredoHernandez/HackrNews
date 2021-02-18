@@ -60,60 +60,30 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
 
     func test_load_deliversPrimaryDataOnPrimaryLoaderSuccess() {
         let (sut, primary, _) = makeSUT()
-        let id = anyID()
         let expectedStory = Story.unique().model
-        let exp = expectation(description: "Wait for load result")
 
-        _ = sut.load(id: id) { result in
-            switch result {
-            case let .success(receivedStory):
-                XCTAssertEqual(receivedStory, expectedStory)
-            case .failure:
-                XCTFail("Expected success, but got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        primary.completes(with: expectedStory)
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, completesWith: .success(expectedStory), when: {
+            primary.completes(with: expectedStory)
+        })
     }
 
     func test_load_deliversFallbackDataOnPrimaryLoaderFailure() {
         let (sut, primary, fallback) = makeSUT()
-        let id = anyID()
         let expectedStory = Story.unique().model
-        let exp = expectation(description: "Wait for load result")
 
-        _ = sut.load(id: id) { result in
-            switch result {
-            case let .success(receivedStory):
-                XCTAssertEqual(receivedStory, expectedStory)
-            case .failure:
-                XCTFail("Expected success, but got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        primary.completes(with: anyNSError())
-        fallback.completes(with: expectedStory)
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, completesWith: .success(expectedStory), when: {
+            primary.completes(with: anyNSError())
+            fallback.completes(with: expectedStory)
+        })
     }
 
     func test_load_deliversErrorOnPrimaryAndFallbackLoaderFailure() {
         let (sut, primary, fallback) = makeSUT()
-        let id = anyID()
-        let exp = expectation(description: "Wait for load result")
 
-        _ = sut.load(id: id) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected failure, but got \(result) instead")
-            case .failure:
-                break
-            }
-            exp.fulfill()
-        }
-        primary.completes(with: anyNSError())
-        fallback.completes(with: anyNSError())
-        wait(for: [exp], timeout: 1.0)
+        expect(sut, completesWith: .failure(anyNSError()), when: {
+            primary.completes(with: anyNSError())
+            fallback.completes(with: anyNSError())
+        })
     }
 
     // MARK: - Helpers
@@ -166,4 +136,40 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
     }
 
     private func anyID() -> Int { Int.random(in: 0 ... 100) }
+
+    private func expect(
+        _ sut: HackrStoryLoaderWithFallbackComposite,
+        completesWith expectedResult: HackrStoryLoader.Result,
+        when action: () -> Void,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let exp = expectation(description: "Wait for load result")
+
+        _ = sut.load(id: anyID()) { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedStory), .success(expectedStory)):
+                XCTAssertEqual(
+                    receivedStory,
+                    expectedStory,
+                    "Expected \(expectedStory), but got \(receivedStory) instead.",
+                    file: file,
+                    line: line
+                )
+            case let (.failure(receivedError as NSError), .failure(expectedError as NSError)):
+                XCTAssertEqual(
+                    receivedError,
+                    expectedError,
+                    "Expected \(expectedError), but got \(receivedError) instead.",
+                    file: file,
+                    line: line
+                )
+            default:
+                XCTFail("Expected \(expectedResult), but got \(receivedResult) instead", file: file, line: line)
+            }
+            exp.fulfill()
+        }
+        action()
+        wait(for: [exp], timeout: 1.0)
+    }
 }
