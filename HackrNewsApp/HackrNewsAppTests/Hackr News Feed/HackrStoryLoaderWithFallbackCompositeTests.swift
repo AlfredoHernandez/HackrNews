@@ -46,6 +46,18 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         XCTAssertTrue(fallback.cancelledStories.isEmpty, "Expected to not cancel story with id: \(id)")
     }
 
+    func test_cancelLoad_cancelsFallbackLoaderTaskAfterPrimaryLoaderFailure() {
+        let (sut, primary, fallback) = makeSUT()
+        let id = anyID()
+
+        let task = sut.load(id: id) { _ in }
+        primary.completes(with: anyNSError())
+        task.cancel()
+
+        XCTAssertTrue(primary.cancelledStories.isEmpty, "Expected to cancel story with id: \(id)")
+        XCTAssertEqual(fallback.cancelledStories, [id], "Expected to not cancel story with id: \(id)")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(

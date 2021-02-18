@@ -26,7 +26,7 @@ class HackrStoryLoaderWithFallbackComposite: HackrStoryLoader {
         task.wrapped = primary.load(id: id) { [weak self] result in
             switch result {
             case .failure:
-                _ = self?.fallback.load(id: id, completion: completion)
+                task.wrapped = self?.fallback.load(id: id, completion: completion)
             default:
                 break
             }
