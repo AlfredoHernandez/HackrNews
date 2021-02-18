@@ -98,11 +98,23 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         XCTAssertNotNil(insertionError, "Expected to not insert duplicated story in cache")
     }
 
-    func test_delete_deliversNoErrorOnEmptyCache() {
+    func test_delete_deliversErrorOnEmptyCache() {
         let sut = makeSUT()
 
         let receivedError = delete(sut, story: anyID())
-        XCTAssertNil(receivedError, "Expected no error on empty cache")
+        XCTAssertNotNil(receivedError, "Expected error on not found story (Empty cache)")
+    }
+
+    func test_delete_emptiesPreviouslyInsertedCache() {
+        let sut = makeSUT()
+        let story = Story.unique()
+
+        insert(sut, story: story.local)
+
+        let receivedError = delete(sut, story: story.local.id)
+        XCTAssertNil(receivedError, "Expected to delete previous inserted story")
+
+        expect(sut, withId: story.local.id, toRetrieve: .success(nil))
     }
 
     // MARK: - Helpers
@@ -154,11 +166,11 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         return insertionError
     }
 
-    private func delete(_ sut: RealmHackrNewsStoryStore, story _: Int) -> Error? {
+    private func delete(_ sut: RealmHackrNewsStoryStore, story: Int) -> Error? {
         let exp = expectation(description: "Wait for insertion")
         var deletionError: Error?
 
-        sut.delete(storyID: anyID()) { result in
+        sut.delete(storyID: story) { result in
             if case let Result.failure(error) = result { deletionError = error }
             exp.fulfill()
         }

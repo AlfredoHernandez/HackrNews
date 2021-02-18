@@ -21,6 +21,7 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
 
     enum Error: Swift.Error {
         case storyAlreadyExists
+        case storyNotFound
     }
 
     public func insert(story: LocalStory, completion: @escaping InsertionCompletion) {
@@ -31,8 +32,19 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
         }
     }
 
-    public func delete(storyID _: Int, completion: @escaping DeletionCompletion) {
-        completion(.success(()))
+    public func delete(storyID: Int, completion: @escaping DeletionCompletion) {
+        if let story = retrieve(storyWithID: storyID) {
+            do {
+                try write { realm in
+                    realm.delete(story)
+                    completion(.success(()))
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        } else {
+            completion(.failure(Error.storyNotFound))
+        }
     }
 
     private func retrieve(storyWithID id: Int) -> RealmStory? {
