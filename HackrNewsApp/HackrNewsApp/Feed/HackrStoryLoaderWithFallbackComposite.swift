@@ -5,5 +5,13 @@
 import HackrNews
 
 class HackrStoryLoaderWithFallbackComposite {
-    init(primary _: HackrStoryLoader, fallback _: HackrStoryLoader) {}
+    private let primary: HackrStoryLoader
+
+    init(primary: HackrStoryLoader, fallback _: HackrStoryLoader) {
+        self.primary = primary
+    }
+
+    func load(id: Int, completion _: @escaping (HackrStoryLoader.Result) -> Void) {
+        _ = primary.load(id: id) { _ in }
+    }
 }

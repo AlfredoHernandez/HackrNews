@@ -14,6 +14,16 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         XCTAssertTrue(fallback.loadedStories.isEmpty, "Expected to no request story data")
     }
 
+    func test_load_startsLoadingFromPrimaryLoaderFirst() {
+        let (sut, primary, fallback) = makeSUT()
+        let id = anyID()
+
+        sut.load(id: id) { _ in }
+
+        XCTAssertEqual(primary.loadedStories, [id], "Expected to request story data")
+        XCTAssertTrue(fallback.loadedStories.isEmpty, "Expected to no request story data")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -43,4 +53,6 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
             return Task()
         }
     }
+
+    private func anyID() -> Int { Int.random(in: 0 ... 100) }
 }
