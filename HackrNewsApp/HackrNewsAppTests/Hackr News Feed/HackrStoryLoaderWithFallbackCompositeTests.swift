@@ -18,7 +18,7 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         let (sut, primary, fallback) = makeSUT()
         let id = anyID()
 
-        _ = sut.load(id: id) { _ in }
+        load(sut, with: id)
 
         XCTAssertEqual(primary.loadedStories, [id], "Expected to request story data")
         XCTAssertTrue(fallback.loadedStories.isEmpty, "Expected to no request story data")
@@ -28,7 +28,7 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         let (sut, primary, fallback) = makeSUT()
         let id = anyID()
 
-        _ = sut.load(id: id) { _ in }
+        load(sut, with: id)
         primary.completes(with: anyNSError())
 
         XCTAssertEqual(primary.loadedStories, [id], "Expected to request story data")
@@ -39,7 +39,7 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         let (sut, primary, fallback) = makeSUT()
         let id = anyID()
 
-        let task = sut.load(id: id) { _ in }
+        let task = load(sut, with: id)
         task.cancel()
 
         XCTAssertEqual(primary.cancelledStories, [id], "Expected to cancel story with id: \(id)")
@@ -50,7 +50,7 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         let (sut, primary, fallback) = makeSUT()
         let id = anyID()
 
-        let task = sut.load(id: id) { _ in }
+        let task = load(sut, with: id)
         primary.completes(with: anyNSError())
         task.cancel()
 
@@ -171,5 +171,10 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         }
         action()
         wait(for: [exp], timeout: 1.0)
+    }
+
+    @discardableResult
+    private func load(_ sut: HackrStoryLoaderWithFallbackComposite, with id: Int) -> HackrStoryLoaderTask {
+        sut.load(id: id, completion: { _ in })
     }
 }
