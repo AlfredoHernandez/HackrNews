@@ -119,6 +119,25 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         expect(sut, withId: story.local.id, toRetrieve: .success(nil))
     }
 
+    func test_actions_runsSerially() {
+        let sut = makeSUT()
+        let story = Story.unique()
+
+        let op1 = expectation(description: "Operation 1")
+        sut.insert(story: story.local) { _ in op1.fulfill() }
+
+        let op2 = expectation(description: "Operation 2")
+        sut.insert(story: story.local) { _ in op2.fulfill() }
+
+        let op3 = expectation(description: "Operation 3")
+        sut.retrieve(storyID: story.local.id) { _ in op3.fulfill() }
+
+        let op4 = expectation(description: "Operation 4")
+        sut.delete(storyID: story.local.id) { _ in op4.fulfill() }
+
+        wait(for: [op1, op2, op3, op4], timeout: 3.0, enforceOrder: true)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> RealmHackrNewsStoryStore {
