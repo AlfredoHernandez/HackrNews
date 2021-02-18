@@ -77,7 +77,17 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
         _ = sut.load(id: story.id, completion: { _ in })
         loader.completes(with: story)
 
-        XCTAssertEqual(cache.cachedStories, [story])
+        XCTAssertEqual(cache.cachedStories, [story], "Expected to cache story \(story), got \(cache.cachedStories) instead.")
+    }
+
+    func test_load_doesNotCacheStoryDataOnLoaderFailure() {
+        let (sut, loader, cache) = makeSUT()
+        let story = Story.unique().model
+
+        _ = sut.load(id: story.id, completion: { _ in })
+        loader.completes(with: anyNSError())
+
+        XCTAssertEqual(cache.cachedStories, [], "Expected to not cache a story")
     }
 
     // MARK: - Helpers
