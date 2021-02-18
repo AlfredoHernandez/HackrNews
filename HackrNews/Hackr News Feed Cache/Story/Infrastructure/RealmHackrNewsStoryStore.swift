@@ -31,7 +31,9 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
         }
     }
 
-    public func delete(_: LocalStory, completion _: @escaping DeletionCompletion) {}
+    public func delete(storyID _: Int, completion: @escaping DeletionCompletion) {
+        completion(.success(()))
+    }
 
     private func retrieve(storyWithID id: Int) -> RealmStory? {
         realm.object(ofType: RealmStory.self, forPrimaryKey: id)

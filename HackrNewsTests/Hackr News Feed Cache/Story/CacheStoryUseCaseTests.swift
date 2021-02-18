@@ -18,7 +18,7 @@ class CacheStoryUseCaseTests: XCTestCase {
 
         sut.save(story.model) { _ in }
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story.local)], "Expected to delete \(story)")
+        XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id)], "Expected to delete \(story)")
     }
 
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
@@ -28,7 +28,7 @@ class CacheStoryUseCaseTests: XCTestCase {
         sut.save(story.model) { _ in }
         store.completeDeletion(with: anyNSError())
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story.local)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id)])
     }
 
     func test_save_requestsCacheInsertionOnSuccessfulDeletion() {
@@ -38,7 +38,7 @@ class CacheStoryUseCaseTests: XCTestCase {
         sut.save(story.model) { _ in }
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story.local), .insertion(story.local)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id), .insertion(story.local)])
     }
 
     func test_save_failsOnDeletionError() {

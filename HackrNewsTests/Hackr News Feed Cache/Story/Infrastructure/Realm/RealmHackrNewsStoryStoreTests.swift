@@ -98,6 +98,13 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         XCTAssertNotNil(insertionError, "Expected to not insert duplicated story in cache")
     }
 
+    func test_delete_deliversNoErrorOnEmptyCache() {
+        let sut = makeSUT()
+
+        let receivedError = delete(sut, story: anyID())
+        XCTAssertNil(receivedError, "Expected no error on empty cache")
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> RealmHackrNewsStoryStore {
@@ -145,5 +152,18 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         }
         wait(for: [exp], timeout: 1.0)
         return insertionError
+    }
+
+    private func delete(_ sut: RealmHackrNewsStoryStore, story _: Int) -> Error? {
+        let exp = expectation(description: "Wait for insertion")
+        var deletionError: Error?
+
+        sut.delete(storyID: anyID()) { result in
+            if case let Result.failure(error) = result { deletionError = error }
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 1.0)
+        return deletionError
     }
 }
