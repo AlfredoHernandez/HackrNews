@@ -24,6 +24,8 @@
 		384368E025C212D0002396A6 /* job_story_details_light.png in Resources */ = {isa = PBXBuildFile; fileRef = 384368DA25C212D0002396A6 /* job_story_details_light.png */; };
 		384368E125C212D0002396A6 /* poll_story_details_light.png in Resources */ = {isa = PBXBuildFile; fileRef = 384368DB25C212D0002396A6 /* poll_story_details_light.png */; };
 		384368E225C212D0002396A6 /* ask_story_details_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 384368DC25C212D0002396A6 /* ask_story_details_dark.png */; };
+		3845E79C25DC9DCC00D26C7C /* RealmStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3845E79B25DC9DCC00D26C7C /* RealmStory.swift */; };
+		3845E7A125DC9F7B00D26C7C /* CommentID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3845E7A025DC9F7B00D26C7C /* CommentID.swift */; };
 		384B7C0125B4F84500270EAC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 384B7C0025B4F84500270EAC /* Colors.xcassets */; };
 		384B7C0825B4F99900270EAC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */; };
 		385D099B25C771D90027455B /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385D099A25C771D90027455B /* UITableView+Extensions.swift */; };
@@ -51,6 +53,10 @@
 		38791F6625D9DD6400581EF7 /* Story+Any.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38791F6525D9DD6400581EF7 /* Story+Any.swift */; };
 		38791F7125D9E56200581EF7 /* LoadStoryFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38791F7025D9E56200581EF7 /* LoadStoryFromCacheUseCaseTests.swift */; };
 		38791F7925DA080800581EF7 /* LocalStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38791F7825DA080800581EF7 /* LocalStory.swift */; };
+		3881444525DC2DBC00213473 /* RealmHackrNewsStoryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881444425DC2DBC00213473 /* RealmHackrNewsStoryStoreTests.swift */; };
+		3881444E25DC2F1D00213473 /* RealmHackrNewsStoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3881444D25DC2F1D00213473 /* RealmHackrNewsStoryStore.swift */; };
+		3881445725DC355100213473 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3881445625DC355100213473 /* Realm */; };
+		3881445925DC355100213473 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3881445825DC355100213473 /* RealmSwift */; };
 		3882E58925BE09FD00CE62E0 /* StoryCommentMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E58825BE09FD00CE62E0 /* StoryCommentMapperTests.swift */; };
 		3882E59625BE0BEC00CE62E0 /* StoryCommentMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E59525BE0BEC00CE62E0 /* StoryCommentMapper.swift */; };
 		3882E5A225BE11B800CE62E0 /* StoryComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5A125BE11B800CE62E0 /* StoryComment.swift */; };
@@ -169,6 +175,8 @@
 		384368DA25C212D0002396A6 /* job_story_details_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = job_story_details_light.png; sourceTree = "<group>"; };
 		384368DB25C212D0002396A6 /* poll_story_details_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poll_story_details_light.png; sourceTree = "<group>"; };
 		384368DC25C212D0002396A6 /* ask_story_details_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ask_story_details_dark.png; sourceTree = "<group>"; };
+		3845E79B25DC9DCC00D26C7C /* RealmStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStory.swift; sourceTree = "<group>"; };
+		3845E7A025DC9F7B00D26C7C /* CommentID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentID.swift; sourceTree = "<group>"; };
 		384B7BF325B4F7C800270EAC /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		384B7C0025B4F84500270EAC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		385D099A25C771D90027455B /* UITableView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
@@ -194,6 +202,8 @@
 		38791F6525D9DD6400581EF7 /* Story+Any.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Story+Any.swift"; sourceTree = "<group>"; };
 		38791F7025D9E56200581EF7 /* LoadStoryFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStoryFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		38791F7825DA080800581EF7 /* LocalStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStory.swift; sourceTree = "<group>"; };
+		3881444425DC2DBC00213473 /* RealmHackrNewsStoryStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmHackrNewsStoryStoreTests.swift; sourceTree = "<group>"; };
+		3881444D25DC2F1D00213473 /* RealmHackrNewsStoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmHackrNewsStoryStore.swift; sourceTree = "<group>"; };
 		3882E58825BE09FD00CE62E0 /* StoryCommentMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCommentMapperTests.swift; sourceTree = "<group>"; };
 		3882E59525BE0BEC00CE62E0 /* StoryCommentMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCommentMapper.swift; sourceTree = "<group>"; };
 		3882E5A125BE11B800CE62E0 /* StoryComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryComment.swift; sourceTree = "<group>"; };
@@ -284,6 +294,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3881445925DC355100213473 /* RealmSwift in Frameworks */,
+				3881445725DC355100213473 /* Realm in Frameworks */,
 				3822A01325D086BE000DB41F /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -447,6 +459,7 @@
 		38791F3D25D9C64C00581EF7 /* Story */ = {
 			isa = PBXGroup;
 			children = (
+				3881444225DC2D7700213473 /* Infrastructure */,
 				38791F5C25D9DD1700581EF7 /* Helpers */,
 				38791F3E25D9C6F100581EF7 /* CacheStoryUseCaseTests.swift */,
 				38791F7025D9E56200581EF7 /* LoadStoryFromCacheUseCaseTests.swift */,
@@ -457,6 +470,7 @@
 		38791F4625D9DB4400581EF7 /* Story */ = {
 			isa = PBXGroup;
 			children = (
+				3881444C25DC2F1000213473 /* Infrastructure */,
 				38791F4725D9DB4E00581EF7 /* HackrStoryCache.swift */,
 				38791F5225D9DC8E00581EF7 /* HackrNewsStoryStore.swift */,
 				38791F5725D9DCB100581EF7 /* LocalHackrStoryLoader.swift */,
@@ -471,6 +485,32 @@
 				38791F5D25D9DD1D00581EF7 /* HackrNewsStoryStoreSpy.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		3881444225DC2D7700213473 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				3881444325DC2D7F00213473 /* Realm */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		3881444325DC2D7F00213473 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				3881444425DC2DBC00213473 /* RealmHackrNewsStoryStoreTests.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
+		3881444C25DC2F1000213473 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				3881444D25DC2F1D00213473 /* RealmHackrNewsStoryStore.swift */,
+				3845E79B25DC9DCC00D26C7C /* RealmStory.swift */,
+				3845E7A025DC9F7B00D26C7C /* CommentID.swift */,
+			);
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 		3882E5A025BE119E00CE62E0 /* Story Details Feature */ = {
@@ -913,6 +953,8 @@
 			name = HackrNews;
 			packageProductDependencies = (
 				3822A01225D086BE000DB41F /* SwiftSoup */,
+				3881445625DC355100213473 /* Realm */,
+				3881445825DC355100213473 /* RealmSwift */,
 			);
 			productName = HackrNews;
 			productReference = 38D392672582C55300FCAF70 /* HackrNews.framework */;
@@ -974,6 +1016,7 @@
 			packageReferences = (
 				388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				3822A01125D086BE000DB41F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				3881445525DC355100213473 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
 			productRefGroup = 38D392682582C55300FCAF70 /* Products */;
 			projectDirPath = "";
@@ -1098,6 +1141,8 @@
 				38D3932E258318D300FCAF70 /* HackrNewsFeedViewModel.swift in Sources */,
 				38D392D42582DFFB00FCAF70 /* StoryItemMapper.swift in Sources */,
 				38D392862582C64600FCAF70 /* Story.swift in Sources */,
+				3845E79C25DC9DCC00D26C7C /* RealmStory.swift in Sources */,
+				3881444E25DC2F1D00213473 /* RealmHackrNewsStoryStore.swift in Sources */,
 				38791F7925DA080800581EF7 /* LocalStory.swift in Sources */,
 				38D71C8625C87B0B00AB8DD1 /* CommentPresenter.swift in Sources */,
 				38D392C62582DD1D00FCAF70 /* URLSessionHTTPClient.swift in Sources */,
@@ -1106,6 +1151,7 @@
 				38D393002583037B00FCAF70 /* HackrNewsFeedPresenter.swift in Sources */,
 				3808B30225C0EBCC00632213 /* StoryDetail.swift in Sources */,
 				3882E5B625BE24C000CE62E0 /* RemoteLoader.swift in Sources */,
+				3845E7A125DC9F7B00D26C7C /* CommentID.swift in Sources */,
 				38D39332258318E000FCAF70 /* HackrNewsFeedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1132,6 +1178,7 @@
 				3860F8BC25D09E880044025B /* CodableHackrNewsFeedStoreTests.swift in Sources */,
 				3843687F25C1E7E5002396A6 /* StoryDetailsLocalizationTests.swift in Sources */,
 				38D392B82582DCD600FCAF70 /* URLSessionHTTPClientTests.swift in Sources */,
+				3881444525DC2DBC00213473 /* RealmHackrNewsStoryStoreTests.swift in Sources */,
 				38D393082583049B00FCAF70 /* SharedLocalizationTestsHelpers.swift in Sources */,
 				38C565E325D3146300C43726 /* HackrNewsFeedStoreShared.swift in Sources */,
 				3860F8BE25D09E880044025B /* CacheHackrNewsUseCaseTests.swift in Sources */,
@@ -1578,6 +1625,14 @@
 				minimumVersion = 2.3.2;
 			};
 		};
+		3881445525DC355100213473 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.6.0;
+			};
+		};
 		388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
@@ -1593,6 +1648,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3822A01125D086BE000DB41F /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		3881445625DC355100213473 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3881445525DC355100213473 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		3881445825DC355100213473 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3881445525DC355100213473 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
 		};
 		388C5B0A2599559D00045DB9 /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -14,7 +14,7 @@ public protocol HackrNewsStoryStore {
     typealias RetrievalResult = Swift.Result<LocalStory?, Error>
     typealias RetrievalCompletion = (RetrievalResult) -> Void
 
-    func delete(_ story: LocalStory, completion: @escaping DeletionCompletion)
+    func delete(storyID: Int, completion: @escaping DeletionCompletion)
     func insert(story: LocalStory, completion: @escaping InsertionCompletion)
     func retrieve(storyID: Int, completion: @escaping RetrievalCompletion)
 }

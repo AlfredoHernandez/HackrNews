@@ -7,7 +7,7 @@ import HackrNews
 
 class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
     enum Message: Equatable {
-        case deletion(LocalStory)
+        case deletion(storyID: Int)
         case insertion(LocalStory)
         case retrieve(storyID: Int)
     }
@@ -15,9 +15,9 @@ class HackrNewsStoryStoreSpy: HackrNewsStoryStore {
     private(set) var receivedMessages = [Message]()
     private(set) var deletionCompletions = [DeletionCompletion]()
 
-    func delete(_ story: LocalStory, completion: @escaping DeletionCompletion) {
+    func delete(storyID: Int, completion: @escaping DeletionCompletion) {
         deletionCompletions.append(completion)
-        receivedMessages.append(.deletion(story))
+        receivedMessages.append(.deletion(storyID: storyID))
     }
 
     func completeDeletion(with error: Error, at index: Int = 0) {

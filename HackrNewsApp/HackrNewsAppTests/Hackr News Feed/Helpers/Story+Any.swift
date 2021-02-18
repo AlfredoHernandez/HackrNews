@@ -11,10 +11,10 @@ extension Story {
         title: "a title",
         text: "a text",
         author: "a username",
-        score: 0,
+        score: 10,
         createdAt: Date(),
-        totalComments: 0,
-        comments: [],
+        totalComments: 5,
+        comments: [1, 2, 3],
         type: "story",
         url: URL(string: "https://any-url.com")!
     )
