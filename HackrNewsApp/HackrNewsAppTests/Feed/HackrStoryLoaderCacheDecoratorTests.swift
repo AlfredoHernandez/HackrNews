@@ -7,12 +7,22 @@ import XCTest
 
 class HackrStoryLoaderCacheDecorator: HackrStoryLoader {
     private let decoratee: HackrStoryLoader
-    init(decoratee: HackrStoryLoader, cache _: HackrStoryCache) {
+    private let cache: HackrStoryCache
+
+    init(decoratee: HackrStoryLoader, cache: HackrStoryCache) {
         self.decoratee = decoratee
+        self.cache = cache
     }
 
     func load(id: Int, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
-        decoratee.load(id: id, completion: completion)
+        decoratee.load(id: id) { [unowned self] result in
+            switch result {
+            case let .success(story):
+                self.cache.save(story) { _ in }
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
     }
 }
 
@@ -60,6 +70,16 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
         })
     }
 
+    func test_load_cachesStoryDataOnLoaderSuccess() {
+        let (sut, loader, cache) = makeSUT()
+        let story = Story.unique().model
+
+        _ = sut.load(id: story.id, completion: { _ in })
+        loader.completes(with: story)
+
+        XCTAssertEqual(cache.cachedStories, [story])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -95,6 +115,13 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
     }
 
     private class HackrStoryCacheSpy: HackrStoryCache {
-        func save(_: Story, completion _: @escaping (HackrStoryCache.SaveResult) -> Void) {}
+        var completions = [(story: Story, completion: (HackrStoryCache.SaveResult) -> Void)]()
+        var cachedStories: [Story] {
+            completions.map(\.story)
+        }
+
+        func save(_ story: Story, completion: @escaping (HackrStoryCache.SaveResult) -> Void) {
+            completions.append((story, completion))
+        }
     }
 }
