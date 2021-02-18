@@ -11,6 +11,7 @@
 		3844E35225DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35125DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift */; };
 		3844E35825DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */; };
 		3844E35B25DF1D640030F9BB /* HackrStoryLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */; };
+		3844E35E25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35D25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift */; };
 		384B7BC025B4BD2800270EAC /* UITabBarController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */; };
 		384B7BD225B4D8C900270EAC /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD125B4D8C900270EAC /* ContentType.swift */; };
 		384B7BD625B4D91800270EAC /* StoryViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */; };
@@ -90,6 +91,7 @@
 		3844E35125DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
 		3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderCacheDecoratorTests.swift; sourceTree = "<group>"; };
 		3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderSpy.swift; sourceTree = "<group>"; };
+		3844E35D25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderCacheDecorator.swift; sourceTree = "<group>"; };
 		384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Events.swift"; sourceTree = "<group>"; };
 		384B7BD125B4D8C900270EAC /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
 		384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewAdapter.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				38791EE925D9B42B00581EF7 /* HackrNewsFeedLoaderWithFallbackComposite.swift */,
 				38791EF325D9BB0A00581EF7 /* HackrNewsFeedLoaderCacheDecorator.swift */,
 				3844E35125DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift */,
+				3844E35D25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				38F6807B259033C8002ED53A /* SceneDelegate.swift in Sources */,
 				38D71CA225C8A99100AB8DD1 /* StoryDetailsUIComposer.swift in Sources */,
 				38882C74259A928D00A4D2D4 /* MainQueueDispatchDecorator+Feed.swift in Sources */,
+				3844E35E25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift in Sources */,
 				38FED3B425BE4AFA007FFA8C /* WeakRefVirtualProxy.swift in Sources */,
 				388C5B142599680500045DB9 /* Endpoint.swift in Sources */,
 			);
