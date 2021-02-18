@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3844E34F25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E34E25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift */; };
 		3844E35225DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35125DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift */; };
+		3844E35825DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */; };
+		3844E35B25DF1D640030F9BB /* HackrStoryLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */; };
 		384B7BC025B4BD2800270EAC /* UITabBarController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */; };
 		384B7BD225B4D8C900270EAC /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD125B4D8C900270EAC /* ContentType.swift */; };
 		384B7BD625B4D91800270EAC /* StoryViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */; };
@@ -86,6 +88,8 @@
 /* Begin PBXFileReference section */
 		3844E34E25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 		3844E35125DEFDCE0030F9BB /* HackrStoryLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
+		3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderCacheDecoratorTests.swift; sourceTree = "<group>"; };
+		3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderSpy.swift; sourceTree = "<group>"; };
 		384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Events.swift"; sourceTree = "<group>"; };
 		384B7BD125B4D8C900270EAC /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
 		384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewAdapter.swift; sourceTree = "<group>"; };
@@ -199,6 +203,7 @@
 				38791EE625D9A37200581EF7 /* HackrNewsFeedLoaderWithFallbackCompositeTests.swift */,
 				38791EEC25D9B53F00581EF7 /* HackrNewsFeedLoaderCacheDecoratorTests.swift */,
 				3844E34E25DEFB650030F9BB /* HackrStoryLoaderWithFallbackCompositeTests.swift */,
+				3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -213,6 +218,7 @@
 				38882C86259A932A00A4D2D4 /* Story+Any.swift */,
 				38882C88259A932A00A4D2D4 /* HackerNewsFeedLoaderSpy.swift */,
 				38791EFF25D9BD1200581EF7 /* FeedLoaderStub.swift */,
+				3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -470,6 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3844E35825DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift in Sources */,
 				387A850125D4C87600D579C4 /* CommentCell+Helpers.swift in Sources */,
 				38791F0025D9BD1200581EF7 /* FeedLoaderStub.swift in Sources */,
 				38791EE725D9A37200581EF7 /* HackrNewsFeedLoaderWithFallbackCompositeTests.swift in Sources */,
@@ -486,6 +493,7 @@
 				38791EED25D9B53F00581EF7 /* HackrNewsFeedLoaderCacheDecoratorTests.swift in Sources */,
 				38882C8B259A932A00A4D2D4 /* Story+Any.swift in Sources */,
 				38D71CB825C8AAEB00AB8DD1 /* Shared.swift in Sources */,
+				3844E35B25DF1D640030F9BB /* HackrStoryLoaderSpy.swift in Sources */,
 				38D71CAA25C8A9F000AB8DD1 /* StoryDetailsUIIntegrationTests.swift in Sources */,
 				38882CAA259A944200A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */,
 				38882C8E259A932A00A4D2D4 /* HackrNewsFeedViewControllerTests+Assertions.swift in Sources */,
