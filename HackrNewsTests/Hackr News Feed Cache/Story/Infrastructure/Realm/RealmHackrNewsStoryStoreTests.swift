@@ -88,21 +88,23 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
         XCTAssertNil(insertionError, "Expected to insert cache successfully")
     }
 
-    func test_insert_deliversErrorOnInsertionError() {
+    func test_insert_deliversNonErrorOnDuplicatedInsertion() {
         let sut = makeSUT()
         let story = Story.unique()
 
         insert(sut, story: story.local)
 
         let insertionError = insert(sut, story: story.local)
-        XCTAssertNotNil(insertionError, "Expected to not insert duplicated story in cache")
+        XCTAssertNil(insertionError, "Expected to update inserted story in cache")
+
+        expect(sut, withId: story.local.id, toRetrieve: .success(story.local))
     }
 
-    func test_delete_deliversErrorOnEmptyCache() {
+    func test_delete_deliversNonErrorOnEmptyCache() {
         let sut = makeSUT()
 
         let receivedError = delete(sut, story: anyID())
-        XCTAssertNotNil(receivedError, "Expected error on not found story (Empty cache)")
+        XCTAssertNil(receivedError, "Expected error on not found story (Empty cache)")
     }
 
     func test_delete_emptiesPreviouslyInsertedCache() {

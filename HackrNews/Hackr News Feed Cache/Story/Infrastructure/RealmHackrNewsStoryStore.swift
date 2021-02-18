@@ -25,10 +25,13 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
     }
 
     public func insert(story: LocalStory, completion: @escaping InsertionCompletion) {
-        if retrieve(storyWithID: story.id) != nil {
-            completion(.failure(Error.storyAlreadyExists))
-        } else {
-            insert(story, with: completion)
+        do {
+            try write { realm in
+                realm.add(story.toRealm(), update: .modified)
+                completion(.success(()))
+            }
+        } catch {
+            completion(.failure(error))
         }
     }
 
@@ -43,23 +46,12 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
                 completion(.failure(error))
             }
         } else {
-            completion(.failure(Error.storyNotFound))
+            completion(.success(()))
         }
     }
 
     private func retrieve(storyWithID id: Int) -> RealmStory? {
         realm.object(ofType: RealmStory.self, forPrimaryKey: id)
-    }
-
-    private func insert(_ story: LocalStory, with completion: RealmHackrNewsStoryStore.InsertionCompletion) {
-        do {
-            try write { realm in
-                realm.add(story.toRealm(), update: .error)
-                completion(.success(()))
-            }
-        } catch {
-            completion(.failure(error))
-        }
     }
 
     private func write(action: (Realm) -> Void) throws {
