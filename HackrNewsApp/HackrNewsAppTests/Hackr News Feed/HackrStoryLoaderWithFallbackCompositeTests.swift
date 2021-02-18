@@ -58,6 +58,25 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         XCTAssertEqual(fallback.cancelledStories, [id], "Expected to not cancel story with id: \(id)")
     }
 
+    func test_load_deliversPrimaryDataOnPrimaryLoaderSuccess() {
+        let (sut, primary, _) = makeSUT()
+        let id = anyID()
+        let expectedStory = Story.unique().model
+        let exp = expectation(description: "Wait for load result")
+
+        _ = sut.load(id: id) { result in
+            switch result {
+            case let .success(receivedStory):
+                XCTAssertEqual(receivedStory, expectedStory)
+            case .failure:
+                XCTFail("Expected success, but got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        primary.completes(with: expectedStory)
+        wait(for: [exp], timeout: 1.0)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -100,6 +119,10 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
 
         func completes(with error: Error, at index: Int = 0) {
             completions[index].completion(.failure(error))
+        }
+
+        func completes(with story: Story, at index: Int = 0) {
+            completions[index].completion(.success(story))
         }
     }
 
