@@ -1,7 +1,7 @@
 # Swift Format configuration file
 
 --allman false
---maxwidth 140 
+--maxwidth 160
 --wraparguments before-first 
 --wrapparameters before-first
 --ifdef no-indent
