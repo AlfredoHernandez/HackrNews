@@ -4,7 +4,7 @@
 
 import HackrNews
 
-class HackrStoryLoaderWithFallbackComposite {
+class HackrStoryLoaderWithFallbackComposite: HackrStoryLoader {
     private let primary: HackrStoryLoader
     private let fallback: HackrStoryLoader
 
@@ -13,8 +13,17 @@ class HackrStoryLoaderWithFallbackComposite {
         self.fallback = fallback
     }
 
-    func load(id: Int, completion: @escaping (HackrStoryLoader.Result) -> Void) {
-        _ = primary.load(id: id) { [weak self] result in
+    class TaskWrapper: HackrStoryLoaderTask {
+        var wrapped: HackrStoryLoaderTask?
+
+        func cancel() {
+            wrapped?.cancel()
+        }
+    }
+
+    func load(id: Int, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
+        let task = TaskWrapper()
+        task.wrapped = primary.load(id: id) { [weak self] result in
             switch result {
             case .failure:
                 _ = self?.fallback.load(id: id, completion: completion)
@@ -22,5 +31,6 @@ class HackrStoryLoaderWithFallbackComposite {
                 break
             }
         }
+        return task
     }
 }

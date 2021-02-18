@@ -18,7 +18,7 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         let (sut, primary, fallback) = makeSUT()
         let id = anyID()
 
-        sut.load(id: id) { _ in }
+        _ = sut.load(id: id) { _ in }
 
         XCTAssertEqual(primary.loadedStories, [id], "Expected to request story data")
         XCTAssertTrue(fallback.loadedStories.isEmpty, "Expected to no request story data")
@@ -28,11 +28,22 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         let (sut, primary, fallback) = makeSUT()
         let id = anyID()
 
-        sut.load(id: id) { _ in }
+        _ = sut.load(id: id) { _ in }
         primary.completes(with: anyNSError())
 
         XCTAssertEqual(primary.loadedStories, [id], "Expected to request story data")
         XCTAssertEqual(fallback.loadedStories, [id], "Expected to request story data")
+    }
+
+    func test_cancelLoad_cancelsPrimaryLoaderTask() {
+        let (sut, primary, fallback) = makeSUT()
+        let id = anyID()
+
+        let task = sut.load(id: id) { _ in }
+        task.cancel()
+
+        XCTAssertEqual(primary.cancelledStories, [id], "Expected to cancel story with id: \(id)")
+        XCTAssertTrue(fallback.cancelledStories.isEmpty, "Expected to not cancel story with id: \(id)")
     }
 
     // MARK: - Helpers
@@ -54,14 +65,25 @@ final class HackrStoryLoaderWithFallbackCompositeTests: XCTestCase {
         var completions = [(id: Int, completion: (HackrStoryLoader.Result) -> Void)]()
 
         var loadedStories: [Int] { completions.map(\.id) }
+        var cancelledStories = [Int]()
 
         class Task: HackrStoryLoaderTask {
-            func cancel() {}
+            private let action: () -> Void
+
+            init(_ action: @escaping () -> Void) {
+                self.action = action
+            }
+
+            func cancel() {
+                action()
+            }
         }
 
         func load(id: Int, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
             completions.append((id, completion))
-            return Task()
+            return Task { [weak self] in
+                self?.cancelledStories.append(id)
+            }
         }
 
         func completes(with error: Error, at index: Int = 0) {
