@@ -32,6 +32,17 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
         XCTAssertEqual(loader.loadedStories, [id])
     }
 
+    func test_cancelLoad_cancelsLoadingTask() {
+        let (sut, loader, _) = makeSUT()
+        let story = Story.unique().model
+
+        let task = sut.load(id: story.id) { _ in }
+        task.cancel()
+        loader.completes(with: story)
+
+        XCTAssertEqual(loader.cancelledStories, [story.id], "Expected to cancell story with id \(story.id), got \(loader.cancelledStories) instead")
+    }
+
     func test_load_failsOnLoaderFailure() {
         let (sut, loader, _) = makeSUT()
 
