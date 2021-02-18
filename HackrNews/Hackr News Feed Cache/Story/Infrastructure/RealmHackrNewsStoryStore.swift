@@ -13,8 +13,7 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
     }
 
     public func retrieve(storyID: Int, completion: @escaping RetrievalCompletion) {
-        let realmStory = realm.object(ofType: RealmStory.self, forPrimaryKey: storyID)
-        guard let story = realmStory else {
+        guard let story = retrieve(storyWithID: storyID) else {
             return completion(.success(nil))
         }
         completion(.success(story.toLocal()))
@@ -25,22 +24,29 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
     }
 
     public func insert(story: LocalStory, completion: @escaping InsertionCompletion) {
-        let realmStory = realm.object(ofType: RealmStory.self, forPrimaryKey: story.id)
-        if realmStory != nil {
+        if retrieve(storyWithID: story.id) != nil {
             completion(.failure(Error.storyAlreadyExists))
         } else {
-            do {
-                try write { realm in
-                    realm.add(story.toRealm(), update: .error)
-                    completion(.success(()))
-                }
-            } catch {
-                completion(.failure(error))
-            }
+            insert(story, with: completion)
         }
     }
 
     public func delete(_: LocalStory, completion _: @escaping DeletionCompletion) {}
+
+    private func retrieve(storyWithID id: Int) -> RealmStory? {
+        realm.object(ofType: RealmStory.self, forPrimaryKey: id)
+    }
+
+    private func insert(_ story: LocalStory, with completion: RealmHackrNewsStoryStore.InsertionCompletion) {
+        do {
+            try write { realm in
+                realm.add(story.toRealm(), update: .error)
+                completion(.success(()))
+            }
+        } catch {
+            completion(.failure(error))
+        }
+    }
 
     private func write(action: (Realm) -> Void) throws {
         let realm = self.realm
