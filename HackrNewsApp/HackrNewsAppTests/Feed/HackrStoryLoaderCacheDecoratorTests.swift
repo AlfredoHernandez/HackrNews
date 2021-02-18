@@ -88,10 +88,11 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
     private func expect(
         _ sut: HackrStoryLoaderCacheDecorator,
         toCompleteWith expectedResult: HackrStoryLoader.Result,
-        when _: () -> Void,
+        when action: () -> Void,
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
+        let exp = expectation(description: "Wait for load")
         _ = sut.load(id: anyID()) { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedStory), .success(expectedStory)):
@@ -101,7 +102,11 @@ final class HackrStoryLoaderCacheDecoratorTests: XCTestCase {
             default:
                 XCTFail("Expected \(expectedResult), but got \(receivedResult) instead", file: file, line: line)
             }
+            exp.fulfill()
         }
+
+        action()
+        wait(for: [exp], timeout: 1.0)
     }
 
     private class HackrStoryCacheSpy: HackrStoryCache {
