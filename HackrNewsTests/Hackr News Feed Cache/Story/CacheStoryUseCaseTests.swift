@@ -14,31 +14,31 @@ class CacheStoryUseCaseTests: XCTestCase {
 
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
-        let story = Story.uniqueStory()
+        let story = Story.unique()
 
         sut.save(story.model) { _ in }
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story.local)], "Expected to delete \(story)")
+        XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id)], "Expected to delete \(story)")
     }
 
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
-        let story = Story.uniqueStory()
+        let story = Story.unique()
 
         sut.save(story.model) { _ in }
         store.completeDeletion(with: anyNSError())
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story.local)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id)])
     }
 
     func test_save_requestsCacheInsertionOnSuccessfulDeletion() {
         let (sut, store) = makeSUT()
-        let story = Story.uniqueStory()
+        let story = Story.unique()
 
         sut.save(story.model) { _ in }
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(story.local), .insertion(story.local)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id), .insertion(story.local)])
     }
 
     func test_save_failsOnDeletionError() {
@@ -73,7 +73,7 @@ class CacheStoryUseCaseTests: XCTestCase {
         var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
         var receivedResults = [LocalHackrStoryLoader.SaveResult]()
 
-        sut?.save(Story.any) { receivedResults.append($0) }
+        sut?.save(Story.unique().model) { receivedResults.append($0) }
         sut = nil
         store.completeDeletion(with: anyNSError())
 
@@ -85,7 +85,7 @@ class CacheStoryUseCaseTests: XCTestCase {
         var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
         var receivedResults = [LocalHackrStoryLoader.SaveResult]()
 
-        sut?.save(Story.any) { receivedResults.append($0) }
+        sut?.save(Story.unique().model) { receivedResults.append($0) }
         store.completeDeletionSuccessfully()
         sut = nil
         store.completeInsertion(with: anyNSError())
@@ -116,7 +116,7 @@ class CacheStoryUseCaseTests: XCTestCase {
         var receivedError: Error?
         let exp = expectation(description: "Wait for save command")
 
-        sut.save(Story.any) { result in
+        sut.save(Story.unique().model) { result in
             switch result {
             case .success:
                 break

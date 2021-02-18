@@ -40,7 +40,7 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
 
     func test_load_deliversStoryOnFoundData() {
         let (sut, store) = makeSUT()
-        let story = Story.uniqueStory()
+        let story = Story.unique()
 
         expect(sut, toCompleteWith: .success(story.model), when: {
             store.completeRetrieval(with: story.local)
@@ -50,7 +50,7 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     func test_load_doesNotDeliverResultAfterCancellingTask() {
         let (sut, store) = makeSUT()
         let anyHackrNew = HackrNew(id: 1)
-        let story = Story.uniqueStory()
+        let story = Story.unique()
         var receivedResults = [LocalHackrStoryLoader.LoadResult]()
 
         let task = sut.load(id: anyHackrNew.id) { result in
@@ -66,7 +66,7 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let store = HackrNewsStoryStoreSpy()
         var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
-        let story = Story.uniqueStory()
+        let story = Story.unique()
 
         var receivedResults = [LocalHackrStoryLoader.LoadResult]()
         _ = sut?.load(id: anyID, completion: { receivedResults.append($0) })

@@ -2,6 +2,24 @@
   "object": {
     "pins": [
       {
+        "package": "Realm",
+        "repositoryURL": "https://github.com/realm/realm-cocoa.git",
+        "state": {
+          "branch": null,
+          "revision": "44b9632b22240f0baa4b50964c5722e27094aea0",
+          "version": "10.6.0"
+        }
+      },
+      {
+        "package": "RealmDatabase",
+        "repositoryURL": "https://github.com/realm/realm-core",
+        "state": {
+          "branch": null,
+          "revision": "6431a4bc6530ec16731ef1c66b379cbef6da01f0",
+          "version": "10.5.0"
+        }
+      },
+      {
         "package": "SkeletonView",
         "repositoryURL": "https://github.com/Juanpe/SkeletonView.git",
         "state": {

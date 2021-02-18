@@ -25,7 +25,37 @@ final class StoryItemMapperTests: XCTestCase {
     }
 
     func test_map_deliversItemOn200HTTPResponse() throws {
-        let item = makeItem(createdAt: (Date(timeIntervalSince1970: 1175714200), 1175714200))
+        let item = makeItem(
+            id: 1,
+            title: "a title",
+            text: "a text",
+            author: "any author",
+            score: 10,
+            createdAt: (Date(timeIntervalSince1970: 1175714200), 1175714200),
+            totalComments: 3,
+            comments: [1, 2, 3],
+            type: "story",
+            url: anyURL()
+        )
+
+        let result = try StoryItemMapper.map(data: item.data, response: HTTPURLResponse(statusCode: 200))
+
+        XCTAssertEqual(result, item.model)
+    }
+
+    func test_map_deliversItemWithoutAllPropertiesOn200HTTPResponse() throws {
+        let item = makeItem(
+            id: 1,
+            title: nil,
+            text: nil,
+            author: "any author",
+            score: nil,
+            createdAt: (Date(timeIntervalSince1970: 1175714200), 1175714200),
+            totalComments: nil,
+            comments: nil,
+            type: "story",
+            url: nil
+        )
 
         let result = try StoryItemMapper.map(data: item.data, response: HTTPURLResponse(statusCode: 200))
 
@@ -36,15 +66,15 @@ final class StoryItemMapperTests: XCTestCase {
 
     private func makeItem(
         id: Int = 1,
-        title: String = "a title",
-        text: String = "a text",
+        title: String? = nil,
+        text: String? = nil,
         author: String = "an author",
-        score: Int = 0,
+        score: Int? = nil,
         createdAt: (date: Date, value: Double) = (Date(timeIntervalSince1970: 1175714200), 1175714200),
-        totalComments: Int = 0,
-        comments: [Int] = [],
+        totalComments: Int? = nil,
+        comments: [Int]? = nil,
         type: String = "story",
-        url: URL = anyURL()
+        url: URL? = nil
     ) -> (model: Story, data: Data) {
         let model = Story(
             id: id,
@@ -58,7 +88,7 @@ final class StoryItemMapperTests: XCTestCase {
             type: type,
             url: url
         )
-        let json: [String: Any] = [
+        let tempJson: [String: Any?] = [
             "by": author,
             "descendants": totalComments,
             "id": id,
@@ -68,8 +98,9 @@ final class StoryItemMapperTests: XCTestCase {
             "title": title,
             "text": text,
             "type": type,
-            "url": url.absoluteString,
+            "url": url?.absoluteString,
         ]
+        let json = tempJson.compactMapValues { $0 }
         let data = makeItemJSON(json)
         return (model, data)
     }

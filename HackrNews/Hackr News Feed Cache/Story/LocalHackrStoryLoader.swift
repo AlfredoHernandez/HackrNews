@@ -18,7 +18,7 @@ extension LocalHackrStoryLoader: HackrStoryCache {
     public typealias SaveResult = HackrStoryCache.SaveResult
 
     public func save(_ story: Story, completion: @escaping (SaveResult) -> Void) {
-        store.delete(story.toLocal()) { [weak self] deletionResult in
+        store.delete(storyID: story.id) { [weak self] deletionResult in
             guard let self = self else { return }
             switch deletionResult {
             case .success:
