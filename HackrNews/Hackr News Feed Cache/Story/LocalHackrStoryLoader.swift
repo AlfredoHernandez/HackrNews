@@ -44,10 +44,10 @@ extension LocalHackrStoryLoader: HackrStoryCache {
 
 // MARK: - Load Cache
 
-public extension LocalHackrStoryLoader {
-    typealias LoadResult = HackrStoryLoader.Result
+extension LocalHackrStoryLoader: HackrStoryLoader {
+    public typealias LoadResult = HackrStoryLoader.Result
 
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case storyNotFound
     }
 
@@ -71,7 +71,7 @@ public extension LocalHackrStoryLoader {
         }
     }
 
-    func load(id: Int, completion: @escaping (LoadResult) -> Void) -> HackrStoryLoaderTask {
+    public func load(id: Int, completion: @escaping (LoadResult) -> Void) -> HackrStoryLoaderTask {
         let task = LoadStoryTask(completion: completion)
         store.retrieve(storyID: id) { [weak self] retrievalResult in
             guard self != nil else { return }

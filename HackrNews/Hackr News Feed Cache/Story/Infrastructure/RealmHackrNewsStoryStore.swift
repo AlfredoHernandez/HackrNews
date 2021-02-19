@@ -56,8 +56,18 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
 
     private func write(action: (Realm) -> Void) throws {
         let realm = self.realm
-        try realm.write {
+        try realm.safeWrite {
             action(realm)
+        }
+    }
+}
+
+public extension Realm {
+    func safeWrite(_ block: () throws -> Void) throws {
+        if isInWriteTransaction {
+            try block()
+        } else {
+            try write(block)
         }
     }
 }

@@ -9,7 +9,7 @@ import SafariServices
 import XCTest
 
 final class HackrNewsAppAcceptanceTests: XCTestCase {
-    func test_onLaunch_displaysRemoteStoriesWhenCustomerHasConnectivity() {
+    func test_onLaunch_displaysRemoteFeedWhenCustomerHasConnectivity() {
         let stories = launch(httpClient: .online(response))
 
         XCTAssertEqual(stories.numberOfRenderedHackrNewsFeedViews(), 5)
@@ -22,6 +22,17 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
 
         XCTAssertEqual(view0?.isShowingRetryAction, false, "Expected to not display retry indicator in view0")
         XCTAssertEqual(view1?.isShowingRetryAction, false, "Expected to not display retry indicator in view1")
+    }
+
+    func test_onLaunch_displaysCachedRemoteFeedWhenCustomerHasNoConnectivity() {
+        let sharedStore = InMemoryFeedStore.empty
+        let onlineFeed = launch(httpClient: .online(response), store: sharedStore)
+        onlineFeed.simulateStoryViewVisible(at: 0)
+
+        let cachedFeed = launch(httpClient: .online(cachedStoriesResponse), store: sharedStore)
+        let view0 = cachedFeed.simulateStoryViewVisible(at: 0)
+
+        XCTAssertEqual(view0?.isShowingRetryAction, false, "Expected to not display retry indicator in view0")
     }
 
     func test_onLaunch_doesNotDisplayRemoteStoriesWhenCustomerHasNotConnectivity() {
@@ -71,8 +82,8 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func launch(httpClient: HTTPClientStub = .offline) -> HackrNewsFeedViewController {
-        let sut = SceneDelegate(httpClient: httpClient)
+    private func launch(httpClient: HTTPClientStub = .offline, store: HackrNewsStoryStore = InMemoryFeedStore.empty) -> HackrNewsFeedViewController {
+        let sut = SceneDelegate(httpClient: httpClient, store: store)
         sut.window = UIWindow()
 
         sut.configureWindow()
@@ -82,7 +93,7 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     }
 
     private func showStoryDetailsForFirstStory(file: StaticString = #filePath, line: UInt = #line) -> StoryDetailsViewController? {
-        let stories = launch(httpClient: .online(response))
+        let stories = launch(httpClient: .online(response), store: InMemoryFeedStore.empty)
         stories.simulateStoryViewVisible(at: 0)
 
         stories.simulateTapOnStory(at: 0)

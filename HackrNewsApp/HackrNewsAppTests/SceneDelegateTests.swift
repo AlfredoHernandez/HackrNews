@@ -32,7 +32,7 @@ final class SceneDelegateTests: XCTestCase {
         let firstNavController = rootViewController?.viewControllers?.first as? UINavigationController
         XCTAssertNotNil(
             firstNavController,
-            "Expected a navigation controller for first controller, bit got \(String(describing: firstNavController))"
+            "Expected a navigation controller for first controller, but got \(String(describing: firstNavController))"
         )
 
         let firstController = firstNavController?.topViewController
