@@ -35,6 +35,19 @@ func response(for url: URL) -> (Data, HTTPURLResponse) {
     return (makeData(for: url), response)
 }
 
+func cachedStoriesResponse(for url: URL) -> (Data, HTTPURLResponse) {
+    let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+    return (makePartialData(for: url), response)
+}
+
+private func makePartialData(for url: URL) -> Data {
+    if url.absoluteString.contains("https://hacker-news.firebaseio.com/v0/item/") {
+        return Data("invalid-data".utf8)
+    } else {
+        return makeData(for: url)
+    }
+}
+
 private func makeData(for url: URL) -> Data {
     if url.absoluteString.contains("https://hacker-news.firebaseio.com/v0/item/") {
         return makeStoryData()
