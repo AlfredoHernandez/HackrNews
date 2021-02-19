@@ -47,7 +47,7 @@ extension LocalHackrStoryLoader: HackrStoryCache {
 extension LocalHackrStoryLoader: HackrStoryLoader {
     public typealias LoadResult = HackrStoryLoader.Result
 
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case storyNotFound
     }
 

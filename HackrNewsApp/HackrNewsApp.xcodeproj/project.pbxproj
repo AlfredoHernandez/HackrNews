@@ -12,6 +12,7 @@
 		3844E35825DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */; };
 		3844E35B25DF1D640030F9BB /* HackrStoryLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */; };
 		3844E35E25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E35D25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift */; };
+		3844E36525DF44B30030F9BB /* InMemoryFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3844E36425DF44B30030F9BB /* InMemoryFeedStore.swift */; };
 		384B7BC025B4BD2800270EAC /* UITabBarController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */; };
 		384B7BD225B4D8C900270EAC /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD125B4D8C900270EAC /* ContentType.swift */; };
 		384B7BD625B4D91800270EAC /* StoryViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */; };
@@ -92,6 +93,7 @@
 		3844E35725DF1CA20030F9BB /* HackrStoryLoaderCacheDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderCacheDecoratorTests.swift; sourceTree = "<group>"; };
 		3844E35A25DF1D640030F9BB /* HackrStoryLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderSpy.swift; sourceTree = "<group>"; };
 		3844E35D25DF261B0030F9BB /* HackrStoryLoaderCacheDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrStoryLoaderCacheDecorator.swift; sourceTree = "<group>"; };
+		3844E36425DF44B30030F9BB /* InMemoryFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryFeedStore.swift; sourceTree = "<group>"; };
 		384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Events.swift"; sourceTree = "<group>"; };
 		384B7BD125B4D8C900270EAC /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
 		384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewAdapter.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 			children = (
 				38882CCD259AA6E600A4D2D4 /* HTTPClientStub.swift */,
 				384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */,
+				3844E36425DF44B30030F9BB /* InMemoryFeedStore.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -504,6 +507,7 @@
 				38882C8F259A932A00A4D2D4 /* HackrNewFeedCell+TestHelpers.swift in Sources */,
 				3864BFDE25951EB700FBAA13 /* SceneDelegateTests.swift in Sources */,
 				38882C95259A934C00A4D2D4 /* HackrNewsFeedUIIntegrationTests.swift in Sources */,
+				3844E36525DF44B30030F9BB /* InMemoryFeedStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
