@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private let baseUrl = Endpoint.baseUrl
 
     private lazy var httpClient: HTTPClient = {
-        URLSessionHTTPClient(session: URLSession(configuration: .default))
+        URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
     }()
 
     private lazy var store: HackrNewsStoryStore = {
@@ -99,6 +99,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
         let local = LocalHackrStoryLoader(store: store, currentDate: Date.init)
         let remote = RemoteLoader(url: Endpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
+        local.validate(cacheforStory: id, completion: { _ in })
         return HackrStoryLoaderWithFallbackComposite(
             primary: local,
             fallback: HackrStoryLoaderCacheDecorator(

@@ -35,6 +35,24 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertEqual(view0?.isShowingRetryAction, false, "Expected to not display retry indicator in view0")
     }
 
+    func test_refreshFeed_deletesExpiredCachedStories() {
+        let store = InMemoryFeedStore.withExpiredCache
+
+        let onlineFeed = launch(httpClient: .online(cachedStoriesResponse), store: store)
+        onlineFeed.simulateUserInitiatedHackrNewsFeedReload()
+
+        XCTAssertEqual(store.stories.count, 0, "Expected to delete expired stories")
+    }
+
+    func test_refreshFeed_keepsNonExpiredFeedCache() {
+        let store = InMemoryFeedStore.withNonExpiredCache
+
+        let onlineFeed = launch(httpClient: .online(cachedStoriesResponse), store: store)
+        onlineFeed.simulateUserInitiatedHackrNewsFeedReload()
+
+        XCTAssertEqual(store.stories.count, 2, "Expected to not delete expired stories")
+    }
+
     func test_onLaunch_doesNotDisplayRemoteStoriesWhenCustomerHasNotConnectivity() {
         let stories = launch(httpClient: .offline)
 
