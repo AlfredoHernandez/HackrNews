@@ -22,6 +22,22 @@ public class LocalHackrStoryLoader {
         self.store = store
         self.currentDate = currentDate
     }
+
+    public typealias ValidationResult = Result<Void, Swift.Error>
+
+    public func validate(cacheforStory id: Int, completion: @escaping (ValidationResult) -> Void) {
+        store.retrieve(storyID: id) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(.some(cache)) where !StoryCachePolicy.validate(cache.timestamp, against: self.currentDate()):
+                self.store.delete(storyID: id, completion: completion)
+            case .failure:
+                self.store.delete(storyID: id, completion: completion)
+            case .success(.none), .success:
+                completion(.success(()))
+            }
+        }
+    }
 }
 
 // MARK: - Save Cache
