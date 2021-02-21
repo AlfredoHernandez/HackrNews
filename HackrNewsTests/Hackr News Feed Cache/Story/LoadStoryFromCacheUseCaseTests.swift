@@ -38,12 +38,36 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         })
     }
 
-    func test_load_deliversStoryOnFoundData() {
+    func test_load_deliversStoryOnNonExpiredCache() {
         let (sut, store) = makeSUT()
         let story = Story.unique()
+        let fixedCurrentDate = Date()
+        let nonExpiredTimestamp = fixedCurrentDate.minusStoryCacheMaxAge().adding(seconds: 1)
 
         expect(sut, toCompleteWith: .success(story.model), when: {
-            store.completeRetrieval(with: story.local)
+            store.completeRetrieval(with: story.local, timestamp: nonExpiredTimestamp)
+        })
+    }
+
+    func test_load_deliversNoStoryOnCacheExpiration() {
+        let (sut, store) = makeSUT()
+        let story = Story.unique()
+        let fixedCurrentDate = Date()
+        let expirationTimestamp = fixedCurrentDate.minusStoryCacheMaxAge()
+
+        expect(sut, toCompleteWith: failure(.expiredCache), when: {
+            store.completeRetrieval(with: story.local, timestamp: expirationTimestamp)
+        })
+    }
+
+    func test_load_deliversNoStoryOnExpiredCache() {
+        let (sut, store) = makeSUT()
+        let story = Story.unique()
+        let fixedCurrentDate = Date()
+        let expirationTimestamp = fixedCurrentDate.minusStoryCacheMaxAge().adding(seconds: -1)
+
+        expect(sut, toCompleteWith: failure(.expiredCache), when: {
+            store.completeRetrieval(with: story.local, timestamp: expirationTimestamp)
         })
     }
 
@@ -58,21 +82,21 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         }
         task.cancel()
 
-        store.completeRetrieval(with: story.local)
+        store.completeRetrieval(with: story.local, timestamp: Date())
 
         XCTAssertTrue(receivedResults.isEmpty, "Expected no results after cancelling task")
     }
 
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let store = HackrNewsStoryStoreSpy()
-        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, currentDate: Date.init)
         let story = Story.unique()
 
         var receivedResults = [LocalHackrStoryLoader.LoadResult]()
         _ = sut?.load(id: anyID, completion: { receivedResults.append($0) })
 
         sut = nil
-        store.completeRetrieval(with: story.local)
+        store.completeRetrieval(with: story.local, timestamp: Date())
         store.completeRetrieval(with: anyNSError())
 
         XCTAssertTrue(receivedResults.isEmpty, "Expected not received results but got \(receivedResults) instead")
@@ -85,7 +109,7 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
         line: UInt = #line
     ) -> (LocalHackrStoryLoader, HackrNewsStoryStoreSpy) {
         let store = HackrNewsStoryStoreSpy()
-        let sut = LocalHackrStoryLoader(store: store)
+        let sut = LocalHackrStoryLoader(store: store, currentDate: Date.init)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
