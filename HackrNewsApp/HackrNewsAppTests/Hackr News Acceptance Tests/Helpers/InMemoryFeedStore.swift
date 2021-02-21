@@ -2,10 +2,11 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Foundation
 import HackrNews
 
 class InMemoryFeedStore: HackrNewsStoryStore {
-    var stories: [Int: LocalStory] = [:]
+    var stories: [Int: (LocalStory, Date)] = [:]
 
     static var empty: InMemoryFeedStore {
         InMemoryFeedStore()
@@ -16,8 +17,8 @@ class InMemoryFeedStore: HackrNewsStoryStore {
         completion(.success(()))
     }
 
-    func insert(story: LocalStory, completion: @escaping InsertionCompletion) {
-        stories[story.id] = story
+    func insert(story: LocalStory, timestamp: Date, completion: @escaping InsertionCompletion) {
+        stories[story.id] = (story, timestamp)
         completion(.success(()))
     }
 

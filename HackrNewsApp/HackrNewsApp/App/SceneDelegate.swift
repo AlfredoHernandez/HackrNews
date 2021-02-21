@@ -97,7 +97,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
-        let local = LocalHackrStoryLoader(store: store)
+        let local = LocalHackrStoryLoader(store: store, currentDate: Date.init)
         let remote = RemoteLoader(url: Endpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
         return HackrStoryLoaderWithFallbackComposite(
             primary: local,
