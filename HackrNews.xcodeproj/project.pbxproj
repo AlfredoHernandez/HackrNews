@@ -64,6 +64,7 @@
 		3882E5B625BE24C000CE62E0 /* RemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */; };
 		38882CBB259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */; };
 		3889A2D625E2FD0600F20B25 /* ValidateStoryCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3889A2D525E2FD0600F20B25 /* ValidateStoryCacheUseCaseTests.swift */; };
+		3889A2DB25E305F100F20B25 /* StoryCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3889A2DA25E305F100F20B25 /* StoryCachePolicy.swift */; };
 		388C5B0B2599559D00045DB9 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 388C5B0A2599559D00045DB9 /* SkeletonView */; };
 		38A4BFF625C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */; };
 		38AA7E6225D0CAA600389982 /* CodableHackrNewsFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AA7E6125D0CAA600389982 /* CodableHackrNewsFeedStore.swift */; };
@@ -212,6 +213,7 @@
 		3882E5B525BE24C000CE62E0 /* RemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoader.swift; sourceTree = "<group>"; };
 		38882CBA259A955700A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeaksTracking.swift"; sourceTree = "<group>"; };
 		3889A2D525E2FD0600F20B25 /* ValidateStoryCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateStoryCacheUseCaseTests.swift; sourceTree = "<group>"; };
+		3889A2DA25E305F100F20B25 /* StoryCachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCachePolicy.swift; sourceTree = "<group>"; };
 		38A4BFF525C0E276003DA0BA /* StoryViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
 		38AA7E6125D0CAA600389982 /* CodableHackrNewsFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHackrNewsFeedStore.swift; sourceTree = "<group>"; };
 		38AFE4A025C0C40D0026610D /* StoryDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsViewController.swift; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 				38791F5225D9DC8E00581EF7 /* HackrNewsStoryStore.swift */,
 				38791F5725D9DCB100581EF7 /* LocalHackrStoryLoader.swift */,
 				38791F7825DA080800581EF7 /* LocalStory.swift */,
+				3889A2DA25E305F100F20B25 /* StoryCachePolicy.swift */,
 			);
 			path = Story;
 			sourceTree = "<group>";
@@ -1151,6 +1154,7 @@
 				38D392C62582DD1D00FCAF70 /* URLSessionHTTPClient.swift in Sources */,
 				3882E5A225BE11B800CE62E0 /* StoryComment.swift in Sources */,
 				3843688B25C1ECDD002396A6 /* StoryDetailsPresenter.swift in Sources */,
+				3889A2DB25E305F100F20B25 /* StoryCachePolicy.swift in Sources */,
 				38D393002583037B00FCAF70 /* HackrNewsFeedPresenter.swift in Sources */,
 				3808B30225C0EBCC00632213 /* StoryDetail.swift in Sources */,
 				3882E5B625BE24C000CE62E0 /* RemoteLoader.swift in Sources */,

@@ -4,16 +4,6 @@
 
 import Foundation
 
-struct StoryCachePolicy {
-    private static let calendar = Calendar(identifier: .gregorian)
-    private static var maxCacheAgeInMinutes: Int { 5 }
-
-    static func validate(_ timestamp: Date, against date: Date) -> Bool {
-        guard let maxCacheAge = calendar.date(byAdding: .minute, value: maxCacheAgeInMinutes, to: timestamp) else { return false }
-        return date < maxCacheAge
-    }
-}
-
 public class LocalHackrStoryLoader {
     private let store: HackrNewsStoryStore
     private let currentDate: () -> Date
