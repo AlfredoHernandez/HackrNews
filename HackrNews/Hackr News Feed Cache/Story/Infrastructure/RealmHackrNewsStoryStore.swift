@@ -19,11 +19,6 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
         completion(.success(story.toLocal()))
     }
 
-    enum Error: Swift.Error {
-        case storyAlreadyExists
-        case storyNotFound
-    }
-
     public func insert(story: LocalStory, completion: @escaping InsertionCompletion) {
         do {
             try write { realm in
