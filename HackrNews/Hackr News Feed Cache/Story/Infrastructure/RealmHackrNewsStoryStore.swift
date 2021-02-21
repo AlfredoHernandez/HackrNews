@@ -13,16 +13,18 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
     }
 
     public func retrieve(storyID: Int, completion: @escaping RetrievalCompletion) {
-        guard let story = retrieve(storyWithID: storyID) else {
+        guard let cache = retrieve(storyWithID: storyID), let story = cache.story else {
             return completion(.success(nil))
         }
-        completion(.success(story.toLocal()))
+        let cachedStory = CachedStory(story.toLocal(), cache.timestamp)
+        completion(.success(cachedStory))
     }
 
-    public func insert(story: LocalStory, completion: @escaping InsertionCompletion) {
+    public func insert(story: LocalStory, timestamp: Date, completion: @escaping InsertionCompletion) {
         do {
             try write { realm in
-                realm.add(story.toRealm(), update: .modified)
+                let cache = RealmStoryCache(timestamp: timestamp, story: story.toRealm())
+                realm.add(cache, update: .modified)
                 completion(.success(()))
             }
         } catch {
@@ -45,8 +47,8 @@ public final class RealmHackrNewsStoryStore: HackrNewsStoryStore {
         }
     }
 
-    private func retrieve(storyWithID id: Int) -> RealmStory? {
-        realm.object(ofType: RealmStory.self, forPrimaryKey: id)
+    private func retrieve(storyWithID id: Int) -> RealmStoryCache? {
+        realm.object(ofType: RealmStoryCache.self, forPrimaryKey: id)
     }
 
     private func write(action: (Realm) -> Void) throws {

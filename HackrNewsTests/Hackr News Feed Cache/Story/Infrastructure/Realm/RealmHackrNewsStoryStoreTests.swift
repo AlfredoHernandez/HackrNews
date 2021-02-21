@@ -28,21 +28,24 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
     func test_retrieve_deliversNotFoundStoryOnNonEmptyCache() {
         let sut = makeSUT()
         let story = Story.unique()
+        let timestamp = Date()
 
-        insert(sut, story: story.local)
+        insert((story.local, timestamp), to: sut)
         expect(sut, withId: story.model.id + 1, toRetrieve: .success(.none))
     }
 
     func test_retrieve_deliversFoundStoryOnNonEmptyCache() {
         let sut = makeSUT()
+        let timestamp = Date()
         let story = Story.unique()
 
-        insert(sut, story: story.local)
-        expect(sut, withId: story.model.id, toRetrieve: .success(story.local))
+        insert((story.local, timestamp), to: sut)
+        expect(sut, withId: story.model.id, toRetrieve: .success(CachedStory(story.local, timestamp)))
     }
 
     func test_retrieve_deliversFoundStoryWithoutAllPropertiesOnNonEmptyCache() {
         let sut = makeSUT()
+        let timestamp = Date()
         let story = Story(
             id: 1,
             title: nil,
@@ -56,48 +59,52 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
             url: nil
         )
 
-        insert(sut, story: story.toLocal())
-        expect(sut, withId: story.id, toRetrieve: .success(story.toLocal()))
+        insert((story.toLocal(), timestamp), to: sut)
+        expect(sut, withId: story.id, toRetrieve: .success(CachedStory(story.toLocal(), timestamp)))
     }
 
     func test_retrieve_deliversFoundStoryHasNoSideEffects() {
         let sut = makeSUT()
+        let timestamp = Date()
         let story = Story.unique()
 
-        insert(sut, story: story.local)
+        insert((story.local, timestamp), to: sut)
 
-        expect(sut, withId: story.model.id, toRetrieve: .success(story.local))
-        expect(sut, withId: story.model.id, toRetrieve: .success(story.local))
+        expect(sut, withId: story.model.id, toRetrieve: .success(CachedStory(story.local, timestamp)))
+        expect(sut, withId: story.model.id, toRetrieve: .success(CachedStory(story.local, timestamp)))
     }
 
     func test_insert_deliversNoErrorOnEmptyCache() {
         let sut = makeSUT()
+        let timestamp = Date()
         let story = Story.unique()
 
-        let insertionError = insert(sut, story: story.local)
+        let insertionError = insert((story.local, timestamp), to: sut)
         XCTAssertNil(insertionError, "Expected to insert cache successfully")
     }
 
     func test_insert_deliversNoErrorOnNonEmptyCache() {
         let sut = makeSUT()
+        let timestamp = Date()
         let story = Story.unique()
 
-        insert(sut, story: Story.unique().local)
+        insert((Story.unique().local, Date()), to: sut)
 
-        let insertionError = insert(sut, story: story.local)
+        let insertionError = insert((story.local, timestamp), to: sut)
         XCTAssertNil(insertionError, "Expected to insert cache successfully")
     }
 
     func test_insert_deliversNonErrorOnDuplicatedInsertion() {
         let sut = makeSUT()
+        let timestamp = Date()
         let story = Story.unique()
 
-        insert(sut, story: story.local)
+        insert((story.local, timestamp), to: sut)
 
-        let insertionError = insert(sut, story: story.local)
+        let insertionError = insert((story.local, timestamp), to: sut)
         XCTAssertNil(insertionError, "Expected to update inserted story in cache")
 
-        expect(sut, withId: story.local.id, toRetrieve: .success(story.local))
+        expect(sut, withId: story.local.id, toRetrieve: .success(CachedStory(story.local, timestamp)))
     }
 
     func test_delete_deliversNonErrorOnEmptyCache() {
@@ -109,9 +116,10 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
 
     func test_delete_emptiesPreviouslyInsertedCache() {
         let sut = makeSUT()
+        let timestamp = Date()
         let story = Story.unique()
 
-        insert(sut, story: story.local)
+        insert((story.local, timestamp), to: sut)
 
         let receivedError = delete(sut, story: story.local.id)
         XCTAssertNil(receivedError, "Expected to delete previous inserted story")
@@ -121,13 +129,14 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
 
     func test_actions_runsSerially() {
         let sut = makeSUT()
+        let timestamp = Date()
         let story = Story.unique()
 
         let op1 = expectation(description: "Operation 1")
-        sut.insert(story: story.local) { _ in op1.fulfill() }
+        sut.insert(story: story.local, timestamp: timestamp) { _ in op1.fulfill() }
 
         let op2 = expectation(description: "Operation 2")
-        sut.insert(story: story.local) { _ in op2.fulfill() }
+        sut.insert(story: story.local, timestamp: timestamp) { _ in op2.fulfill() }
 
         let op3 = expectation(description: "Operation 3")
         sut.retrieve(storyID: story.local.id) { _ in op3.fulfill() }
@@ -158,11 +167,18 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
             switch (retrievedResult, expectedResult) {
             case (.success(.none), .success(.none)):
                 break
-            case let (.success(retrievedStory), .success(expectedStory)):
+            case let (.success(.some(retrievedCache)), .success(.some(expectedCache))):
                 XCTAssertEqual(
-                    retrievedStory,
-                    expectedStory,
-                    "Expected \(String(describing: expectedStory)), got \(String(describing: retrievedStory)) instead.",
+                    retrievedCache.story,
+                    expectedCache.story,
+                    "Expected `Story` \(String(describing: expectedCache.story)), got \(String(describing: retrievedCache.story)) instead.",
+                    file: file,
+                    line: line
+                )
+                XCTAssertEqual(
+                    retrievedCache.timestamp,
+                    expectedCache.timestamp,
+                    "Expected `Timestamp`\(String(describing: expectedCache.timestamp)), got \(String(describing: retrievedCache.timestamp)) instead.",
                     file: file,
                     line: line
                 )
@@ -175,11 +191,11 @@ final class RealmHackrNewsStoryStoreTests: XCTestCase {
     }
 
     @discardableResult
-    private func insert(_ sut: RealmHackrNewsStoryStore, story: LocalStory) -> Error? {
+    private func insert(_ cache: (story: LocalStory, timestamp: Date), to sut: RealmHackrNewsStoryStore) -> Error? {
         let exp = expectation(description: "Wait for insertion")
         var insertionError: Error?
 
-        sut.insert(story: story) { result in
+        sut.insert(story: cache.story, timestamp: cache.timestamp) { result in
             if case let Result.failure(error) = result { insertionError = error }
             exp.fulfill()
         }
