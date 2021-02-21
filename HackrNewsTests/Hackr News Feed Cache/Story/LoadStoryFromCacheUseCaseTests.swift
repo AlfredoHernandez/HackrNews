@@ -39,9 +39,9 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_deliversStoryOnNonExpiredCache() {
-        let (sut, store) = makeSUT()
-        let story = Story.unique()
         let fixedCurrentDate = Date()
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        let story = Story.unique()
         let nonExpiredTimestamp = fixedCurrentDate.minusStoryCacheMaxAge().adding(seconds: 1)
 
         expect(sut, toCompleteWith: .success(story.model), when: {
@@ -50,9 +50,9 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_deliversNoStoryOnCacheExpiration() {
-        let (sut, store) = makeSUT()
-        let story = Story.unique()
         let fixedCurrentDate = Date()
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        let story = Story.unique()
         let expirationTimestamp = fixedCurrentDate.minusStoryCacheMaxAge()
 
         expect(sut, toCompleteWith: failure(.expiredCache), when: {
@@ -61,13 +61,13 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     }
 
     func test_load_deliversNoStoryOnExpiredCache() {
-        let (sut, store) = makeSUT()
-        let story = Story.unique()
         let fixedCurrentDate = Date()
-        let expirationTimestamp = fixedCurrentDate.minusStoryCacheMaxAge().adding(seconds: -1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        let story = Story.unique()
+        let expiredTimestamp = fixedCurrentDate.minusStoryCacheMaxAge().adding(seconds: -1)
 
         expect(sut, toCompleteWith: failure(.expiredCache), when: {
-            store.completeRetrieval(with: story.local, timestamp: expirationTimestamp)
+            store.completeRetrieval(with: story.local, timestamp: expiredTimestamp)
         })
     }
 
@@ -105,11 +105,12 @@ final class LoadStoryFromCacheUseCaseTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(
+        currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (LocalHackrStoryLoader, HackrNewsStoryStoreSpy) {
         let store = HackrNewsStoryStoreSpy()
-        let sut = LocalHackrStoryLoader(store: store, currentDate: Date.init)
+        let sut = LocalHackrStoryLoader(store: store, currentDate: currentDate)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
