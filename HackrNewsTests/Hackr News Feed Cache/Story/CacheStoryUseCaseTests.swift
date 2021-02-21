@@ -31,14 +31,15 @@ class CacheStoryUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id)])
     }
 
-    func test_save_requestsCacheInsertionOnSuccessfulDeletion() {
-        let (sut, store) = makeSUT()
+    func test_save_requestsCacheInsertionWithTimestampOnSuccessfulDeletion() {
+        let timestamp = Date()
+        let (sut, store) = makeSUT(currentDate: { timestamp })
         let story = Story.unique()
 
         sut.save(story.model) { _ in }
         store.completeDeletionSuccessfully()
 
-        XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id), .insertion(story.local)])
+        XCTAssertEqual(store.receivedMessages, [.deletion(storyID: story.model.id), .insertion(story.local, timestamp)])
     }
 
     func test_save_failsOnDeletionError() {
@@ -59,7 +60,7 @@ class CacheStoryUseCaseTests: XCTestCase {
         })
     }
 
-    func test_save_succeedsOnSuccessfulInsertion() {
+    func test_save_succeedsOnSuccessfulCacheInsertion() {
         let (sut, store) = makeSUT()
 
         expect(sut, toCompleteWithError: .none, when: {
@@ -70,7 +71,7 @@ class CacheStoryUseCaseTests: XCTestCase {
 
     func test_save_doesNotDeliversDeletionErrorAfterSUTInstanceHasBeenDeallocated() {
         let store = HackrNewsStoryStoreSpy()
-        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, currentDate: Date.init)
         var receivedResults = [LocalHackrStoryLoader.SaveResult]()
 
         sut?.save(Story.unique().model) { receivedResults.append($0) }
@@ -82,7 +83,7 @@ class CacheStoryUseCaseTests: XCTestCase {
 
     func test_save_doesNotDeliversInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
         let store = HackrNewsStoryStoreSpy()
-        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store)
+        var sut: LocalHackrStoryLoader? = LocalHackrStoryLoader(store: store, currentDate: Date.init)
         var receivedResults = [LocalHackrStoryLoader.SaveResult]()
 
         sut?.save(Story.unique().model) { receivedResults.append($0) }
@@ -96,11 +97,12 @@ class CacheStoryUseCaseTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(
+        currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (LocalHackrStoryLoader, HackrNewsStoryStoreSpy) {
         let store = HackrNewsStoryStoreSpy()
-        let sut = LocalHackrStoryLoader(store: store)
+        let sut = LocalHackrStoryLoader(store: store, currentDate: currentDate)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)

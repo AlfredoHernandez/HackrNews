@@ -4,6 +4,8 @@
 
 import Foundation
 
+public typealias CachedStory = (story: LocalStory, timestamp: Date)
+
 public struct LocalStory: Equatable {
     public let id: Int
     public let title: String?

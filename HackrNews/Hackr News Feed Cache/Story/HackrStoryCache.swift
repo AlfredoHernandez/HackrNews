@@ -1,8 +1,5 @@
 //
-//  LocalHackrStoryLoader.swift
-//  HackrNews
-//
-//  Created by Jesús Alfredo Hernández Alarcón on 14/02/21.
+//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import Foundation

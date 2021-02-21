@@ -5,6 +5,23 @@
 import Foundation
 import RealmSwift
 
+class RealmStoryCache: Object {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var timestamp = Date()
+    @objc dynamic var story: RealmStory?
+
+    convenience init(timestamp: Date, story: RealmStory) {
+        self.init()
+        id = story.id
+        self.timestamp = timestamp
+        self.story = story
+    }
+
+    override class func primaryKey() -> String? {
+        "id"
+    }
+}
+
 class RealmStory: Object {
     @objc dynamic var id: Int = 0
     @objc dynamic var title: String?
