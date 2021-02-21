@@ -6,9 +6,11 @@ import Foundation
 
 public class LocalHackrStoryLoader {
     private let store: HackrNewsStoryStore
+    private let currentDate: () -> Date
 
-    public init(store: HackrNewsStoryStore) {
+    public init(store: HackrNewsStoryStore, currentDate: @escaping () -> Date) {
         self.store = store
+        self.currentDate = currentDate
     }
 }
 
@@ -30,7 +32,7 @@ extension LocalHackrStoryLoader: HackrStoryCache {
     }
 
     private func cache(_ story: Story, with completion: @escaping (SaveResult) -> Void) {
-        store.insert(story: story.toLocal()) { [weak self] insertionResult in
+        store.insert(story: story.toLocal(), timestamp: currentDate()) { [weak self] insertionResult in
             guard self != nil else { return }
             switch insertionResult {
             case .success:
@@ -49,6 +51,7 @@ extension LocalHackrStoryLoader: HackrStoryLoader {
 
     public enum Error: Swift.Error {
         case storyNotFound
+        case expiredCache
     }
 
     class LoadStoryTask: HackrStoryLoaderTask {
@@ -74,17 +77,39 @@ extension LocalHackrStoryLoader: HackrStoryLoader {
     public func load(id: Int, completion: @escaping (LoadResult) -> Void) -> HackrStoryLoaderTask {
         let task = LoadStoryTask(completion: completion)
         store.retrieve(storyID: id) { [weak self] retrievalResult in
-            guard self != nil else { return }
+            guard let self = self else { return }
             switch retrievalResult {
-            case let .success(.some(story)):
-                task.complete(with: .success(story.toModel()))
+            case let .success(.some(cache)) where StoryCachePolicy.validate(cache.timestamp, against: self.currentDate()):
+                task.complete(with: .success(cache.story.toModel()))
             case let .failure(error):
                 task.complete(with: .failure(error))
-            case .success:
+            case .success(.none):
                 task.complete(with: .failure(Error.storyNotFound))
+            case .success:
+                task.complete(with: .failure(Error.expiredCache))
             }
         }
         return task
+    }
+}
+
+// MARK: Cache validation
+
+public extension LocalHackrStoryLoader {
+    typealias ValidationResult = Result<Void, Swift.Error>
+
+    func validate(cacheforStory id: Int, completion: @escaping (ValidationResult) -> Void) {
+        store.retrieve(storyID: id) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(.some(cache)) where !StoryCachePolicy.validate(cache.timestamp, against: self.currentDate()):
+                self.store.delete(storyID: id, completion: completion)
+            case .failure:
+                self.store.delete(storyID: id, completion: completion)
+            case .success(.none), .success:
+                completion(.success(()))
+            }
+        }
     }
 }
 

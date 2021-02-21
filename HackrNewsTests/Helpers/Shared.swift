@@ -29,14 +29,14 @@ extension HTTPURLResponse {
 extension Date {
     private var cacheMaxAgeInDays: Int { 1 }
 
-    private var storyCacheMaxAgeInDays: Int { 7 }
+    private var storyCacheMaxAgeInMinutes: Int { 1 }
 
     func minusCacheMaxAge() -> Date {
         adding(days: -cacheMaxAgeInDays)
     }
 
     func minusStoryCacheMaxAge() -> Date {
-        adding(days: -storyCacheMaxAgeInDays)
+        adding(min: -storyCacheMaxAgeInMinutes)
     }
 
     func adding(days: Int, calendar: Calendar = Calendar(identifier: .gregorian)) -> Date {
