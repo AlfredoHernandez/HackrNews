@@ -204,6 +204,30 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(view1?.isShowingLoadingIndicator, false)
     }
 
+    func test_hackrNewFeedViewLoadingIndicator_isVisibleWhilePreloadingAndLoading() {
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeHackrNewsFeedLoading(with: [makeHackrNew(), makeHackrNew()], at: 0)
+
+        sut.simulateStoryNearViewVisible(at: 0)
+        sut.simulateStoryNearViewVisible(at: 1)
+
+        let view0 = sut.simulateStoryViewVisible(at: 0)
+        let view1 = sut.simulateStoryViewVisible(at: 1)
+
+        XCTAssertEqual(view0?.isShowingLoadingIndicator, true, "Expected loading indicator for view0 while loading content")
+        XCTAssertEqual(view1?.isShowingLoadingIndicator, true, "Expected loading indicator for view1 while loading content")
+
+        loader.completeStoryLoading(at: 0)
+        XCTAssertEqual(view0?.isShowingLoadingIndicator, false)
+        XCTAssertEqual(view1?.isShowingLoadingIndicator, true)
+
+        loader.completeStoryLoadingWithError(at: 1)
+        XCTAssertEqual(view0?.isShowingLoadingIndicator, false)
+        XCTAssertEqual(view1?.isShowingLoadingIndicator, false)
+    }
+
     func test_storyView_displaysStoryInfo() {
         let locale = Locale(identifier: "en_US_POSIX")
         let calendar = Calendar(identifier: .gregorian)

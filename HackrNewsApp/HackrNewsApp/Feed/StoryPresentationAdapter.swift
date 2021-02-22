@@ -20,8 +20,8 @@ final class StoryPresentationAdapter: HackrNewFeedCellControllerDelegate {
     }
 
     func didRequestStory() {
-        guard !isLoading else { return }
         presenter?.didStartLoadingStory(from: model)
+        guard !isLoading else { return }
         isLoading = true
         task = loader.load(id: model.id) { [weak self] result in
             switch result {
