@@ -9,13 +9,16 @@ import HackrNewsiOS
 final class HackrNewsFeedPresentationAdapter: HackrNewsFeedRefreshControllerDelegate {
     private let loader: HackrNewsFeedLoader
     var presenter: HackrNewsFeedPresenter?
+    private var isLoading = false
 
     init(loader: HackrNewsFeedLoader) {
         self.loader = loader
     }
 
     func didRequestNews() {
+        guard !isLoading else { return }
         presenter?.didStartLoadingNews()
+        isLoading = true
         loader.load { [weak self] result in
             switch result {
             case let .success(news):
@@ -23,6 +26,7 @@ final class HackrNewsFeedPresentationAdapter: HackrNewsFeedRefreshControllerDele
             case let .failure(error):
                 self?.presenter?.didFinishLoadingNews(with: error)
             }
+            self?.isLoading = false
         }
     }
 }
