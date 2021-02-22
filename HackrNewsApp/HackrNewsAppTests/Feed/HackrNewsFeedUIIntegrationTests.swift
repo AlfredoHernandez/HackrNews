@@ -132,6 +132,32 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         )
     }
 
+    func test_storyView_doesNotLoadStoryUntilPreviousRequestCompletes() {
+        let (sut, loader) = makeSUT()
+        let new1 = makeHackrNew(id: 1)
+        let new2 = makeHackrNew(id: 2)
+        sut.loadViewIfNeeded()
+
+        loader.completeHackrNewsFeedLoading(with: [new1, new2], at: 0)
+        XCTAssertEqual(loader.storiesRequestsCallCount, 0, "Expected no story URL requests until views become visible")
+
+        sut.simulateStoryNearViewVisible(at: 0)
+        XCTAssertEqual(loader.storiesRequestsCallCount, 1, "Expected a story URL requests until views become visible")
+
+        sut.simulateStoryViewVisible(at: 0)
+        XCTAssertEqual(
+            loader.storiesRequestsCallCount, 1,
+            "Expected second story URL request once second view also becomes visible"
+        )
+
+        sut.simulateStoryNotNearViewVisible(at: 0)
+        sut.simulateStoryViewVisible(at: 0)
+        XCTAssertEqual(
+            loader.storiesRequestsCallCount, 2,
+            "Expected second story URL request once view also becomes visible"
+        )
+    }
+
     func test_hackrNewFeedView_cancelsStoryLoadingWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
         let new1 = makeHackrNew(id: 1)
