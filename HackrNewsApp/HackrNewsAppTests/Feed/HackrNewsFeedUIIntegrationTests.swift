@@ -46,11 +46,23 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertEqual(loader.loadCallCount, 1)
 
+        loader.completeHackrNewsFeedLoading()
         sut.simulateUserInitiatedHackrNewsFeedReload()
         XCTAssertEqual(loader.loadCallCount, 2)
 
+        loader.completeHackrNewsFeedLoading()
         sut.simulateUserInitiatedHackrNewsFeedReload()
         XCTAssertEqual(loader.loadCallCount, 3)
+    }
+
+    func test_loadHackrNewsFeed_doesNotLoadFeedUntilPreviousRequestCompletes() {
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 1)
+
+        sut.simulateUserInitiatedHackrNewsFeedReload()
+        XCTAssertEqual(loader.loadCallCount, 1)
     }
 
     func test_loadingHackrNewsFeedIndicator_isVisibleWhileLoadingHackrNewsFeed() {
