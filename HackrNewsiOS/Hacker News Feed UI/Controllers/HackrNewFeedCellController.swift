@@ -14,6 +14,8 @@ public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoading
     private let delegate: HackrNewFeedCellControllerDelegate
     private let didSelectStory: () -> Void
     private var cell: HackrNewFeedCell?
+    private var viewModel: StoryViewModel?
+    private var tableView: UITableView?
 
     public init(delegate: HackrNewFeedCellControllerDelegate, didSelectStory: @escaping () -> Void) {
         self.delegate = delegate
@@ -22,12 +24,21 @@ public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoading
 
     func view(in tableView: UITableView) -> UITableViewCell {
         cell = tableView.dequeueReusableCell()
+        self.tableView = tableView
         cell?.retryLoadStoryButton.addTarget(self, action: #selector(loadComment), for: .touchUpInside)
-        loadComment()
+
+        // The model already exists in cache, how could I check from local loader?
+        if let viewModel = viewModel {
+            updateCell(with: viewModel)
+        } else {
+            loadComment()
+        }
         return cell!
     }
 
     func preload() {
+        // How could I validate if exists in cache?
+        guard viewModel == nil else { return }
         delegate.didRequestStory()
     }
 
@@ -41,6 +52,13 @@ public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoading
     }
 
     public func display(_ viewModel: StoryViewModel) {
+        self.viewModel = viewModel
+        tableView?.beginUpdates()
+        updateCell(with: viewModel)
+        tableView?.endUpdates()
+    }
+
+    private func updateCell(with viewModel: StoryViewModel) {
         cell?.titleLabel.text = viewModel.title
         cell?.urlLabel.text = viewModel.displayURL
         cell?.authorLabel.text = viewModel.author

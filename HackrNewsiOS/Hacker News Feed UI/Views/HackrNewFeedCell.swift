@@ -44,7 +44,7 @@ public class HackrNewFeedCell: UITableViewCell {
 
     public private(set) lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.text = titlePlaceholderText
         label.textAlignment = .natural
