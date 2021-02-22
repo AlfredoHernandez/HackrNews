@@ -6,6 +6,12 @@ import SkeletonView
 import UIKit
 
 public class HackrNewFeedCell: UITableViewCell {
+    private var titlePlaceholderText: String {
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+    }
+
+    private var placeholderText: String { "Lorem ipsum" }
+
     public private(set) lazy var mainContainer: UIStackView = {
         let view = UIStackView(arrangedSubviews: [titleLabel, urlLabel, middleContainer, footerContainer])
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -36,33 +42,33 @@ public class HackrNewFeedCell: UITableViewCell {
         return view
     }()
 
-    public private(set) var titleLabel: UILabel = {
+    public private(set) lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+        label.text = titlePlaceholderText
         label.textAlignment = .natural
         label.adjustsFontForContentSizeCategory = true
         label.isSkeletonable = true
         return label
     }()
 
-    public private(set) var urlLabel: UILabel = {
+    public private(set) lazy var urlLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .hackrNews
-        label.text = "Lorem ipsum"
+        label.text = placeholderText
         label.adjustsFontForContentSizeCategory = true
         label.isSkeletonable = true
         return label
     }()
 
-    public private(set) var authorLabel: UILabel = {
+    public private(set) lazy var authorLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
-        label.text = "Lorem ipsum"
+        label.text = placeholderText
         label.textAlignment = .natural
         label.adjustsFontForContentSizeCategory = true
         label.setContentHuggingPriority(.required, for: .horizontal)
@@ -70,35 +76,35 @@ public class HackrNewFeedCell: UITableViewCell {
         return label
     }()
 
-    public private(set) var createdAtLabel: UILabel = {
+    public private(set) lazy var createdAtLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .secondaryLabel
-        label.text = "Lorem ipsum"
+        label.text = placeholderText
         label.adjustsFontForContentSizeCategory = true
         label.isSkeletonable = true
         return label
     }()
 
-    public private(set) var scoreLabel: UILabel = {
+    public private(set) lazy var scoreLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .secondaryLabel
-        label.text = "Lorem ipsum"
+        label.text = placeholderText
         label.adjustsFontForContentSizeCategory = true
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.isSkeletonable = true
         return label
     }()
 
-    public private(set) var commentsLabel: UILabel = {
+    public private(set) lazy var commentsLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textColor = .secondaryLabel
-        label.text = "Lorem ipsum"
+        label.text = placeholderText
         label.adjustsFontForContentSizeCategory = true
         label.isSkeletonable = true
         return label
@@ -156,6 +162,14 @@ public class HackrNewFeedCell: UITableViewCell {
             retryLoadStoryButton.topAnchor.constraint(equalTo: errorContentView.topAnchor),
             retryLoadStoryButton.bottomAnchor.constraint(equalTo: errorContentView.bottomAnchor),
         ])
+    }
+
+    override public func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = titlePlaceholderText
+        urlLabel.text = placeholderText
+        authorLabel.text = placeholderText
+        createdAtLabel.text = placeholderText
     }
 
     public var isLoadingContent: Bool = false {
