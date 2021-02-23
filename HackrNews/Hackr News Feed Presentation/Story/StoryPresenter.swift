@@ -68,8 +68,8 @@ public final class StoryPresenter {
     private let view: StoryView
     private let loadingView: StoryLoadingView
     private let errorView: StoryErrorView
-    private var locale = Locale.current
-    private var calendar = Calendar(identifier: .gregorian)
+    private static var locale = Locale.current
+    private static var calendar = Calendar(identifier: .gregorian)
     private var errorMessage: String {
         NSLocalizedString(
             "story_error_message",
@@ -80,7 +80,7 @@ public final class StoryPresenter {
         )
     }
 
-    private var comments: String {
+    private static var comments: String {
         NSLocalizedString(
             "story_comments_message",
             tableName: "Story",
@@ -90,7 +90,7 @@ public final class StoryPresenter {
         )
     }
 
-    private var score: String {
+    private static var score: String {
         NSLocalizedString(
             "story_points_message",
             tableName: "Story",
@@ -110,8 +110,8 @@ public final class StoryPresenter {
         self.view = view
         self.loadingView = loadingView
         self.errorView = errorView
-        self.locale = locale
-        self.calendar = calendar
+        Self.locale = locale
+        Self.calendar = calendar
     }
 
     public func didStartLoadingStory(from _: HackrNew) {
@@ -121,7 +121,7 @@ public final class StoryPresenter {
 
     public func didFinishLoadingStory(story: Story) {
         loadingView.display(.stoped)
-        view.display(map(story: story))
+        view.display(Self.map(story: story))
         errorView.display(.none)
     }
 
@@ -130,7 +130,7 @@ public final class StoryPresenter {
         errorView.display(StoryErrorViewModel(error: errorMessage))
     }
 
-    private func format(from date: Date) -> String? {
+    private static func format(from date: Date) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = locale
         dateFormatter.calendar = calendar
@@ -138,7 +138,7 @@ public final class StoryPresenter {
         return dateFormatter.string(from: date)
     }
 
-    private func map(story: Story) -> StoryViewModel {
+    public static func map(story: Story) -> StoryViewModel {
         StoryViewModel(
             newId: story.id,
             title: story.title,

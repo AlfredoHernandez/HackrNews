@@ -33,7 +33,13 @@ final class StoryViewAdapter: HackrNewsFeedView {
                 model: new,
                 loader: MainQueueDispatchDecorator(loader(new.id))
             )
-            let controller = HackrNewFeedCellController(delegate: adapter, didSelectStory: { [weak self] in
+            var viewModel: StoryViewModel?
+            
+            if let story = adapter.storyResult?() {
+                viewModel = StoryPresenter.map(story: story)
+            }
+
+            let controller = HackrNewFeedCellController(delegate: adapter, viewModel: viewModel, didSelectStory: { [weak self] in
                 guard let story = adapter.storyResult?() else { return }
                 self?.didSelectStory(story)
             })
