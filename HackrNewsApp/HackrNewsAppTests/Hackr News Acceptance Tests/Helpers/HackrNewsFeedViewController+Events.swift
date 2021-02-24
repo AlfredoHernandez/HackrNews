@@ -36,4 +36,9 @@ extension HackrNewsFeedViewController {
     func simulateTapOnTabItem() {
         navigationController?.tabBarController?.simulateTap(at: navigationController!)
     }
+
+    func simulateScrollDown(at row: Int = 0) {
+        let indexPath = IndexPath(row: row, section: 0)
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+    }
 }

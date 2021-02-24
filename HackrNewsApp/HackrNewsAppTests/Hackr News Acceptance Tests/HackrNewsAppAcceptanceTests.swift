@@ -99,16 +99,14 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     }
 
     func test_onTabBarTapSelection_triggersTabActionOnSameControllerSelection() {
-        var actionSelectionCallCount = 0
-        let app = launch(httpClient: .online(response), tabBarAction: { _ in
-            actionSelectionCallCount += 1
-        })
+        let app = launch(httpClient: .online(response))
+
+        app.simulateScrollDown(at: 4)
+        XCTAssertFalse(app.isDisplayingTopContent)
 
         app.simulateTapOnTabItem()
-        XCTAssertEqual(actionSelectionCallCount, 0, "Expected to no trigger tab action on non same controller selection")
-
         app.simulateTapOnTabItem()
-        XCTAssertEqual(actionSelectionCallCount, 1, "Expected to trigger tab action on same controller selection")
+        XCTAssertTrue(app.isDisplayingTopContent)
     }
 
     // MARK: - Helpers
@@ -116,12 +114,10 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     private func launch(
         httpClient: HTTPClientStub = .offline,
         store: HackrNewsStoryStore = InMemoryFeedStore.empty,
-        tabBarAction: ((UIViewController) -> Void)? = nil,
         file _: StaticString = #filePath,
         line _: UInt = #line
     ) -> HackrNewsFeedViewController {
         let sut = SceneDelegate(httpClient: httpClient, store: store)
-        sut.tabBarAction = tabBarAction
         sut.window = UIWindow()
 
         sut.configureWindow()

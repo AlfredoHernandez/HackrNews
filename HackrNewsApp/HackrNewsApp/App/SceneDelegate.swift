@@ -11,7 +11,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private let baseUrl = Endpoint.baseUrl
     var previousViewController: UIViewController?
-    var tabBarAction: ((HackrNewsFeedViewController) -> Void)? = { $0.scrollToTop() }
 
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
@@ -117,7 +116,7 @@ extension SceneDelegate: UITabBarControllerDelegate {
     func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
         if previousViewController == viewController {
             if let viewController = (viewController as? UINavigationController)?.topViewController as? HackrNewsFeedViewController {
-                tabBarAction?(viewController)
+                viewController.scrollToTop()
             }
         }
         previousViewController = viewController
