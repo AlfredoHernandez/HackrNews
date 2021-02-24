@@ -98,10 +98,28 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertEqual(bestStories.title, HackrNewsFeedPresenter.bestStoriesTitle)
     }
 
+    func test_onTabBarTapSelection_triggersTabActionOnSameControllerSelection() {
+        var actionSelectionCallCount = 0
+        let app = launch(httpClient: .online(response), tabBarAction: { _ in
+            actionSelectionCallCount += 1
+        })
+
+        app.simulateTapOnTabItem()
+        XCTAssertEqual(actionSelectionCallCount, 0, "Expected to no trigger tab action on non same controller selection")
+
+        app.simulateTapOnTabItem()
+        XCTAssertEqual(actionSelectionCallCount, 1, "Expected to trigger tab action on same controller selection")
+    }
+
     // MARK: - Helpers
 
-    private func launch(httpClient: HTTPClientStub = .offline, store: HackrNewsStoryStore = InMemoryFeedStore.empty) -> HackrNewsFeedViewController {
+    private func launch(
+        httpClient: HTTPClientStub = .offline,
+        store: HackrNewsStoryStore = InMemoryFeedStore.empty,
+        tabBarAction: ((UIViewController) -> Void)? = nil
+    ) -> HackrNewsFeedViewController {
         let sut = SceneDelegate(httpClient: httpClient, store: store)
+        sut.tabBarAction = tabBarAction
         sut.window = UIWindow()
 
         sut.configureWindow()

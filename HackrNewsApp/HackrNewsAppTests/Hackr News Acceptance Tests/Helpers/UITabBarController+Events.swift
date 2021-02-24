@@ -11,9 +11,15 @@ extension UITabBarController {
         let storiesViewController = navigationController.topViewController as! HackrNewsFeedViewController
         return storiesViewController
     }
+
+    func simulateTap(at controller: UIViewController) {
+        delegate?.tabBarController?(self, didSelect: controller)
+    }
 }
 
-extension UIViewController {
+// MARK: - HackrNewsFeedViewController
+
+extension HackrNewsFeedViewController {
     private func simulateTap(at index: Int = 0) -> UIViewController? {
         if tabBarController!.viewControllers!.count < index { return nil }
         tabBarController!.selectedIndex = index
@@ -40,4 +46,8 @@ extension UIViewController {
     private var newStoriesTab: Int { 1 }
 
     private var bestStoriesTab: Int { 2 }
+
+    func simulateTapOnTabItem() {
+        navigationController?.tabBarController?.simulateTap(at: navigationController!)
+    }
 }
