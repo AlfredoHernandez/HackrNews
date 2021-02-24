@@ -116,7 +116,9 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
     private func launch(
         httpClient: HTTPClientStub = .offline,
         store: HackrNewsStoryStore = InMemoryFeedStore.empty,
-        tabBarAction: ((UIViewController) -> Void)? = nil
+        tabBarAction: ((UIViewController) -> Void)? = nil,
+        file _: StaticString = #filePath,
+        line _: UInt = #line
     ) -> HackrNewsFeedViewController {
         let sut = SceneDelegate(httpClient: httpClient, store: store)
         sut.tabBarAction = tabBarAction
