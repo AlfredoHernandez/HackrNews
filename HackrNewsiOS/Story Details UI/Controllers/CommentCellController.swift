@@ -14,6 +14,8 @@ public protocol CommentCellControllerDelegate {
 public class CommentCellController: NSObject, CommentView, CommentLoadingView, CommentErrorView {
     private(set) var cell: CommentCell?
     private let delegate: CommentCellControllerDelegate
+    private var viewModel: CommentViewModel?
+    private var tableView: UITableView?
 
     public init(delegate: CommentCellControllerDelegate) {
         self.delegate = delegate
@@ -21,8 +23,16 @@ public class CommentCellController: NSObject, CommentView, CommentLoadingView, C
 
     func view(in tableView: UITableView) -> CommentCell {
         cell = tableView.dequeueReusableCell()
+        self.tableView = tableView
+
+        if let viewModel = viewModel {
+            cell?.isLoadingContent = false
+            updateCell(with: viewModel)
+        } else {
+            didStartCommentRequest()
+        }
+
         cell?.retryButton.addTarget(self, action: #selector(didStartCommentRequest), for: .touchUpInside)
-        didStartCommentRequest()
         return cell!
     }
 
@@ -31,6 +41,7 @@ public class CommentCellController: NSObject, CommentView, CommentLoadingView, C
     }
 
     func preload() {
+        guard viewModel == nil else { return }
         delegate.didRequestComment()
     }
 
@@ -40,6 +51,13 @@ public class CommentCellController: NSObject, CommentView, CommentLoadingView, C
     }
 
     public func display(_ viewModel: CommentViewModel) {
+        self.viewModel = viewModel
+        tableView?.beginUpdates()
+        updateCell(with: viewModel)
+        tableView?.endUpdates()
+    }
+
+    private func updateCell(with viewModel: CommentViewModel) {
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
         if let text = viewModel.text {

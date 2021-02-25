@@ -47,7 +47,7 @@ public class CommentCell: UITableViewCell {
 
     public private(set) lazy var bodyLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 3
+        label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
         label.isSkeletonable = true
