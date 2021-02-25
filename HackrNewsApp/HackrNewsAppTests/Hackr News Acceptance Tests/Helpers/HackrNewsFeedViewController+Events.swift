@@ -12,6 +12,7 @@ extension HackrNewsFeedViewController {
         return tabBarController!.selectedViewController
     }
 
+    @discardableResult
     func simulateTapOnTopStories() -> HackrNewsFeedViewController {
         let navigation = simulateTap(at: topStoriesTab) as! UINavigationController
         return navigation.topViewController as! HackrNewsFeedViewController
@@ -22,6 +23,7 @@ extension HackrNewsFeedViewController {
         return navigation.topViewController as! HackrNewsFeedViewController
     }
 
+    @discardableResult
     func simulateTapOnBestStories() -> HackrNewsFeedViewController {
         let navigation = simulateTap(at: bestStoriesTab) as! UINavigationController
         return navigation.topViewController as! HackrNewsFeedViewController
