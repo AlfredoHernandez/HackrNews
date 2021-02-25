@@ -102,7 +102,7 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         let app = launch(httpClient: .online(response))
 
         app.simulateScrollDown(at: 4)
-        XCTAssertFalse(app.isDisplayingTopContent, "Shold not display top content after scroll down")
+        XCTAssertFalse(app.isDisplayingTopContent, "Should not display top content after scroll down")
 
         app.simulateTapOnTabItem()
         XCTAssertTrue(app.isDisplayingTopContent, "Should display top content after tap on tabbar item")
