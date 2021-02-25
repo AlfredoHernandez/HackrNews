@@ -10,6 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private let baseUrl = Endpoint.baseUrl
+    var previousViewController: UIViewController?
 
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
@@ -49,6 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         tabBarController.tabBar.tintColor = UIColor.hackrNews
         tabBarController.viewControllers = controllers
+        tabBarController.delegate = self
         return tabBarController
     }
 
@@ -107,5 +109,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 cache: local
             )
         )
+    }
+}
+
+extension SceneDelegate: UITabBarControllerDelegate {
+    func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
+        if previousViewController == (viewController as? UINavigationController)?.topViewController as? HackrNewsFeedViewController {
+            if let viewController = (viewController as? UINavigationController)?.topViewController as? HackrNewsFeedViewController {
+                viewController.scrollToTop()
+            }
+        }
+        previousViewController = viewController
+    }
+
+    func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        previousViewController = (viewController as? UINavigationController)?.topViewController
+        return true
     }
 }

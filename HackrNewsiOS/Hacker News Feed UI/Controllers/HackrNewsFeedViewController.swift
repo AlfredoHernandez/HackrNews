@@ -74,6 +74,12 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
         let totalTop = afterRefresh ? topSize + 100 : topSize
         tableView.setContentOffset(CGPoint(x: 0, y: -totalTop), animated: true)
     }
+
+    public func scrollToTop() {
+        if tableModel.count > 0 {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
 }
 
 extension HackrNewsFeedViewController: HackrNewsFeedErrorView {

@@ -98,9 +98,25 @@ final class HackrNewsAppAcceptanceTests: XCTestCase {
         XCTAssertEqual(bestStories.title, HackrNewsFeedPresenter.bestStoriesTitle)
     }
 
+    func test_onTabBarTapSelection_triggersTabActionOnSameControllerSelection() {
+        let app = launch(httpClient: .online(response))
+
+        app.simulateScrollDown(at: 4)
+        XCTAssertFalse(app.isDisplayingTopContent)
+
+        app.simulateTapOnTabItem()
+        app.simulateTapOnTabItem()
+        XCTAssertTrue(app.isDisplayingTopContent)
+    }
+
     // MARK: - Helpers
 
-    private func launch(httpClient: HTTPClientStub = .offline, store: HackrNewsStoryStore = InMemoryFeedStore.empty) -> HackrNewsFeedViewController {
+    private func launch(
+        httpClient: HTTPClientStub = .offline,
+        store: HackrNewsStoryStore = InMemoryFeedStore.empty,
+        file _: StaticString = #filePath,
+        line _: UInt = #line
+    ) -> HackrNewsFeedViewController {
         let sut = SceneDelegate(httpClient: httpClient, store: store)
         sut.window = UIWindow()
 

@@ -46,6 +46,7 @@
 		38882CCE259AA6E600A4D2D4 /* HTTPClientStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38882CCD259AA6E600A4D2D4 /* HTTPClientStub.swift */; };
 		388C5B102599676800045DB9 /* EndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388C5B0F2599676800045DB9 /* EndpointTests.swift */; };
 		388C5B142599680500045DB9 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388C5B132599680500045DB9 /* Endpoint.swift */; };
+		38AA471725E5F25700F1375F /* HackrNewsFeedViewController+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AA471625E5F25700F1375F /* HackrNewsFeedViewController+Events.swift */; };
 		38D71CA225C8A99100AB8DD1 /* StoryDetailsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D71CA125C8A99100AB8DD1 /* StoryDetailsUIComposer.swift */; };
 		38D71CAA25C8A9F000AB8DD1 /* StoryDetailsUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D71CA925C8A9F000AB8DD1 /* StoryDetailsUIIntegrationTests.swift */; };
 		38D71CB225C8AA9800AB8DD1 /* StoryDetailsViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D71CB125C8AA9800AB8DD1 /* StoryDetailsViewController+Helpers.swift */; };
@@ -125,6 +126,7 @@
 		38882CCD259AA6E600A4D2D4 /* HTTPClientStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientStub.swift; sourceTree = "<group>"; };
 		388C5B0F2599676800045DB9 /* EndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointTests.swift; sourceTree = "<group>"; };
 		388C5B132599680500045DB9 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		38AA471625E5F25700F1375F /* HackrNewsFeedViewController+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HackrNewsFeedViewController+Events.swift"; sourceTree = "<group>"; };
 		38D71CA125C8A99100AB8DD1 /* StoryDetailsUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryDetailsUIComposer.swift; sourceTree = "<group>"; };
 		38D71CA925C8A9F000AB8DD1 /* StoryDetailsUIIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryDetailsUIIntegrationTests.swift; sourceTree = "<group>"; };
 		38D71CB125C8AA9800AB8DD1 /* StoryDetailsViewController+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StoryDetailsViewController+Helpers.swift"; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			children = (
 				38882CCD259AA6E600A4D2D4 /* HTTPClientStub.swift */,
 				384B7BBF25B4BD2800270EAC /* UITabBarController+Events.swift */,
+				38AA471625E5F25700F1375F /* HackrNewsFeedViewController+Events.swift */,
 				3844E36425DF44B30030F9BB /* InMemoryFeedStore.swift */,
 			);
 			path = Helpers;
@@ -503,6 +506,7 @@
 				3844E35B25DF1D640030F9BB /* HackrStoryLoaderSpy.swift in Sources */,
 				38D71CAA25C8A9F000AB8DD1 /* StoryDetailsUIIntegrationTests.swift in Sources */,
 				38882CAA259A944200A4D2D4 /* XCTestCase+MemoryLeaksTracking.swift in Sources */,
+				38AA471725E5F25700F1375F /* HackrNewsFeedViewController+Events.swift in Sources */,
 				38882C8E259A932A00A4D2D4 /* HackrNewsFeedViewControllerTests+Assertions.swift in Sources */,
 				38882C8F259A932A00A4D2D4 /* HackrNewFeedCell+TestHelpers.swift in Sources */,
 				3864BFDE25951EB700FBAA13 /* SceneDelegateTests.swift in Sources */,

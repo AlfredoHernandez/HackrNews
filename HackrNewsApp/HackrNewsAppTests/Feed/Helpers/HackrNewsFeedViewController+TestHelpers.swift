@@ -59,4 +59,8 @@ extension HackrNewsFeedViewController {
     }
 
     var hackrNewsSection: Int { 0 }
+
+    var isDisplayingTopContent: Bool {
+        tableView.contentOffset.y == 0
+    }
 }
