@@ -76,7 +76,9 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
     }
 
     public func scrollToTop() {
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        if tableModel.count > 0 {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
     }
 }
 

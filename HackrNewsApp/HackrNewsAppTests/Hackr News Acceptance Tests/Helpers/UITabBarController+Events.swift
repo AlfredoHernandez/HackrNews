@@ -13,6 +13,7 @@ extension UITabBarController {
     }
 
     func simulateTap(at controller: UIViewController) {
+        _ = delegate?.tabBarController?(self, shouldSelect: controller)
         delegate?.tabBarController?(self, didSelect: controller)
     }
 }
