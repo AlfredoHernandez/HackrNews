@@ -100,11 +100,14 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
 
         loader.complete(with: makeStoryComment(), at: 0)
         sut.simulateCommentViewVisible(at: 0)
-        XCTAssertEqual(loader.loadCallCount, 2, "Expected another loading request")
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected no more loading request (info already cached)")
 
         sut.simulateCommentViewNotVisible(at: 0)
         sut.simulateCommentViewVisible(at: 0)
-        XCTAssertEqual(loader.loadCallCount, 3, "Expected another loading request after cancelling previous request")
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected no more loading request (info already cached)")
+
+        sut.simulateCommentViewVisible(at: 1)
+        XCTAssertEqual(loader.loadCallCount, 2, "Expected one more loding request")
     }
 
     func test_requestComments_displaysLoadedComments() {
