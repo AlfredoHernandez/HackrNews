@@ -3,7 +3,6 @@
 //
 
 import HackrNews
-import SwiftSoup
 import UIKit
 
 public protocol CommentCellControllerDelegate {
@@ -61,7 +60,7 @@ public class CommentCellController: NSObject, CommentView, CommentLoadingView, C
         cell?.authorLabel.text = viewModel.author
         cell?.createdAtLabel.text = viewModel.createdAt
         if let text = viewModel.text {
-            cell?.bodyLabel.text = parse(content: text)
+            cell?.bodyLabel.text = text.parseHTML()
         } else {
             cell?.bodyLabel.text = nil
         }
@@ -77,17 +76,5 @@ public class CommentCellController: NSObject, CommentView, CommentLoadingView, C
 
     private func releaseCellForReuse() {
         cell = nil
-    }
-
-    private func parse(content: String) -> String {
-        let paragraphIdentifier = "[P]"
-        do {
-            let html = try SwiftSoup.parse(content)
-            _ = try html.select("p").before(paragraphIdentifier)
-            let body = try html.text()
-            return body.replacingOccurrences(of: "\(paragraphIdentifier) ", with: "\n\n")
-        } catch {
-            return content
-        }
     }
 }
