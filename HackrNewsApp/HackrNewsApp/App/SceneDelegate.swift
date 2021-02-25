@@ -114,8 +114,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 extension SceneDelegate: UITabBarControllerDelegate {
     func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
-        if previousViewController == (viewController as? UINavigationController)?.topViewController {
-            if let viewController = (viewController as? UINavigationController)?.topViewController as? HackrNewsFeedViewController {
+        let topViewController = (viewController as? UINavigationController)?.topViewController
+        if previousViewController == topViewController {
+            if let viewController = topViewController as? HackrNewsFeedViewController {
                 viewController.scrollToTop()
             }
         }
