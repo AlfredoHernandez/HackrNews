@@ -28,14 +28,6 @@ Hackr/News is a **Y Combinator's** Hacker News reading app for iOS.
 
 **Please make sure use an `iPhone 12 Mini` simulator to run the snapshot tests. Otherwise tests will fail.**
 
-## Screenshots
-
-### iOS
-
-![Dark Mode](./assets/dark_mode.png)
-
-![Light Mode](./assets/light_mode.png)
-
 ### More docs
 
 - [App architecture](./App_Architecture.md)
