@@ -1001,6 +1001,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
+				ORGANIZATIONNAME = "Jesús Alfredo Hernández Alarcón";
 				TargetAttributes = {
 					386551A225868EF1002054AA = {
 						CreatedOnToolsVersion = 12.2;
@@ -1650,7 +1651,7 @@
 			repositoryURL = "https://github.com/realm/realm-cocoa.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 10.6.0;
+				minimumVersion = 10.7.2;
 			};
 		};
 		388C5B092599559D00045DB9 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
