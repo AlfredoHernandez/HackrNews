@@ -1,0 +1,124 @@
+#page title
+page_title                                : HackerNews                                          # Automatically populates with app name if not set and if iOS app ID is set. Otherwise enter manually.
+
+# App Info
+ios_app_id                                :                                # Required. Enter iOS app ID to automatically populate name, price and icons (e.g. 718043190).
+
+appstore_link                             :                                           # Automatically populates if not set and if iOS app ID is set. Otherwise enter manually.
+playstore_link                            :                                           # Enter Google Play Store URL.
+presskit_download_link                    : https://github.com/AlfredoHernandez/HackrNews # Enter a link to downloadable file or (e.g. public Dropbox link to a .zip file). 
+                                                                                      # Or upload your press kit file to assets and set path accordingly (e.g. "assets/your_press_kit.zip").
+
+app_icon                                  : ./assets/appicon.png                      # Automatically populates if not set and if iOS app ID is set.  Otherwise enter path to icon file manually.
+app_name                                  : HackrNews                                          # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
+app_price                                 : Free                                          # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
+app_description                           : Hackr/News is a Y Combinator's Hacker News reading app for iOS.
+
+enable_smart_app_banner                   : false                                      # Set to true to show a smart app banner at top of page on mobile devices.
+
+
+
+# Information About Yourself
+your_name                                 : J. Alfredo Hernández Alarcón                               
+your_link                                 : https://alfredohdz.com                     
+your_city                                 : Mexico                                
+email_address                             : alfredo.h.alarcon@icloud.com
+facebook_username                         :                                           
+instagram_username                        : alfredohdzdev
+twitter_username                          : alfredohdzdev
+github_username                           : AlfredoHernandez
+youtube_username                          :
+
+
+
+# Feature List                            Edit, add or remove features to be presented.
+features                                  :
+  - title                                 : iOS / MacOS Compatible
+    description                           : Run the app from an iOS device or a macOS with the new Apple's M1 chip
+    fontawesome_icon_name                 : info-circle
+
+  - title                                 : Light and Dark mode support
+    description                           : Enjoy both light and dark mode
+    fontawesome_icon_name                 : adjust
+
+  - title                                 : Visualize top, new and best stories
+    description                           : Keep updated with latests news
+    fontawesome_icon_name                 : newspaper
+
+  - title                                 : Hacker News API
+    description                           : Uses the official Firebase-based Hacker News API
+    fontawesome_icon_name                 : ethernet
+
+  - title                                 : Comments
+    description                           : See latest comments from stories/news
+    fontawesome_icon_name                 : comment
+
+  - title                                 : Open Source
+    description                           : Feel free to clone the repo and send your PR
+    fontawesome_icon_name                 : code-branch
+
+
+
+# Theme Settings
+topbar_color                              : "#FFFFFF"
+topbar_transparency                       : 0.0
+topbar_title_color                        : "#ffffff"
+
+cover_image                               : https://images.unsplash.com/photo-1523995462485-3d171b5c8fa9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1875&q=80 # Replace with alternative image path or image URL.
+cover_overlay_color                       : "#363b3d"
+cover_overlay_transparency                : 0.8
+
+device_color                              : white                                     # Set to: blue, black, yellow, coral or white.
+
+body_background_color                     : "#ffffff"
+
+link_color                                : "#1d63ea"
+
+app_title_color                           : "#ffffff"
+app_price_color                           : "#ffffff"
+app_description_color                     : "#ffffff"
+
+feature_title_color                       : "#000000"
+feature_text_color                        : "#666666"
+
+feature_icons_foreground_color            : "#1d63ea"
+feature_icons_background_color            : "#e6e6e6"
+
+social_icons_foreground_color             : "#666666"
+social_icons_background_color             : "#e6e6e6"
+
+footer_text_color                         : "#666666"
+
+
+
+
+
+
+
+
+
+
+
+
+
+####################################################
+### Jekyll Configuration. No need to touch this. ###
+####################################################
+
+# Set the Sass partials directory, as we're using @imports
+sass:
+  style: :compressed # You might prefer to minify using :compressed
+
+# Exclude these files from your production _site
+exclude:
+  - LICENSE
+  - README.md
+  - CNAME
+
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+# Markdown rendering
+markdown: kramdown
