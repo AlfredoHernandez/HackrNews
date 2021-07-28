@@ -16,14 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
     }()
 
-    private lazy var store: HackrNewsStoryStore = {
-        RealmHackrNewsStoryStore()
-    }()
-
-    convenience init(httpClient: HTTPClient, store: HackrNewsStoryStore) {
+    convenience init(httpClient: HTTPClient) {
         self.init()
         self.httpClient = httpClient
-        self.store = store
     }
 
     private lazy var tabBarController: UITabBarController = makeTabBarViewController(
@@ -99,16 +94,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
-        let local = LocalHackrStoryLoader(store: store, currentDate: Date.init)
-        let remote = RemoteLoader(url: Endpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
-        local.validate(cacheforStory: id, completion: { _ in })
-        return HackrStoryLoaderWithFallbackComposite(
-            primary: local,
-            fallback: HackrStoryLoaderCacheDecorator(
-                decoratee: MainQueueDispatchDecorator(remote),
-                cache: local
-            )
-        )
+        RemoteLoader(url: Endpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
     }
 }
 
