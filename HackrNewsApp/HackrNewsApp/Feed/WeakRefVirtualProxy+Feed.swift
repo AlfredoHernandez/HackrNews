@@ -5,16 +5,16 @@
 import Foundation
 import HackrNews
 
-// MARK: - Hackr News Feed
+// MARK: - Resource
 
-extension WeakRefVirtualProxy: HackrNewsFeedLoadingView where T: HackrNewsFeedLoadingView {
-    func display(_ viewModel: HackrNewsFeedLoadingViewModel) {
+extension WeakRefVirtualProxy: ResourceLoadingView where T: ResourceLoadingView {
+    func display(_ viewModel: ResourceLoadingViewModel) {
         object?.display(viewModel)
     }
 }
 
-extension WeakRefVirtualProxy: HackrNewsFeedErrorView where T: HackrNewsFeedErrorView {
-    func display(_ viewModel: HackrNewsFeedErrorViewModel) {
+extension WeakRefVirtualProxy: ResourceErrorView where T: ResourceErrorView {
+    func display(_ viewModel: ResourceErrorViewModel) {
         object?.display(viewModel)
     }
 }

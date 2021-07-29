@@ -7,7 +7,7 @@ import Foundation
 import HackrNews
 import HackrNewsiOS
 
-final class StoryViewAdapter: HackrNewsFeedView {
+final class StoryViewAdapter: ResourceView {
     private let loader: (Int) -> AnyPublisher<Story, Error>
     private let locale: Locale
     private let calendar: Calendar
