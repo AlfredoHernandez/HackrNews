@@ -33,23 +33,3 @@ class StoryDetailsUIComposer {
         return controller
     }
 }
-
-// MARK: - Comment Loader
-
-extension RemoteLoader: CommentLoader where Resource == StoryComment {
-    private class TaskWrapper: CommentLoaderTask {
-        let task: HTTPClientTask
-
-        init(task: HTTPClientTask) {
-            self.task = task
-        }
-
-        func cancel() {
-            task.cancel()
-        }
-    }
-
-    public func load(completion: @escaping (Result) -> Void) -> CommentLoaderTask {
-        TaskWrapper(task: load(completion: completion))
-    }
-}
