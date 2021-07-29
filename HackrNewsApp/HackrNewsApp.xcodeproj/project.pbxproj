@@ -13,7 +13,7 @@
 		384B7BD225B4D8C900270EAC /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD125B4D8C900270EAC /* ContentType.swift */; };
 		384B7BD625B4D91800270EAC /* StoryViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */; };
 		384B7BD925B4D95400270EAC /* StoryPresentationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BD825B4D95400270EAC /* StoryPresentationAdapter.swift */; };
-		384B7BDD25B4D9B200270EAC /* HackrNewsFeedPresentationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BDC25B4D9B200270EAC /* HackrNewsFeedPresentationAdapter.swift */; };
+		384B7BDD25B4D9B200270EAC /* LoadResourcePresentationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384B7BDC25B4D9B200270EAC /* LoadResourcePresentationAdapter.swift */; };
 		3864BFDE25951EB700FBAA13 /* SceneDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3864BFDC25951EB700FBAA13 /* SceneDelegateTests.swift */; };
 		386FE76C2592BAF7003D779F /* HackrNews.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76A2592BAF7003D779F /* HackrNews.framework */; };
 		386FE76D2592BAF7003D779F /* HackrNews.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 386FE76A2592BAF7003D779F /* HackrNews.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -83,7 +83,7 @@
 		384B7BD125B4D8C900270EAC /* ContentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
 		384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewAdapter.swift; sourceTree = "<group>"; };
 		384B7BD825B4D95400270EAC /* StoryPresentationAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryPresentationAdapter.swift; sourceTree = "<group>"; };
-		384B7BDC25B4D9B200270EAC /* HackrNewsFeedPresentationAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedPresentationAdapter.swift; sourceTree = "<group>"; };
+		384B7BDC25B4D9B200270EAC /* LoadResourcePresentationAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadResourcePresentationAdapter.swift; sourceTree = "<group>"; };
 		3864BFDC25951EB700FBAA13 /* SceneDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegateTests.swift; sourceTree = "<group>"; };
 		386FE76A2592BAF7003D779F /* HackrNews.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HackrNews.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		386FE76B2592BAF7003D779F /* HackrNewsiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HackrNewsiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,7 +147,6 @@
 			isa = PBXGroup;
 			children = (
 				38882C6F259A928D00A4D2D4 /* HackrNewsFeedUIComposer.swift */,
-				384B7BDC25B4D9B200270EAC /* HackrNewsFeedPresentationAdapter.swift */,
 				384B7BD525B4D91800270EAC /* StoryViewAdapter.swift */,
 				384B7BD825B4D95400270EAC /* StoryPresentationAdapter.swift */,
 				38882C71259A928D00A4D2D4 /* WeakRefVirtualProxy+Feed.swift */,
@@ -226,6 +225,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		389CFA7726B30E1D003240B5 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				384B7BDC25B4D9B200270EAC /* LoadResourcePresentationAdapter.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		38D71CA025C8A96200AB8DD1 /* Story Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +285,7 @@
 			children = (
 				384B7BE125B4DA9100270EAC /* App */,
 				38FED3A925BE4A71007FFA8C /* Common */,
+				389CFA7726B30E1D003240B5 /* Shared */,
 				384B7BD025B4D8C000270EAC /* Feed */,
 				38D71CA025C8A96200AB8DD1 /* Story Details */,
 				38F68081259033C9002ED53A /* Assets.xcassets */,
@@ -417,7 +425,7 @@
 				38D71CBF25C8AD7600AB8DD1 /* WeakRefVirtualProxy+Comment.swift in Sources */,
 				384B7BD925B4D95400270EAC /* StoryPresentationAdapter.swift in Sources */,
 				38882C75259A928D00A4D2D4 /* Icons.swift in Sources */,
-				384B7BDD25B4D9B200270EAC /* HackrNewsFeedPresentationAdapter.swift in Sources */,
+				384B7BDD25B4D9B200270EAC /* LoadResourcePresentationAdapter.swift in Sources */,
 				384B7BD225B4D8C900270EAC /* ContentType.swift in Sources */,
 				38F68079259033C8002ED53A /* AppDelegate.swift in Sources */,
 				38FED3AB25BE4A8B007FFA8C /* MainQueueDispatchDecorator.swift in Sources */,
