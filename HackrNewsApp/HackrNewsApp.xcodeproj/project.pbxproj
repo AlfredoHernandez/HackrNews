@@ -278,7 +278,6 @@
 			children = (
 				384B7BE125B4DA9100270EAC /* App */,
 				38FED3A925BE4A71007FFA8C /* Common */,
-				38FED3A425BE4A3D007FFA8C /* Network */,
 				384B7BD025B4D8C000270EAC /* Feed */,
 				38D71CA025C8A96200AB8DD1 /* Story Details */,
 				38F68081259033C9002ED53A /* Assets.xcassets */,
@@ -300,13 +299,6 @@
 				38F68091259033C9002ED53A /* Info.plist */,
 			);
 			path = HackrNewsAppTests;
-			sourceTree = "<group>";
-		};
-		38FED3A425BE4A3D007FFA8C /* Network */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		38FED3A925BE4A71007FFA8C /* Common */ = {
