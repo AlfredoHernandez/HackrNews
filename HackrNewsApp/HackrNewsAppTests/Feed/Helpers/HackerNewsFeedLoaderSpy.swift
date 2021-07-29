@@ -7,7 +7,7 @@ import Foundation
 import HackrNews
 
 extension HackrNewsFeedUIIntegrationTests {
-    class HackrNewsFeedLoaderSpy: HackrStoryLoader {
+    class HackrNewsFeedLoaderSpy {
         var publishers = [PassthroughSubject<[HackrNew], Error>]()
         var loadCallCount: Int { publishers.count }
 
@@ -30,29 +30,25 @@ extension HackrNewsFeedUIIntegrationTests {
         // MARK: - HackrStoryLoader
 
         var cancelledStoryUrls = 0
-        var storiesRequests = [(HackrStoryLoader.Result) -> Void]()
+        var storiesRequests = [PassthroughSubject<Story, Error>]()
         var storiesRequestsCallCount: Int { storiesRequests.count }
 
-        private struct TaskSpy: HackrStoryLoaderTask {
-            let cancellCallback: () -> Void
-
-            func cancel() {
-                cancellCallback()
-            }
-        }
-
-        func load(id _: Int, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
-            storiesRequests.append(completion)
-            return TaskSpy { [weak self] in self?.cancelledStoryUrls += 1 }
+        func publisher() -> AnyPublisher<Story, Error> {
+            let publisher = PassthroughSubject<Story, Error>()
+            storiesRequests.append(publisher)
+            return publisher
+                .handleEvents(receiveCancel: { [weak self] in self?.cancelledStoryUrls += 1 })
+                .eraseToAnyPublisher()
         }
 
         func completeStoryLoading(with story: Story = Story.any, at index: Int = 0) {
-            storiesRequests[index](.success(story))
+            storiesRequests[index].send(story)
+            storiesRequests[index].send(completion: .finished)
         }
 
         func completeStoryLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
-            storiesRequests[index](.failure(error))
+            storiesRequests[index].send(completion: .failure(error))
         }
     }
 }

@@ -476,7 +476,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let sut = HackrNewsFeedUIComposer.composeWith(
             contentType: contentType,
             hackrNewsFeedloader: loader.publisher,
-            hackrStoryLoader: { _ in loader },
+            hackrStoryLoader: { _ in loader.publisher() },
             didSelectStory: selection,
             locale: locale,
             calendar: calendar

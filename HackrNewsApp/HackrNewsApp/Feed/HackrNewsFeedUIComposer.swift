@@ -13,7 +13,7 @@ final class HackrNewsFeedUIComposer {
     static func composeWith(
         contentType: ContentType,
         hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>,
-        hackrStoryLoader: @escaping (Int) -> HackrStoryLoader,
+        hackrStoryLoader: @escaping (Int) -> AnyPublisher<Story, Error>,
         didSelectStory: @escaping (Story) -> Void,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)

@@ -91,8 +91,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         httpClient.getPublisher(from: Endpoint.item(comment).url(baseUrl)).tryMap(StoryCommentMapper.map).eraseToAnyPublisher()
     }
 
-    private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
-        RemoteLoader(url: Endpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
+    private func hackrStoryLoader(id: Int) -> AnyPublisher<Story, Swift.Error> {
+        httpClient.getPublisher(from: Endpoint.item(id).url(baseUrl)).tryMap(StoryItemMapper.map).eraseToAnyPublisher()
     }
 }
 
