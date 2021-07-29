@@ -5,10 +5,6 @@
 import Foundation
 
 public class HackrNewsFeedPresenter {
-    private let view: HackrNewsFeedView
-    private let loadingView: HackrNewsFeedLoadingView
-    private let errorView: HackrNewsFeedErrorView
-
     public static var topStoriesTitle: String {
         NSLocalizedString(
             "top_stories_title",
@@ -47,26 +43,5 @@ public class HackrNewsFeedPresenter {
             value: "",
             comment: "New Stories loading error message"
         )
-    }
-
-    public init(view: HackrNewsFeedView, loadingView: HackrNewsFeedLoadingView, errorView: HackrNewsFeedErrorView) {
-        self.view = view
-        self.loadingView = loadingView
-        self.errorView = errorView
-    }
-
-    public func didStartLoadingNews() {
-        loadingView.display(HackrNewsFeedLoadingViewModel(isLoading: true))
-        errorView.display(.noErrorMessage)
-    }
-
-    public func didFinishLoadingNews(news: [HackrNew]) {
-        loadingView.display(HackrNewsFeedLoadingViewModel(isLoading: false))
-        view.display(HackrNewsFeedViewModel(stories: news))
-    }
-
-    public func didFinishLoadingNews(with _: Error) {
-        loadingView.display(HackrNewsFeedLoadingViewModel(isLoading: false))
-        errorView.display(HackrNewsFeedErrorViewModel(message: errorMessage))
     }
 }
