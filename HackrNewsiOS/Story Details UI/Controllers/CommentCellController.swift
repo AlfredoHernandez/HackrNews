@@ -10,7 +10,7 @@ public protocol CommentCellControllerDelegate {
     func didCancelRequest()
 }
 
-public class CommentCellController: NSObject, CommentView, CommentLoadingView, CommentErrorView {
+public class CommentCellController: NSObject, ResourceLoadingView, ResourceErrorView {
     private(set) var cell: CommentCell?
     private let delegate: CommentCellControllerDelegate
     private var viewModel: CommentViewModel?
@@ -66,12 +66,12 @@ public class CommentCellController: NSObject, CommentView, CommentLoadingView, C
         }
     }
 
-    public func display(_ viewModel: CommentLoadingViewModel) {
+    public func display(_ viewModel: ResourceLoadingViewModel) {
         cell?.isLoadingContent = viewModel.isLoading
     }
 
-    public func display(_ viewModel: CommentErrorViewModel) {
-        cell?.errorContentView.isHidden = viewModel.error == nil
+    public func display(_ viewModel: ResourceErrorViewModel) {
+        cell?.errorContentView.isHidden = viewModel.message == nil
     }
 
     private func releaseCellForReuse() {

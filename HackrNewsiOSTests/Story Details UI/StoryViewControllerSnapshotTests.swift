@@ -176,7 +176,7 @@ private class CommentStub: CommentCellControllerDelegate {
             controller?.display(viewModel)
             return
         }
-        controller?.display(CommentErrorViewModel(error: error))
+        controller?.display(ResourceErrorViewModel.error(message: error))
     }
 
     func didCancelRequest() {}

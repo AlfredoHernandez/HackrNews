@@ -21,15 +21,22 @@ class StoryDetailsUIComposer {
         )
         controller.title = model.title
         controller.display(model.comments?.map { [loader] comment in
-            let adapter = CommentPresentationAdapter(loader: { loader(comment) })
+            let adapter = LoadResourcePresentationAdapter<StoryComment, StoryDeailsViewAdapter>(loader: { loader(comment) })
             let controller = CommentCellController(delegate: adapter)
-            adapter.presenter = CommentPresenter(
-                view: WeakRefVirtualProxy(controller),
+            adapter.presenter = LoadResourcePresenter(
+                resourceView: StoryDeailsViewAdapter(controller: controller),
                 loadingView: WeakRefVirtualProxy(controller),
-                errorView: WeakRefVirtualProxy(controller)
+                errorView: WeakRefVirtualProxy(controller),
+                mapper: { CommentPresenter.map($0) }
             )
             return controller
         } ?? [])
         return controller
+    }
+}
+
+extension LoadResourcePresentationAdapter: CommentCellControllerDelegate {
+    func didRequestComment() {
+        didRequestResource()
     }
 }
