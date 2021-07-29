@@ -46,11 +46,11 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertEqual(loader.loadCallCount, 1)
 
-        loader.completeHackrNewsFeedLoading()
+        loader.completeHackrNewsFeedLoading(at: 0)
         sut.simulateUserInitiatedHackrNewsFeedReload()
         XCTAssertEqual(loader.loadCallCount, 2)
 
-        loader.completeHackrNewsFeedLoading()
+        loader.completeHackrNewsFeedLoading(at: 1)
         sut.simulateUserInitiatedHackrNewsFeedReload()
         XCTAssertEqual(loader.loadCallCount, 3)
     }
@@ -475,7 +475,7 @@ final class HackrNewsFeedUIIntegrationTests: XCTestCase {
         let loader = HackrNewsFeedLoaderSpy()
         let sut = HackrNewsFeedUIComposer.composeWith(
             contentType: contentType,
-            hackrNewsFeedloader: loader,
+            hackrNewsFeedloader: loader.publisher,
             hackrStoryLoader: { _ in loader },
             didSelectStory: selection,
             locale: locale,

@@ -2,6 +2,7 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Combine
 import HackrNews
 import HackrNewsiOS
 import UIKit
@@ -11,13 +12,13 @@ final class HackrNewsFeedUIComposer {
 
     static func composeWith(
         contentType: ContentType,
-        hackrNewsFeedloader: HackrNewsFeedLoader,
+        hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>,
         hackrStoryLoader: @escaping (Int) -> HackrStoryLoader,
         didSelectStory: @escaping (Story) -> Void,
         locale: Locale = .current,
         calendar: Calendar = Calendar(identifier: .gregorian)
     ) -> HackrNewsFeedViewController {
-        let presentationAdapter = HackrNewsFeedPresentationAdapter(loader: MainQueueDispatchDecorator(hackrNewsFeedloader))
+        let presentationAdapter = HackrNewsFeedPresentationAdapter(loader: hackrNewsFeedloader)
         let refreshController = HackrNewsFeedRefreshController(delegate: presentationAdapter)
         let viewController = makeViewController(with: refreshController, contentType: contentType)
         presentationAdapter.presenter = HackrNewsFeedPresenter(
