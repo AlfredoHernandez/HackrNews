@@ -5,14 +5,6 @@
 import Foundation
 import HackrNews
 
-// MARK: - Hackr News Feed Loader
-
-extension RemoteLoader: HackrNewsFeedLoader where Resource == [HackrNew] {
-    public func load(completion: @escaping (Result) -> Void) {
-        let _: HTTPClientTask = load(completion: completion)
-    }
-}
-
 // MARK: - Hackr Story Loader
 
 extension RemoteLoader: HackrStoryLoader where Resource == Story {
