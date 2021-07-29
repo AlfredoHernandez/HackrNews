@@ -43,10 +43,10 @@ extension LocalHackrNewsFeedLoader: HackrNewsFeedCache {
 
 // MARK: - Load Cache
 
-extension LocalHackrNewsFeedLoader: HackrNewsFeedLoader {
-    public typealias LoadResult = HackrNewsFeedLoader.Result
+public extension LocalHackrNewsFeedLoader {
+    typealias LoadResult = Result<[HackrNew], Error>
 
-    public func load(completion: @escaping (LoadResult) -> Void) {
+    func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {

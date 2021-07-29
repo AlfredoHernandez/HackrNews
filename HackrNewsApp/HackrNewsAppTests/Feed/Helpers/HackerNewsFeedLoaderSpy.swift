@@ -2,53 +2,53 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Combine
 import Foundation
 import HackrNews
 
 extension HackrNewsFeedUIIntegrationTests {
-    class HackrNewsFeedLoaderSpy: HackrNewsFeedLoader, HackrStoryLoader {
-        var completions = [(HackrNewsFeedLoader.Result) -> Void]()
-        var loadCallCount: Int { completions.count }
+    class HackrNewsFeedLoaderSpy {
+        var publishers = [PassthroughSubject<[HackrNew], Error>]()
+        var loadCallCount: Int { publishers.count }
 
-        func load(completion: @escaping (HackrNewsFeedLoader.Result) -> Void) {
-            completions.append(completion)
+        func publisher() -> AnyPublisher<[HackrNew], Error> {
+            let publisher = PassthroughSubject<[HackrNew], Error>()
+            publishers.append(publisher)
+            return publisher.eraseToAnyPublisher()
         }
 
         func completeHackrNewsFeedLoading(with news: [HackrNew] = [], at index: Int = 0) {
-            completions[index](.success(news))
+            publishers[index].send(news)
+            publishers[index].send(completion: .finished)
         }
 
         func completeHackrNewsFeedLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
-            completions[index](.failure(error))
+            publishers[index].send(completion: .failure(error))
         }
 
         // MARK: - HackrStoryLoader
 
         var cancelledStoryUrls = 0
-        var storiesRequests = [(HackrStoryLoader.Result) -> Void]()
+        var storiesRequests = [PassthroughSubject<Story, Error>]()
         var storiesRequestsCallCount: Int { storiesRequests.count }
 
-        private struct TaskSpy: HackrStoryLoaderTask {
-            let cancellCallback: () -> Void
-
-            func cancel() {
-                cancellCallback()
-            }
-        }
-
-        func load(id _: Int, completion: @escaping (HackrStoryLoader.Result) -> Void) -> HackrStoryLoaderTask {
-            storiesRequests.append(completion)
-            return TaskSpy { [weak self] in self?.cancelledStoryUrls += 1 }
+        func publisher() -> AnyPublisher<Story, Error> {
+            let publisher = PassthroughSubject<Story, Error>()
+            storiesRequests.append(publisher)
+            return publisher
+                .handleEvents(receiveCancel: { [weak self] in self?.cancelledStoryUrls += 1 })
+                .eraseToAnyPublisher()
         }
 
         func completeStoryLoading(with story: Story = Story.any, at index: Int = 0) {
-            storiesRequests[index](.success(story))
+            storiesRequests[index].send(story)
+            storiesRequests[index].send(completion: .finished)
         }
 
         func completeStoryLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
-            storiesRequests[index](.failure(error))
+            storiesRequests[index].send(completion: .failure(error))
         }
     }
 }

@@ -2,6 +2,7 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Combine
 import HackrNews
 @testable import HackrNewsApp
 import HackrNewsiOS
@@ -260,6 +261,19 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(storySelected, 1, "Expected to not trigger story selection on tap any comment")
     }
 
+    func test_storyDetailsComments_dispatchesFromBackgroundToMainThread() {
+        let (sut, loader) = makeSUT(story: makeStoryDetail(comments: [1]))
+        sut.loadViewIfNeeded()
+        sut.simulateCommentViewVisible(at: 0)
+
+        let exp = expectation(description: "Wait for loader completion")
+        DispatchQueue.global().async { [unowned self] in
+            loader.complete(with: makeStoryComment(), at: 0)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -269,7 +283,7 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         line: UInt = #line
     ) -> (StoryDetailsViewController, CommentLoaderSpy) {
         let loader = CommentLoaderSpy()
-        let sut = StoryDetailsUIComposer.composeWith(model: story, didSelectStory: didSelectStory, loader: { _ in loader })
+        let sut = StoryDetailsUIComposer.composeWith(model: story, didSelectStory: didSelectStory, loader: { _ in loader.publisher() })
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)
@@ -369,39 +383,26 @@ final class StoryDetailsUIIntegrationTests: XCTestCase {
         XCTAssertEqual(view?.isDisplayingRetryIndicator, true, "Expected to display retry indicator")
     }
 
-    private class CommentLoaderSpy: CommentLoader {
-        var completions = [(CommentLoader.Result) -> Void]()
-
-        class WrappedTask: CommentLoaderTask {
-            private let completion: () -> Void
-
-            init(completion: @escaping () -> Void) {
-                self.completion = completion
-            }
-
-            func cancel() {
-                completion()
-            }
-        }
+    private class CommentLoaderSpy {
+        var completions = [PassthroughSubject<StoryComment, Swift.Error>]()
 
         var loadCallCount: Int { completions.count }
-
         var cancelledRequests = 0
 
-        func load(completion: @escaping (CommentLoader.Result) -> Void) -> CommentLoaderTask {
-            completions.append(completion)
-
-            return WrappedTask { [weak self] in
-                self?.cancelledRequests += 1
-            }
-        }
-
         func complete(with comment: StoryComment, at index: Int = 0) {
-            completions[index](.success(comment))
+            completions[index].send(comment)
         }
 
         func complete(with error: Error, at index: Int = 0) {
-            completions[index](.failure(error))
+            completions[index].send(completion: .failure(error))
+        }
+
+        func publisher() -> AnyPublisher<StoryComment, Error> {
+            let publisher = PassthroughSubject<StoryComment, Error>()
+            completions.append(publisher)
+            return publisher
+                .handleEvents(receiveCancel: { [weak self] in self?.cancelledRequests += 1 })
+                .eraseToAnyPublisher()
         }
     }
 }

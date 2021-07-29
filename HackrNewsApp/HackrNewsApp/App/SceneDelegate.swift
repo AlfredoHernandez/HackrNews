@@ -2,6 +2,7 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Combine
 import HackrNews
 import HackrNewsiOS
 import SafariServices
@@ -50,11 +51,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func stories(for contentType: ContentType, withURL url: URL) -> UINavigationController {
-        let hackrNewsFeedloader = RemoteLoader(url: url, client: httpClient, mapper: HackrNewsFeedMapper.map)
+        let hackrNewsFeedloader = httpClient.getPublisher(from: url).tryMap(HackrNewsFeedMapper.map).eraseToAnyPublisher()
+
         return UINavigationController(
             rootViewController: HackrNewsFeedUIComposer.composeWith(
                 contentType: contentType,
-                hackrNewsFeedloader: hackrNewsFeedloader,
+                hackrNewsFeedloader: { hackrNewsFeedloader },
                 hackrStoryLoader: hackrStoryLoader,
                 didSelectStory: details
             )
@@ -85,16 +87,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
     }
 
-    private func commentLoader(for comment: Int) -> CommentLoader {
-        RemoteLoader(
-            url: Endpoint.item(comment).url(baseUrl),
-            client: httpClient,
-            mapper: StoryCommentMapper.map
-        )
+    private func commentLoader(for comment: Int) -> AnyPublisher<StoryComment, Error> {
+        httpClient.getPublisher(from: Endpoint.item(comment).url(baseUrl)).tryMap(StoryCommentMapper.map).eraseToAnyPublisher()
     }
 
-    private func hackrStoryLoader(id: Int) -> HackrStoryLoader {
-        RemoteLoader(url: Endpoint.item(id).url(baseUrl), client: httpClient, mapper: StoryItemMapper.map)
+    private func hackrStoryLoader(id: Int) -> AnyPublisher<Story, Swift.Error> {
+        httpClient.getPublisher(from: Endpoint.item(id).url(baseUrl)).tryMap(StoryItemMapper.map).eraseToAnyPublisher()
     }
 }
 
