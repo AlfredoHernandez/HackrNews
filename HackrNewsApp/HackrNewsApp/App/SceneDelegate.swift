@@ -2,6 +2,7 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Combine
 import HackrNews
 import HackrNewsiOS
 import SafariServices
@@ -86,12 +87,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (tabBarController.selectedViewController as? UINavigationController)?.pushViewController(controller, animated: true)
     }
 
-    private func commentLoader(for comment: Int) -> CommentLoader {
-        RemoteLoader(
-            url: Endpoint.item(comment).url(baseUrl),
-            client: httpClient,
-            mapper: StoryCommentMapper.map
-        )
+    private func commentLoader(for comment: Int) -> AnyPublisher<StoryComment, Error> {
+        httpClient.getPublisher(from: Endpoint.item(comment).url(baseUrl)).tryMap(StoryCommentMapper.map).eraseToAnyPublisher()
     }
 
     private func hackrStoryLoader(id: Int) -> HackrStoryLoader {

@@ -2,16 +2,17 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Combine
 import HackrNews
 import HackrNewsiOS
 
 class CommentPresentationAdapter: CommentCellControllerDelegate {
-    let loader: CommentLoader
+    let loader: () -> AnyPublisher<StoryComment, Error>
     var presenter: CommentPresenter?
-    var task: CommentLoaderTask?
+    var task: Cancellable?
     private var isLoading = false
 
-    init(loader: CommentLoader) {
+    init(loader: @escaping () -> AnyPublisher<StoryComment, Error>) {
         self.loader = loader
     }
 
@@ -19,15 +20,18 @@ class CommentPresentationAdapter: CommentCellControllerDelegate {
         guard !isLoading else { return }
         presenter?.didStartLoadingComment()
         isLoading = true
-        task = loader.load { [weak self] result in
-            switch result {
-            case let .success(comment):
+        task = loader()
+            .dispatchOnMainQueue()
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .finished: break
+                case let .failure(error):
+                    self?.presenter?.didFinishLoadingComment(with: error)
+                }
+                self?.isLoading = false
+            }, receiveValue: { [weak self] comment in
                 self?.presenter?.didFinishLoadingComment(with: comment)
-            case let .failure(error):
-                self?.presenter?.didFinishLoadingComment(with: error)
-            }
-            self?.isLoading = false
-        }
+            })
     }
 
     func didCancelRequest() {
