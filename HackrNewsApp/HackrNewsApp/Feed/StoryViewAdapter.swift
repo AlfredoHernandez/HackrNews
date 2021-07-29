@@ -9,10 +9,11 @@ import HackrNewsiOS
 
 final class StoryViewAdapter: ResourceView {
     private let loader: (Int) -> AnyPublisher<Story, Error>
-    private let locale: Locale
-    private let calendar: Calendar
     private let didSelectStory: (Story) -> Void
     private weak var controller: HackrNewsFeedViewController?
+    private var stories: [Int: Story] = [:]
+    private let locale: Locale
+    private let calendar: Calendar
 
     init(
         loader: @escaping (Int) -> AnyPublisher<Story, Error>,
@@ -29,23 +30,35 @@ final class StoryViewAdapter: ResourceView {
     }
 
     func display(_ viewModel: HackrNewsFeedViewModel) {
+        let locale = self.locale
+        let calendar = self.calendar
         controller?.display(viewModel.stories.map { new in
-            let adapter = StoryPresentationAdapter(
-                model: new,
-                loader: { [loader] in loader(new.id) }
-            )
+            let adapter = LoadResourcePresentationAdapter<Story, WeakRefVirtualProxy<HackrNewFeedCellController>>(loader: { [loader] in
+                loader(new.id).handleEvents(receiveOutput: { [weak self] story in
+                    self?.stories[story.id] = story
+                }).eraseToAnyPublisher()
+            })
             let controller = HackrNewFeedCellController(delegate: adapter, didSelectStory: { [weak self] in
-                guard let story = adapter.storyResult?() else { return }
+                guard let story = self?.stories[new.id] else { return }
                 self?.didSelectStory(story)
             })
-            adapter.presenter = StoryPresenter(
-                view: WeakRefVirtualProxy(controller),
+            adapter.presenter = LoadResourcePresenter(
+                resourceView: WeakRefVirtualProxy(controller),
                 loadingView: WeakRefVirtualProxy(controller),
                 errorView: WeakRefVirtualProxy(controller),
-                locale: locale,
-                calendar: calendar
+                mapper: { StoryPresenter.map(story: $0, locale: locale, calendar: calendar) }
             )
             return controller
         })
+    }
+}
+
+extension LoadResourcePresentationAdapter: HackrNewFeedCellControllerDelegate {
+    func didRequestStory() {
+        didRequestResource()
+    }
+
+    func didCancelRequestStory() {
+        didCancelRequest()
     }
 }

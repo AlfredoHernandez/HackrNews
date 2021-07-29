@@ -7,13 +7,14 @@ import UIKit
 
 public protocol HackrNewFeedCellControllerDelegate {
     func didRequestStory()
-    func didCancelRequest()
+    func didCancelRequestStory()
 }
 
-public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoadingView, StoryErrorView {
+public final class HackrNewFeedCellController: NSObject, ResourceView, ResourceLoadingView, ResourceErrorView {
     private let delegate: HackrNewFeedCellControllerDelegate
     private let didSelectStory: () -> Void
     private var cell: HackrNewFeedCell?
+    public typealias ResourceViewModel = StoryViewModel
 
     public init(delegate: HackrNewFeedCellControllerDelegate, didSelectStory: @escaping () -> Void) {
         self.delegate = delegate
@@ -33,10 +34,10 @@ public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoading
 
     func cancelLoad() {
         releaseCellForReuse()
-        delegate.didCancelRequest()
+        delegate.didCancelRequestStory()
     }
 
-    public func display(_ viewModel: StoryLoadingViewModel) {
+    public func display(_ viewModel: ResourceLoadingViewModel) {
         cell?.isLoadingContent = viewModel.isLoading
     }
 
@@ -49,8 +50,8 @@ public final class HackrNewFeedCellController: NSObject, StoryView, StoryLoading
         cell?.createdAtLabel.text = viewModel.date
     }
 
-    public func display(_ viewModel: StoryErrorViewModel) {
-        cell?.errorContentView.isHidden = viewModel.error == nil
+    public func display(_ viewModel: ResourceErrorViewModel) {
+        cell?.errorContentView.isHidden = viewModel.message == nil
     }
 
     func didSelect() {

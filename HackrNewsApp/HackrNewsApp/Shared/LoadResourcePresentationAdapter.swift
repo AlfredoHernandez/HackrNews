@@ -18,8 +18,8 @@ final class LoadResourcePresentationAdapter<Resource, View: ResourceView> {
     }
 
     func didRequestResource() {
-        guard !isLoading else { return }
         presenter?.didStartLoading()
+        guard !isLoading else { return }
         isLoading = true
         cancellable = loader()
             .dispatchOnMainQueue()
@@ -37,5 +37,10 @@ final class LoadResourcePresentationAdapter<Resource, View: ResourceView> {
             } receiveValue: { [weak self] resource in
                 self?.presenter?.didFinishLoading(with: resource)
             }
+    }
+
+    func didCancelRequest() {
+        cancellable?.cancel()
+        isLoading = false
     }
 }

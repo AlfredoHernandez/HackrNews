@@ -16,7 +16,7 @@ final class HackrNewsFeedUIComposer {
         hackrStoryLoader: @escaping (Int) -> AnyPublisher<Story, Error>,
         didSelectStory: @escaping (Story) -> Void,
         locale: Locale = .current,
-        calendar: Calendar = Calendar(identifier: .gregorian)
+        calendar: Calendar = .current
     ) -> HackrNewsFeedViewController {
         let presentationAdapter = LoadResourcePresentationAdapter<[HackrNew], StoryViewAdapter>(loader: hackrNewsFeedloader)
         let refreshController = HackrNewsFeedRefreshController()
