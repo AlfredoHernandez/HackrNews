@@ -22,7 +22,7 @@ final class CommentPresentationTests: XCTestCase {
 
     func test_didFinishLoadingComment_hidesLoaderAndDisplaysComment() {
         let calendar = Calendar(identifier: .gregorian)
-        let locale: Locale = .current
+        let locale = Locale(identifier: "en_US_POSIX")
         let (sut, view) = makeSUT()
         let comment = StoryComment(
             id: 1,
@@ -47,7 +47,7 @@ final class CommentPresentationTests: XCTestCase {
 
     func test_didFinishLoadingDeletedComment_hidesLoaderAndDisplaysComment() {
         let calendar = Calendar(identifier: .gregorian)
-        let locale: Locale = .current
+        let locale = Locale(identifier: "en_US_POSIX")
         let (sut, view) = makeSUT()
         let deletedComment = StoryComment(
             id: 1,
