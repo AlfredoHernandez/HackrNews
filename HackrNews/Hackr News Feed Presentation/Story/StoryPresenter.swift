@@ -35,52 +35,8 @@ public struct StoryViewModel: Equatable {
     }
 }
 
-public protocol StoryView {
-    func display(_ viewModel: StoryViewModel)
-}
-
-public struct StoryLoadingViewModel {
-    public let isLoading: Bool
-
-    static let loading = StoryLoadingViewModel(isLoading: true)
-    static let stoped = StoryLoadingViewModel(isLoading: false)
-}
-
-public protocol StoryLoadingView {
-    func display(_ viewModel: StoryLoadingViewModel)
-}
-
-public struct StoryErrorViewModel {
-    public let error: String?
-
-    public init(error: String?) {
-        self.error = error
-    }
-
-    static let none = StoryErrorViewModel(error: nil)
-}
-
-public protocol StoryErrorView {
-    func display(_ viewModel: StoryErrorViewModel)
-}
-
 public final class StoryPresenter {
-    private let view: StoryView
-    private let loadingView: StoryLoadingView
-    private let errorView: StoryErrorView
-    private var locale = Locale.current
-    private var calendar = Calendar(identifier: .gregorian)
-    private var errorMessage: String {
-        NSLocalizedString(
-            "story_error_message",
-            tableName: "Story",
-            bundle: Bundle(for: StoryPresenter.self),
-            value: "",
-            comment: "Story Error message"
-        )
-    }
-
-    private var comments: String {
+    private static var comments: String {
         NSLocalizedString(
             "story_comments_message",
             tableName: "Story",
@@ -90,7 +46,7 @@ public final class StoryPresenter {
         )
     }
 
-    private var score: String {
+    private static var score: String {
         NSLocalizedString(
             "story_points_message",
             tableName: "Story",
@@ -100,54 +56,24 @@ public final class StoryPresenter {
         )
     }
 
-    public init(
-        view: StoryView,
-        loadingView: StoryLoadingView,
-        errorView: StoryErrorView,
-        locale: Locale = Locale.current,
-        calendar: Calendar = Calendar(identifier: .gregorian)
-    ) {
-        self.view = view
-        self.loadingView = loadingView
-        self.errorView = errorView
-        self.locale = locale
-        self.calendar = calendar
-    }
-
-    public func didStartLoadingStory(from _: HackrNew) {
-        loadingView.display(.loading)
-        errorView.display(.none)
-    }
-
-    public func didFinishLoadingStory(story: Story) {
-        loadingView.display(.stoped)
-        view.display(map(story: story))
-        errorView.display(.none)
-    }
-
-    public func didFinishLoading(with _: Error) {
-        loadingView.display(StoryLoadingViewModel(isLoading: false))
-        errorView.display(StoryErrorViewModel(error: errorMessage))
-    }
-
-    private func format(from date: Date) -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = locale
-        dateFormatter.calendar = calendar
-        dateFormatter.dateFormat = "MMM dd, yyyy"
-        return dateFormatter.string(from: date)
-    }
-
-    private func map(story: Story) -> StoryViewModel {
+    public static func map(story: Story, locale: Locale = Locale.current, calendar: Calendar = Calendar(identifier: .gregorian)) -> StoryViewModel {
         StoryViewModel(
             newId: story.id,
             title: story.title,
             author: story.author,
             comments: String(format: comments, story.totalComments ?? 0),
             score: String(format: score, story.score ?? "0"),
-            date: format(from: story.createdAt),
+            date: format(from: story.createdAt, locale: locale, calendar: calendar),
             url: story.url,
             displayURL: story.url?.host
         )
+    }
+
+    private static func format(from date: Date, locale: Locale = Locale.current, calendar: Calendar = Calendar(identifier: .gregorian)) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = locale
+        dateFormatter.calendar = calendar
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        return dateFormatter.string(from: date)
     }
 }

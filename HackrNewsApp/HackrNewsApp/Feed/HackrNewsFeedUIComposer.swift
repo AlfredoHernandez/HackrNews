@@ -16,13 +16,14 @@ final class HackrNewsFeedUIComposer {
         hackrStoryLoader: @escaping (Int) -> AnyPublisher<Story, Error>,
         didSelectStory: @escaping (Story) -> Void,
         locale: Locale = .current,
-        calendar: Calendar = Calendar(identifier: .gregorian)
+        calendar: Calendar = .current
     ) -> HackrNewsFeedViewController {
-        let presentationAdapter = HackrNewsFeedPresentationAdapter(loader: hackrNewsFeedloader)
-        let refreshController = HackrNewsFeedRefreshController(delegate: presentationAdapter)
+        let presentationAdapter = LoadResourcePresentationAdapter<[HackrNew], StoryViewAdapter>(loader: hackrNewsFeedloader)
+        let refreshController = HackrNewsFeedRefreshController()
+        refreshController.didRequestNews = presentationAdapter.didRequestResource
         let viewController = makeViewController(with: refreshController, contentType: contentType)
-        presentationAdapter.presenter = HackrNewsFeedPresenter(
-            view: StoryViewAdapter(
+        presentationAdapter.presenter = LoadResourcePresenter<[HackrNew], StoryViewAdapter>(
+            resourceView: StoryViewAdapter(
                 loader: hackrStoryLoader,
                 controller: viewController,
                 didSelectStory: didSelectStory,
@@ -30,7 +31,8 @@ final class HackrNewsFeedUIComposer {
                 calendar: calendar
             ),
             loadingView: WeakRefVirtualProxy(refreshController),
-            errorView: WeakRefVirtualProxy(viewController)
+            errorView: WeakRefVirtualProxy(viewController),
+            mapper: { HackrNewsFeedViewModel(stories: $0) }
         )
         return viewController
     }

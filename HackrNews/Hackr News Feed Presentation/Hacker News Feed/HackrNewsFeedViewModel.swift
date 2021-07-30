@@ -6,4 +6,8 @@ import Foundation
 
 public struct HackrNewsFeedViewModel {
     public let stories: [HackrNew]
+
+    public init(stories: [HackrNew]) {
+        self.stories = stories
+    }
 }

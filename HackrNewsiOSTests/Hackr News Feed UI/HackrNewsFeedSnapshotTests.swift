@@ -10,7 +10,6 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
     func test_emptyStories() {
         let sut = makeSUT()
 
-        sut.display(HackrNewsFeedErrorViewModel(message: .none))
         sut.display(emptyStories())
 
         assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "empty_stories_light")
@@ -110,7 +109,7 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
 
     private class StoryStub: HackrNewFeedCellControllerDelegate {
         let viewModel: StoryViewModel
-        var errorViewModel: StoryErrorViewModel?
+        var errorViewModel: ResourceErrorViewModel?
         weak var controller: HackrNewFeedCellController?
 
         init(
@@ -134,7 +133,7 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
                 displayURL: displayURL
             )
             if error != nil {
-                errorViewModel = StoryErrorViewModel(error: "any error message")
+                errorViewModel = ResourceErrorViewModel.error(message: "any error message")
             }
         }
 
@@ -146,6 +145,6 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
             }
         }
 
-        func didCancelRequest() {}
+        func didCancelRequestStory() {}
     }
 }

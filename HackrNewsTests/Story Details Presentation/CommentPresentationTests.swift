@@ -6,24 +6,9 @@ import HackrNews
 import XCTest
 
 final class CommentPresentationTests: XCTestCase {
-    func test_init_doesNotSendMessagesToView() {
-        let (_, view) = makeSUT()
-
-        XCTAssertTrue(view.messages.isEmpty, "Expected no view messages upon creation")
-    }
-
-    func test_didStartLoadingComment_displaysLoader() {
-        let (sut, view) = makeSUT()
-
-        sut.didStartLoadingComment()
-
-        XCTAssertEqual(view.messages, [.display(isLoading: true), .display(error: .none)])
-    }
-
-    func test_didFinishLoadingComment_hidesLoaderAndDisplaysComment() {
+    func test_map_createsViewModel() {
         let calendar = Calendar(identifier: .gregorian)
         let locale = Locale(identifier: "en_US_POSIX")
-        let (sut, view) = makeSUT()
         let comment = StoryComment(
             id: 1,
             deleted: false,
@@ -34,21 +19,15 @@ final class CommentPresentationTests: XCTestCase {
             createdAt: Date().adding(min: -1),
             type: "comment"
         )
-        sut.didFinishLoadingComment(with: comment, calendar: calendar, locale: locale)
 
-        XCTAssertEqual(
-            view.messages,
-            [
-                .display(isLoading: false),
-                .display(author: "an author", text: "a text", createdAt: "1 minute ago"),
-            ]
-        )
+        let result = CommentPresenter.map(comment, calendar: calendar, locale: locale)
+
+        XCTAssertEqual(result, CommentViewModel(author: comment.author!, text: comment.text, createdAt: "1 minute ago"))
     }
 
-    func test_didFinishLoadingDeletedComment_hidesLoaderAndDisplaysComment() {
+    func test_map_createsViewModelForDeletedComment() {
         let calendar = Calendar(identifier: .gregorian)
         let locale = Locale(identifier: "en_US_POSIX")
-        let (sut, view) = makeSUT()
         let deletedComment = StoryComment(
             id: 1,
             deleted: true,
@@ -60,41 +39,12 @@ final class CommentPresentationTests: XCTestCase {
             type: "comment"
         )
 
-        sut.didFinishLoadingComment(with: deletedComment, calendar: calendar, locale: locale)
+        let result = CommentPresenter.map(deletedComment, calendar: calendar, locale: locale)
 
-        XCTAssertEqual(
-            view.messages,
-            [
-                .display(isLoading: false),
-                .display(
-                    author: localized("story_details_comment_deleted"),
-                    text: nil,
-                    createdAt: "5 minutes ago"
-                ),
-            ]
-        )
-    }
-
-    func test_didFinishLoadingCommentWithError_displaysErrorAndStopsLoadint() {
-        let (sut, view) = makeSUT()
-
-        sut.didFinishLoadingComment(with: anyNSError())
-
-        XCTAssertEqual(view.messages, [.display(isLoading: false), .display(error: localized("loading_comment_error_message"))])
+        XCTAssertEqual(result, CommentViewModel(author: localized("story_details_comment_deleted"), text: nil, createdAt: "5 minutes ago"))
     }
 
     // MARK: - Helpers
-
-    private func makeSUT(
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) -> (CommentPresenter, CommentViewSpy) {
-        let view = CommentViewSpy()
-        let sut = CommentPresenter(view: view, loadingView: view, errorView: view)
-        trackForMemoryLeaks(sut, file: file, line: line)
-        trackForMemoryLeaks(view, file: file, line: line)
-        return (sut, view)
-    }
 
     private func localized(_ key: String, file: StaticString = #filePath, line: UInt = #line) -> String {
         let table = "StoryDetails"
@@ -104,27 +54,5 @@ final class CommentPresentationTests: XCTestCase {
             XCTFail("Missing localized string for key \(key) in table \(table)", file: file, line: line)
         }
         return value
-    }
-
-    private class CommentViewSpy: CommentView, CommentLoadingView, CommentErrorView {
-        enum Message: Equatable {
-            case display(isLoading: Bool)
-            case display(author: String, text: String?, createdAt: String)
-            case display(error: String?)
-        }
-
-        var messages = [Message]()
-
-        func display(_ viewModel: CommentLoadingViewModel) {
-            messages.append(.display(isLoading: viewModel.isLoading))
-        }
-
-        func display(_ viewModel: CommentViewModel) {
-            messages.append(.display(author: viewModel.author, text: viewModel.text, createdAt: viewModel.createdAt))
-        }
-
-        func display(_ viewModel: CommentErrorViewModel) {
-            messages.append(.display(error: viewModel.error))
-        }
     }
 }

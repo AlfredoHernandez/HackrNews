@@ -82,8 +82,8 @@ public class HackrNewsFeedViewController: UITableViewController, UITableViewData
     }
 }
 
-extension HackrNewsFeedViewController: HackrNewsFeedErrorView {
-    public func display(_: HackrNewsFeedErrorViewModel) {
+extension HackrNewsFeedViewController: ResourceErrorView {
+    public func display(_: ResourceErrorViewModel) {
         // TODO: Display error message
     }
 }

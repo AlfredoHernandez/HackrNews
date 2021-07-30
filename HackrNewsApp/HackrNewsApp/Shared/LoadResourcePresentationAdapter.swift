@@ -7,19 +7,19 @@ import Foundation
 import HackrNews
 import HackrNewsiOS
 
-final class HackrNewsFeedPresentationAdapter: HackrNewsFeedRefreshControllerDelegate {
-    private let loader: () -> AnyPublisher<[HackrNew], Error>
-    var presenter: HackrNewsFeedPresenter?
+final class LoadResourcePresentationAdapter<Resource, View: ResourceView> {
+    private let loader: () -> AnyPublisher<Resource, Error>
+    var presenter: LoadResourcePresenter<Resource, View>?
     private var isLoading = false
     private var cancellable: Cancellable?
 
-    init(loader: @escaping () -> AnyPublisher<[HackrNew], Error>) {
+    init(loader: @escaping () -> AnyPublisher<Resource, Error>) {
         self.loader = loader
     }
 
-    func didRequestNews() {
+    func didRequestResource() {
+        presenter?.didStartLoading()
         guard !isLoading else { return }
-        presenter?.didStartLoadingNews()
         isLoading = true
         cancellable = loader()
             .dispatchOnMainQueue()
@@ -31,11 +31,16 @@ final class HackrNewsFeedPresentationAdapter: HackrNewsFeedRefreshControllerDele
                 case .finished:
                     break
                 case let .failure(error):
-                    self?.presenter?.didFinishLoadingNews(with: error)
+                    self?.presenter?.didFinishLoading(with: error)
                 }
                 self?.isLoading = false
-            } receiveValue: { [weak self] news in
-                self?.presenter?.didFinishLoadingNews(news: news)
+            } receiveValue: { [weak self] resource in
+                self?.presenter?.didFinishLoading(with: resource)
             }
+    }
+
+    func didCancelRequest() {
+        cancellable?.cancel()
+        isLoading = false
     }
 }
