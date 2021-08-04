@@ -15,6 +15,7 @@ public final class HackrNewFeedCellController: NSObject, ResourceView, ResourceL
     private let didSelectStory: () -> Void
     private var cell: HackrNewFeedCell?
     public typealias ResourceViewModel = StoryViewModel
+    private var tableView: UITableView?
 
     public init(delegate: HackrNewFeedCellControllerDelegate, didSelectStory: @escaping () -> Void) {
         self.delegate = delegate
@@ -22,6 +23,7 @@ public final class HackrNewFeedCellController: NSObject, ResourceView, ResourceL
     }
 
     func view(in tableView: UITableView) -> UITableViewCell {
+        self.tableView = tableView
         cell = tableView.dequeueReusableCell()
         cell?.retryLoadStoryButton.addTarget(self, action: #selector(loadComment), for: .touchUpInside)
         loadComment()
@@ -42,12 +44,14 @@ public final class HackrNewFeedCellController: NSObject, ResourceView, ResourceL
     }
 
     public func display(_ viewModel: StoryViewModel) {
+        tableView?.beginUpdates()
         cell?.titleLabel.text = viewModel.title
         cell?.urlLabel.text = viewModel.displayURL
         cell?.authorLabel.text = viewModel.author
         cell?.commentsLabel.text = viewModel.comments
         cell?.scoreLabel.text = viewModel.score
         cell?.createdAtLabel.text = viewModel.date
+        tableView?.endUpdates()
     }
 
     public func display(_ viewModel: ResourceErrorViewModel) {
