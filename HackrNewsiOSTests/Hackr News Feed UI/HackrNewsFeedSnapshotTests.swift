@@ -12,8 +12,8 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
 
         sut.display(emptyStories())
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "empty_stories_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "empty_stories_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "empty_stories_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "empty_stories_dark")
     }
 
     func test_displaysStories() {
@@ -67,8 +67,8 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
             ),
         ]))
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "stories_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "stories_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "stories_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "stories_dark")
     }
 
     func test_storiesWithStoryFailed() {
@@ -81,8 +81,8 @@ final class HackrNewsFeedSnapshotTests: XCTestCase {
             StoryStub(id: 4, title: nil, author: nil, comments: nil, score: nil, date: nil, displayURL: nil, error: anyNSError()),
         ]))
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "storie_failed_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "stories_failed_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "storie_failed_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "stories_failed_dark")
     }
 
     // MARK: - Helpers

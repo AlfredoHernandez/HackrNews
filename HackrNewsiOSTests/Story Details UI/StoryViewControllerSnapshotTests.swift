@@ -30,8 +30,8 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             ),
         ])
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "story_details_success_comments_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "story_details_success_comments_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "story_details_success_comments_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "story_details_success_comments_dark")
     }
 
     func test_details_storyWithNoSuccessComments() {
@@ -57,8 +57,8 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
             CommentStub(errorMessage: "This is a\nmultiline error message"),
         ])
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "story_details_no_success_comments_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "story_details_no_success_comments_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "story_details_no_success_comments_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "story_details_no_success_comments_dark")
     }
 
     func test_details_without_text_story() {
@@ -75,8 +75,8 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
 
         sut.loadViewIfNeeded()
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "story_details_without_text_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "story_details_without_text_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "story_details_without_text_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "story_details_without_text_dark")
     }
 
     func test_details_ask() {
@@ -93,8 +93,8 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
 
         sut.loadViewIfNeeded()
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "ask_story_details_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "ask_story_details_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "ask_story_details_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "ask_story_details_dark")
     }
 
     func test_details_job() {
@@ -111,8 +111,8 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
 
         sut.loadViewIfNeeded()
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "job_story_details_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "job_story_details_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "job_story_details_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "job_story_details_dark")
     }
 
     func test_details_poll() {
@@ -129,8 +129,8 @@ final class StoryViewControllerSnapshotTests: XCTestCase {
 
         sut.loadViewIfNeeded()
 
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .light)), named: "poll_story_details_light")
-        assert(snapshot: sut.snapshot(for: .iPhone12Mini(style: .dark)), named: "poll_story_details_dark")
+        assert(snapshot: sut.snapshot(for: .device(style: .light)), named: "poll_story_details_light")
+        assert(snapshot: sut.snapshot(for: .device(style: .dark)), named: "poll_story_details_dark")
     }
 
     // MARK: - Helpers

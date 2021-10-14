@@ -8,14 +8,13 @@ import XCTest
 
 final class SceneDelegateTests: XCTestCase {
     func test_configureWindow_setsWindowKeyAndVisible() {
-        let window = UIWindow()
+        let window = UIWindowSpy()
         let sut = SceneDelegate()
         sut.window = window
 
         sut.configureWindow()
 
-        XCTAssertTrue(window.isKeyWindow, "Expected to be key window")
-        XCTAssertFalse(window.isHidden, "Expected window to be visible")
+        XCTAssertEqual(window.makeKeyAndVisibleCallCount, 1, "Expected to make window key and visible")
     }
 
     func test_configureWindow_configuresRootViewController() {
@@ -40,5 +39,15 @@ final class SceneDelegateTests: XCTestCase {
             firstController as? HackrNewsFeedViewController,
             "Expected a `\(String(describing: HackrNewsFeedViewController.self))` as first item on tab bar, got \(String(describing: firstController))"
         )
+    }
+
+    // MARK: - Helpers
+
+    private class UIWindowSpy: UIWindow {
+        var makeKeyAndVisibleCallCount = 0
+
+        override func makeKeyAndVisible() {
+            makeKeyAndVisibleCallCount = 1
+        }
     }
 }
