@@ -26,7 +26,7 @@ Hackr/News is a **Y Combinator's** Hacker News reading app for iOS.
 
 ## Snapshot Tests
 
-**Please make sure use an `iPhone 12 Mini` simulator to run the snapshot tests. Otherwise tests will fail.**
+**Please make sure use an `iPhone 13 Pro` with iOS 15.0  simulator to run the snapshot tests. Otherwise tests will fail.**
 
 ### More docs
 
@@ -36,6 +36,6 @@ Hackr/News is a **Y Combinator's** Hacker News reading app for iOS.
 <p align="center">
   <b>By J. Alfredo Hernández Alarcón</b><br>
   <a href="http://alfredohdz.com">Website</a> |
-  <a href="https://twitter.com/_ZtuX_">Twitter</a> |
+  <a href="https://twitter.com/alfredohdzdev">Twitter</a> |
   <a href="https://github.com/AlfredoHernandez">GitHub</a>
 </p>
