@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var previousViewController: UIViewController?
 
     private lazy var httpClient: HTTPClient = {
-        URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
+        URLSessionHTTPClient(session: URLSession(configuration: .default))
     }()
 
     convenience init(httpClient: HTTPClient) {
