@@ -11,7 +11,7 @@ jobs:
   # This workflow contains a single job called "build"
   build-and-test:
     # The type of runner that the job will run on
-    runs-on: macos-latest
+    runs-on: macos-11
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_12.3.app
+      run: sudo xcode-select -switch /Applications/Xcode_13.0.app
       
     - name: Xcode version
       run: /usr/bin/xcodebuild -version
