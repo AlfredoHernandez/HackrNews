@@ -19,7 +19,7 @@ struct HackrNewCell: View {
                     .foregroundColor(.secondary)
             }
             Text("The FBI's internal guide for getting data from AT&T, T-Mobile, Verizon")
-                .font(.title3)
+                .bold()
             Text("www.alfredohdz.io")
             HStack {
                 Text("100 points")
