@@ -7,7 +7,7 @@ import HackrNews
 import HackrNewsiOS
 import XCTest
 
-final class HackrNewsFeedUIIntegrationTests: XCTestCase {
+final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
     func test_controllerTopStories_hasTitle() {
         let (sut, _) = makeSUT(contentType: .topStories)
 

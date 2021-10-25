@@ -6,7 +6,7 @@ import HackrNews
 import HackrNewsiOS
 import XCTest
 
-extension HackrNewsFeedUIIntegrationTests {
+extension HackrNewsFeedUIKitIntegrationTests {
     func assertThat(
         _ sut: HackrNewsFeedViewController,
         isRendering feed: [HackrNew],

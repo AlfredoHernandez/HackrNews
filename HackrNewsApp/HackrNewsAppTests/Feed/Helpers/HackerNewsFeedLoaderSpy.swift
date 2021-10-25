@@ -6,7 +6,7 @@ import Combine
 import Foundation
 import HackrNews
 
-extension HackrNewsFeedUIIntegrationTests {
+extension HackrNewsFeedUIKitIntegrationTests {
     class HackrNewsFeedLoaderSpy {
         var publishers = [PassthroughSubject<[HackrNew], Error>]()
         var loadCallCount: Int { publishers.count }
