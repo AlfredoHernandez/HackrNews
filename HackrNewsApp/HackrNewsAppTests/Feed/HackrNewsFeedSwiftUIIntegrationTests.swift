@@ -13,6 +13,10 @@ class HackrNewsFeedViewModel {
 
     init(contentType: ContentType) {
         self.contentType = contentType
+        selectTitle(from: contentType)
+    }
+
+    private func selectTitle(from contentType: ContentType) {
         switch contentType {
         case .topStories:
             title = HackrNewsFeedPresenter.topStoriesTitle
