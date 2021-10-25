@@ -1224,7 +1224,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.4.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alfredohdz.HackrNewsiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = io.alfredohdz.HackrNewsiOS;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1254,7 +1254,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.4.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alfredohdz.HackrNewsiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = io.alfredohdz.HackrNewsiOS;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1451,8 +1451,8 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alfredohdz.HackrNews;
+				MARKETING_VERSION = 0.4.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.alfredohdz.HackrNews;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
@@ -1479,8 +1479,8 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alfredohdz.HackrNews;
+				MARKETING_VERSION = 0.4.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.alfredohdz.HackrNews;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
