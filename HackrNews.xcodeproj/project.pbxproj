@@ -107,6 +107,7 @@
 		38D71CC625C8D1DD00AB8DD1 /* CommentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D71CC525C8D1DD00AB8DD1 /* CommentCellController.swift */; };
 		38E3D04F258C2ABB00469872 /* StoryPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E3D04D258C2ABB00469872 /* StoryPresentationTests.swift */; };
 		38E3D05C258C2B2700469872 /* StoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E3D05B258C2B2700469872 /* StoryPresenter.swift */; };
+		38F2AF6127275EAD00AC3A22 /* NewsFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F2AF6027275EAD00AC3A22 /* NewsFeedView.swift */; };
 		38F67FE1258FCF92002ED53A /* StoryLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F67FDF258FCF92002ED53A /* StoryLocalizationTests.swift */; };
 		38F67FE8258FCFC6002ED53A /* Story.strings in Resources */ = {isa = PBXBuildFile; fileRef = 38F67FEA258FCFC6002ED53A /* Story.strings */; };
 		38F6802F25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F6802E25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift */; };
@@ -259,6 +260,7 @@
 		38F2AE92259BC88200DFB287 /* LocalHackrNewsFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalHackrNewsFeedLoader.swift; sourceTree = "<group>"; };
 		38F2AE97259BC89200DFB287 /* HackrNewsFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackrNewsFeedStore.swift; sourceTree = "<group>"; };
 		38F2AE9C259BD2F300DFB287 /* LocalHackrNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalHackrNew.swift; sourceTree = "<group>"; };
+		38F2AF6027275EAD00AC3A22 /* NewsFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedView.swift; sourceTree = "<group>"; };
 		38F67FDF258FCF92002ED53A /* StoryLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryLocalizationTests.swift; sourceTree = "<group>"; };
 		38F67FE9258FCFC6002ED53A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Story.strings; sourceTree = "<group>"; };
 		38F6802E25900B31002ED53A /* XCTestCase+SnapshotHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+SnapshotHelpers.swift"; sourceTree = "<group>"; };
@@ -587,8 +589,8 @@
 		38C916D12588619B001C5DE2 /* Hacker News Feed UI */ = {
 			isa = PBXGroup;
 			children = (
-				38C916D2258861A6001C5DE2 /* Controllers */,
-				38C916D3258861B2001C5DE2 /* Views */,
+				38F2AF5F27275E9B00AC3A22 /* SwiftUI */,
+				38F2AF5E27275E9300AC3A22 /* UIKit */,
 			);
 			path = "Hacker News Feed UI";
 			sourceTree = "<group>";
@@ -799,6 +801,23 @@
 				38791F4625D9DB4400581EF7 /* Story */,
 			);
 			path = "Hackr News Feed Cache";
+			sourceTree = "<group>";
+		};
+		38F2AF5E27275E9300AC3A22 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				38C916D2258861A6001C5DE2 /* Controllers */,
+				38C916D3258861B2001C5DE2 /* Views */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		38F2AF5F27275E9B00AC3A22 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				38F2AF6027275EAD00AC3A22 /* NewsFeedView.swift */,
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		38F6800A258FEF31002ED53A /* Helpers */ = {
@@ -1047,6 +1066,7 @@
 				38D71C8B25C87D2B00AB8DD1 /* CommentCell.swift in Sources */,
 				38699AFB258865B6002B460B /* HackrNewsFeedRefreshController.swift in Sources */,
 				38699B002588774E002B460B /* HackrNewFeedCellController.swift in Sources */,
+				38F2AF6127275EAD00AC3A22 /* NewsFeedView.swift in Sources */,
 				385D099B25C771D90027455B /* UITableView+Extensions.swift in Sources */,
 				3822A00625D0693A000DB41F /* UIViewController+LargeTitle.swift in Sources */,
 				38C5660125D340AC00C43726 /* StoryBodyCellController.swift in Sources */,
@@ -1217,7 +1237,7 @@
 				INFOPLIST_FILE = HackrNewsiOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1247,7 +1267,7 @@
 				INFOPLIST_FILE = HackrNewsiOS/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
