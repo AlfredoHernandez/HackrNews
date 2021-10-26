@@ -36,6 +36,16 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3)
     }
 
+    func test_loadHackrNewsFeed_doesNotLoadFeedUntilPreviousRequestCompletes() {
+        let (sut, loader) = makeSUT()
+
+        sut.load()
+        XCTAssertEqual(loader.loadCallCount, 1)
+
+        sut.simulateUserInitiatedHackrNewsFeedReload()
+        XCTAssertEqual(loader.loadCallCount, 1)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(

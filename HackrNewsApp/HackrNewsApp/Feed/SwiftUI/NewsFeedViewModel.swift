@@ -11,6 +11,7 @@ public final class NewsFeedViewModel {
     private let contentType: ContentType
     private let hackrNewsFeedloader: () -> AnyPublisher<[HackrNew], Error>
     private var cancellables = Set<AnyCancellable>()
+    private var canStartLoading = true
 
     public init(contentType: ContentType, hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>) {
         self.contentType = contentType
@@ -19,7 +20,14 @@ public final class NewsFeedViewModel {
     }
 
     public func load() {
-        hackrNewsFeedloader().sink(receiveCompletion: { _ in }, receiveValue: { _ in }).store(in: &cancellables)
+        if canStartLoading {
+            canStartLoading = false
+            hackrNewsFeedloader().sink(receiveCompletion: { _ in
+
+            }, receiveValue: { [weak self] _ in
+                self?.canStartLoading = true
+            }).store(in: &cancellables)
+        }
     }
 
     private func selectTitle(from contentType: ContentType) {
