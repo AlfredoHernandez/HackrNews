@@ -12,7 +12,7 @@ public final class NewsFeedViewModel {
     private let hackrNewsFeedloader: () -> AnyPublisher<[HackrNew], Error>
     private var cancellables = Set<AnyCancellable>()
     private var canStartLoading = true
-    public private(set) var news: [HackrNew] = []
+    @Published public private(set) var news: [HackrNew] = []
     private var viewDidLoad = false
 
     public init(contentType: ContentType, hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>) {

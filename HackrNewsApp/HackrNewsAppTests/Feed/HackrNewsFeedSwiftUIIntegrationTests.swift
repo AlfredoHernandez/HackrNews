@@ -2,12 +2,15 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
+import Combine
 import HackrNews
 import HackrNewsApp
 import HackrNewsiOS
 import XCTest
 
 final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
+    private var cancellables = Set<AnyCancellable>()
+
     func test_view_hasTitle() {
         let (sutA, _) = makeSUT(contentType: .topStories)
         XCTAssertEqual(sutA.title, HackrNewsFeedPresenter.topStoriesTitle)
@@ -87,6 +90,22 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
 
         sut.load()
         XCTAssertEqual(loader.loadCallCount, 1)
+    }
+
+    func test_news_notifiesToView() {
+        let (sut, loader) = makeSUT()
+        let expectation = XCTestExpectation(description: "Wait for loader")
+
+        sut.load()
+        XCTAssertEqual(sut.news.count, 0, "Expected no items")
+
+        sut.$news.dropFirst().sink(receiveValue: { receivedItems in
+            XCTAssertEqual(receivedItems.count, 3, "Expected 3 items")
+            expectation.fulfill()
+        }).store(in: &cancellables)
+
+        loader.completeHackrNewsFeedLoading(with: [.fixture(), .fixture(), .fixture()], at: 0)
+        wait(for: [expectation], timeout: 1.0)
     }
 
     // MARK: - Helpers
