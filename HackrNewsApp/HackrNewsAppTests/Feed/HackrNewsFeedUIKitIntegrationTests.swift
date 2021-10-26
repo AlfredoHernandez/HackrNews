@@ -83,10 +83,10 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_loadHackrNewsFeedCompletion_rendersSuccessfullyLoadedHackrNewsFeed() {
         let (sut, loader) = makeSUT()
-        let new1 = makeHackrNew(id: 1)
-        let new2 = makeHackrNew(id: 2)
-        let new3 = makeHackrNew(id: 3)
-        let new4 = makeHackrNew(id: 4)
+        let new1 = HackrNew.fixture(id: 1)
+        let new2 = HackrNew.fixture(id: 2)
+        let new3 = HackrNew.fixture(id: 3)
+        let new4 = HackrNew.fixture(id: 4)
 
         sut.loadViewIfNeeded()
         assertThat(sut, isRendering: [])
@@ -101,7 +101,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_loadHackrNewsFeedCompletion_doesNotAlterCurrentRenderingStateOnError() {
         let (sut, loader) = makeSUT()
-        let new1 = makeHackrNew(id: 1)
+        let new1 = HackrNew.fixture(id: 1)
 
         sut.loadViewIfNeeded()
         loader.completeHackrNewsFeedLoading(with: [new1], at: 0)
@@ -114,8 +114,8 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_storyView_loadsStoryURLWhenVisible() {
         let (sut, loader) = makeSUT()
-        let new1 = makeHackrNew(id: 1)
-        let new2 = makeHackrNew(id: 2)
+        let new1 = HackrNew.fixture(id: 1)
+        let new2 = HackrNew.fixture(id: 2)
 
         sut.loadViewIfNeeded()
         loader.completeHackrNewsFeedLoading(with: [new1, new2], at: 0)
@@ -134,8 +134,8 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_storyView_doesNotLoadStoryUntilPreviousRequestCompletes() {
         let (sut, loader) = makeSUT()
-        let new1 = makeHackrNew(id: 1)
-        let new2 = makeHackrNew(id: 2)
+        let new1 = HackrNew.fixture(id: 1)
+        let new2 = HackrNew.fixture(id: 2)
         sut.loadViewIfNeeded()
 
         loader.completeHackrNewsFeedLoading(with: [new1, new2], at: 0)
@@ -160,8 +160,8 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_hackrNewFeedView_cancelsStoryLoadingWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
-        let new1 = makeHackrNew(id: 1)
-        let new2 = makeHackrNew(id: 2)
+        let new1 = HackrNew.fixture(id: 1)
+        let new2 = HackrNew.fixture(id: 2)
 
         sut.loadViewIfNeeded()
         loader.completeHackrNewsFeedLoading(with: [new1, new2], at: 0)
@@ -187,7 +187,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
-        loader.completeHackrNewsFeedLoading(with: [makeHackrNew(), makeHackrNew()], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [HackrNew.fixture(), HackrNew.fixture()], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -208,7 +208,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
-        loader.completeHackrNewsFeedLoading(with: [makeHackrNew(), makeHackrNew()], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [HackrNew.fixture(), HackrNew.fixture()], at: 0)
 
         sut.simulateStoryNearViewVisible(at: 0)
         sut.simulateStoryNearViewVisible(at: 1)
@@ -246,7 +246,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
         )
 
         sut.loadViewIfNeeded()
-        loader.completeHackrNewsFeedLoading(with: [makeHackrNew(), makeHackrNew()], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [HackrNew.fixture(), HackrNew.fixture()], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -272,7 +272,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
-        loader.completeHackrNewsFeedLoading(with: [makeHackrNew()])
+        loader.completeHackrNewsFeedLoading(with: [HackrNew.fixture()])
         let view = sut.simulateStoryViewVisible(at: 0)
 
         XCTAssertEqual(view?.containerView?.isSkeletonable, true, "Expected containerView to be skeletonable")
@@ -288,7 +288,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
     func test_storyViewRetryButton_isVisibleOnStoryLoadedWithErrorAndHidesContainer() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
-        loader.completeHackrNewsFeedLoading(with: [makeHackrNew(), makeHackrNew()], at: 0)
+        loader.completeHackrNewsFeedLoading(with: [HackrNew.fixture(), HackrNew.fixture()], at: 0)
 
         let view0 = sut.simulateStoryViewVisible(at: 0)
         let view1 = sut.simulateStoryViewVisible(at: 1)
@@ -304,8 +304,8 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_storyRetryAction_retriesStoryLoad() {
         let (sut, loader) = makeSUT()
-        let lhn0 = makeHackrNew(id: 0)
-        let lhn1 = makeHackrNew(id: 1)
+        let lhn0 = HackrNew.fixture(id: 0)
+        let lhn1 = HackrNew.fixture(id: 1)
         sut.loadViewIfNeeded()
         loader.completeHackrNewsFeedLoading(with: [lhn0, lhn1], at: 0)
 
@@ -326,8 +326,8 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_storyView_preloadsStoryWhenIsNearVisible() {
         let (sut, loader) = makeSUT()
-        let lhn0 = makeHackrNew(id: 0)
-        let lhn1 = makeHackrNew(id: 1)
+        let lhn0 = HackrNew.fixture(id: 0)
+        let lhn1 = HackrNew.fixture(id: 1)
 
         sut.loadViewIfNeeded()
         loader.completeHackrNewsFeedLoading(with: [lhn0, lhn1], at: 0)
@@ -342,8 +342,8 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_storyView_cancelsStoryPreloadingWhenNotNearVisibleAnymore() {
         let (sut, loader) = makeSUT()
-        let lhn0 = makeHackrNew(id: 0)
-        let lhn1 = makeHackrNew(id: 1)
+        let lhn0 = HackrNew.fixture(id: 0)
+        let lhn1 = HackrNew.fixture(id: 1)
 
         sut.loadViewIfNeeded()
         loader.completeHackrNewsFeedLoading(with: [lhn0, lhn1], at: 0)
@@ -362,7 +362,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_storyView_doesNotRenderStoryContentWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
-        let lhn0 = makeHackrNew(id: 0)
+        let lhn0 = HackrNew.fixture(id: 0)
         let story0 = makeStory()
 
         sut.loadViewIfNeeded()
@@ -447,7 +447,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
 
     func test_loadStoryCompletion_dispatchesStoryLoaderFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
-        let lhn0 = makeHackrNew(id: 0)
+        let lhn0 = HackrNew.fixture(id: 0)
         let story0 = makeStory().model
         sut.loadViewIfNeeded()
 
@@ -484,11 +484,6 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)
-    }
-
-    // TODO: Replace with fixture
-    private func makeHackrNew(id: Int = Int.random(in: 0 ... 100)) -> HackrNew {
-        HackrNew(id: id)
     }
 
     private func makeHackrNewAndStory(id: Int = 1, url: URL) -> (new: HackrNew, story: Story) {
