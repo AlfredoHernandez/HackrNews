@@ -7,15 +7,17 @@ import Foundation
 import HackrNews
 
 public final class NewsFeedViewModel: ObservableObject {
-    public private(set) var title: String = ""
     private let contentType: ContentType
     private let hackrNewsFeedloader: () -> AnyPublisher<[HackrNew], Error>
     private var cancellables = Set<AnyCancellable>()
     private var canStartLoading = true
-    @Published public private(set) var news: [HackrNew] = []
     private var viewDidLoad = false
+    
+    public private(set) var title: String = ""
+    @Published public private(set) var news: [HackrNew] = []
 
-    public init(contentType: ContentType, hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>) {
+    public init(news: [HackrNew] = [], contentType: ContentType, hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>) {
+        self.news = news
         self.contentType = contentType
         self.hackrNewsFeedloader = hackrNewsFeedloader
         selectTitle(from: contentType)

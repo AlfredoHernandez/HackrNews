@@ -33,10 +33,20 @@ struct NewsFeedView_Previews: PreviewProvider {
         Group {
             NewsFeedView(
                 viewModel: NewsFeedViewModel(
+                    news: news,
                     contentType: .topStories,
-                    hackrNewsFeedloader: { Just([HackrNew(id: 1)]).setFailureType(to: Error.self).eraseToAnyPublisher() }
+                    hackrNewsFeedloader: { Just(news).setFailureType(to: Error.self).eraseToAnyPublisher() }
                 )
             )
         }
+    }
+    
+    static var news: [HackrNew] {
+        [
+            HackrNew(id: 1),
+            HackrNew(id: 2),
+            HackrNew(id: 3),
+            HackrNew(id: 4),
+        ]
     }
 }
