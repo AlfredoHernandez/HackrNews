@@ -4,33 +4,39 @@
 
 import HackrNews
 import SwiftUI
+import Combine
 
 public struct NewsFeedView: View {
-    let news: [HackrNew] = [
-        .init(id: 1),
-        .init(id: 2),
-        .init(id: 3),
-        .init(id: 4),
-        .init(id: 5),
-        .init(id: 6),
-    ]
+    @ObservedObject var viewModel: NewsFeedViewModel
     
-    public init() { }
+    public init(viewModel: NewsFeedViewModel) {
+        self.viewModel = viewModel
+    }
     
     public var body: some View {
         NavigationView {
-            List(news, id: \.id) { new in
+            List(viewModel.news, id: \.id) { new in
                 HackrNewCell(hackrNew: new)
             }
             .listStyle(.plain)
             .listRowSeparator(.hidden)
+            .refreshable {
+                viewModel.refresh()
+            }
             .navigationTitle(Text(HackrNewsFeedPresenter.topStoriesTitle))
-        }
+        }.onAppear(perform: viewModel.load)
     }
 }
 
 struct NewsFeedView_Previews: PreviewProvider {
     static var previews: some View {
-        NewsFeedView()
+        Group {
+            NewsFeedView(
+                viewModel: NewsFeedViewModel(
+                    contentType: .topStories,
+                    hackrNewsFeedloader: { Just([HackrNew(id: 1)]).setFailureType(to: Error.self).eraseToAnyPublisher() }
+                )
+            )
+        }
     }
 }

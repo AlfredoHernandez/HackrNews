@@ -6,7 +6,7 @@ import Combine
 import Foundation
 import HackrNews
 
-public final class NewsFeedViewModel {
+public final class NewsFeedViewModel: ObservableObject {
     public private(set) var title: String = ""
     private let contentType: ContentType
     private let hackrNewsFeedloader: () -> AnyPublisher<[HackrNew], Error>
@@ -31,7 +31,9 @@ public final class NewsFeedViewModel {
     public func refresh() {
         if canStartLoading {
             canStartLoading = false
-            hackrNewsFeedloader().sink(receiveCompletion: { _ in
+            hackrNewsFeedloader()
+                .receive(on: DispatchQueue.main, options: .none)
+                .sink(receiveCompletion: { _ in
 
             }, receiveValue: { [weak self] news in
                 self?.canStartLoading = true
