@@ -77,6 +77,18 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [new1])
     }
 
+    func test_load_isCalledOnceWhenViewAppear() {
+        let (sut, loader) = makeSUT()
+        XCTAssertEqual(loader.loadCallCount, 0)
+
+        sut.load()
+        loader.completeHackrNewsFeedLoading()
+        XCTAssertEqual(loader.loadCallCount, 1)
+
+        sut.load()
+        XCTAssertEqual(loader.loadCallCount, 1)
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -111,7 +123,7 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
 
 extension NewsFeedViewModel {
     func simulateUserInitiatedHackrNewsFeedReload() {
-        load()
+        refresh()
     }
 
     func numberOfRenderedHackrNewsFeedViews() -> Int {

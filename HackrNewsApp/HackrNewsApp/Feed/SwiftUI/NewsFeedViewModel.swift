@@ -13,6 +13,7 @@ public final class NewsFeedViewModel {
     private var cancellables = Set<AnyCancellable>()
     private var canStartLoading = true
     public private(set) var news: [HackrNew] = []
+    private var viewDidLoad = false
 
     public init(contentType: ContentType, hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>) {
         self.contentType = contentType
@@ -21,6 +22,13 @@ public final class NewsFeedViewModel {
     }
 
     public func load() {
+        if !viewDidLoad {
+            refresh()
+            viewDidLoad = true
+        }
+    }
+
+    public func refresh() {
         if canStartLoading {
             canStartLoading = false
             hackrNewsFeedloader().sink(receiveCompletion: { _ in
