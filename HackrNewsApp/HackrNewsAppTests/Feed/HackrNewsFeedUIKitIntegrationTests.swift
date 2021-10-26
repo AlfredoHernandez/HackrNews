@@ -486,6 +486,7 @@ final class HackrNewsFeedUIKitIntegrationTests: XCTestCase {
         return (sut, loader)
     }
 
+    // TODO: Replace with fixture
     private func makeHackrNew(id: Int = Int.random(in: 0 ... 100)) -> HackrNew {
         HackrNew(id: id)
     }

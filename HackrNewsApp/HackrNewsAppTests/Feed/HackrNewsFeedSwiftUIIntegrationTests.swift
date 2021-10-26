@@ -46,6 +46,24 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 1)
     }
 
+    func test_loadHackrNewsFeedCompletion_rendersSuccessfullyLoadedHackrNewsFeed() {
+        let (sut, loader) = makeSUT()
+        let new1 = HackrNew.fixture(id: 1)
+        let new2 = HackrNew.fixture(id: 2)
+        let new3 = HackrNew.fixture(id: 3)
+        let new4 = HackrNew.fixture(id: 4)
+
+        sut.load()
+        assertThat(sut, isRendering: [])
+
+        loader.completeHackrNewsFeedLoading(with: [new1], at: 0)
+        assertThat(sut, isRendering: [new1])
+
+        sut.simulateUserInitiatedHackrNewsFeedReload()
+        loader.completeHackrNewsFeedLoading(with: [new1, new2, new3, new4], at: 1)
+        assertThat(sut, isRendering: [new1, new2, new3, new4])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
@@ -61,10 +79,29 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
         trackForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)
     }
+
+    func assertThat(
+        _ sut: NewsFeedViewModel,
+        isRendering feed: [HackrNew],
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        guard sut.numberOfRenderedHackrNewsFeedViews() == feed.count else {
+            return XCTFail(
+                "Expected \(feed.count) news, got \(sut.numberOfRenderedHackrNewsFeedViews()) instead.",
+                file: file,
+                line: line
+            )
+        }
+    }
 }
 
 extension NewsFeedViewModel {
     func simulateUserInitiatedHackrNewsFeedReload() {
         load()
+    }
+
+    func numberOfRenderedHackrNewsFeedViews() -> Int {
+        news.count
     }
 }

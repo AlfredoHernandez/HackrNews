@@ -12,6 +12,7 @@ public final class NewsFeedViewModel {
     private let hackrNewsFeedloader: () -> AnyPublisher<[HackrNew], Error>
     private var cancellables = Set<AnyCancellable>()
     private var canStartLoading = true
+    public private(set) var news: [HackrNew] = []
 
     public init(contentType: ContentType, hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>) {
         self.contentType = contentType
@@ -24,8 +25,9 @@ public final class NewsFeedViewModel {
             canStartLoading = false
             hackrNewsFeedloader().sink(receiveCompletion: { _ in
 
-            }, receiveValue: { [weak self] _ in
+            }, receiveValue: { [weak self] news in
                 self?.canStartLoading = true
+                self?.news = news
             }).store(in: &cancellables)
         }
     }
