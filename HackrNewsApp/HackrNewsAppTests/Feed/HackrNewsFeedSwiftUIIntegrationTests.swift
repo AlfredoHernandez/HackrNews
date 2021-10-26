@@ -64,6 +64,19 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [new1, new2, new3, new4])
     }
 
+    func test_loadHackrNewsFeedCompletion_doesNotAlterCurrentRenderingStateOnError() {
+        let (sut, loader) = makeSUT()
+        let new1 = HackrNew.fixture(id: 1)
+
+        sut.load()
+        loader.completeHackrNewsFeedLoading(with: [new1], at: 0)
+        assertThat(sut, isRendering: [new1])
+
+        sut.simulateUserInitiatedHackrNewsFeedReload()
+        loader.completeHackrNewsFeedLoadingWithError(at: 1)
+        assertThat(sut, isRendering: [new1])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(
