@@ -2,39 +2,10 @@
 //  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
-import Combine
 import HackrNews
-@testable import HackrNewsApp
+import HackrNewsApp
 import HackrNewsiOS
 import XCTest
-
-class HackrNewsFeedViewModel {
-    public private(set) var title: String = ""
-    private let contentType: ContentType
-    private let hackrNewsFeedloader: () -> AnyPublisher<[HackrNew], Error>
-    private var cancellables = Set<AnyCancellable>()
-
-    init(contentType: ContentType, hackrNewsFeedloader: @escaping () -> AnyPublisher<[HackrNew], Error>) {
-        self.contentType = contentType
-        self.hackrNewsFeedloader = hackrNewsFeedloader
-        selectTitle(from: contentType)
-    }
-
-    func load() {
-        hackrNewsFeedloader().sink(receiveCompletion: { _ in }, receiveValue: { _ in }).store(in: &cancellables)
-    }
-
-    private func selectTitle(from contentType: ContentType) {
-        switch contentType {
-        case .topStories:
-            title = HackrNewsFeedPresenter.topStoriesTitle
-        case .newStories:
-            title = HackrNewsFeedPresenter.newStoriesTitle
-        case .bestStories:
-            title = HackrNewsFeedPresenter.bestStoriesTitle
-        }
-    }
-}
 
 final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
     func test_view_hasTitle() {
@@ -71,9 +42,9 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
         contentType: ContentType = .topStories,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (HackrNewsFeedViewModel, HackrNewsFeedLoaderSpy) {
+    ) -> (NewsFeedViewModel, HackrNewsFeedLoaderSpy) {
         let loader = HackrNewsFeedLoaderSpy()
-        let sut = HackrNewsFeedViewModel(contentType: contentType, hackrNewsFeedloader: {
+        let sut = NewsFeedViewModel(contentType: contentType, hackrNewsFeedloader: {
             loader.publisher()
         })
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -82,7 +53,7 @@ final class HackrNewsFeedSwiftUIIntegrationTests: XCTestCase {
     }
 }
 
-extension HackrNewsFeedViewModel {
+extension NewsFeedViewModel {
     func simulateUserInitiatedHackrNewsFeedReload() {
         load()
     }

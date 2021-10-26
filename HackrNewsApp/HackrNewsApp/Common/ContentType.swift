@@ -4,7 +4,7 @@
 
 import Foundation
 
-enum ContentType {
+public enum ContentType {
     case topStories
     case newStories
     case bestStories
