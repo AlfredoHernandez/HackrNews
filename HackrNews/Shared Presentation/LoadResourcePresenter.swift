@@ -1,5 +1,5 @@
 //
-//  Copyright © 2021 Jesús Alfredo Hernández Alarcón. All rights reserved.
+//  Copyright © 2023 Jesús Alfredo Hernández Alarcón. All rights reserved.
 //
 
 import Foundation
@@ -67,8 +67,8 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
 
     public func didFinishLoading(with resource: Resource) {
         do {
-            resourceView.display(try mapper(resource))
             loadingView?.display(ResourceLoadingViewModel(isLoading: false))
+            resourceView.display(try mapper(resource))
         } catch {
             didFinishLoading(with: error)
         }
